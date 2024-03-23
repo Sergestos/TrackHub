@@ -1,3 +1,5 @@
+using TrackHub.Domain.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +16,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    var contex = new TrackHubDbContext();
+    await contex.SeedAsync();
+    contex.Dispose();
 }
 
 app.UseHttpsRedirection();
@@ -23,3 +29,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
