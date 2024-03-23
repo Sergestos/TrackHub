@@ -1,11 +1,12 @@
 using TrackHub.Domain.Data;
+using TrackHub.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCassandraDb(builder.Configuration);
+builder.Services.AddUserServices();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,10 +17,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    var contex = new TrackHubDbContext();
-    await contex.SeedAsync();
-    contex.Dispose();
 }
 
 app.UseHttpsRedirection();
@@ -29,5 +26,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-

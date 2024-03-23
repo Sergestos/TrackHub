@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="CassandraCSharpDriver" Version="3.20.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
