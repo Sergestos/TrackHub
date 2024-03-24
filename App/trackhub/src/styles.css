@@ -5,3 +5,18 @@
     font-family: monospace, monospace;   
     font-size: 17px;
 }
+
+.btn {
+    background-color: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.521);
+    border-radius: 18px;
+    color: var(--color-mid-ascent);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+}
+
+.btn:hover {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border-color: black;
+}

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpaModule } from './spa/spa.module';
 import { RouterModule } from '@angular/router';
@@ -12,7 +10,6 @@ import { RouterModule } from '@angular/router';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         RouterModule,
         SpaModule
     ],

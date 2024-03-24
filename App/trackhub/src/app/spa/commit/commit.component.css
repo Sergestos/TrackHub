@@ -1,0 +1,28 @@
+.top-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    margin: 0 1.75rem;
+    padding-bottom: 1.75vh;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.425);
+
+    .total-encounter {
+        margin-left: 0.75rem;
+        margin-top: 0.75vh;
+
+        p {
+            color: var(--color-mid-ascent);
+        }
+    }
+
+    .controls {
+        margin-top: 1.75vh;
+        
+        input[type=button] {
+            margin-left: 0.75rem;
+            padding: 0.66vh 1.75rem;
+        }
+    }    
+}
+
