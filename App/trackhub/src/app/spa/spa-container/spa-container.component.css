@@ -1,0 +1,58 @@
+
+* {
+    --blur-value: 2px;
+    --saturate-value: 66%;
+    --background-color: rgba(189, 189, 189, 0.096);
+    --border-color: rgba(150, 145, 145, 0.18);
+    --border-radius: 12px;
+}
+
+p {
+    color: var(--color-mid-ascent);
+    transition: 0.5s;                     
+}
+
+.card {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 2vh;
+
+    backdrop-filter: blur(var(--blur-value)) saturate(var(--saturate-value));
+    -webkit-backdrop-filter: blur(var(--blur-value)) saturate(var(--saturate-value));
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.menu {
+    min-height: 6.33vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    i {        
+        margin-right: 1.15rem;
+        color: var(--color-low-ascent);
+        transition: 0.5s;                     
+    }
+
+    p:hover, 
+    i:hover {
+        color: var(--color-high-ascent);
+        box-shadow: 0px 0px 10px rgba(196, 196, 196, 0.048);
+    }
+
+    .navigation {
+        margin: auto;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 3rem;
+    }
+}
+
+.content {
+    min-height: 70vh;
+}
