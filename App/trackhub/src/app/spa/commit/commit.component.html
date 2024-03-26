@@ -4,8 +4,18 @@
             <!-- <p>Total played: {{ totalEcounter }} m</p> -->
         </div>
         <div class="controls">
-            <input type="button" class="btn" value="Add"/>
-            <input type="button" class="btn" value="Save"/>
+            <input type="button" class="btn" value="Add" (click)="onAddClick()" />
+            <input type="button" class="btn" value="Save" />
         </div>
+    </div>
+    <div class="exercise-block">
+        <div class="placeholder-block exercise-wrapper" *ngIf="exercises.length == 0">
+            <p>Click 'Add' to enter played exercise</p>
+        </div>
+        <ng-container *ngIf="exercises.length > 0">
+            <div *ngFor="let item of exercises">
+                <trh-exercise></trh-exercise>
+            </div>
+        </ng-container>
     </div>
 </main>

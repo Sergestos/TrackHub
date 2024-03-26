@@ -6,6 +6,7 @@
     margin: 0 1.75rem;
     padding-bottom: 1.75vh;
     border-bottom: 1px solid rgba(0, 0, 0, 0.425);
+    box-shadow: 0 2px 0px 0px rgba(24, 24, 24, 0.144);
 
     .total-encounter {
         margin-left: 0.75rem;
@@ -26,3 +27,16 @@
     }    
 }
 
+.exercise-block {
+    margin: 2vh 1.75rem;
+
+    .placeholder-block {      
+        height: 12.5vh;    
+
+        p {
+            text-align: center;                    
+            margin-top: 5vh;    
+            color: white;
+        }
+    }
+}
