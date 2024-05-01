@@ -1,9 +1,9 @@
-.background-wrapper {
+* {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
 
-    background: linear-gradient(150deg,#221966 0%,#470061 100%);
+    background: #0f111a;
 }

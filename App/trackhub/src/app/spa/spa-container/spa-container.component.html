@@ -1,14 +1,24 @@
 
 <main>
-    <div class="card menu">
-        <div class="navigation">
-            <p>Dashboard</p>
-            <p>List</p>
-            <p>Commit</p>
-        </div>        
-        <i class="fa-solid fa-bars fa-xl"></i>
+    <div class="menu">
+        <i class="fa-solid fa-music fa-beat fa-lg menu-i"></i>
+        <div class="nav">
+            <div class="nav-item">
+                <i class="fa-solid fa-border-all"></i>
+                <p>Dashboard</p>                
+            </div>     
+            <div class="nav-item">
+                <i class="fa-solid fa-list-ul"></i>
+                <p>List</p>                
+            </div>     
+            <div class="nav-item">
+                <i class="fa-solid fa-plus"></i>
+                <p>Commit</p>                
+            </div>   
+        </div>             
+        <i class="fa-solid fa-bars fa-xl menu-i"></i>
     </div>
-    <div class="card content">
+    <div class="content">
         <router-outlet></router-outlet>
     </div>
 </main>
