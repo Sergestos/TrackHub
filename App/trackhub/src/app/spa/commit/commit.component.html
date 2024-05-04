@@ -1,19 +1,47 @@
 <main>
     <div class="top-wrapper">
-        <div class="total-encounter">
-            <!-- <p>Total played: {{ totalEcounter }} m</p> -->
-        </div>
-        <div class="controls">
-            <input type="button" class="btn" value="Add" (click)="onAddClick()" />
-            <input type="button" class="btn" value="Save" />
-        </div>
-    </div>
-    <div class="exercise-block">
-        <div class="placeholder-block exercise-wrapper" *ngIf="exercises.length == 0">
+        <p class="page-header">Commit</p>
+        <div class="header-controlls">
+            <div class="date-picker">
+                <p>Use today's date?</p>
+                <input type="checkbox" class="t-checkbox"  />
+                <input type="date" [value]="selectedDate | date:'yyyy-MM-dd'"
+                    [ngModel]="selectedDate | date:'yyyy-MM-dd'" (ngModelChange)="selectedDate=$event"
+                    onfocus="'showPicker' in this && this.showPicker()" />
+            </div>
+            <div class="btn-controls">
+                <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()" />
+                <input type="button" class="btn btn-action" value="Save" />
+                <input type="button" class="btn btn-remove" value="Remove" />
+            </div>
+        </div>        
+    </div>    
+    <div class="exercise-grid">
+        <div class="placeholder" *ngIf="exercises.length == 0">
             <p>Click 'Add' to enter played exercise</p>
-        </div>
-        <ng-container *ngIf="exercises.length > 0">
-            <div *ngFor="let item of exercises">
+        </div>        
+        <ng-container  *ngIf="exercises.length > 0">            
+            <div class="headers">
+                <div class="h-check-all">
+                    <input type="checkbox" class="t-checkbox"  />
+                </div>                
+                <div  class="h-type">
+                    <p>TYPE</p>
+                </div>
+                <div class="h-name">
+                    <p>NAME</p>
+                </div>
+                <div class="h-author">
+                    <p>AUTHOR</p>
+                </div>
+                <div class="h-bpm">
+                    <p>BPM</p>
+                </div>          
+                <div class="h-options">
+                    <p>OPTIONS</p>
+                </div>                    
+            </div>
+            <div class="card" *ngFor="let item of exercises">
                 <trh-exercise></trh-exercise>
             </div>
         </ng-container>

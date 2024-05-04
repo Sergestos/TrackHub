@@ -5,29 +5,72 @@ p {
 main {    
     display: flex;
     flex-direction: row;
-    gap: 1rem;
 
-    min-height: 10vh;
+    margin-left: 3rem;
+    margin-right: 3rem;
 
-    .input-wrapper {
-        margin: 32px 1.5rem;        
+    .input-wrapper {       
+        margin-top: 2.5vh;
+        margin-bottom: 1vh;
+    }        
 
-        #input-bpm {
-            width: 3.5rem;
+    .h-check-all {                        
+        width: 3%;            
+    }
+
+    .h-type {
+        width: 12%;            
+    }
+
+    .h-name {          
+        width: 20%;                      
+    }
+
+    .h-author {
+        width: 15%;            
+    }
+
+    .h-bpm {
+        width: 10%;            
+    }  
+    
+    .h-options {
+        display: flex;
+        align-items: center;    
+            
+        width: 15%;           
+
+        label {
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba(144, 161, 211, 0.788);                      
         }
-    }    
+
+        input {
+            margin-left: 1rem;            
+        }
+    }
+}
+
+.border-line {        
+    margin: 0 3rem 0 3rem;
+    border-bottom: 1px solid #31374a;        
 }
 
 .input-text {
-    color: var(--color-high-ascent);
+    color: rgb(133, 169, 255);
     background-color: transparent;
 
     border: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.418);
+    border-bottom: 2px solid rgba(52, 51, 117, 0.308);
+    border-radius: 5px;
+
+    width: 90%;
+    padding: 2.5px;
 }
 
 .input-text::placeholder {
-    color: var(--color-low-ascent);
+    color: rgba(133, 170, 255, 0.521);
 }
 
 .input-text:focus {

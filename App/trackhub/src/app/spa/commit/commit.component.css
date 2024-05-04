@@ -1,36 +1,108 @@
 .top-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    margin: 2vh 1.5rem 2.5vh 3rem;    
     
-    margin: 0 1.75rem;
-    padding-bottom: 1.75vh;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.425);
-    box-shadow: 0 2px 0px 0px rgba(24, 24, 24, 0.144);
-
-    .total-encounter {
-        margin-left: 0.75rem;
-        margin-top: 0.75vh;
-
-        p {
-            color: var(--color-mid-ascent);
-        }
+    .page-header {
+        font-size: 30px;
+        color: white;
     }
 
-    .controls {
-        margin-top: 1.75vh;
-        
-        input[type=button] {
-            margin-left: 0.75rem;
-            padding: 0.66vh 1.75rem;
+    .btn {            
+        padding: 0.75vh 2rem;
+        margin-right: 0.5rem;
+        border-radius: 6px;        
+        transition: 0.5s;
+        color: white;    
+    }
+
+    .btn-remove {
+        background-color: #dd5454;        
+    }
+
+    .btn-remove:hover {            
+        background-color: #ce2424;
+    }
+
+    .btn-action {
+        background-color: #3874ff;        
+    }
+    
+    .btn-action:hover {            
+        background-color: #004dff;
+    }
+
+    .header-controlls {
+        display: flex;
+        justify-content: space-between;        
+
+        .date-picker {
+            display: flex;
+            align-items: center;
+            margin-top: 2.5vh;            
+
+            input {
+                margin-left: 0.75rem;
+            }
+
+            input[type="date"] {
+                border-radius: 5px;
+                padding: 2px;
+            }
+
+            p {
+                display: inline;                
+                color: rgba(144, 161, 211, 0.78);
+            }
         }
+
+        .btn-controls {
+            margin-top: 1.75vh;        
+        }    
     }    
 }
 
-.exercise-block {
-    margin: 2vh 1.75rem;
+.exercise-grid {
+    height: 100vh;
+    background-color: #141824;
+    border-top: 1px solid #31374a;            
 
-    .placeholder-block {      
+    .headers {        
+        margin: 2vh 3rem;
+        display: flex;        
+        padding-bottom: 1.66vh;
+        border-bottom: 1px solid #31374a;        
+
+        .h-check-all {                        
+            width: 3%;            
+        }
+
+        .h-type {
+            width: 12%;            
+        }
+
+        .h-name {
+            width: 20%;            
+        }
+
+        .h-author {
+            width: 15%;            
+        }
+
+        .h-bpm {
+            width: 10%;            
+        }
+
+        .h-options {
+            width: 15%;            
+        }
+
+        p {
+            font-size: 15px;
+            font-weight: bold;
+            color: rgba(144, 161, 211, 0.884);
+        }
+    }
+
+    .placeholder {      
         height: 12.5vh;    
 
         p {

@@ -8,6 +8,7 @@ import { ExerciseModel } from './commit.models';
 })
 export class CommitComponent {
 	public totalEcounter: number = 0;
+	public selectedDate: Date = new Date();
 
 	public exercises: ExerciseModel[] = 
 	[

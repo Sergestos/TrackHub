@@ -2,7 +2,8 @@
 @import 'variables.css';
 
 * {
-    font-family: monospace, monospace;   
+    /*"Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"*/
+    font-family: monospace, monospace;
     font-size: 17px;
     margin: 0;
 }
@@ -13,7 +14,7 @@
     border-radius: 18px;
     color: var(--color-high-ascent);
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .btn:hover {
@@ -22,16 +23,44 @@
     border-color: rgba(0, 0, 0, 0.829);
 }
 
-.exercise-wrapper {
-    --ew-blur-value: 4px;
-    --ew-saturate-value: 16%;
-    --ew-background-color: rgba(233, 233, 233, 0.274);
-    --ew-border-color: rgba(150, 145, 145, 0.281);
-    --ew-border-radius: 15px;
+.t-checkbox {
+    width: 17px !important;
+    height: 17px !important;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -o-appearance: none;
+    background-color: #141824 !important;
+    box-shadow: none;
+    accent-color: transparent;
+    border-radius: 0.1rem;
+    border: 1px solid rgba(233, 233, 233, 0.274);
+}
 
-    backdrop-filter: blur(var(--ew-blur-value)) saturate(var(--ew-saturate-value));
-    -webkit-backdrop-filter: blur(var(--ew-blur-value)) saturate(var(--ew-saturate-value));
-    background-color: var(--ew-background-color);
-    border-radius: var(--ew-border-radius);
-    border: 1px solid var(--ew-border-color);
+.t-checkbox:checked:after {
+    content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>');
+}
+
+input[type="date"] {
+    background-color: transparent !important;
+    color: rgb(224, 224, 224);
+    border: 1px solid rgba(233, 233, 233, 0.274);
+    color-scheme: dark;
+}
+
+input[type="date"]::-webkit-clear-button {
+    font-size: 18px;
+    height: 30px;
+    position: relative;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+    height: 28px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    font-size: 15px;
+}
+
+select option {
+    background-color: #312828;
 }
