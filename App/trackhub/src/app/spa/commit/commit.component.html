@@ -4,15 +4,16 @@
         <div class="header-controlls">
             <div class="date-picker">
                 <p>Use today's date?</p>
-                <input type="checkbox" class="t-checkbox"  />
-                <input type="date" [value]="selectedDate | date:'yyyy-MM-dd'"
+                <input type="checkbox" class="t-checkbox" [(ngModel)]="isUseTodaysDate" />
+                <input type="date" *ngIf="!isUseTodaysDate"
+                    [value]="selectedDate | date:'yyyy-MM-dd'" 
                     [ngModel]="selectedDate | date:'yyyy-MM-dd'" (ngModelChange)="selectedDate=$event"
                     onfocus="'showPicker' in this && this.showPicker()" />
             </div>
             <div class="btn-controls">
                 <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()" />
                 <input type="button" class="btn btn-action" value="Save" />
-                <input type="button" class="btn btn-remove" value="Remove" />
+                <input type="button" class="btn btn-remove" value="Remove" (click)="onRemoveClick()"/>
             </div>
         </div>        
     </div>    
@@ -23,7 +24,7 @@
         <ng-container  *ngIf="exercises.length > 0">            
             <div class="headers">
                 <div class="h-check-all">
-                    <input type="checkbox" class="t-checkbox"  />
+                    <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />
                 </div>                
                 <div  class="h-type">
                     <p>TYPE</p>
@@ -42,7 +43,7 @@
                 </div>                    
             </div>
             <div class="card" *ngFor="let item of exercises">
-                <trh-exercise></trh-exercise>
+                <trh-exercise [model]="item"></trh-exercise>
             </div>
         </ng-container>
     </div>

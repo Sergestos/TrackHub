@@ -10,8 +10,9 @@
         margin-bottom: 1vh;
     }        
 
-    .h-check-all {                        
-        width: 3%;            
+    .h-check-all {        
+        padding-top: 5px;
+        width: 3%;                
     }
 
     .h-type {
@@ -34,7 +35,7 @@
         display: flex;
         align-items: center;    
 
-        width: 15%;           
+        width: 8%;           
 
         label {
             font-size: 15px;

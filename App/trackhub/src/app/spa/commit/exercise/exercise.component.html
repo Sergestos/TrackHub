@@ -1,14 +1,15 @@
 <main>
     <div class="exercise-wrapper">
         <div class="input-wrapper h-check-all">
-            <input type="checkbox" class="t-checkbox"  />
+            <input type="checkbox" class="t-checkbox" [(ngModel)]="isSelected"/>
         </div>
         <div class="input-wrapper h-type">        
             <select class="input-text">
                 <option>Warmup</option>
                 <option>Song</option>  
                 <option>Improvisation</option>  
-                <option>Exercise</option>                      
+                <option>Exercise</option>                          
+                <option>Bass</option>                      
             </select>
         </div>
         <div class="input-wrapper h-name">
@@ -22,6 +23,10 @@
         </div>    
         <div class="input-wrapper h-options">
             <label>Solo only</label>
+            <input type="checkbox" class="t-checkbox"  />
+        </div>    
+        <div class="input-wrapper h-options">
+            <label>Is recorded</label>
             <input type="checkbox" class="t-checkbox"  />
         </div>    
     </div>
