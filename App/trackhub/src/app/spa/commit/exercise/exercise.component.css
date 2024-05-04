@@ -1,8 +1,4 @@
-p {
-    color: var(--color-high-ascent);
-}
-
-main {    
+.exercise-wrapper {    
     display: flex;
     flex-direction: row;
 
@@ -37,7 +33,7 @@ main {
     .h-options {
         display: flex;
         align-items: center;    
-            
+
         width: 15%;           
 
         label {
@@ -48,6 +44,36 @@ main {
 
         input {
             margin-left: 1rem;            
+        }
+    }
+}
+
+.suggestions {
+    display: flex;    
+    margin: 1vh 0 1.5vh 5.75%;    
+
+    .suggestion-label {
+        font-style: italic;
+        color: rgba(144, 161, 211, 0.788);                      
+        margin-right: 3rem;
+        margin-top: 0.75vh;
+    }
+
+    .suggestion-wrapper {
+        display: flex;            
+        gap: 1rem;
+
+        .suggestion-item {
+            background-color: rgb(72, 87, 119);
+            color: rgb(144, 161, 211);           
+            padding: 6px;                       
+            border-radius: 5px;
+            transition: 0.5s;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgb(113, 128, 160);
+            color: rgb(204, 213, 240);                       
         }
     }
 }

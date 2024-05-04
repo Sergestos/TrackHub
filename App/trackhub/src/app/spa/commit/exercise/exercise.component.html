@@ -1,27 +1,51 @@
-<main class="exercise-wrapper">
-    <div class="input-wrapper h-check-all">
-        <input type="checkbox" class="t-checkbox"  />
+<main>
+    <div class="exercise-wrapper">
+        <div class="input-wrapper h-check-all">
+            <input type="checkbox" class="t-checkbox"  />
+        </div>
+        <div class="input-wrapper h-type">        
+            <select class="input-text">
+                <option>Warmup</option>
+                <option>Song</option>  
+                <option>Improvisation</option>  
+                <option>Exercise</option>                      
+            </select>
+        </div>
+        <div class="input-wrapper h-name">
+            <input type="text" class="input-text" placeholder="search a name"/>
+        </div>
+        <div class="input-wrapper h-author">
+            <input type="text" class="input-text" placeholder="search an author"/>
+        </div>
+        <div class="input-wrapper h-bpm">
+            <input type="number" id="input-bpm" class="input-text" placeholder="select bpm"/>
+        </div>    
+        <div class="input-wrapper h-options">
+            <label>Solo only</label>
+            <input type="checkbox" class="t-checkbox"  />
+        </div>    
     </div>
-    <div class="input-wrapper h-type">        
-        <select class="input-text">
-            <option>Warmup</option>
-            <option>Song</option>  
-            <option>Improvisation</option>  
-            <option>Exercise</option>                      
-        </select>
+    <div class="suggestions" *ngIf="true">
+        <p class="suggestion-label">
+            Suggestions: 
+        </p>
+        <div class="suggestion-wrapper">
+            <div class="suggestion-item">
+                <p>Metallica</p>
+            </div>            
+            <div class="suggestion-item">
+                <p>Megadeth</p>
+            </div>
+            <div class="suggestion-item">
+                <p>Megamozg</p>
+            </div>            
+            <div class="suggestion-item">
+                <p>Meteor</p>
+            </div>            
+            <div class="suggestion-item">
+                <p>Mefestotel</p>
+            </div>            
+        </div>
     </div>
-    <div class="input-wrapper h-name">
-        <input type="text" class="input-text" placeholder="search a name"/>
-    </div>
-    <div class="input-wrapper h-author">
-        <input type="text" class="input-text" placeholder="search an author"/>
-    </div>
-    <div class="input-wrapper h-bpm">
-        <input type="number" id="input-bpm" class="input-text" placeholder="select bpm"/>
-    </div>    
-    <div class="input-wrapper h-options">
-        <label>Solo only</label>
-        <input type="checkbox" class="t-checkbox"  />
-    </div>
+    <div class="border-line"></div>
 </main>
-<div class="border-line"></div>
