@@ -5,9 +5,13 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.API", "TrackHub.API\TrackHub.API.csproj", "{EBE16C65-D81F-4E9C-A6C1-5CF8B20CD985}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Data", "TrackHub.Domain.Data\TrackHub.Data.csproj", "{E9A2B9DC-587B-484D-B1A4-A7A17DD592B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Data", "TrackHub.Domain.Data\TrackHub.Domain.Data.csproj", "{E9A2B9DC-587B-484D-B1A4-A7A17DD592B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Users", "TrackHub.Servive.Users\TrackHub.Service.Users.csproj", "{89F13F71-1933-45A5-BC2A-E5DFA1AF17C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Domain", "TrackHub.Domain\TrackHub.Domain.csproj", "{93441479-40AA-4B68-9063-177CB7443EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Exercises", "TrackHub.Service.Songs\TrackHub.Service.Exercises.csproj", "{B208E45F-F991-4977-A9EA-FA34F4973787}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{89F13F71-1933-45A5-BC2A-E5DFA1AF17C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89F13F71-1933-45A5-BC2A-E5DFA1AF17C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89F13F71-1933-45A5-BC2A-E5DFA1AF17C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93441479-40AA-4B68-9063-177CB7443EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93441479-40AA-4B68-9063-177CB7443EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93441479-40AA-4B68-9063-177CB7443EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93441479-40AA-4B68-9063-177CB7443EF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B208E45F-F991-4977-A9EA-FA34F4973787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B208E45F-F991-4977-A9EA-FA34F4973787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B208E45F-F991-4977-A9EA-FA34F4973787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B208E45F-F991-4977-A9EA-FA34F4973787}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
