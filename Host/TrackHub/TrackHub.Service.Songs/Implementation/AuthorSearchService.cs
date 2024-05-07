@@ -1,14 +1,11 @@
-﻿using TrackHub.Domain;
+﻿using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
 
 namespace TrackHub.Service.Exercises.Implementation;
 
-internal class AuthorSearchService : ISearchable<Author>
+internal class AuthorSearchService : IAuthorService
 {
-    public AuthorSearchService()
-    {
-         
-    }
+    public AuthorSearchService() { }
 
     public async Task<IEnumerable<Author>> SearchAsync(string searchText, CancellationToken cancellationToken)
     {

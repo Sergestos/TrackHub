@@ -1,13 +1,11 @@
+using TrackHub.ExerciseService;
 using TrackHub.Domain.Data;
-using TrackHub.Service.Exercises;
-using TrackHub.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddCassandraDb(builder.Configuration);
-builder.Services.AddExerciseServices();
-builder.Services.AddUserServices();
+builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
 
+builder.Services.AddExerciseServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

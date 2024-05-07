@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddExerciseServices(this IServiceCollection services)
     {
-        services.AddScoped<ISearchable<Song>, SongSearchService>();        
-        services.AddScoped<ISearchable<Author>, AuthorSearchService>();
+        services.AddScoped<ISongService, SongSearchService>();        
+        services.AddScoped<IAuthorService, AuthorSearchService>();
     }
 }

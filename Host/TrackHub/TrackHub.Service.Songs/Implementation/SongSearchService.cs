@@ -1,9 +1,9 @@
-﻿using TrackHub.Domain;
+﻿using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
 
 namespace TrackHub.Service.Exercises.Implementation;
 
-internal class SongSearchService : ISearchable<Song>
+internal class SongSearchService : ISongService
 {
     public SongSearchService() { }
 
@@ -11,7 +11,7 @@ internal class SongSearchService : ISearchable<Song>
     {
         var song = new Song() 
         { 
-            Name  = "hello", 
+            SongName  = "hello", 
             Source = ItemSourceEnum.DataBase 
         };
 

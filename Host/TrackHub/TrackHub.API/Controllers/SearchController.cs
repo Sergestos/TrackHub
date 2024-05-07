@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TrackHub.Domain;
-using TrackHub.Service.Exercises;
+﻿/*using Microsoft.AspNetCore.Mvc;
+using TrackHub.Domain.Entities;
+using TrackHub.Domain.Interfaces;
 
 namespace TrackHub.API.Controllers;
 
@@ -8,27 +8,21 @@ namespace TrackHub.API.Controllers;
 [Route("[controller]")]
 public class SearchController : Controller
 {
-    private readonly ISearchable<Song> _searchService;
-    private readonly ISearchable<Author> _authorService;
-    private readonly ILogger<SearchController> _logger;
+    private readonly IExerciseSearchProvider _songRepository;    
 
-    public SearchController(ISearchable<Song> searchService, ISearchable<Author> authorService, ILogger<SearchController> logger)
+    public SearchController(IExerciseSearchProvider songRepository)
     {
-        _searchService = searchService;
-        _authorService = authorService;
-        _logger = logger;
+        _songRepository = songRepository;        
     }
 
     [HttpGet]
-    [Route("search")]
-    public async Task<IActionResult> Get(string type, string searchText, CancellationToken cancellationToken)
-    {        
-        if (type == "song")        
-            return Ok(await _searchService.SearchAsync(searchText, cancellationToken));
-        
-        if (type == "author")        
-            return Ok(await _authorService.SearchAsync(searchText, cancellationToken));            
-        
-        return BadRequest("Unsupported search type.");                
+    [Route("song")]
+    [ProducesResponseType(typeof(IEnumerable<Song>), 200)]
+    public async Task<IActionResult> GetAsync(string searchText, CancellationToken cancellationToken)
+    {
+        var result = await _songRepository.SearchByTextAsync(searchText,cancellationToken);
+
+        return Ok(result);
     }
 }
+*/
