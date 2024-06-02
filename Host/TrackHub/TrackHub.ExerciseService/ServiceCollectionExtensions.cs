@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
     {
      //   services.Configure<CosmosClientOptions>(configuration.GetSection("CosmosDb"));
 
-        services.AddScoped<ICosmosDbContext, CosmosDbClient>();
+        services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
 
         services.AddAutoMapper(typeof(ExerciseMappingProfile));

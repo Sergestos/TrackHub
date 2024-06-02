@@ -4,8 +4,8 @@ namespace TrackHub.Domain.Entities;
 
 public class Exercise
 {
-    [JsonProperty("id")]
-    public required string Id { get; set; }
+    [JsonProperty("exercise_id")]
+    public required string ExerciseId { get; set; }
 
     [JsonProperty("user_id")]
     public required string UserId { get; set; }

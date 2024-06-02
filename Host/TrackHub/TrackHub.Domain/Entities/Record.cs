@@ -1,20 +1,31 @@
-﻿using TrackHub.Domain.Enums;
+﻿using Newtonsoft.Json;
+using TrackHub.Domain.Enums;
 
 namespace TrackHub.Domain.Entities;
 
 public record Record
 {
-    public RecordTypeEnum RecordType { get; set; }
+    [JsonProperty("record_type")]
+    public required  RecordTypeEnum RecordType { get; set; }
 
-    public required bool IsSearchable { get; set; }
+    [JsonProperty("play_type")]
+    public required  PlayType PlayType { get; set; }
 
+    [JsonProperty("is_publicly_searchable")]
+    public required bool IsPubliclySearchable { get; set; }
+
+    [JsonProperty("is_recorded")]
+    public required bool IsRecorded { get; set; }
+
+    [JsonProperty("play_duration")]
+    public required int PlayDuration { get; set; }
+
+    [JsonProperty("name")]
     public required string Name { get; set; }
 
+    [JsonProperty("author")]
     public string? Author { get; set; }
 
-    public int? BitsPerMinute { get; set; }
-
-    public bool? IsSoloOnly { get; set; }
-
-    public bool? IsRecorded { get; set; }
+    [JsonProperty("bits_per_minute")]
+    public int? BitsPerMinute { get; set; }        
 }
