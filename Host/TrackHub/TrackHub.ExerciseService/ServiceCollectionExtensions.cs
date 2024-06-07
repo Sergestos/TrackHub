@@ -1,7 +1,5 @@
-﻿using TrackHub.Contract;
-using TrackHub.CosmosDb;
+﻿using TrackHub.CosmosDb;
 using TrackHub.Domain.Data;
-using TrackHub.ExerciseService.Implementation;
 using TrackHub.ExerciseService.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +13,7 @@ public static class ServiceCollectionExtensions
      //   services.Configure<CosmosClientOptions>(configuration.GetSection("CosmosDb"));
 
         services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
-        services.AddScoped<IExerciseRepository, ExerciseRepository>();
+       // services.AddScoped<IExerciseRepository, ExerciseRepository>();
 
         services.AddAutoMapper(typeof(ExerciseMappingProfile));
     }

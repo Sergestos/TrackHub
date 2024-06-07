@@ -9,15 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain", "TrackHub.Domain\TrackHub.Domain.csproj", "{93441479-40AA-4B68-9063-177CB7443EF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Exercise", "TrackHub.ExerciseService\TrackHub.Service.Exercise.csproj", "{086095DC-7798-4BEC-90DD-FA73C141CC99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Search", "TrackHub.SearchService\TrackHub.Service.Search.csproj", "{3FF7BD0B-F807-458A-BCDE-FF0448AC6A41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Contract", "TrackHub.Contract\TrackHub.Contract.csproj", "{6669B5C2-49B3-4829-A4B4-BEA7E73E0380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.AI", "TrackHub.AI\TrackHub.AI.csproj", "{172F6850-FE92-4317-88E1-449B764464BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Search", "TrackHub.SearchService\TrackHub.Service.Search.csproj", "{3FF7BD0B-F807-458A-BCDE-FF0448AC6A41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Redis", "TrackHub.Redis\TrackHub.Redis.csproj", "{E25C6632-7D39-4B22-9A58-6E33FC4469C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.AI", "TrackHub.AI\TrackHub.AI.csproj", "{172F6850-FE92-4317-88E1-449B764464BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Redis", "TrackHub.Redis\TrackHub.Redis.csproj", "{E25C6632-7D39-4B22-9A58-6E33FC4469C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Data", "TrackHub.Domaim.Data\TrackHub.Domain.Data.csproj", "{1EA02C74-C1DD-4DB5-A820-4288E2426996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +35,6 @@ Global
 		{93441479-40AA-4B68-9063-177CB7443EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93441479-40AA-4B68-9063-177CB7443EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93441479-40AA-4B68-9063-177CB7443EF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{086095DC-7798-4BEC-90DD-FA73C141CC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{086095DC-7798-4BEC-90DD-FA73C141CC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{086095DC-7798-4BEC-90DD-FA73C141CC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{086095DC-7798-4BEC-90DD-FA73C141CC99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6669B5C2-49B3-4829-A4B4-BEA7E73E0380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6669B5C2-49B3-4829-A4B4-BEA7E73E0380}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6669B5C2-49B3-4829-A4B4-BEA7E73E0380}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6669B5C2-49B3-4829-A4B4-BEA7E73E0380}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FF7BD0B-F807-458A-BCDE-FF0448AC6A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FF7BD0B-F807-458A-BCDE-FF0448AC6A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FF7BD0B-F807-458A-BCDE-FF0448AC6A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +47,10 @@ Global
 		{E25C6632-7D39-4B22-9A58-6E33FC4469C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E25C6632-7D39-4B22-9A58-6E33FC4469C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E25C6632-7D39-4B22-9A58-6E33FC4469C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

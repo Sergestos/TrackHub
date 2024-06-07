@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using Microsoft.Azure.Cosmos;
 using TrackHub.Contract;
 using TrackHub.Contract.Inputs;
@@ -42,3 +42,4 @@ internal class ExerciseRepository : IExerciseRepository
         throw new NotImplementedException();
     }
 }
+*/

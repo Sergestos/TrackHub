@@ -4,7 +4,7 @@ namespace TrackHub.Contract.Inputs;
 
 public record RecordCreateModel
 {
-    public RecordTypeEnum RecordType { get; set; }
+    public RecordType RecordType { get; set; }
 
     public required bool IsSearchable { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace TrackHub.Domain.Enums;
 
-public enum RecordTypeEnum
+public enum RecordType
 {
     Warmup,
     Song,

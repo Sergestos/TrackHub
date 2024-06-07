@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 namespace TrackHub.Domain.Enums;
 
 [JsonConverter(typeof(StringEnumConverter))]
-public enum ItemSourceEnum
+public enum ItemSource
 {
     DataBase,
     Cache,

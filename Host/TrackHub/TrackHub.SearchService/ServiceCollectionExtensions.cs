@@ -1,6 +1,6 @@
 ﻿namespace TrackHub.SearchService
 {
-    public class Class1
+    public class ServiceCollectionExtensions
     {
 
     }

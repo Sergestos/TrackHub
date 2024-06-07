@@ -6,7 +6,7 @@ namespace TrackHub.Domain.Entities;
 public record Record
 {
     [JsonProperty("record_type")]
-    public required  RecordTypeEnum RecordType { get; set; }
+    public required  RecordType RecordType { get; set; }
 
     [JsonProperty("play_type")]
     public required  PlayType PlayType { get; set; }

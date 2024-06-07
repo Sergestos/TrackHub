@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TrackHub.Contract;
-using TrackHub.Contract.Inputs;
-using TrackHub.Contract.ViewModels;
-
+﻿/*using Microsoft.AspNetCore.Mvc;
 namespace TrackHub.API.Controllers;
 
 [ApiController]
@@ -53,3 +49,4 @@ public class ExerciseController : Controller
         return Ok();
     }
 }
+*/

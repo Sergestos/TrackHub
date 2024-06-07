@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.Domain.Data\TrackHub.CosmosDb.csproj" />
-    <ProjectReference Include="..\TrackHub.ExerciseService\TrackHub.Service.Exercise.csproj" />
   </ItemGroup>
 
   <ItemGroup>
