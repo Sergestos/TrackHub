@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TrackHub.CosmosDb;
-using TrackHub.Domain.Data;
 using TrackHub.Domain.Data.Repositories;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Domaim.Data;
+namespace TrackHub.Domain.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddDataServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddDataServices(this IServiceCollection services, ConfigurationManager configuration)
     {
+        //services.AddOptions<CosmosClientOptions>("CosmosDb");        
         //services.Configure<CosmosClientOptions>(configuration.GetSection("CosmosDb"));
 
         services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
-        services.AddScoped<IExerciseRepository, ExerciseRepository>();       
+        services.AddTransient<IExerciseRepository, ExerciseRepository>();       
     }
 }

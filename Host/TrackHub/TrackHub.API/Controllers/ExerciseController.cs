@@ -1,4 +1,6 @@
-﻿/*using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TrackHub.Domain.Entities;
+using TrackHub.Domain.Repositories;
 namespace TrackHub.API.Controllers;
 
 [ApiController]
@@ -13,40 +15,48 @@ public class ExerciseController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ExerciseDetailsViewModel), 200)]
+    [ProducesResponseType(typeof(Exercise), 200)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
     {
-        var result = await _exerciseRepository.GetByIdAsync(exerciseId, cancellationToken);
+        var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, "string", cancellationToken);
 
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("list")]
-    [ProducesResponseType(typeof(IEnumerable<ExericeViewModel>), 200)]
-    public async Task<IActionResult> GetAllAsync([FromQuery] string userId, CancellationToken cancellationToken)
-    {
-        var result = await _exerciseRepository.GetAllByUserIdAsync(userId, cancellationToken);
+    /*  [HttpGet]
+      [ProducesResponseType(typeof(ExerciseDetailsViewModel), 200)]
+      public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
+      {
+          var result = await _exerciseRepository.GetByIdAsync(exerciseId, cancellationToken);
 
-        return Ok(result);
-    }
+          return Ok(result);
+      }
 
-    [HttpPost]
-    [ProducesResponseType(201)]
-    public async Task<IActionResult> PostAsync([FromBody] ExerciseCreateModel model, CancellationToken cancellationToken)
-    {
-        await _exerciseRepository.CreateAsync(model, cancellationToken);
+      [HttpGet]
+      [Route("list")]
+      [ProducesResponseType(typeof(IEnumerable<ExericeViewModel>), 200)]
+      public async Task<IActionResult> GetAllAsync([FromQuery] string userId, CancellationToken cancellationToken)
+      {
+          var result = await _exerciseRepository.GetAllByUserIdAsync(userId, cancellationToken);
 
-        return StatusCode(201);
-    }
+          return Ok(result);
+      }
 
-    [HttpPut]
-    [ProducesResponseType(200)]
-    public async Task<IActionResult> UpdateAsync([FromBody] ExerciseUpdateModel model, CancellationToken cancellationToken)
-    {
-        await _exerciseRepository.UpdateAsync(model, cancellationToken);
+      [HttpPost]
+      [ProducesResponseType(201)]
+      public async Task<IActionResult> PostAsync([FromBody] ExerciseCreateModel model, CancellationToken cancellationToken)
+      {
+          await _exerciseRepository.CreateAsync(model, cancellationToken);
 
-        return Ok();
-    }
+          return StatusCode(201);
+      }
+
+      [HttpPut]
+      [ProducesResponseType(200)]
+      public async Task<IActionResult> UpdateAsync([FromBody] ExerciseUpdateModel model, CancellationToken cancellationToken)
+      {
+          await _exerciseRepository.UpdateAsync(model, cancellationToken);
+
+          return Ok();
+      }*/
 }
-*/

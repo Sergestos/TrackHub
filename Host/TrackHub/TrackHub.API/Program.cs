@@ -1,11 +1,10 @@
-using TrackHub.ExerciseService;
 using TrackHub.Domain.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
+builder.Services.AddDataServices(builder.Configuration);
 
-builder.Services.AddExerciseServices(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

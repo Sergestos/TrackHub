@@ -10,18 +10,18 @@ public class CosmosDbClient : ICosmosDbContext
     private CosmosClientOptions _options;
 
     private CosmosClient? _client;
-    private Container? _container;
+    private Container? _container;    
 
     private CosmosClient Client => _client ??= new CosmosClientBuilder(_options.AccoutEndpoint).Build();
 
-    public Container Container => _container ??= GetContainerByName();
+    public Container Container => _container ??= GetContainerFromOptions();
 
-    public CosmosDbClient(IOptionsSnapshot<CosmosClientOptions> snapshot)
+    public CosmosDbClient(IOptionsMonitor<CosmosClientOptions> options)
     {
-        _options = snapshot.Value;     
+        _options = options.CurrentValue;     
     }    
 
-    private Container GetContainerByName()
+    private Container GetContainerFromOptions()
     {
         var dateBase = Client.GetDatabase(_options.DateBaseName);
         return dateBase.GetContainer(_options.ExerciseContainerName);

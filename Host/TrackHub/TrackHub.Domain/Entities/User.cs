@@ -4,8 +4,11 @@ namespace TrackHub.Domain.Entities;
 
 public class User
 {
+    [JsonProperty("type")]
+    public string EntityType { get; } = "user";
+
     [JsonProperty("user_id")]
-    public required string UserId { get; set; }
+    public required string UserId { get; set; }    
 
     [JsonProperty("login")]
     public required string Login { get; set; }

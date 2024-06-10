@@ -4,6 +4,5 @@ public enum PlayType
 {
     Rhythm,
     Solo,
-    Both,
-    Improvisation
+    Both
 }
