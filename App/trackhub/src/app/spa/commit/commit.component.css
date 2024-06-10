@@ -71,6 +71,10 @@
         padding-bottom: 1.66vh;
         border-bottom: 1px solid #31374a;        
 
+        .h-duration {
+            width: 10.5%;
+        }
+
         .h-check-all {                        
             width: 3%;            
         }

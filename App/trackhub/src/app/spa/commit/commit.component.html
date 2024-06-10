@@ -25,21 +25,24 @@
             <div class="headers">
                 <div class="h-check-all">
                     <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />
-                </div>                
+                </div>      
+                <div class="h-duration">
+                    <p>Duration</p>
+                </div>         
                 <div  class="h-type">
-                    <p>TYPE</p>
+                    <p>Type</p>
                 </div>
                 <div class="h-name">
-                    <p>NAME</p>
+                    <p>Name</p>
                 </div>
                 <div class="h-author">
-                    <p>AUTHOR</p>
+                    <p>Author</p>
                 </div>
                 <div class="h-bpm">
-                    <p>BPM</p>
+                    <p>Bpm</p>
                 </div>          
                 <div class="h-options">
-                    <p>OPTIONS</p>
+                    <p>Options</p>
                 </div>                    
             </div>
             <div class="card" *ngFor="let item of exercises">

@@ -1,5 +1,5 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-import { ExerciseModel } from './commit.models';
+import { RecordModel } from './commit.models';
 import { ExerciseComponent } from './exercise/exercise.component';
 
 @Component({
@@ -11,7 +11,7 @@ export class CommitComponent {
 	public isUseTodaysDate: boolean = true;
 	public selectedDate: Date = new Date();
 
-	public exercises: ExerciseModel[] = [];
+	public exercises: RecordModel[] = [];
 
 	@ViewChildren(ExerciseComponent) exerciseViews!: QueryList<ExerciseComponent>;
 
@@ -21,7 +21,8 @@ export class CommitComponent {
 	public onAddClick(): void {
 		this.exercises.push({
 			id: this.tempCounter++,
-			song: 'random'
+			name: null,
+			type: 'song'
 		});
 	}
 

@@ -6,13 +6,21 @@
     margin-right: 3rem;
 
     .input-wrapper {       
-        margin-top: 2.5vh;
-        margin-bottom: 1vh;
+        margin-top: 2.25vh;
+        margin-bottom: 3.25vh;
     }        
 
     .h-check-all {        
         padding-top: 5px;
         width: 3%;                
+    }
+
+    .h-duration {           
+        width: 10.5%;
+        
+        input {            
+            width: 80%;
+        }
     }
 
     .h-type {
@@ -34,17 +42,18 @@
     .h-options {
         display: flex;
         align-items: center;    
+        margin-right: 1.5rem;
 
-        width: 8%;           
+        width: 9%;           
 
         label {
-            font-size: 15px;
+            font-size: 0.85rem;
             font-weight: 400;
             color: rgba(144, 161, 211, 0.788);                      
         }
 
         input {
-            margin-left: 1rem;            
+            margin-left: 0.75rem;            
         }
     }
 }
@@ -102,4 +111,8 @@
 
 .input-text:focus {
     outline: none;
+}
+
+.select-carret {    
+    color: rgb(133, 169, 255);
 }
