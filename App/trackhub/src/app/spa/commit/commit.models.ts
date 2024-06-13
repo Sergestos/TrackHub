@@ -1,9 +1,10 @@
 export class RecordModel {
-    public id: number | null = null;
-    public name: string | null = null;
-    public type!: string;
-}
-
-export enum RecordType {
-    
+    public id?: number;
+    public name?: string | null;
+    public author?: string | null;
+    public recordType?: string;
+    public duration?: number;
+    public bpm?: number;
+    public playType?: string;
+    public isRecorded?: boolean;
 }

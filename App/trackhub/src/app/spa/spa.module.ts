@@ -5,7 +5,9 @@ import { RouterModule } from '@angular/router';
 import { SpaRoutingModule } from './spa-routing.module';
 import { ExerciseComponent } from './commit/exercise/exercise.component';
 import { CommitComponent } from './commit/commit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommitService } from './commit/commit.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -16,6 +18,8 @@ import { FormsModule } from '@angular/forms';
     imports: [
         BrowserModule,
         FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
         RouterModule,
         SpaRoutingModule
     ],

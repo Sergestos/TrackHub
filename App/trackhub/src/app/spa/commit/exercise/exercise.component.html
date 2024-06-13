@@ -8,60 +8,62 @@
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />            
         </div> 
         <div class="input-wrapper h-type">        
-            <select class="input-text">
-                <option>Warmup</option>
-                <option>Song</option>  
-                <option>Improvisation</option>  
-                <option>Exercise</option>                          
-                <option>Composing</option>                      
+            <select class="input-text" [(ngModel)]="model.recordType">
+                <option *ngFor="let recordType of recordTypes" [value]="model.recordType">{{recordType}}</option>   
             </select>
             <i class="fa-solid fa-caret-down select-carret"></i>
         </div>
         <div class="input-wrapper h-name">
             <input type="text" class="input-text" placeholder="search a name"
-                [ngModel]="this.model.name" (ngModelChange)="onSongInput($event)"
-                (click)="onSongInputClick($event)" />
+                [(ngModel)]="model.name" [formControl]="searchSongField"
+                (click)="onSongInputClick($event)" autocomplete="off" />
         </div>
         <div class="input-wrapper h-author">
-            <input type="text" class="input-text" placeholder="search an author"/>
+            <input type="text" class="input-text" placeholder="search an author"
+                [(ngModel)]="model.author" [formControl]="searchAuthorField"
+                (click)="onAuthorInputClick($event)" autocomplete="off" />
         </div>
         <div class="input-wrapper h-bpm">
-            <input type="text" class="input-text" placeholder="select bpm"/>
+            <input type="text" class="input-text" placeholder="select bpm" [(ngModel)]="model.bpm"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
         </div>    
         <div class="input-wrapper h-options">
-            <select class="input-text">
-                <option>Rhythm</option>
-                <option>Solo</option>  
-                <option>Both</option>              
+            <select class="input-text" [(ngModel)]="model.playType">
+                <option *ngFor="let playType of playTypes" [value]="model.playType">{{playType}}</option>          
             </select>
             <i class="fa-solid fa-caret-down select-carret"></i>
         </div>    
         <div class="input-wrapper h-options">
             <label>Is recorded</label>
-            <input type="checkbox" class="t-checkbox"  />
+            <input type="checkbox" class="t-checkbox" [(ngModel)]="model.isRecorded"/>
         </div>    
-    </div>
-    <div class="suggestions" *ngIf="isSuggestionsAsked">
-        <p class="suggestion-label">
-            Suggestions: 
-        </p>
-        <div class="suggestion-wrapper">
-            <div class="suggestion-item">
-                <p>Metallica</p>
-            </div>            
-            <div class="suggestion-item">
-                <p>Megadeth</p>
-            </div>
-            <div class="suggestion-item">
-                <p>Megamozg</p>
-            </div>            
-            <div class="suggestion-item">
-                <p>Meteor</p>
-            </div>            
-            <div class="suggestion-item">
-                <p>Mefestotel</p>
-            </div>            
+        <div class="input-wrapper h-record-status">
+            <p class="status-new" *ngIf="currectRecordStatusType == recordStatusTypeEnum.new">new</p>
+            <p class="status-changed" *ngIf="currectRecordStatusType == recordStatusTypeEnum.changed">changed</p>
+            <p class="status-saved" *ngIf="currectRecordStatusType == recordStatusTypeEnum.saved">saved</p>
+            <p class="status-draft" *ngIf="currectRecordStatusType == recordStatusTypeEnum.draft">draft</p>
         </div>
     </div>
+    <ng-container  *ngIf="isSuggestionsAsked">
+        <div class="suggestions">
+            <p class="suggestion-label">
+                Suggestions: 
+            </p>
+            <ng-container *ngIf="currentSuggestionsType == suggestionTypeEnum.song">
+                <div class="suggestion-wrapper">
+                    <div *ngFor="let item of songSuggestions" class="suggestion-item">
+                        <p (click)="onSuggestionClick(item.toString())">{{item}}</p>
+                    </div>           
+                </div>
+            </ng-container>
+            <ng-container *ngIf="currentSuggestionsType == suggestionTypeEnum.author">
+                <div class="suggestion-wrapper">
+                    <div *ngFor="let item of authorSuggestions" class="suggestion-item">
+                        <p (click)="onSuggestionClick(item.toString())">{{item}}</p>
+                    </div>           
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
     <div class="border-line"></div>
 </main>

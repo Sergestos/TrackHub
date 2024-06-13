@@ -3,6 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppComponent } from './app.component';
 import { SpaModule } from './spa/spa.module';
 import { RouterModule } from '@angular/router';
+import { CommitService } from './spa/commit/commit.service';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { RouterModule } from '@angular/router';
         SpaModule
     ],
     providers: [
-        provideClientHydration()
+        provideClientHydration(),
+        CommitService
     ],
     bootstrap: [AppComponent]
 })

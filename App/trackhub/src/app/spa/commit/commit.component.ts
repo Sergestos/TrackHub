@@ -15,14 +15,11 @@ export class CommitComponent {
 
 	@ViewChildren(ExerciseComponent) exerciseViews!: QueryList<ExerciseComponent>;
 
-	//TODO remove 
-	private tempCounter = 1;
-
 	public onAddClick(): void {
 		this.exercises.push({
-			id: this.tempCounter++,
-			name: null,
-			type: 'song'
+			recordType: 'Warmup',
+			playType: 'Rhythm',
+			isRecorded: false
 		});
 	}
 
