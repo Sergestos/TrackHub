@@ -6,8 +6,8 @@
     margin-right: 3rem;
 
     .input-wrapper {       
-        margin-top: 2.25vh;
-        margin-bottom: 3.25vh;
+        margin-top: 2.2vh;
+        margin-bottom: 3vh;
     }        
 
     .h-check-all {        
@@ -59,15 +59,11 @@
 
     .h-record-status {
         color: rgb(133, 169, 255);
-        margin-top: 2.5vh;
+        margin-top: 2.75vh;
         margin-left: 2.5rem;
 
-        .status-new {
-
-        }
-
         .status-changed {
-
+            
         }
 
         .status-saved {
@@ -75,7 +71,7 @@
         }
 
         .status-draft {
-            
+
         }
     }
 }

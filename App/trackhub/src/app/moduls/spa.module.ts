@@ -3,25 +3,17 @@ import { SpaContainerComponent } from './spa-container/spa-container.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SpaRoutingModule } from './spa-routing.module';
-import { ExerciseComponent } from './commit/exercise/exercise.component';
-import { CommitComponent } from './commit/commit.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommitService } from './commit/commit.service';
-import { HttpClientModule } from '@angular/common/http';
+import { CommitModule } from './commit/commit.module';
 
 @NgModule({
     declarations: [
-        SpaContainerComponent,
-        ExerciseComponent,
-        CommitComponent
+        SpaContainerComponent
     ],
     imports: [
         BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
         RouterModule,
-        SpaRoutingModule
+        SpaRoutingModule,
+        CommitModule
     ],
     providers: [
 

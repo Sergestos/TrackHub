@@ -12,7 +12,6 @@ enum SuggestionType {
 }
 
 enum RecordStatusType {
-    new,
     changed,
     saved,
     draft
@@ -23,7 +22,7 @@ enum RecordStatusType {
     templateUrl: './exercise.component.html',
     styleUrls: ['./exercise.component.css']
 })
-export class ExerciseComponent implements OnInit{
+export class ExerciseComponent implements OnInit {
     public recordTypes: string[] = [ 'Warmup', 'Song', 'Improvisation', 'Exercise', 'Composition' ]
     public playTypes: string[] = [ 'Rhythm', 'Solo', 'Both' ]
 
@@ -56,11 +55,12 @@ export class ExerciseComponent implements OnInit{
     }
 
     public ngOnInit(): void {
+        this.initialModel = structuredClone(this.model);
+
         if (this.model.id) {
-            this.initialModel = structuredClone(this.model);
             this.currectRecordStatusType = RecordStatusType.saved;
         } else {
-            this.currectRecordStatusType = RecordStatusType.new;
+            this.currectRecordStatusType = RecordStatusType.draft;
         }
 
         this.searchSongField.valueChanges
@@ -110,10 +110,8 @@ export class ExerciseComponent implements OnInit{
     }
 
     public onModelChanged(): void {
-        if (this.model.id) {
-            if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel)) {
-                this.currectRecordStatusType = RecordStatusType.changed;
-            }
+        if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.id) {
+            this.currectRecordStatusType = RecordStatusType.changed;
         }
     }
 

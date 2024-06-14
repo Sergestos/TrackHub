@@ -8,3 +8,8 @@ export class RecordModel {
     public playType?: string;
     public isRecorded?: boolean;
 }
+
+export class ExerciseModel {
+    public playDate?: Date;
+    public records?: RecordModel[];
+}

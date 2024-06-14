@@ -4,7 +4,8 @@ import { CommitComponent } from './commit/commit.component';
 
 const routes:Routes = [
     {
-        path: 'app/commit', component: CommitComponent         
+        path: 'app/commit',
+            loadChildren: () => import('./commit/commit.module').then(m => m.CommitModule)
     },
     {
         path: '', redirectTo: 'app/commit', pathMatch: 'full'
