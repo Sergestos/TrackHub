@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommitComponent } from './commit/commit.component';
 
-const routes:Routes = [
+const routes: Routes = [
     {
         path: 'app/commit',
-            loadChildren: () => import('./commit/commit.module').then(m => m.CommitModule)
+            loadChildren: () => import('./moduls/commit/commit.module').then(m => m.CommitModule)
+    },
+    {
+        path: 'app/list',
+            loadChildren: () => import('./moduls/list/list.module').then(m => m.ListModule)
     },
     {
         path: '', redirectTo: 'app/commit', pathMatch: 'full'
@@ -18,4 +21,4 @@ const routes:Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
-export class SpaRoutingModule { }
+export class AppRoutingModule { }
