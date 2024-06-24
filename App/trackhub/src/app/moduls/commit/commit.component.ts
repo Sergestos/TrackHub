@@ -1,7 +1,7 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
 import { RecordModel } from './commit.models';
 import { ExerciseComponent } from './exercise/exercise.component';
-import { CommitService } from './commit.service';
+import { CommitService } from '../../providers/services/commit.service';
 
 @Component({
 	selector: 'trh-commit',

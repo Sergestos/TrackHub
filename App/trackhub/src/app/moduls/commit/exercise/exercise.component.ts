@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/cor
 import { RecordModel } from '../commit.models';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { CommitService } from '../commit.service';
+import { CommitService } from '../../../providers/services/commit.service';
 
 const MinSearchLength: number = 3;
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ExerciseModel, RecordModel } from './commit.models';
+import { ExerciseModel, RecordModel } from '../../moduls/commit/commit.models';
 
 @Injectable()
 export class CommitService {

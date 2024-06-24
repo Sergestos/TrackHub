@@ -5,21 +5,25 @@
             <i class="fa-solid fa-music fa-beat fa-lg menu-i"></i>
             <p>TrackHub</p>
         </div>        
-        <div class="nav">
-            <div class="nav-item">
-                <i class="fa-solid fa-chart-column"></i>
-                <p>Dashboard</p>                
-            </div>     
-            <div class="nav-item">
-                <i class="fa-solid fa-list-ul"></i>
-                <a routerLink="/app/list">List</a>                 
-            </div>     
-            <div class="nav-item">
-                <i class="fa-solid fa-plus"></i>
-                <a routerLink="/app/commit">Commit</a>                
-            </div>   
-        </div>                     
-        <i class="fa-solid fa-circle-user fa-xl menu-i"></i>
+        <ng-container *ngIf="isAuthorized$ | async">
+            <div class="nav">
+                <div class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <p>Dashboard</p>                
+                </div>     
+                <div class="nav-item">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <a routerLink="/app/list">List</a>                 
+                </div>     
+                <div class="nav-item">
+                    <i class="fa-solid fa-plus"></i>
+                    <a routerLink="/app/commit">Commit</a>                
+                </div>   
+            </div>                     
+            <i class="fa-solid fa-circle-user fa-xl menu-i" (click)="onLogout()">
+
+            </i>
+        </ng-container>
     </div>
     <div class="content">
         <router-outlet></router-outlet>

@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ExerciseComponent } from './exercise/exercise.component';
 import { CommitComponent } from './commit.component';
-import { CommitService } from './commit.service';
+import { CommitService } from '../../providers/services/commit.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
