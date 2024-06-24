@@ -3,11 +3,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ListComponent } from './list.component';
+import { ExerciseListComponent } from './exercise-list.component';
+import { ExerciseListItemComponent } from './exercise-list-item/exercise-list-item.component';
 
 @NgModule({
     declarations: [
-        ListComponent
+        ExerciseListComponent,
+        ExerciseListItemComponent
     ],
     imports: [
         CommonModule,
@@ -15,7 +17,7 @@ import { ListComponent } from './list.component';
         HttpClientModule,
         ReactiveFormsModule,
         RouterModule.forChild([
-            { path: '', component: ListComponent }
+            { path: '', component: ExerciseListComponent }
         ])
     ],
     providers: [
@@ -25,4 +27,4 @@ import { ListComponent } from './list.component';
         
     ]
 })
-export class ListModule { }
+export class ExerciseListModule { }

@@ -8,7 +8,7 @@ const routes: Routes = [
     },
     {
         path: 'app/list',
-            loadChildren: () => import('./moduls/list/list.module').then(m => m.ListModule)
+            loadChildren: () => import('./moduls/exericse-list/exercise-list.module').then(m => m.ExerciseListModule)
     },
     {
         path: '', redirectTo: 'app/commit', pathMatch: 'full'
