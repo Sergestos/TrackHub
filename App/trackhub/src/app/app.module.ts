@@ -1,20 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { SpaModule } from './spa/spa.module';
 import { RouterModule } from '@angular/router';
+import { CommitService } from './moduls/commit/commit.service';
+import { AppContainerComponent } from './moduls/app-container/app-container.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        AppContainerComponent
     ],
     imports: [
         BrowserModule,
         RouterModule,
-        SpaModule
+        AppRoutingModule
     ],
     providers: [
-        provideClientHydration()
+        provideClientHydration(),
+        CommitService
     ],
     bootstrap: [AppComponent]
 })

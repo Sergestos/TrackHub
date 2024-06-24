@@ -11,17 +11,17 @@
                     onfocus="'showPicker' in this && this.showPicker()" />
             </div>
             <div class="btn-controls">
-                <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()" />
-                <input type="button" class="btn btn-action" value="Save" />
+                <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()"/>
+                <input type="button" class="btn btn-action" value="Save" (click)="onSaveClick()" [disabled]="recordModels.length == 0"/>
                 <input type="button" class="btn btn-remove" value="Remove" (click)="onRemoveClick()"/>
             </div>
         </div>        
     </div>    
     <div class="exercise-grid">
-        <div class="placeholder" *ngIf="exercises.length == 0">
+        <div class="placeholder" *ngIf="recordModels.length == 0">
             <p>Click 'Add' to enter played exercise</p>
         </div>        
-        <ng-container  *ngIf="exercises.length > 0">            
+        <ng-container  *ngIf="recordModels.length > 0">            
             <div class="headers">
                 <div class="h-check-all">
                     <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />
@@ -45,7 +45,7 @@
                     <p>Options</p>
                 </div>                    
             </div>
-            <div class="card" *ngFor="let item of exercises">
+            <div class="card" *ngFor="let item of recordModels">
                 <trh-exercise [model]="item"></trh-exercise>
             </div>
         </ng-container>

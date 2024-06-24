@@ -65,3 +65,11 @@ p {
     min-height: 70vh;
     margin-bottom: 5vh;
 }
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: var(--color-low-ascent); 
+}

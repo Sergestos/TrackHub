@@ -6,8 +6,8 @@
     margin-right: 3rem;
 
     .input-wrapper {       
-        margin-top: 2.25vh;
-        margin-bottom: 3.25vh;
+        margin-top: 2.2vh;
+        margin-bottom: 3vh;
     }        
 
     .h-check-all {        
@@ -56,11 +56,30 @@
             margin-left: 0.75rem;            
         }
     }
+
+    .h-record-status {
+        color: rgb(133, 169, 255);
+        margin-top: 2.75vh;
+        margin-left: 2.5rem;
+
+        .status-changed {
+            
+        }
+
+        .status-saved {
+
+        }
+
+        .status-draft {
+
+        }
+    }
 }
 
 .suggestions {
     display: flex;    
     margin: 1vh 0 1.5vh 5.75%;    
+    transition: height .5s;
 
     .suggestion-label {
         font-style: italic;
@@ -72,6 +91,8 @@
     .suggestion-wrapper {
         display: flex;            
         gap: 1rem;
+        opacity: 0;
+        animation: ani 2s forwards;
 
         .suggestion-item {
             background-color: rgb(72, 87, 119);
@@ -115,4 +136,9 @@
 
 .select-carret {    
     color: rgb(133, 169, 255);
+}
+
+@keyframes ani {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }

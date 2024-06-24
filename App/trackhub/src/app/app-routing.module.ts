@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CommitComponent } from './commit/commit.component';
 
-const routes:Routes = [
+const routes: Routes = [
     {
-        path: 'app/commit', component: CommitComponent         
+        path: 'app/commit',
+            loadChildren: () => import('./moduls/commit/commit.module').then(m => m.CommitModule)
+    },
+    {
+        path: 'app/list',
+            loadChildren: () => import('./moduls/exericse-list/exercise-list.module').then(m => m.ExerciseListModule)
     },
     {
         path: '', redirectTo: 'app/commit', pathMatch: 'full'
@@ -17,4 +21,4 @@ const routes:Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
-export class SpaRoutingModule { }
+export class AppRoutingModule { }
