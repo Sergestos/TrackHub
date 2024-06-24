@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Redis", "TrackHub.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Data", "TrackHub.Domaim.Data\TrackHub.Domain.Data.csproj", "{1EA02C74-C1DD-4DB5-A820-4288E2426996}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Auth.Google", "TrackHub.Auth.Google\TrackHub.Auth.Google.csproj", "{1C5DBBC0-8B2A-46B5-9196-1853F4DFD7EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EA02C74-C1DD-4DB5-A820-4288E2426996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C5DBBC0-8B2A-46B5-9196-1853F4DFD7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C5DBBC0-8B2A-46B5-9196-1853F4DFD7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C5DBBC0-8B2A-46B5-9196-1853F4DFD7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C5DBBC0-8B2A-46B5-9196-1853F4DFD7EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

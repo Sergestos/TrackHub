@@ -1,9 +1,12 @@
 using TrackHub.Domain.Data;
+using TrackHub.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
 builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddCorsPolicy();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -19,9 +22,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("CorsPolicy");
+app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
