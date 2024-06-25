@@ -1,22 +1,29 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { AuthService } from "../services/auth.service";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable, tap } from "rxjs";
 
-@Injectable()
-export class AuthGuard  {
+@Injectable({
+    providedIn: 'root'
+  })
+export class PermissionsService {
     constructor(
-        private authService: AuthService,
-        private router: Router) { }
+        private router: Router,
+        private authService: AuthService
+    ) {
 
-    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return true;
+    }
+  
+    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.authService.isAuthorized()
             .pipe(tap(isAuthorized => {
                 if (!isAuthorized) {
-                    this.router.navigateByUrl("/login")
+                    this.router.navigateByUrl("/app/login")
                 }
             }));
-        ;
     }
+  }
+  
+ export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
+    return inject(PermissionsService).canActivate(next, state);
 }

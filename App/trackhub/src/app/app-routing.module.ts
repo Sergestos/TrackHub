@@ -4,14 +4,14 @@ import { AuthGuard } from './providers/guard/auth.guard';
 
 const routes: Routes = [
     {
-        path: 'app/commit',
-        loadChildren: () => import('./moduls/commit/commit.module').then(m => m.CommitModule),
- 
-    },
-    {
         path: 'app/list',
         loadChildren: () => import('./moduls/exericse-list/exercise-list.module').then(m => m.ExerciseListModule),
-        
+        canActivate: [ AuthGuard ]
+    },
+    {
+        path: 'app/commit',
+        loadChildren: () => import('./moduls/commit/commit.module').then(m => m.CommitModule),
+        canActivate: [ AuthGuard ]
     },
     {
         path: 'app/login',

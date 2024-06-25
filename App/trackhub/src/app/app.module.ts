@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.intercaptors';
 import { AuthService } from './providers/services/auth.service';
-import { AuthGuard } from './providers/guard/auth.guard';
+import { AuthGuard, PermissionsService } from './providers/guard/auth.guard';
 
 @NgModule({
     declarations: [
@@ -25,6 +25,7 @@ import { AuthGuard } from './providers/guard/auth.guard';
         provideClientHydration(),
         AuthService,
         CommitService,
+        PermissionsService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

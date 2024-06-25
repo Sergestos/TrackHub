@@ -45,7 +45,11 @@ export class ExerciseComponent implements OnInit {
     recordStatusTypeEnum: typeof RecordStatusType = RecordStatusType;
     public currectRecordStatusType: RecordStatusType | null = null;
 
-    constructor(private commitService: CommitService, private eRef: ElementRef) { }
+    constructor(
+        private commitService: CommitService, 
+        private eRef: ElementRef) { 
+
+        }
     
     @HostListener('document:click', ['$event'])
     public clickout(event: any) {
