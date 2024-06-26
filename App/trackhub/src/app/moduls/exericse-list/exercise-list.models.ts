@@ -1,4 +1,4 @@
 export class ExerciseItem {
-    public exerciseId!: string;
+    public totalPlayed!: number; 
     public playDate!: Date;
 }

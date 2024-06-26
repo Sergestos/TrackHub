@@ -4,12 +4,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ExerciseListComponent } from './exercise-list.component';
-import { ExerciseListItemComponent } from './exercise-list-item/exercise-list-item.component';
+import { DetailsExerciseItemComponent } from './details-exercise-card/details-exercise-card.component';
 
 @NgModule({
     declarations: [
         ExerciseListComponent,
-        ExerciseListItemComponent
+        DetailsExerciseItemComponent 
     ],
     imports: [
         CommonModule,

@@ -1,3 +1,31 @@
-<p style="color: aliceblue;">
-    hello
-</p>
+<main>
+    <div class="top-wrapper">
+        <p class="page-header">Exercise List</p>
+    </div>
+    <div class="exerice-list-wrapper">
+        <div class="exercise-list-grid">
+            <div class="grid-item card-header">
+                <p class="grid-item-expand"></p>                
+                <p class="grid-item-play-date">Play date</p>                
+                <p class="grid-item-total-played">Total played</p>
+            </div>
+            <div class="grid-item card" *ngFor="let item of exercises">
+                <div class="grid-item-expand">
+                    <i class="fa-solid fa-circle-user fa-xl menu-i" ></i>
+                </div>                
+                <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
+                <p class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
+                <div class="grid-item-actions">
+                    <i class="fa-solid fa-circle-user fa-xl menu-i" style="color: white;"></i>
+                    <i class="fa-solid fa-circle-user fa-xl menu-i" style="color: white;"></i>
+                </div>  
+            </div>
+        </div>
+        <div class="exericese-list-filter">
+            <div class="header">
+                <h2>Filters</h2>
+                <input type="button" class="btn" value="reset" />
+            </div>
+        </div>
+    </div>
+</main>
