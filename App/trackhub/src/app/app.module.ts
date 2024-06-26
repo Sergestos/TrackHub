@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.intercaptors';
 import { AuthService } from './providers/services/auth.service';
-import { AuthGuard, PermissionsService } from './providers/guard/auth.guard';
+import { PermissionsService } from './providers/guard/auth.guard';
+import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        AppContainerComponent
+        AppContainerComponent,
+        UserDropdownComponent
     ],
     imports: [
         BrowserModule,

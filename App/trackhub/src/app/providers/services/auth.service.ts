@@ -12,11 +12,13 @@ export class AuthService {
 
     public logIn(): Observable<boolean> {
         this.isAuthorized$.next(true);
+
         return this.isAuthorized$.asObservable();
     }
 
     public logOut(): Observable<boolean> {
-        this.isAuthorized$.next(false);       
+        this.isAuthorized$.next(false);   
+            
         return this.isAuthorized$.asObservable();
     }
 
