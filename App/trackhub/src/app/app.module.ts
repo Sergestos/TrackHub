@@ -8,8 +8,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.intercaptors';
 import { AuthService } from './providers/services/auth.service';
-import { PermissionsService } from './providers/guard/auth.guard';
+import { PermissionsService } from './providers/guards/auth.guard';
 import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
+import { ExerciseListService } from './providers/services/exercise-list.service';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user
         provideClientHydration(),
         AuthService,
         CommitService,
+        ExerciseListService,
         PermissionsService,
         {
             provide: HTTP_INTERCEPTORS,

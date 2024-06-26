@@ -1,1 +1,9 @@
-<p>hello</p>
+<main>
+    <div class="details-card" *ngFor="let item of exerciseDetails$ | async; let i = index">
+        <p>{{ (i + 1) }})&nbsp;</p>
+        <p>{{ item.duration }} min.&nbsp;</p>
+        <p>{{ item.exerciseType }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
+        <p class="item-acsent">{{ item.authorName }}&nbsp;-&nbsp;</p>
+        <p class="item-acsent">{{ item.itemName }}</p>
+    </div>
+</main>

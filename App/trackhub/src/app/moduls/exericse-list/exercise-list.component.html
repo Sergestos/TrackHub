@@ -9,16 +9,26 @@
                 <p class="grid-item-play-date">Play date</p>                
                 <p class="grid-item-total-played">Total played</p>
             </div>
-            <div class="grid-item card" *ngFor="let item of exercises">
-                <div class="grid-item-expand">
-                    <i class="fa-solid fa-circle-user fa-xl menu-i" ></i>
-                </div>                
-                <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
-                <p class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
-                <div class="grid-item-actions">
-                    <i class="fa-solid fa-circle-user fa-xl menu-i" style="color: white;"></i>
-                    <i class="fa-solid fa-circle-user fa-xl menu-i" style="color: white;"></i>
-                </div>  
+            <div class="card" *ngFor="let item of exercises">
+                <div class="grid-item grid-short-view">
+                    <div class="grid-item-expand">                   
+                        <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg" 
+                            *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>       
+                        <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg"
+                            *ngIf="item.isExpanded" (click)="onCardExpand(item)"></i>                 
+                    </div>                
+                    <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
+                    <p class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
+                    <div class="grid-item-actions">
+                        <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                        <i class="fa-solid fa-xmark fa-lg i-remove"></i>
+                    </div>  
+                </div>
+                <ng-container *ngIf="item.isExpanded">
+                    <div class="details-wrapper">
+                        <trh-details-exercise-card></trh-details-exercise-card>
+                    </div>
+                </ng-container>
             </div>
         </div>
         <div class="exericese-list-filter">

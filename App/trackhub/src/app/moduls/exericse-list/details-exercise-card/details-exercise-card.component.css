@@ -1,0 +1,16 @@
+main {
+    .details-card {                
+        display: flex;
+        flex-direction: row;
+
+        padding-bottom: 0.33vh;
+
+        p {
+            color: rgb(133, 169, 255);
+        }
+
+        .item-acsent {
+            font-weight: 700;
+        }
+    }
+}

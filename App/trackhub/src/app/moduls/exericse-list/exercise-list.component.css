@@ -50,26 +50,22 @@
 
         .grid-item {
             display: flex;
-            margin: 2vh 10rem 0 3rem;
+            margin: 2vh 0 0 3rem;
             
             .grid-item-expand {
                 width: 4%;
+            }
 
-                i {
-                    color: white
-                }
+            .grid-item-play-date {
+                width: 12%
             }
 
             .grid-item-total-played {
                 width: 10%;
             }
 
-            .grid-item-play-date {
-                width: 10%;
-            }
-
             .grid-item-actions {
-                width: 75%;
+                width: 72.5%;
                 margin-top: 1vh;
 
                 display: flex;
@@ -80,6 +76,19 @@
 
             p {
                 color: rgb(133, 169, 255);
+            }
+
+            i {
+                color: rgb(133, 169, 255);
+                transition: 0.5s;
+            }
+
+            i:hover {
+                color: rgb(225, 234, 255);
+            }
+
+            .i-remove {
+                color: rgb(246, 110, 110);
             }
         }
 
@@ -94,6 +103,10 @@
         .card {         
             padding-bottom: 15px;
             border-bottom: 1px solid  rgba(81, 105, 162, 0.254); 
+
+            .details-wrapper {                
+                margin: 1.75vh 0 0 6rem;
+            }
         }
     }
 }
