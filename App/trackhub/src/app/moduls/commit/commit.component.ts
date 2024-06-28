@@ -1,14 +1,15 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { RecordModel } from './commit.models';
 import { ExerciseComponent } from './exercise/exercise.component';
 import { CommitService } from '../../providers/services/commit.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'trh-commit',
 	templateUrl: './commit.component.html',
 	styleUrls: ['./commit.component.css']
 })
-export class CommitComponent {	
+export class CommitComponent implements OnInit {	
 	public isUseTodaysDate: boolean = true;
 	public selectedDate: Date = new Date();
 
@@ -16,7 +17,20 @@ export class CommitComponent {
 
 	@ViewChildren(ExerciseComponent) exerciseViews!: QueryList<ExerciseComponent>;
 
-	constructor(private commitService: CommitService) { }
+	constructor(
+		private commitService: CommitService,
+		private activatedRoute: ActivatedRoute) {
+
+		}
+
+	public ngOnInit(): void {
+		this.activatedRoute.queryParams.subscribe(params => {
+			const exerciseId = params['exerciseId'];
+			this.commitService.getExerciseRecords(exerciseId).subscribe(items => {
+				this.recordModels = items;
+			})
+		  });
+	}
 
 	public onAddClick(): void {
 		this.recordModels.push({

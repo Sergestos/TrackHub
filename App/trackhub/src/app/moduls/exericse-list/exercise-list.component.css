@@ -29,7 +29,7 @@
                 font-size: 17px;
                 font-weight: 600;
                 margin: 2vh 0 0 2rem;
-                color: rgb(133, 169, 255);
+                color: rgba(144, 161, 211, 0.884);
             }
 
             input[type="button"] {
@@ -97,6 +97,7 @@
 
             p {
                 font-weight: 600;
+                color: rgba(144, 161, 211, 0.884);
             }
         }
 

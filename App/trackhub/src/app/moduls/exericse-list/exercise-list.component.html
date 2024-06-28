@@ -20,8 +20,8 @@
                     <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
                     <p class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
                     <div class="grid-item-actions">
-                        <i class="fa-regular fa-pen-to-square fa-lg"></i>
-                        <i class="fa-solid fa-xmark fa-lg i-remove"></i>
+                        <i class="fa-regular fa-pen-to-square fa-lg" (click)="onExerciseEdit(item)"></i>
+                        <i class="fa-solid fa-xmark fa-lg i-remove" (click)="onRemoveItem(item)"></i>
                     </div>  
                 </div>
                 <ng-container *ngIf="item.isExpanded">
