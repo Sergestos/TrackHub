@@ -26,9 +26,12 @@ export class CommitComponent implements OnInit {
 	public ngOnInit(): void {
 		this.activatedRoute.queryParams.subscribe(params => {
 			const exerciseId = params['exerciseId'];
-			this.commitService.getExerciseRecords(exerciseId).subscribe(items => {
-				this.recordModels = items;
-			})
+			
+			if (exerciseId) {
+				this.commitService.getExerciseRecords(exerciseId).subscribe(items => {
+					this.recordModels = items;
+				})
+			}
 		  });
 	}
 

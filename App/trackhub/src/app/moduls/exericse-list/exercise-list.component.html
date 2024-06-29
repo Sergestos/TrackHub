@@ -3,12 +3,17 @@
         <p class="page-header">Exercise List</p>
     </div>
     <div class="exerice-list-wrapper">
-        <div class="exercise-list-grid">
-            <div class="grid-item card-header">
+        <div class="card-header">
+            <div class="grid-item grid-headers">
                 <p class="grid-item-expand"></p>                
                 <p class="grid-item-play-date">Play date</p>                
                 <p class="grid-item-total-played">Total played</p>
             </div>
+            <div class="paging">
+                <trh-date-filter></trh-date-filter>
+            </div>
+        </div>
+        <div class="scrollable-cards">
             <div class="card" *ngFor="let item of exercises">
                 <div class="grid-item grid-short-view">
                     <div class="grid-item-expand">                   
@@ -30,12 +35,6 @@
                     </div>
                 </ng-container>
             </div>
-        </div>
-        <div class="exericese-list-filter">
-            <div class="header">
-                <h2>Filters</h2>
-                <input type="button" class="btn" value="reset" />
-            </div>
-        </div>
+        </div> 
     </div>
 </main>

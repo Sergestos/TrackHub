@@ -10,55 +10,22 @@ import { Router } from "@angular/router";
 export class ExerciseListComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
  
-	constructor(private router: Router) {
+	constructor(
+		private router: Router) {
 		
 	}
 
 	public ngOnInit(): void {
-		this.exercises = [
-			{
-				exerciseId: "1",
-				totalPlayed: 10,
-				playDate: new Date(),
-				isExpanded: false
-			},
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			},		
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			},
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			},
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			},
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			},
-			{
-				exerciseId: "1",
-				totalPlayed: 60,
-				playDate: new Date(),
-				isExpanded: false
-			}
-		];
+		for (let i = 0; i < 30; i++) {
+			this.exercises.push(
+				{
+					exerciseId: i.toString(),
+					totalPlayed: 10,
+					playDate: new Date(),
+					isExpanded: false
+				}
+			)
+		}
 	}	
 
 	public onCardExpand(exercise: ExerciseItemView): void {		
