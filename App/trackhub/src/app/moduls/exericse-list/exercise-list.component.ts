@@ -20,7 +20,7 @@ export class ExerciseListComponent implements OnInit {
 			this.exercises.push(
 				{
 					exerciseId: i.toString(),
-					totalPlayed: 10,
+					totalPlayed: 20,
 					playDate: new Date(),
 					isExpanded: false
 				}

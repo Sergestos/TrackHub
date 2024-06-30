@@ -20,7 +20,7 @@
     }
 
     .grid-headers {
-        width: 85%;
+        width: 100%;
     }
 
     .grid-item {
@@ -80,6 +80,9 @@
 
         .paging {
             margin: 2vh 0 0 3rem;
+
+            position: absolute;
+            z-index: 2;
         }
     }
 

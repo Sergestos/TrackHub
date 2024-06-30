@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { ExerciseDetails, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
+import { ExerciseDetails, ExerciseItem, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
 
 @Injectable()
 export class ExerciseListService {
@@ -11,6 +11,12 @@ export class ExerciseListService {
         return of({
             firstExerciseDate: new Date("09/03/2018")
         })
+    }
+
+    public getMonthExercises(year: number, month: number): Observable<ExerciseItem[]> {
+        return of([
+            
+        ])
     }
 
     public getExerciseDetails(exerciseId: string): Observable<ExerciseDetails[]> {
