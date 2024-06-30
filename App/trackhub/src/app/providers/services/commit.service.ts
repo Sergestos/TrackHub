@@ -11,6 +11,41 @@ export class CommitService {
         return of();
     }
 
+    public getExerciseRecords(exerciseId: number): Observable<RecordModel[]> {
+        return of([
+           {
+                id: 1,
+                name: 'Father of Nutella',
+                author: 'Beertalica',
+                rectorType: 'song',
+                duration: 30,
+                bpm: 120,
+                playType: 'solo',
+                isRecorded: false
+           },
+           {
+                id: 2,
+                name: 'Middle of the Night',
+                author: 'Beertalica',
+                rectorType: 'song',
+                duration: 30,
+                bpm: 120,
+                playType: 'solo',
+                isRecorded: false
+            },
+            {
+                id: 3,
+                name: 'Master of Cookies',
+                author: 'Nontallica',
+                rectorType: 'song',
+                duration: 30,
+                bpm: 120,
+                playType: 'rhythm',
+                isRecorded: false
+            } 
+        ]);
+    }
+
     public getSongSuggestrions(pattern: string): Observable<string[]> {
         // return this.http.get<string[]>('https://jsonplaceholder.typicode.com/todos');
         return of([

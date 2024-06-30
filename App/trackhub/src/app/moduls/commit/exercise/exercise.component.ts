@@ -67,7 +67,8 @@ export class ExerciseComponent implements OnInit {
             this.currectRecordStatusType = RecordStatusType.draft;
         }
 
-        this.searchSongField.valueChanges
+        setTimeout(() => {
+            this.searchSongField.valueChanges
             .pipe(debounceTime(300))
             .subscribe(input => {
                 if (input && input.length >= MinSearchLength) {
@@ -90,6 +91,7 @@ export class ExerciseComponent implements OnInit {
                         });
                 }                
             });
+        }, 0);        
     }
 
     public toggleIsSelected(value: boolean): void {

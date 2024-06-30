@@ -17,3 +17,7 @@ export class ExerciseDetails {
     public isRecorded?: boolean;
     public bpm?: number;
 }
+
+export class UserExerciseProfile {
+    public firstExerciseDate!: Date; 
+}
