@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AuthComponent } from "./auth.component";
 import { AuthService } from "../../providers/services/auth.service";
+import { GoogleLoginProvider, SocialAuthServiceConfig } from "angularx-social-login";
 
 @NgModule({
     declarations: [
@@ -13,7 +14,7 @@ import { AuthService } from "../../providers/services/auth.service";
         ])
     ],
     providers: [
-        
+      
     ],
     exports: [
         

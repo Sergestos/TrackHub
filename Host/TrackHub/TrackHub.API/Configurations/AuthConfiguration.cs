@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace TrackHub.Web.Configurations;
 
@@ -27,6 +28,12 @@ public static class AuthConfiguration
             googleOptions.AuthorizationEndpoint = "https://accounts.google.com/o/oauth2/auth";
             googleOptions.TokenEndpoint = "https://oauth2.googleapis.com/token";
             googleOptions.SaveTokens = true;
+            googleOptions.Events.OnCreatingTicket = (context) =>
+            {
+//                context.Identity.AddClaim(new Claim("image", context.User.GetValue("image").SelectToken("url").ToString()));
+
+                return Task.CompletedTask;
+            };
         });
     }
 }

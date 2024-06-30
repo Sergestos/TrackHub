@@ -11,7 +11,7 @@ public static class CorsPolicyConfiguration
                 policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("http://localhost:7012", "https://accounts.google.com")
+                    .WithOrigins("http://localhost:7012", "http://localhost:4200", "https://accounts.google.com")
                     .AllowCredentials();
             });
         });  
