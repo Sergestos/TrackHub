@@ -29,7 +29,7 @@ export class UserDropdownComponent implements OnInit {
 
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         setTimeout(() => {
             this.isComponentReady = true;            
         }, 10);
@@ -40,7 +40,6 @@ export class UserDropdownComponent implements OnInit {
             .subscribe({
                 next: _ => {
                     this.isUserSettingsAskedEmmiter.emit(false);
-
                     this.router.navigateByUrl('app/login');
                 },
                 error: err => {

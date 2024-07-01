@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ExerciseListService } from "../../../providers/services/exercise-list.service";
-import { UserExerciseProfile } from "../exercise-list.models";
+import { FiltersModel, UserExerciseProfile } from "../exercise-list.models";
 
 @Component({
 	selector: 'trh-date-filter',
@@ -10,11 +10,18 @@ import { UserExerciseProfile } from "../exercise-list.models";
 export class DateFilterComponent implements OnInit {
     private userExerciseProfile?: UserExerciseProfile;
 
-    public years: number[] = [];
+    public filter!: FiltersModel;
+    public userProfileYears: number[] = [];
 
-    constructor(
-        private exerciseListService: ExerciseListService) {
-        
+    @Output()
+    public onDateChangedEmmiter: EventEmitter<FiltersModel> = new EventEmitter<FiltersModel>();    
+
+    constructor(private exerciseListService: ExerciseListService) {
+        this.filter = {
+            year: 2024,
+            month: 1,
+            showNonPlayed: true
+        };
     }
 
     public ngOnInit(): void {
@@ -22,12 +29,21 @@ export class DateFilterComponent implements OnInit {
             .subscribe(item => {
                 let currentYear = new Date().getFullYear();
                 for (let year = item.firstExerciseDate.getFullYear(); year <= currentYear; year++) {
-                    this.years.push(year);  
+                    this.userProfileYears.push(year);  
                 }
             })
     }
 
-    public onMonthClick(monyhIndex: number): void {
+    public onMonthClick(monthIndex: number): void {
+        this.filter.month = monthIndex;
+        this.onDateChangedEmmiter.emit(this.filter);
+    }
 
+    public onYearSelected(year: number): void {    
+        this.onDateChangedEmmiter.emit(this.filter);
+    }
+
+    public onNonPlaydCheckBoxClicked(isChecked: boolean): void { 
+        this.onDateChangedEmmiter.emit(this.filter);
     }
 }

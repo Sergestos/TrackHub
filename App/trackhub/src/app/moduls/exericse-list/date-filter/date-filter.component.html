@@ -1,19 +1,19 @@
 <main>
     <div class="filter-options">
         <label>Show non-playd days</label>
-        <input type="checkbox" class="t-checkbox"/>
+        <input type="checkbox" class="t-checkbox" [ngModel]="filter.showNonPlayed"/>
     </div>
     <div class="filter-year-selector">
         <!-- <select ([ngModel])="selectedYear"> -->
-        <select class="input-select">
-            <option *ngFor="let year of years.reverse()" [value]="year">{{ year }}</option> 
+        <select class="input-select" [ngModel]="filter.year">
+            <option *ngFor="let year of userProfileYears.reverse()" [value]="year">{{ year }}</option> 
         </select>
         <i class="fa-solid fa-caret-down select-carret"></i>
     </div>
     <div class="filter-month-selector">
         <i class="fa-solid fa-chevron-left fa-lg"></i>
         <div *ngFor="let e of [].constructor(12); let monthIndex = index">
-            <p [attr.disabled]="true" (click)="onMonthClick(monthIndex + 1)">{{ monthIndex + 1 }}</p>
+            <p (click)="onMonthClick(monthIndex + 1)">{{ monthIndex + 1 }}</p>
         </div>
         <i class="fa-solid fa-chevron-right fa-lg"></i>
     </div>

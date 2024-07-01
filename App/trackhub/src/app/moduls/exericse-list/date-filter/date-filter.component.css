@@ -48,6 +48,7 @@ main {
         margin-top: 0.5vh;
 
         p {
+            cursor: pointer;
             padding-left: 0.25rem;
             color: rgba(133, 170, 255, 0.784);
         }

@@ -21,3 +21,9 @@ export class ExerciseDetails {
 export class UserExerciseProfile {
     public firstExerciseDate!: Date; 
 }
+
+export class FiltersModel {
+    public year!: number;
+    public month!: number;
+    public showNonPlayed?: boolean
+}

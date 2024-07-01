@@ -15,7 +15,16 @@ export class ExerciseListService {
 
     public getMonthExercises(year: number, month: number): Observable<ExerciseItem[]> {
         return of([
-            
+            {
+                exerciseId: "1",
+                totalPlayed: 20,
+                playDate: new Date()
+            },
+            {
+                exerciseId: "2",
+                totalPlayed: 30,
+                playDate: new Date()
+            }
         ])
     }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ExerciseItem, ExerciseItemView } from "./exercise-list.models";
+import { ExerciseItem, ExerciseItemView, FiltersModel as FilterModel } from "./exercise-list.models";
 import { Router } from "@angular/router";
+import { ExerciseListService } from "../../providers/services/exercise-list.service";
 
 @Component({
 	selector: 'trh-exercise-list',
@@ -11,7 +12,8 @@ export class ExerciseListComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
  
 	constructor(
-		private router: Router) {
+		private router: Router,
+		private exerciseListService: ExerciseListService) {
 		
 	}
 
@@ -38,5 +40,12 @@ export class ExerciseListComponent implements OnInit {
 
 	public onExerciseEdit(item: ExerciseItemView): void {
 		this.router.navigateByUrl("/app/commit?exerciseId=" + item.exerciseId);
+	}
+
+	public onDateChanged(filter: FilterModel): void {
+		this.exerciseListService.getMonthExercises(filter.year, filter.month)
+			.subscribe(result => {				
+				this.exercises = result;				
+			})
 	}
 }

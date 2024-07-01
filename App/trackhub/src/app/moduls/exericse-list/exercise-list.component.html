@@ -10,7 +10,7 @@
                 <p class="grid-item-total-played">Total played</p>
             </div>
             <div class="paging">
-                <trh-date-filter></trh-date-filter>
+                <trh-date-filter (onDateChangedEmmiter)="onDateChanged($event)"></trh-date-filter>
             </div>
         </div>
         <div class="scrollable-cards">
