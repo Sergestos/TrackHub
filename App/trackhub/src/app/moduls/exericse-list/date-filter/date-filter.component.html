@@ -1,7 +1,13 @@
 <main>
     <div class="filter-options">
+        <label>Show expanded</label>
+        <input type="checkbox" class="t-checkbox" (click)="onExpandAllClicked($event)"
+            [ngModel]="filter.showExpanded"/>
+    </div>
+    <div class="filter-options">
         <label>Show non-playd days</label>
-        <input type="checkbox" class="t-checkbox" [ngModel]="filter.showNonPlayed"/>
+        <input type="checkbox" class="t-checkbox" (click)="onShowNonPlayedClicked($event)"
+            [ngModel]="filter.showNonPlayed" disabled/>
     </div>
     <div class="filter-year-selector">
         <!-- <select ([ngModel])="selectedYear"> -->

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ExerciseListService } from "../../../providers/services/exercise-list.service";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ExerciseDetails } from "../exercise-list.models";
 
 @Component({
@@ -9,13 +9,21 @@ import { ExerciseDetails } from "../exercise-list.models";
 	styleUrls: ['./details-exercise-card.component.css']
 })
 export class DetailsExerciseItemComponent implements OnInit {	
-	@Input() exerciseId!: string;
+	@Input() 
+	public exerciseId!: string;
+
+	@Input()
+	public exerciseDetailsModels?: ExerciseDetails[];
 
 	public exerciseDetails$: Observable<ExerciseDetails[]> = new Observable<ExerciseDetails[]>();
 
 	constructor(private exerciseListService: ExerciseListService) { }
 
 	public ngOnInit(): void {
-		this.exerciseDetails$ = this.exerciseListService.getExerciseDetails(this.exerciseId);
+		if (this.exerciseDetailsModels) {
+			this.exerciseDetails$ = of(this.exerciseDetailsModels);
+		} else {
+			this.exerciseDetails$ = this.exerciseListService.getExerciseDetails(this.exerciseId);
+		}
 	}
 }

@@ -16,6 +16,12 @@ export class DateFilterComponent implements OnInit {
     @Output()
     public onDateChangedEmmiter: EventEmitter<FiltersModel> = new EventEmitter<FiltersModel>();    
 
+    @Output()
+    public onExpandAllEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();    
+
+    @Output()
+    public onShowNonPlayedEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();    
+
     constructor(private exerciseListService: ExerciseListService) {
         this.filter = {
             year: 2024,
@@ -33,6 +39,14 @@ export class DateFilterComponent implements OnInit {
                 }
             })
     }
+    
+    public onExpandAllClicked(event: any): void {
+        this.onExpandAllEmitter.emit(event.target.value);
+    }
+
+    public onShowNonPlayedClicked(event: any): void {
+        this.onShowNonPlayedEmitter.emit(event.target.value);
+    }
 
     public onMonthClick(monthIndex: number): void {
         this.filter.month = monthIndex;
@@ -40,10 +54,6 @@ export class DateFilterComponent implements OnInit {
     }
 
     public onYearSelected(year: number): void {    
-        this.onDateChangedEmmiter.emit(this.filter);
-    }
-
-    public onNonPlaydCheckBoxClicked(isChecked: boolean): void { 
         this.onDateChangedEmmiter.emit(this.filter);
     }
 }

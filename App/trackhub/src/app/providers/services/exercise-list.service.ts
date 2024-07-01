@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { ExerciseDetails, ExerciseItem, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
+import { randomInt } from "crypto";
 
 @Injectable()
 export class ExerciseListService {
@@ -13,17 +14,17 @@ export class ExerciseListService {
         })
     }
 
-    public getMonthExercises(year: number, month: number): Observable<ExerciseItem[]> {
+    public getFilteredExercises(year: number, month: number): Observable<ExerciseItem[]> {
         return of([
             {
                 exerciseId: "1",
                 totalPlayed: 20,
-                playDate: new Date()
+                playDate: new Date(year, month - 1, Math.floor(Math.random() * 30))
             },
             {
                 exerciseId: "2",
                 totalPlayed: 30,
-                playDate: new Date()
+                playDate: new Date(year, month - 1, Math.floor(Math.random() * 30))
             }
         ])
     }

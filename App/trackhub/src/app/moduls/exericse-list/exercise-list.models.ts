@@ -6,6 +6,10 @@ export class ExerciseItem {
 
 export class ExerciseItemView extends ExerciseItem {
     public isExpanded?: boolean = false;
+    public isHidden?: boolean = false;
+    public IsPlayedDay?: boolean = true;
+
+    public exerciseDetails?: ExerciseDetails[];
 }
 
 export class ExerciseDetails {
@@ -25,5 +29,6 @@ export class UserExerciseProfile {
 export class FiltersModel {
     public year!: number;
     public month!: number;
-    public showNonPlayed?: boolean
+    public showNonPlayed?: boolean;
+    public showExpanded?: boolean;
 }
