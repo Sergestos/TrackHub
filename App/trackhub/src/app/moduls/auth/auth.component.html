@@ -2,6 +2,13 @@
     <div>
         <h1>Welcome to the TrackHub</h1>
         <p>Authorize to the application with your Google account</p>
-        <input type="button" value="Log in" class="btn" (click)="onLogInClick()"/>
+        <div class="google-btn-wrapper">
+            <asl-google-signin-button
+                type="standard"
+                shape="pill"
+                theme="filled_blue"
+                text="continue_with">
+          </asl-google-signin-button>
+        </div>
     </div>
 </main>

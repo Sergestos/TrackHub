@@ -19,15 +19,17 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
         AppContainerComponent,
         UserDropdownComponent
     ],
-    bootstrap: 
-    [
+    bootstrap: [
         AppComponent
     ], 
     imports: [
         BrowserModule,
         RouterModule,
-        AppRoutingModule], providers: [
+        AppRoutingModule,
+    ],
+    providers: [       
         provideClientHydration(),
+        provideHttpClient(withInterceptorsFromDi()),
         AuthService,
         CommitService,
         ExerciseListService,
@@ -37,7 +39,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
             useClass: AuthInterceptor,
             deps: [Router],
             multi: true
-        },
+        },        
         {
             provide: 'SocialAuthServiceConfig',
             useValue: {
@@ -53,6 +55,5 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
                 }
             } as SocialAuthServiceConfig
         },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]})
 export class AppModule { }

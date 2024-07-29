@@ -28,12 +28,13 @@ export class AuthService {
     }
 
     public logIn(): Observable<any> {
+        return of(this.googleAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x: any) => console.log(x)));
         // return this.http.get('https://localhost:7012/google-login');
 
         /*this.isAuthorized$.next(true);
         return this.isAuthorized$.asObservable();*/
 
-        return this.http.get<any>('https://localhost:7012/google-login',
+      /*  return this.http.get<any>('https://localhost:7012/google-login',
             {
                 params: new HttpParams().set('provider', 'Google'),
                 headers: new HttpHeaders()
@@ -43,7 +44,7 @@ export class AuthService {
             })
             .pipe(map(data => {
                 return data;
-            }));
+            }));*/
     }
 
     public logOut(): Observable<boolean> {

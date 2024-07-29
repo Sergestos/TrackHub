@@ -7,7 +7,8 @@ import { CommitService } from '../../providers/services/commit.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-@NgModule({ declarations: [
+@NgModule({ 
+    declarations: [
         ExerciseComponent,
         CommitComponent
     ],

@@ -23,15 +23,9 @@ main {
             margin-top: 4vh;
         }
 
-        input[type="button"] {
-            color: var(--color-low-ascent);
-            background-color: #6e789170;
+        .google-btn-wrapper {
             padding: 10px 20px;
-            margin: 3vh 0 3vh 0;
-        }
-
-        input[type="button"]:hover {
-            background-color: #bec2cb70;
+            margin: 3vh 0 3vh 18.5%;
         }
     }
 }
