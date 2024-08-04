@@ -1,9 +1,9 @@
 ﻿using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
-using TrackHub.AI.PromtModels;
+using TrackHub.AiCrawler.PromtModels;
 
-namespace TrackHub.AI.OpenAI;
+namespace TrackHub.AiCrawler.OpenAI;
 
 internal abstract class AbstractConversation
 {

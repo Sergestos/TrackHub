@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1706.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.AI", "TrackHub.AI.csproj", "{803811C9-67AD-4B7C-8B1F-ECB1F897BEAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.AiCrawler", "TrackHub.AiCrawler.csproj", "{803811C9-67AD-4B7C-8B1F-ECB1F897BEAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Ai.Tests", "..\TrackHub.Ai.Tests\TrackHub.Ai.Tests.csproj", "{E7316938-192A-423F-902F-8474F312305A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.AiCrawler.Tests", "..\TrackHub.Ai.Tests\TrackHub.AiCrawler.Tests.csproj", "{E7316938-192A-423F-902F-8474F312305A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
-﻿using TrackHub.AI.PromtModels;
+﻿using TrackHub.AiCrawler.PromtModels;
 
-namespace TrackHub.AI.OpenAI;
+namespace TrackHub.AiCrawler.OpenAI;
 
 internal class OpenAIMusicCrawler : AbstractConversation, IMusicCrawler
 {

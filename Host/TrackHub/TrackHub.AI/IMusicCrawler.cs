@@ -1,6 +1,6 @@
-﻿using TrackHub.AI.PromtModels;
+﻿using TrackHub.AiCrawler.PromtModels;
 
-namespace TrackHub.AI;
+namespace TrackHub.AiCrawler;
 
 public interface IMusicCrawler
 {

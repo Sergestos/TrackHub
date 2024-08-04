@@ -1,4 +1,4 @@
-﻿namespace TrackHub.AI.OpenAI;
+﻿namespace TrackHub.AiCrawler.OpenAI;
 
 internal class Prompts
 {
