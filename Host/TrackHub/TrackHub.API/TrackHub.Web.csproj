@@ -8,6 +8,7 @@
     <UserSecretsId>c6c851fd-5187-4968-bf09-fae16fd2ff65</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="Extensions\**" />
     <Content Remove="Extensions\**" />
