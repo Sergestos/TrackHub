@@ -1,7 +1,15 @@
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, map, of } from "rxjs";
+import { BehaviorSubject, Observable, map, of, tap } from "rxjs";
+
+class AppUser {
+    public email!: string;
+    public firstName!: string;
+    public lastName!: string;
+    public photoUrl!: string;
+    public idToken!: string;
+}
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +17,7 @@ import { BehaviorSubject, Observable, map, of } from "rxjs";
 export class AuthService {
     private isAuthorized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private user: SocialUser | null; 
-    
+
     constructor(
         private http: HttpClient,
         private googleAuthService: SocialAuthService
@@ -18,6 +26,8 @@ export class AuthService {
         this.googleAuthService.authState.subscribe((user: SocialUser) => {
           console.log(user);
           this.user = user;
+
+          this.authExternalUser(this.user).subscribe(x => console.log(x));
         });
     }
 
@@ -28,23 +38,13 @@ export class AuthService {
     }
 
     public logIn(): Observable<any> {
-        return of(this.googleAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x: any) => console.log(x)));
-        // return this.http.get('https://localhost:7012/google-login');
+        return of(this.googleAuthService
+            .signIn(GoogleLoginProvider.PROVIDER_ID)
+            .then((response: any) => { 
+                this.authExternalUser(response).subscribe(x => {
 
-        /*this.isAuthorized$.next(true);
-        return this.isAuthorized$.asObservable();*/
-
-      /*  return this.http.get<any>('https://localhost:7012/google-login',
-            {
-                params: new HttpParams().set('provider', 'Google'),
-                headers: new HttpHeaders()
-                    .set('Access-Control-Allow-Headers', 'Content-Type')
-                    .set('Access-Control-Allow-Methods', 'GET')
-                    .set('Access-Control-Allow-Origin', '*')
-            })
-            .pipe(map(data => {
-                return data;
-            }));*/
+                }) }
+            ));
     }
 
     public logOut(): Observable<boolean> {
@@ -54,5 +54,17 @@ export class AuthService {
 
     public isAuthorized(): Observable<boolean> {
         return this.isAuthorized$;
+    }
+
+    private authExternalUser(user: any): Observable<any> {
+        let appUser: AppUser = {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            photoUrl: user.photoUrl,
+            idToken: user.idToken
+        };
+
+        return this.http.post<any>('https://localhost:7012/google-login', appUser);
     }
 }

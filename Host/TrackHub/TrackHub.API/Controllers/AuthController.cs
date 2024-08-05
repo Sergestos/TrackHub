@@ -1,23 +1,48 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Newtonsoft.Json.Linq;
+using TrackHub.Web.Models;
 
 namespace TrackHub.Web.Controllers;
 
+[Route("api/[controller]")]
 public class AuthController : Controller
 {
-    [AllowAnonymous]
-    [HttpGet]
-    [Route("/google-login")]
-    public IActionResult GoogleSignIn()
-    {
-        
-        var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+    private IConfiguration _configuration;
 
-        return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+    public AuthController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    [Route("/google-login")]
+    public async Task<GoogleJsonWebSignature.Payload> GoogleSignIn([FromBody] SocialUser socialUser)
+    {
+        try
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string>() { _configuration["Authentication:Google:ClientId"]! }
+            };
+            var payload = await GoogleJsonWebSignature.ValidateAsync(socialUser.IdToken, settings);
+
+            return payload;
+        }
+        catch (Exception ex)
+        {
+            //log an exception
+            return null;
+        }
+
+        /*  var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+
+          return Challenge(properties, GoogleDefaults.AuthenticationScheme);*/
     }
 
     [AllowAnonymous]
