@@ -7,10 +7,7 @@ import { tap } from "rxjs";
     providedIn: 'root'
 })
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(
-        private router: Router) { 
-
-    }
+    constructor(private router: Router) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): any {
         return next.handle(req).pipe(

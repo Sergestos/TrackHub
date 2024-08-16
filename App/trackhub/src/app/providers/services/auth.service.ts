@@ -1,13 +1,10 @@
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, map, of, tap } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable } from "rxjs";
+import { catchError, map, tap } from 'rxjs/operators';
 
-class AppUser {
-    public email!: string;
-    public firstName!: string;
-    public lastName!: string;
-    public photoUrl!: string;
+class GoogleAuth {
     public idToken!: string;
 }
 
@@ -16,35 +13,14 @@ class AppUser {
 })
 export class AuthService {
     private isAuthorized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private user: SocialUser | null; 
 
     constructor(
         private http: HttpClient,
         private googleAuthService: SocialAuthService
-    ) {
-        this.user = null;
-        this.googleAuthService.authState.subscribe((user: SocialUser) => {
-          console.log(user);
-          this.user = user;
+    ) { }
 
-          this.authExternalUser(this.user).subscribe(x => console.log(x));
-        });
-    }
-
-    public logInViaGoogle(): void {
-        this.googleAuthService
-            .signIn(GoogleLoginProvider.PROVIDER_ID)
-            .then((x: any) => console.log(x));
-    }
-
-    public logIn(): Observable<any> {
-        return of(this.googleAuthService
-            .signIn(GoogleLoginProvider.PROVIDER_ID)
-            .then((response: any) => { 
-                this.authExternalUser(response).subscribe(x => {
-
-                }) }
-            ));
+    public getGoogleAuthState(): Observable<SocialUser> {
+        return this.googleAuthService.authState;
     }
 
     public logOut(): Observable<boolean> {
@@ -56,15 +32,26 @@ export class AuthService {
         return this.isAuthorized$;
     }
 
-    private authExternalUser(user: any): Observable<any> {
-        let appUser: AppUser = {
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            photoUrl: user.photoUrl,
-            idToken: user.idToken
-        };
+    public authExternalUser(user: any): Observable<string> {
+        const headers: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
 
-        return this.http.post<any>('https://localhost:7012/google-login', appUser);
+        const payload: GoogleAuth = {
+            idToken: user.idToken
+        }
+
+        return this.http.post<string>('http://localhost:5044/api/auth/google-login', payload, { headers, responseType: 'text' as 'json' })
+            .pipe(
+                map(result => {
+                    this.isAuthorized$.next(true);
+                    localStorage.setItem('access_token', result);
+                    return result;
+                }),
+                catchError((err, caught) => {
+                    console.error(err);
+                    return EMPTY;
+                })
+            )
     }
 }

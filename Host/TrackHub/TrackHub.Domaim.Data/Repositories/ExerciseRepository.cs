@@ -10,33 +10,33 @@ internal class ExerciseRepository : IExerciseRepository
 {
     private const string ExerciseContainerType = "exercise";
 
-    private readonly ICosmosDbContext _context;
+    private readonly Container _container;
 
     public ExerciseRepository(ICosmosDbContext context)
     {
-        _context = context;
+        _container = context.GetContainer(ExerciseContainerType);
     }
 
     public async Task UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken)
     {
-        await _context.Container.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
+        await _container.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
     }
 
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
-        await _context.Container.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
+        await _container.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
     }
 
     public async Task<Exercise> GetExerciseByIdAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
-        var response = await _context.Container.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
+        var response = await _container.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
 
         return response.Resource;
     }
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken)
     {                
-        var matches = _context.Container.GetItemLinqQueryable<Exercise>()
+        var matches = _container.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId && x.EntityType == ExerciseContainerType);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())

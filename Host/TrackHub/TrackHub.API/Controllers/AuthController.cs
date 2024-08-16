@@ -1,69 +1,101 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using TrackHub.Domain.Entities;
+using TrackHub.Domain.Repositories;
 using TrackHub.Web.Models;
+using TrackHub.Web.Utilities;
 
 namespace TrackHub.Web.Controllers;
 
 [Route("api/[controller]")]
 public class AuthController : Controller
 {
-    private IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
+    private readonly IUserRepository _userRepository;
+    private readonly JwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, IUserRepository userRepository)
     {
         _configuration = configuration;
+        _userRepository = userRepository;
+        _jwtTokenGenerator = new JwtTokenGenerator(_configuration["Authentication:Jwt:PrivateKey"]!);
     }
 
-    [AllowAnonymous]
     [HttpPost]
-    [Route("/google-login")]
-    public async Task<GoogleJsonWebSignature.Payload> GoogleSignIn([FromBody] SocialUser socialUser)
+    [AllowAnonymous]
+    [Route("google-login")]
+    [ProducesResponseType(typeof(string), 200)]
+    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthModel model)
     {
         try
         {
-            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            var settings = new GoogleJsonWebSignature.ValidationSettings();
+            settings.Audience = new List<string>() { _configuration["Authentication:Google:ClientId"]! };
+            
+            var googlePayload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken, settings);
+            if (googlePayload != null)
             {
-                Audience = new List<string>() { _configuration["Authentication:Google:ClientId"]! }
-            };
-            var payload = await GoogleJsonWebSignature.ValidateAsync(socialUser.IdToken, settings);
+                var user = await GetStoredUser(googlePayload);
+                var token = _jwtTokenGenerator.CreateUserAuthToken(user);          
 
-            return payload;
+                return Ok(token);
+            }
+            else
+            {
+                return BadRequest("Invalid google token.");
+            }            
         }
         catch (Exception ex)
         {
-            //log an exception
-            return null;
+            return StatusCode(500, "Internal error.\n" + ex.Message);
         }
-
-        /*  var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-
-          return Challenge(properties, GoogleDefaults.AuthenticationScheme);*/
     }
 
-    [AllowAnonymous]
     [HttpGet]
-    [Route("/google-response")]
-    public async Task<IActionResult> GoogleResponseAsync()
-    {
-        var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        if (result == null)
-            return BadRequest();
-
-        return Ok();
-    }
-
     [Authorize]
-    [HttpGet]
-    [Route("/logout")]
+    [Route("logout")]
     public async Task<IActionResult> LogoutAsync()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
 
         return Ok();
+    }
+
+    private async Task<SocialUser> GetStoredUser(GoogleJsonWebSignature.Payload payload)
+    {
+        var storedUser = _userRepository.GetUserByEmailAsync(payload.Email, CancellationToken.None).Result;
+        if (storedUser == null)
+        {
+            var user = new User()
+            {
+                UserId = Guid.NewGuid().ToString(),
+                Email = payload.Email,
+                FullName = $"{payload.GivenName} {payload.FamilyName}",
+                PhotoUrl = payload.Picture,
+                RegistrationDate = DateTime.UtcNow,
+                LastEntranceDate = DateTime.UtcNow
+            };
+
+            storedUser = await _userRepository.RegistrateUser(user, CancellationToken.None);
+            if (storedUser == null)
+            {
+                throw new Exception("User registration failed.");
+            }
+        }
+        /*else
+        {
+            storedUser.LastEntranceDate = DateTime.UtcNow;
+            await _userRepository.UpdateUserAsync(storedUser, CancellationToken.None);
+        }*/
+
+        return new SocialUser()
+        {
+            Email = storedUser.Email,
+            FullName = storedUser.FullName,
+            PhotoUrl = storedUser.PhotoUrl
+        };
     }
 }

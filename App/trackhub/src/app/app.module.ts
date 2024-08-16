@@ -6,12 +6,13 @@ import { CommitService } from './providers/services/commit.service';
 import { AppContainerComponent } from './moduls/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { AuthInterceptor } from './providers/interceptors/auth.intercaptors';
+import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
 import { PermissionsService } from './providers/guards/auth.guard';
 import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
 import { ExerciseListService } from './providers/services/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,11 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
             deps: [Router],
             multi: true
         },        
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        },
         {
             provide: 'SocialAuthServiceConfig',
             useValue: {

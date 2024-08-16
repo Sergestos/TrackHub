@@ -3,6 +3,6 @@
 namespace TrackHub.CosmosDb;
 
 public interface ICosmosDbContext
-{
-    Container Container { get; }
+{    
+    Container GetContainer(string containerName);
 }

@@ -14,16 +14,14 @@ public class CosmosDbClient : ICosmosDbContext
 
     private CosmosClient Client => _client ??= new CosmosClientBuilder(_options.AccoutEndpoint).Build();
 
-    public Container Container => _container ??= GetContainerFromOptions();
-
     public CosmosDbClient(IOptionsMonitor<CosmosClientOptions> options)
     {
         _options = options.CurrentValue;     
     }    
 
-    private Container GetContainerFromOptions()
+    public Container GetContainer(string containerName)
     {
         var dateBase = Client.GetDatabase(_options.DateBaseName);
-        return dateBase.GetContainer(_options.ExerciseContainerName);
+        return dateBase.GetContainer(containerName);
     }
 }

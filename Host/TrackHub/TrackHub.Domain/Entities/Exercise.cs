@@ -7,7 +7,7 @@ public class Exercise
     [JsonProperty("type")]
     public  string EntityType { get; } = "exercise";
 
-    [JsonProperty("exercise_id")]
+    [JsonProperty("id")]
     public required string ExerciseId { get; set; }
 
     [JsonProperty("user_id")]

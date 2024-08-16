@@ -14,6 +14,8 @@ public static class ServiceCollectionExtensions
         //services.Configure<CosmosClientOptions>(configuration.GetSection("CosmosDb"));
 
         services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
+
         services.AddTransient<IExerciseRepository, ExerciseRepository>();       
+        services.AddTransient<IUserRepository, UserRepository>();
     }
 }
