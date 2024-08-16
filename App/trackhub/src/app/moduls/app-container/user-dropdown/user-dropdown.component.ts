@@ -11,13 +11,13 @@ export class UserDropdownComponent implements OnInit {
     private isComponentReady: boolean = false;
 
     @Output()
-    public isUserSettingsAskedEmmiter: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public isUserMenuAskedEmmiter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @HostListener('document:click', ['$event'])
     public clickout(event: any) {
         if (this.isComponentReady) {
             if (!this.eRef.nativeElement.contains(event.target)) {
-                this.isUserSettingsAskedEmmiter.emit(false);
+                this.isUserMenuAskedEmmiter.emit(false);
             }
         }
     }
@@ -32,14 +32,14 @@ export class UserDropdownComponent implements OnInit {
     public ngOnInit(): void {
         setTimeout(() => {
             this.isComponentReady = true;            
-        }, 10);
+        }, 0);
     }
 
     public onLogout(): void {
         this.authService.logOut()
             .subscribe({
                 next: _ => {
-                    this.isUserSettingsAskedEmmiter.emit(false);
+                    this.isUserMenuAskedEmmiter.emit(false);
                     this.router.navigateByUrl('app/login');
                 },
                 error: err => {

@@ -1,7 +1,7 @@
 
 <main>
-    <ng-container *ngIf="isUserSettingsAsked">
-      <trh-user-dropdown (isUserSettingsAskedEmmiter)="onUserSettingsPanelMouseOut($event)"></trh-user-dropdown>
+    <ng-container *ngIf="isUserMenuAsked">
+      <trh-user-dropdown (isUserMenuAskedEmmiter)="onUserMenuPanelMouseOut($event)"></trh-user-dropdown>
     </ng-container>
     <div class="menu">
         <div class="logo">
@@ -23,7 +23,7 @@
                     <a routerLink="/app/commit">Commit</a>                
                 </div>   
             </div>                     
-            <i class="fa-solid fa-circle-user fa-xl menu-i" (click)="onSettingsDropDown()"></i>
+            <i class="fa-solid fa-circle-user fa-xl menu-i" (click)="onMenuDropDown()"></i>
         </ng-container>
     </div>
     <div class="content">

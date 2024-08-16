@@ -9,7 +9,7 @@ import { AuthService } from '../../providers/services/auth.service';
 })
 export class AppContainerComponent implements OnInit {
     public isAuthorized$: Observable<boolean> = new Observable<boolean>();
-    public isUserSettingsAsked: boolean = false;
+    public isUserMenuAsked: boolean = false;
 
     constructor(private authService: AuthService) { }
 
@@ -17,11 +17,11 @@ export class AppContainerComponent implements OnInit {
         this.isAuthorized$ = this.authService.isAuthorized(); 
     }
 
-    public onSettingsDropDown(): void { 
-        this.isUserSettingsAsked = !this.isUserSettingsAsked;
+    public onMenuDropDown(): void { 
+        this.isUserMenuAsked = !this.isUserMenuAsked;
     }
 
-    public onUserSettingsPanelMouseOut(event: any): void {
-        this.isUserSettingsAsked = false;
+    public onUserMenuPanelMouseOut(event: any): void {
+        this.isUserMenuAsked = false;
     }
 }
