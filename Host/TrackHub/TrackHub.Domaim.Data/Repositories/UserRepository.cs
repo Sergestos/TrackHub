@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
 using TrackHub.CosmosDb;
-using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 
 namespace TrackHub.Domain.Data.Repositories;
@@ -16,20 +15,16 @@ internal class UserRepository : IUserRepository
         _container = context.GetContainer(UserContainerType);
     }
 
-    public async Task<Entities.User?> GetUserByEmailAsync(string userEmail, CancellationToken cancellationToken)
+    public Entities.User? GetUserByEmail(string userEmail)
     {
-        ItemResponse<Entities.User>? response = null;
+        var result = _container.GetItemLinqQueryable<Entities.User>()
+            .Where(x => x.Email == userEmail)
+            .FirstOrDefault();
 
-        try
-        {
-            response = await _container.ReadItemAsync<Entities.User>(userEmail, new PartitionKey(userEmail), null, cancellationToken);            
-        }
-        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }        
-
-        return response?.Resource;
+        return result;
     }
 
-    public async Task<Entities.User?> RegistrateUser(Entities.User user, CancellationToken cancellationToken)
+    public async Task<Entities.User?> UpsertAsync(Entities.User user, CancellationToken cancellationToken)
     {
         ItemResponse<Entities.User>? response = null;
 
@@ -40,15 +35,5 @@ internal class UserRepository : IUserRepository
         catch (CosmosException ex) when(ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }        
 
         return response?.Resource;
-    }
-
-    public Task<Entities.User> UpdateUserAsync(Entities.User user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteUserAsync(string userId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
     }
 }

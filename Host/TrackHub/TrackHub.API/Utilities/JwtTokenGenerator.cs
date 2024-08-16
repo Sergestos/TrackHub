@@ -2,7 +2,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TrackHub.Web.Models;
+using TrackHub.Service.UserServices.Models;
+
 namespace TrackHub.Web.Utilities;
 
 internal sealed class JwtTokenGenerator

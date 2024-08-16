@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 namespace TrackHub.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ExerciseController : Controller
@@ -18,45 +21,17 @@ public class ExerciseController : Controller
     [ProducesResponseType(typeof(Exercise), 200)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
     {
-        var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, "string", cancellationToken);
+        var email = User.Claims.First(claim => claim.Type! == ClaimTypes.Email).Value;            
+        var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, email, cancellationToken);
 
         return Ok(result);
     }
 
-    /*  [HttpGet]
-      [ProducesResponseType(typeof(ExerciseDetailsViewModel), 200)]
-      public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
-      {
-          var result = await _exerciseRepository.GetByIdAsync(exerciseId, cancellationToken);
+    [HttpPost]
+    public async Task<IActionResult> PostAsync([FromBody] Exercise model, CancellationToken cancellationToken)
+    {     
+        await _exerciseRepository.UpsertExerciseAsync(model, cancellationToken);
 
-          return Ok(result);
-      }
-
-      [HttpGet]
-      [Route("list")]
-      [ProducesResponseType(typeof(IEnumerable<ExericeViewModel>), 200)]
-      public async Task<IActionResult> GetAllAsync([FromQuery] string userId, CancellationToken cancellationToken)
-      {
-          var result = await _exerciseRepository.GetAllByUserIdAsync(userId, cancellationToken);
-
-          return Ok(result);
-      }
-
-      [HttpPost]
-      [ProducesResponseType(201)]
-      public async Task<IActionResult> PostAsync([FromBody] ExerciseCreateModel model, CancellationToken cancellationToken)
-      {
-          await _exerciseRepository.CreateAsync(model, cancellationToken);
-
-          return StatusCode(201);
-      }
-
-      [HttpPut]
-      [ProducesResponseType(200)]
-      public async Task<IActionResult> UpdateAsync([FromBody] ExerciseUpdateModel model, CancellationToken cancellationToken)
-      {
-          await _exerciseRepository.UpdateAsync(model, cancellationToken);
-
-          return Ok();
-      }*/
+        return StatusCode(201);
+    }
 }

@@ -1,8 +1,8 @@
-﻿namespace TrackHub.Web.Models;
+﻿namespace TrackHub.Service.UserServices.Models;
 
 public class SocialUser
 {
-    public required string Email { get; set; }    
+    public required string Email { get; set; }
 
     public required string FullName { get; set; }
 

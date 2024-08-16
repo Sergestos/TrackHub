@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.AiCrawler", "Track
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.AiCrawler.Tests", "TrackHub.Ai.Tests\TrackHub.AiCrawler.Tests.csproj", "{182C73E8-0CB2-4120-B91A-AEA22DBF57F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service", "TrackHub.Service\TrackHub.Service.csproj", "{DD34D3A1-8930-448D-B391-650CD62B1CE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{182C73E8-0CB2-4120-B91A-AEA22DBF57F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{182C73E8-0CB2-4120-B91A-AEA22DBF57F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{182C73E8-0CB2-4120-B91A-AEA22DBF57F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD34D3A1-8930-448D-B391-650CD62B1CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD34D3A1-8930-448D-B391-650CD62B1CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD34D3A1-8930-448D-B391-650CD62B1CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD34D3A1-8930-448D-B391-650CD62B1CE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

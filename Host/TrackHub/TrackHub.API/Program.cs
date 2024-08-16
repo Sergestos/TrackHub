@@ -1,11 +1,16 @@
 using TrackHub.Domain.Data;
+using TrackHub.Service;
 using TrackHub.Web.Configurations;
+using TrackHub.Web.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAutoMapper(typeof(AppMapper));
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddCommonServices();
 builder.Services.AddCorsPolicy();
 
 builder.Services.AddControllers();
@@ -14,15 +19,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
+app.UseHttpsRedirection();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

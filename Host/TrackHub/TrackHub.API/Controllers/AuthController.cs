@@ -1,11 +1,9 @@
-﻿using Google.Apis.Auth;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Domain.Entities;
-using TrackHub.Domain.Repositories;
-using TrackHub.Web.Models;
+using TrackHub.Service.UserServices;
+using TrackHub.Service.UserServices.Models;
 using TrackHub.Web.Utilities;
 
 namespace TrackHub.Web.Controllers;
@@ -13,14 +11,16 @@ namespace TrackHub.Web.Controllers;
 [Route("api/[controller]")]
 public class AuthController : Controller
 {
+    private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
     private readonly JwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthController(IConfiguration configuration, IUserRepository userRepository)
+    public AuthController(IConfiguration configuration, IUserService userService, IMapper mapper)
     {
+        _mapper = mapper;
         _configuration = configuration;
-        _userRepository = userRepository;
+        _userService = userService;
         _jwtTokenGenerator = new JwtTokenGenerator(_configuration["Authentication:Jwt:PrivateKey"]!);
     }
 
@@ -28,7 +28,7 @@ public class AuthController : Controller
     [AllowAnonymous]
     [Route("google-login")]
     [ProducesResponseType(typeof(string), 200)]
-    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthModel model)
+    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthToken model, CancellationToken cancellationToken)
     {
         try
         {
@@ -37,8 +37,8 @@ public class AuthController : Controller
             
             var googlePayload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken, settings);
             if (googlePayload != null)
-            {
-                var user = await GetStoredUser(googlePayload);
+            {               
+                var user = await _userService.GetInsertedUserAsync(_mapper.Map<SocialUser>(googlePayload), cancellationToken);
                 var token = _jwtTokenGenerator.CreateUserAuthToken(user);          
 
                 return Ok(token);
@@ -53,49 +53,9 @@ public class AuthController : Controller
             return StatusCode(500, "Internal error.\n" + ex.Message);
         }
     }
+}
 
-    [HttpGet]
-    [Authorize]
-    [Route("logout")]
-    public async Task<IActionResult> LogoutAsync()
-    {
-        await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
-
-        return Ok();
-    }
-
-    private async Task<SocialUser> GetStoredUser(GoogleJsonWebSignature.Payload payload)
-    {
-        var storedUser = _userRepository.GetUserByEmailAsync(payload.Email, CancellationToken.None).Result;
-        if (storedUser == null)
-        {
-            var user = new User()
-            {
-                UserId = Guid.NewGuid().ToString(),
-                Email = payload.Email,
-                FullName = $"{payload.GivenName} {payload.FamilyName}",
-                PhotoUrl = payload.Picture,
-                RegistrationDate = DateTime.UtcNow,
-                LastEntranceDate = DateTime.UtcNow
-            };
-
-            storedUser = await _userRepository.RegistrateUser(user, CancellationToken.None);
-            if (storedUser == null)
-            {
-                throw new Exception("User registration failed.");
-            }
-        }
-        /*else
-        {
-            storedUser.LastEntranceDate = DateTime.UtcNow;
-            await _userRepository.UpdateUserAsync(storedUser, CancellationToken.None);
-        }*/
-
-        return new SocialUser()
-        {
-            Email = storedUser.Email,
-            FullName = storedUser.FullName,
-            PhotoUrl = storedUser.PhotoUrl
-        };
-    }
+public class GoogleAuthToken
+{
+    public required string IdToken { get; set; }
 }
