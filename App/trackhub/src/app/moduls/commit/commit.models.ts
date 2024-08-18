@@ -4,7 +4,7 @@ export class RecordModel {
     public author?: string | null;
     public recordType?: string;
     public duration?: number;
-    public bpm?: number;
+    public bitsPerMinute?: number;
     public playType?: string;
     public isRecorded?: boolean;
 }

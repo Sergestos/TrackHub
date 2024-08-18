@@ -23,7 +23,7 @@ enum RecordStatusType {
     styleUrls: ['./exercise.component.css']
 })
 export class ExerciseComponent implements OnInit {
-    public recordTypes: string[] = [ 'Warmup', 'Song', 'Improvisation', 'Exercise', 'Composition' ]
+    public recordTypes: string[] = [ 'Warmup', 'Song', 'Improvisation', 'Exercise', 'Composing' ]
     public playTypes: string[] = [ 'Rhythm', 'Solo', 'Both' ]
 
     @Input()

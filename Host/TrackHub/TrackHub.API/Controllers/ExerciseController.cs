@@ -2,22 +2,24 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TrackHub.Domain.Entities;
-using TrackHub.Domain.Repositories;
+using TrackHub.Service.ExerciseServices;
+using TrackHub.Service.ExerciseServices.Models;
+
 namespace TrackHub.API.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ExerciseController : Controller
 {
-    private readonly IExerciseRepository _exerciseRepository;
+    private readonly IExerciseService _exerciseService;
 
-    public ExerciseController(IExerciseRepository exerciseRepository)
+    public ExerciseController(IExerciseService exerciseService)
     {
-        _exerciseRepository = exerciseRepository;
+        _exerciseService = exerciseService;
     }
 
-    [HttpGet]
+    /*[HttpGet]
     [ProducesResponseType(typeof(Exercise), 200)]
     public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
     {
@@ -25,13 +27,15 @@ public class ExerciseController : Controller
         var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, email, cancellationToken);
 
         return Ok(result);
-    }
+    }*/
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync([FromBody] Exercise model, CancellationToken cancellationToken)
-    {     
-        await _exerciseRepository.UpsertExerciseAsync(model, cancellationToken);
+    [ProducesResponseType(typeof(Exercise), 201)]
+    public async Task<IActionResult> PostAsync([FromBody] CreateExerciseModel model, CancellationToken cancellationToken)
+    {
+        var email = User.Claims.First(claim => claim.Type! == ClaimTypes.Email).Value;
+        var result = await _exerciseService.CreateExercise(model, email, cancellationToken);
 
-        return StatusCode(201);
+        return StatusCode(201, result);
     }
 }

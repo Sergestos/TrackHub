@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ExerciseModel, RecordModel } from '../../moduls/commit/commit.models';
 
@@ -8,7 +8,12 @@ export class CommitService {
     constructor(private http: HttpClient) { }
 
     public saveExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
-        return of();
+        const headers: HttpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+
+        const url = 'http://localhost:5044/api/exercise';
+        return this.http.post<any>(url, exerciseModel, { headers, responseType: 'text' as 'json' })
     }
 
     public getExerciseRecords(exerciseId: number): Observable<RecordModel[]> {

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using TrackHub.Domain.Enums;
 
 namespace TrackHub.Domain.Entities;
@@ -6,16 +7,12 @@ namespace TrackHub.Domain.Entities;
 public record Record
 {
     [JsonProperty("record_type")]
-    public required  RecordType RecordType { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public required RecordType RecordType { get; set; }
 
     [JsonProperty("play_type")]
-    public required  PlayType PlayType { get; set; }
-
-    [JsonProperty("is_publicly_searchable")]
-    public required bool IsPubliclySearchable { get; set; }
-
-    [JsonProperty("is_recorded")]
-    public required bool IsRecorded { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public required PlayType PlayType { get; set; }
 
     [JsonProperty("play_duration")]
     public required int PlayDuration { get; set; }
@@ -26,6 +23,12 @@ public record Record
     [JsonProperty("author")]
     public string? Author { get; set; }
 
+    [JsonProperty("is_publicly_searchable")]
+    public bool IsPubliclySearchable { get; set; }
+
     [JsonProperty("bits_per_minute")]
-    public int? BitsPerMinute { get; set; }        
+    public int? BitsPerMinute { get; set; }
+
+    [JsonProperty("is_recorded")]
+    public bool IsRecorded { get; set; }
 }

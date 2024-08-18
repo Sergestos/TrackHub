@@ -17,27 +17,28 @@ internal class ExerciseRepository : IExerciseRepository
         _container = context.GetContainer(ExerciseContainerType);
     }
 
-    public async Task UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken)
+    public async Task<Exercise> UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken) 
     {
-        await _container.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
+        return await _container.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
     }
 
-    public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
+    public async Task<Exercise?> GetExerciseByIdAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
-        await _container.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
-    }
+        ItemResponse<Exercise>? response = null;
 
-    public async Task<Exercise> GetExerciseByIdAsync(string exerciseId, string userId, CancellationToken cancellationToken)
-    {
-        var response = await _container.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
+        try
+        {
+            response = await _container.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
+        }
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }
 
-        return response.Resource;
+        return response?.Resource;
     }
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken)
     {                
         var matches = _container.GetItemLinqQueryable<Exercise>()
-            .Where(x => x.UserId == userId && x.EntityType == ExerciseContainerType);
+            .Where(x => x.UserId == userId);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
         {
@@ -53,5 +54,20 @@ internal class ExerciseRepository : IExerciseRepository
 
             return result;
         }            
+    }
+
+    public Exercise? GetExerciseByDate(DateOnly date, string userId, CancellationToken cancellationToken)
+    {
+        var result = _container.GetItemLinqQueryable<Exercise>()
+            .Where(x => x.UserId == userId && 
+                   x.PlayDate.Year == date.Year && x.PlayDate.Month == date.Month && x.PlayDate.Day == date.Day)
+            .FirstOrDefault();
+
+        return result;
+    }
+
+    public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
+    {
+        await _container.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
     }
 }

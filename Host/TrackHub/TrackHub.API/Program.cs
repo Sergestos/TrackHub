@@ -26,10 +26,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
+app.MapControllers();
 app.UseHttpsRedirection();
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
 
 app.Run();

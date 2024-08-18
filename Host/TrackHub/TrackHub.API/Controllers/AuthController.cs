@@ -55,7 +55,7 @@ public class AuthController : Controller
     }
 }
 
-public class GoogleAuthToken
+public record GoogleAuthToken
 {
     public required string IdToken { get; set; }
 }

@@ -5,7 +5,7 @@ namespace TrackHub.Domain.Entities;
 public class Exercise
 {
     [JsonProperty("type")]
-    public  string EntityType { get; } = "exercise";
+    public string EntityType { get; } = "exercise";
 
     [JsonProperty("id")]
     public required string ExerciseId { get; set; }
@@ -17,5 +17,5 @@ public class Exercise
     public required Record[] Records { get; set; }
 
     [JsonProperty("play_date")]
-    public required DateTimeOffset PlayDate { get; set; }
+    public required PlayDate PlayDate { get; set; }
 }
