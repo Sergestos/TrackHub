@@ -7,26 +7,23 @@ namespace TrackHub.Service.ExerciseServices;
 
 internal class ExerciseService : IExerciseService
 {
-    private readonly IUserRepository _userRepository;
     private readonly IExerciseRepository _exerciseRepository;
 
-    public ExerciseService(IUserRepository userRepository, IExerciseRepository exerciseRepository)
+    public ExerciseService(IExerciseRepository exerciseRepository)
     {
-        _userRepository = userRepository;
         _exerciseRepository = exerciseRepository;
     }
 
-    public async Task<Exercise> CreateExercise(CreateExerciseModel exerciseModel, string userEmail, CancellationToken cancellationToken)
+    public async Task<Exercise> CreateExercise(CreateExerciseModel exerciseModel, string userId, CancellationToken cancellationToken)
     {
-        var user = _userRepository.GetUserByEmail(userEmail)!;
-        var exercise = _exerciseRepository.GetExerciseByDate(DateOnly.FromDateTime(exerciseModel.PlayDate), user.UserId, cancellationToken);
+        var exercise = _exerciseRepository.GetExerciseByDate(DateOnly.FromDateTime(exerciseModel.PlayDate), userId, cancellationToken);
         if (exercise != null)
             throw new InvalidOperationException("Exercise already exists for this date.");        
 
         var newExercise = new Exercise()
         {
             ExerciseId = Guid.NewGuid().ToString(),            
-            UserId = user.UserId,
+            UserId = userId,
             PlayDate = new PlayDate()
             {
                 Year = exerciseModel.PlayDate.Year,

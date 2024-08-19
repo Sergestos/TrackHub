@@ -53,9 +53,9 @@ public class AuthController : Controller
             return StatusCode(500, "Internal error.\n" + ex.Message);
         }
     }
-}
 
-public record GoogleAuthToken
-{
-    public required string IdToken { get; set; }
+    public record GoogleAuthToken
+    {
+        public required string IdToken { get; set; }
+    }
 }

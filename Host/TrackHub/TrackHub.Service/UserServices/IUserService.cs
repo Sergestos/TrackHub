@@ -1,8 +1,9 @@
-﻿using TrackHub.Service.UserServices.Models;
+﻿using TrackHub.Domain.Entities;
+using TrackHub.Service.UserServices.Models;
 
 namespace TrackHub.Service.UserServices;
 
 public interface IUserService
 {
-    Task<SocialUser> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken);
+    Task<User> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken);
 }

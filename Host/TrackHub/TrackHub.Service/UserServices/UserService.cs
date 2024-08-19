@@ -13,7 +13,7 @@ internal class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<SocialUser> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken)
+    public async Task<User> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken)
     {
         User? user = _userRepository.GetUserByEmail(userModel.Email);
         if (user == null)
@@ -28,7 +28,7 @@ internal class UserService : IUserService
                 LastEntranceDate = DateTime.UtcNow
             };
 
-            var result = await _userRepository.UpsertAsync(newUser, cancellationToken);
+            user = await _userRepository.UpsertAsync(newUser, cancellationToken);
         }
         else
         {
@@ -36,6 +36,6 @@ internal class UserService : IUserService
             await _userRepository.UpsertAsync(user, cancellationToken);
         }
 
-        return userModel;
+        return user!;
     }
 }

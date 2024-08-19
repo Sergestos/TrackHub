@@ -5,5 +5,5 @@ namespace TrackHub.Service.ExerciseServices;
 
 public interface IExerciseService
 {
-    Task<Exercise> CreateExercise(CreateExerciseModel exerciseModel, string userEmail, CancellationToken cancellationToken);
+    Task<Exercise> CreateExercise(CreateExerciseModel exerciseModel, string userId, CancellationToken cancellationToken);
 }

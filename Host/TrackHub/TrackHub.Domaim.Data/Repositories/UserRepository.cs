@@ -15,6 +15,15 @@ internal class UserRepository : IUserRepository
         _container = context.GetContainer(UserContainerType);
     }
 
+    public Entities.User? GetUserById(string userId)
+    {
+        var result = _container.GetItemLinqQueryable<Entities.User>()
+            .Where(x => x.UserId == userId)
+            .FirstOrDefault();
+
+        return result;
+    }
+
     public Entities.User? GetUserByEmail(string userEmail)
     {
         var result = _container.GetItemLinqQueryable<Entities.User>()
@@ -23,7 +32,6 @@ internal class UserRepository : IUserRepository
 
         return result;
     }
-
     public async Task<Entities.User?> UpsertAsync(Entities.User user, CancellationToken cancellationToken)
     {
         ItemResponse<Entities.User>? response = null;

@@ -35,6 +35,27 @@ internal class ExerciseRepository : IExerciseRepository
         return response?.Resource;
     }
 
+    public async Task<IEnumerable<Exercise>> GetExercisesByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
+    {
+        var matches = _container.GetItemLinqQueryable<Exercise>()
+            .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);
+
+        using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
+        {
+            var result = new List<Exercise>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<Exercise> iterationResponse = await linqFeed.ReadNextAsync();
+                foreach (Exercise item in iterationResponse)
+                {
+                    result.Add(item);
+                }
+            }
+
+            return result;
+        }
+    }
+
     public async Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken)
     {                
         var matches = _container.GetItemLinqQueryable<Exercise>()

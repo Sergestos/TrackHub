@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TrackHub.Domain.Entities;
 using TrackHub.Service.UserServices.Models;
 
 namespace TrackHub.Web.Utilities;
@@ -18,12 +19,12 @@ internal sealed class JwtTokenGenerator
         _key = new SymmetricSecurityKey(key);
     }
 
-    public string CreateUserAuthToken(SocialUser socialUser)
+    public string CreateUserAuthToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = GenerateClaims(socialUser),
+            Subject = GenerateClaims(user),
             Expires = DateTime.UtcNow.AddMinutes(20),
             SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature)
         };
@@ -31,12 +32,13 @@ internal sealed class JwtTokenGenerator
         return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
     }
 
-    private ClaimsIdentity GenerateClaims(SocialUser socialUser)
+    private ClaimsIdentity GenerateClaims(User user)
     {
         var claims = new ClaimsIdentity();
-        claims.AddClaim(new Claim(ClaimTypes.Email, socialUser.Email));
-        claims.AddClaim(new Claim(ClaimTypes.Name, socialUser.FullName));
-        claims.AddClaim(new Claim(ClaimTypes.Uri, socialUser.PhotoUrl));
+        claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId));
+        claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+        claims.AddClaim(new Claim(ClaimTypes.Name, user.FullName));
+        claims.AddClaim(new Claim(ClaimTypes.Uri, user.PhotoUrl));
 
         return claims;
     }
