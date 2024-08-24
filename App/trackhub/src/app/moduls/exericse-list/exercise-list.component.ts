@@ -52,7 +52,7 @@ export class ExerciseListComponent implements OnInit {
 	}
 
 	public onShowNonPlayedChanged(isExpandAsksed: boolean): void {
-		this.exercises.forEach(x => x.isHidden = isExpandAsksed);
+		this.exercises.filter(x => x.exerciseId == "-1").forEach(x => x.isHidden = !isExpandAsksed);
 	}
 
 	public onExpandChanged(isExpandAsksed: boolean): void {
@@ -69,11 +69,7 @@ export class ExerciseListComponent implements OnInit {
 					x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
 				});
 
-				if (filter.showNonPlayed) {
-					this.fillNonPlayedDays(filter.year, filter.month, this.exercises);			
-				}
-
-				this.exercises.sort((a, b) => new Date(b.playDate) >= a.playDate ? -1 : 1);
+				this.fillNonPlayedDays(filter.year, filter.month, this.exercises);							
 
 				if (filter.showExpanded) {
 					// this.exercises.filter(x => x.exerciseId != '-1')
@@ -88,9 +84,12 @@ export class ExerciseListComponent implements OnInit {
 				this.exercises.push({
 					exerciseId: "-1",
 					playDate: dateToFill,
-					records: null			
+					records: null,
+					isHidden: false
 				});
 			}
 		}
+
+		this.exercises.sort((a, b) => new Date(b.playDate) >= a.playDate ? -1 : 1);
 	}
 }

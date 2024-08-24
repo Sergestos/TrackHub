@@ -41,11 +41,11 @@ export class DateFilterComponent implements OnInit {
     }
     
     public onExpandAllClicked(event: any): void {
-        this.onExpandAllEmitter.emit(event.target.value);
+        this.onExpandAllEmitter.emit(event.target.checked);
     }
 
     public onShowNonPlayedClicked(event: any): void {
-        this.onShowNonPlayedEmitter.emit(event.target.value);
+        this.onShowNonPlayedEmitter.emit(event.target.checked);
     }
 
     public onMonthClick(monthIndex: number): void {
