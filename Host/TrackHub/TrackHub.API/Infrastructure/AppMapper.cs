@@ -21,5 +21,12 @@ public class AppMapper : Profile
         CreateMap<Exercise, ExerciseListItem>()
             .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.GetPlayDateAsDateTime()))
             .ForMember(x => x.Records, opt => opt.MapFrom(src => src.Records));
+
+        CreateMap<Exercise, ExerciseView>()
+            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.GetPlayDateAsDateTime()));
+
+        CreateMap<Record, RecordView>()
+            .ForMember(x => x.RecordType, opt => opt.MapFrom(src => src.RecordType.ToString()))
+            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => src.PlayType.ToString()));
     }
 }

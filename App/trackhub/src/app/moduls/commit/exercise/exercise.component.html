@@ -5,7 +5,7 @@
         </div>
         <div class="input-wrapper h-duration">
             <input type="text" class="input-text" placeholder="played minute(s)" 
-                [(ngModel)]="model.duration" (ngModelChange)="onModelChanged()" 
+                [(ngModel)]="model.playDuration" (ngModelChange)="onModelChanged()" 
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />            
         </div> 
         <div class="input-wrapper h-type">        

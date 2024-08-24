@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ExerciseModel, RecordModel } from '../../moduls/commit/commit.models';
 
@@ -16,39 +16,12 @@ export class CommitService {
         return this.http.post<any>(url, exerciseModel, { headers, responseType: 'text' as 'json' })
     }
 
-    public getExerciseRecords(exerciseId: number): Observable<RecordModel[]> {
-        return of([
-           {
-                id: 1,
-                name: 'Father of Nutella',
-                author: 'Beertalica',
-                rectorType: 'song',
-                duration: 30,
-                bpm: 120,
-                playType: 'solo',
-                isRecorded: false
-           },
-           {
-                id: 2,
-                name: 'Middle of the Night',
-                author: 'Beertalica',
-                rectorType: 'song',
-                duration: 30,
-                bpm: 120,
-                playType: 'solo',
-                isRecorded: false
-            },
-            {
-                id: 3,
-                name: 'Master of Cookies',
-                author: 'Nontallica',
-                rectorType: 'song',
-                duration: 30,
-                bpm: 120,
-                playType: 'rhythm',
-                isRecorded: false
-            } 
-        ]);
+    public getExerciseRecords(exerciseId: string): Observable<ExerciseModel> {
+        const url = 'http://localhost:5044/api/exercise';
+        const params = new HttpParams()
+            .set('exerciseId', exerciseId)
+
+        return this.http.get<ExerciseModel>(url, { params});
     }
 
     public getSongSuggestrions(pattern: string): Observable<string[]> {

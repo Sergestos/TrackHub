@@ -26,21 +26,21 @@ public class ExerciseController : TrackHubController
         _mapper = mapper;
     }
 
-    /* [HttpGet]
-     [ProducesResponseType(typeof(Exercise), 200)]
+     [HttpGet]
+     [ProducesResponseType(typeof(ExerciseView), 200)]
      public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
-     {
-         var email = User.Claims.First(claim => claim.Type! == ClaimTypes.Email).Value;            
-         var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, email, cancellationToken);
+     {         
+         var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, CurrentUserId, cancellationToken);
 
-         return Ok(result);
-     }*/
-
+         return Ok(_mapper.Map<ExerciseView>( result));
+     }
+    
     [HttpGet]
+    [Route("list")]
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]
     public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int year, [FromQuery] int month, CancellationToken cancellationToken)
     {
-        var result = await _exerciseRepository.GetExercisesByDateAsync(year, month, CurrentUserId, cancellationToken);
+        var result = await _exerciseRepository.GetExerciseListByDateAsync(year, month, CurrentUserId, cancellationToken);
 
         return Ok(_mapper.Map<IEnumerable<ExerciseListItem>>(result));
     }

@@ -35,7 +35,7 @@ internal class ExerciseRepository : IExerciseRepository
         return response?.Resource;
     }
 
-    public async Task<IEnumerable<Exercise>> GetExercisesByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
         var matches = _container.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);

@@ -14,7 +14,7 @@ export class ExerciseListService {
     }
 
     public getFilteredExercises(year: number, month: number): Observable<ExerciseItemView[]> {
-        const url = 'http://localhost:5044/api/exercise';
+        const url = 'http://localhost:5044/api/exercise/list';
         const params = new HttpParams()
             .set('year', year)
             .set('month', month);

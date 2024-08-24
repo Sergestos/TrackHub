@@ -61,7 +61,7 @@ export class ExerciseComponent implements OnInit {
     public ngOnInit(): void {
         this.initialModel = structuredClone(this.model);
 
-        if (this.model.id) {
+        if (this.model.recordId) {
             this.currectRecordStatusType = RecordStatusType.saved;
         } else {
             this.currectRecordStatusType = RecordStatusType.draft;
@@ -116,7 +116,7 @@ export class ExerciseComponent implements OnInit {
     }
 
     public onModelChanged(): void {
-        if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.id) {
+        if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.recordId) {
             this.currectRecordStatusType = RecordStatusType.changed;
         }
     }
