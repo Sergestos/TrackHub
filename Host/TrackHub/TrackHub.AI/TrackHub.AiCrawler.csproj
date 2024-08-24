@@ -10,11 +10,11 @@
     <PackageReference Include="OpenAI" Version="1.11.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="PromtModels\" />
     <None Remove="OpenAI\" />
+    <None Remove="PromptModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PromtModels\" />
     <Folder Include="OpenAI\" />
+    <Folder Include="PromptModels\" />
   </ItemGroup>
 </Project>

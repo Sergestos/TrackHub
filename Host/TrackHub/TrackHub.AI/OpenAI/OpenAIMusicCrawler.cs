@@ -1,14 +1,14 @@
-﻿using TrackHub.AiCrawler.PromtModels;
+﻿using TrackHub.AiCrawler.PromptModels;
 
 namespace TrackHub.AiCrawler.OpenAI;
 
-internal class OpenAIMusicCrawler : AbstractConversation, IMusicCrawler
+public class OpenAIMusicCrawler : AbstractConversation, IAiMusicCrawler
 {
     public async Task<IEnumerable<string>> SearchSongsAsync(SongPromptArgs args, CancellationToken token)
     {        
         var conversation = GetConversation(args);
 
-        conversation.AppendUserInput("Search for existing songs. Return names of these songs.");
+        conversation.AppendUserInput(Prompts.SearchForSongs);        
 
         if (args.AlbumsToInclude != null && args.AlbumsToInclude.Any())
             conversation.AppendUserInput(Prompts.IncludeSongsFromAlbums + args.AlbumsToInclude.Select(x => x + ";"));
@@ -23,7 +23,7 @@ internal class OpenAIMusicCrawler : AbstractConversation, IMusicCrawler
     {
         var conversation = GetConversation(args);
 
-        conversation.AppendUserInput("Search for existing authors of Music bands. Return names of these bands.");
+        conversation.AppendUserInput(Prompts.SearchForAuthors);
 
         return await GetAiResponse(conversation);
     }

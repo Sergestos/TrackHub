@@ -1,4 +1,4 @@
-﻿namespace TrackHub.AiCrawler.PromtModels;
+﻿namespace TrackHub.AiCrawler.PromptModels;
 
 public class SongPromptArgs : GeneralPromptArgs
 {    

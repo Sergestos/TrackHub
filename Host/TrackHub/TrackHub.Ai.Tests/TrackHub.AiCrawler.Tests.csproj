@@ -9,5 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.AI\TrackHub.AI.csproj" />
+    <ProjectReference Include="..\TrackHub.AI\TrackHub.AiCrawler.csproj" />
   </ItemGroup>
 </Project>
