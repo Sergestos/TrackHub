@@ -32,6 +32,7 @@ internal class ExerciseService : IExerciseService
             },
             Records = exerciseModel.Records.Select(record => new Record()
             {
+                RecordId = Guid.NewGuid().ToString(),
                 RecordType = (RecordType)Enum.Parse(typeof(RecordType), record.RecordType),
                 PlayType = (PlayType)Enum.Parse(typeof(PlayType), record.PlayType),
                 Name = record.Name,

@@ -1,6 +1,6 @@
 export class ExerciseItem {
     public exerciseId!: string;
-    public totalPlayed!: number; 
+    public records: RecordDetailsItem[] | null = null; 
     public playDate!: Date;
 }
 
@@ -8,18 +8,14 @@ export class ExerciseItemView extends ExerciseItem {
     public isExpanded?: boolean = false;
     public isHidden?: boolean = false;
     public IsPlayedDay?: boolean = true;
-
-    public exerciseDetails?: ExerciseDetails[];
+    public totalPlayed?: number = 0;
 }
 
-export class ExerciseDetails {
-    public exerciseId!: string;
-    public exerciseType!: string;
+export class RecordDetailsItem {    
+    public recordType!: string;
     public duration!: number;
-    public itemName!: string;
-    public authorName!: string;
-    public isRecorded?: boolean;
-    public bpm?: number;
+    public name!: string;
+    public author!: string;    
 }
 
 export class UserExerciseProfile {

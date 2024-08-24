@@ -1,8 +1,7 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { ExerciseDetails, ExerciseItem, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
-import { randomInt } from "crypto";
+import { ExerciseItemView, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
 
 @Injectable()
 export class ExerciseListService {
@@ -14,42 +13,12 @@ export class ExerciseListService {
         })
     }
 
-    public getFilteredExercises(year: number, month: number): Observable<ExerciseItem[]> {
-        return of([
-            {
-                exerciseId: "1",
-                totalPlayed: 20,
-                playDate: new Date(year, month - 1, Math.floor(Math.random() * 30))
-            },
-            {
-                exerciseId: "2",
-                totalPlayed: 30,
-                playDate: new Date(year, month - 1, Math.floor(Math.random() * 30))
-            }
-        ])
-    }
+    public getFilteredExercises(year: number, month: number): Observable<ExerciseItemView[]> {
+        const url = 'http://localhost:5044/api/exercise';
+        const params = new HttpParams()
+            .set('year', year)
+            .set('month', month);
 
-    public getExerciseDetails(exerciseId: string): Observable<ExerciseDetails[]> {
-        // return this.http.get<string[]>('https://jsonplaceholder.typicode.com/todos');
-        return of([
-            {
-                exerciseId: "1",
-                exerciseType: "song",
-                duration: 10,
-                itemName: "master of batteries",
-                authorName: "Black Mega Slayer",
-                isRecoded: false,
-                bpm: 140
-            },
-            {
-                exerciseId: "1",
-                exerciseType: "song",
-                duration: 10,
-                itemName: "master of batteries",
-                authorName: "Black Mega Slayer",
-                isRecoded: false,
-                bpm: 140
-            }
-        ])
-    }
+        return this.http.get<ExerciseItemView[]>(url, { params});
+    }    
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ExerciseListService } from "../../../providers/services/exercise-list.service";
 import { Observable, of } from "rxjs";
-import { ExerciseDetails } from "../exercise-list.models";
+import { RecordDetailsItem } from "../exercise-list.models";
 
 @Component({
 	selector: 'trh-details-exercise-card',
@@ -13,17 +13,15 @@ export class DetailsExerciseItemComponent implements OnInit {
 	public exerciseId!: string;
 
 	@Input()
-	public exerciseDetailsModels?: ExerciseDetails[];
+	public exerciseDetailsModels?: RecordDetailsItem[] | null;
 
-	public exerciseDetails$: Observable<ExerciseDetails[]> = new Observable<ExerciseDetails[]>();
+	public exerciseDetails$: Observable<RecordDetailsItem[]> = new Observable<RecordDetailsItem[]>();
 
 	constructor(private exerciseListService: ExerciseListService) { }
 
 	public ngOnInit(): void {
 		if (this.exerciseDetailsModels) {
 			this.exerciseDetails$ = of(this.exerciseDetailsModels);
-		} else {
-			this.exerciseDetails$ = this.exerciseListService.getExerciseDetails(this.exerciseId);
 		}
 	}
 }

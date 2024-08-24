@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TrackHub.Domain.Entities;
-using TrackHub.Service.UserServices.Models;
 
 namespace TrackHub.Web.Utilities;
 
@@ -35,7 +34,7 @@ internal sealed class JwtTokenGenerator
     private ClaimsIdentity GenerateClaims(User user)
     {
         var claims = new ClaimsIdentity();
-        claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId));
+        claims.AddClaim(new Claim(ClaimTypes.Sid, user.UserId));
         claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
         claims.AddClaim(new Claim(ClaimTypes.Name, user.FullName));
         claims.AddClaim(new Claim(ClaimTypes.Uri, user.PhotoUrl));

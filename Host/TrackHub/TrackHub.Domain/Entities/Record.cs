@@ -6,6 +6,9 @@ namespace TrackHub.Domain.Entities;
 
 public record Record
 {
+    [JsonProperty("record_id")]
+    public required string RecordId { get; set; }
+
     [JsonProperty("record_type")]
     [JsonConverter(typeof(StringEnumConverter))]
     public required RecordType RecordType { get; set; }

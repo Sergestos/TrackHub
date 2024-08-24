@@ -22,7 +22,7 @@
                 <div class="card" *ngIf="!item.isHidden">
                     <div class="grid-item grid-short-view">
                         <div class="grid-item-expand">
-                            <ng-container *ngIf="item.totalPlayed > 0">
+                            <ng-container *ngIf="item.totalPlayed! > 0">
                                 <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg" 
                                     *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>       
                                 <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg"
@@ -30,8 +30,8 @@
                             </ng-container>                                                                                           
                         </div>                
                         <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
-                        <p *ngIf="item.totalPlayed > 0" class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
-                        <div class="grid-item-actions" *ngIf="item.totalPlayed > 0">
+                        <p *ngIf="item.totalPlayed! > 0" class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
+                        <div class="grid-item-actions" *ngIf="item.totalPlayed! > 0">
                             <i class="fa-regular fa-pen-to-square fa-lg" (click)="onExerciseEdit(item)"></i>
                             <i class="fa-solid fa-xmark fa-lg i-remove" (click)="onRemoveItem(item)"></i>
                         </div>  
@@ -40,7 +40,7 @@
                         <div class="details-wrapper">
                             <trh-details-exercise-card 
                                 [exerciseId]="item.exerciseId"
-                                [exerciseDetailsModels]="item.exerciseDetails">
+                                [exerciseDetailsModels]="item.records">
                             </trh-details-exercise-card>
                         </div>
                     </ng-container>

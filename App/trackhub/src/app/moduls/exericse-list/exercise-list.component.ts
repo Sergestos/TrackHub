@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ExerciseItem, ExerciseItemView, FiltersModel as FilterModel } from "./exercise-list.models";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ExerciseListService } from "../../providers/services/exercise-list.service";
 
 @Component({
@@ -13,16 +13,26 @@ export class ExerciseListComponent implements OnInit {
  
 	constructor(
 		private router: Router,
+		private activeRoute: ActivatedRoute,
 		private exerciseListService: ExerciseListService) {
 		
 	}
 
-	public ngOnInit(): void {
-		this.setExerciseGrid({
-			year: 2024,
-			month: 6,
-			showNonPlayed: true
-		});
+	public ngOnInit(): void {		
+		this.activeRoute.queryParams.subscribe(params => {
+			let year: number;
+			let month: number;
+
+			const currentDate = new Date();
+			year = params['year'] || currentDate.getFullYear();
+			month = params['month'] || currentDate.getMonth() + 1;			
+
+			this.setExerciseGrid({
+				year: year,
+				month: month,
+				showNonPlayed: true
+			});
+		  });		
 	}	
 
 	public onCardExpand(exercise: ExerciseItemView): void {		
@@ -55,11 +65,15 @@ export class ExerciseListComponent implements OnInit {
 		this.exerciseListService.getFilteredExercises(filter.year, filter.month)
 			.subscribe(result => {				
 				this.exercises = result;	
+				this.exercises.forEach(x => {
+					x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
+				});
+
 				if (filter.showNonPlayed) {
 					this.fillNonPlayedDays(filter.year, filter.month, this.exercises);			
 				}
 
-				this.exercises.sort((a, b) => a.playDate >= b.playDate ? 1 : -1);
+				this.exercises.sort((a, b) => new Date(b.playDate) >= a.playDate ? -1 : 1);
 
 				if (filter.showExpanded) {
 					// this.exercises.filter(x => x.exerciseId != '-1')
@@ -70,11 +84,11 @@ export class ExerciseListComponent implements OnInit {
 	private fillNonPlayedDays(year: number, month: number, items: ExerciseItem[]): void {
 		for (let dayOfMonth = 1; dayOfMonth <= new Date(year, month, 0).getDate(); dayOfMonth++) {
 			let dateToFill = new Date(year, month - 1, dayOfMonth);
-			if (!items.some(x => x.playDate.getDate() == dateToFill.getDate())) {
+			if (!items.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
 				this.exercises.push({
 					exerciseId: "-1",
-					totalPlayed: 0,
-					playDate: dateToFill					
+					playDate: dateToFill,
+					records: null			
 				});
 			}
 		}

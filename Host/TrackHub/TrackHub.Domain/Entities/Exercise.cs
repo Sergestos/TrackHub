@@ -18,4 +18,9 @@ public class Exercise
 
     [JsonProperty("play_date")]
     public required PlayDate PlayDate { get; set; }
+
+    public DateTime GetPlayDateAsDateTime()
+    {
+        return new DateTime(PlayDate.Year, PlayDate.Month, PlayDate.Day);
+    }
 }
