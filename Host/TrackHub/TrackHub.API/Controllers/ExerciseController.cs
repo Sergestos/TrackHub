@@ -49,8 +49,30 @@ public class ExerciseController : TrackHubController
     [ProducesResponseType(typeof(Exercise), 201)]
     public async Task<IActionResult> PostAsync([FromBody] CreateExerciseModel model, CancellationToken cancellationToken)
     {
-        var result = await _exerciseService.CreateExercise(model, CurrentUserId, cancellationToken);
+        var result = await _exerciseService.CreateExerciseAsync(model, CurrentUserId, cancellationToken);
 
         return StatusCode(201, result);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(typeof(Exercise), 200)]
+    public async Task<IActionResult> PutAsync([FromBody] UpdateExerciseModel model, CancellationToken cancellationToken)
+    {
+        var result = await _exerciseService.UpdateExerciseAsync(model, CurrentUserId, cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpDelete]    
+    public async Task<IActionResult> DeleteAsync(string exerciseId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpDelete]
+    [Route("{exerciseId}/records")]
+    public async Task<IActionResult> DeleteRecordsAsync([FromRoute] string exerciseId, [FromBody] string[] recordId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
