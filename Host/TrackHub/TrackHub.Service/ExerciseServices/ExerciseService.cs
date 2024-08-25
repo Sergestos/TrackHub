@@ -37,7 +37,7 @@ internal class ExerciseService : IExerciseService
                 PlayType = (PlayType)Enum.Parse(typeof(PlayType), record.PlayType),
                 Name = record.Name,
                 Author = record.Author,
-                PlayDuration = record.Duration,
+                PlayDuration = record.PlayDuration,
                 BitsPerMinute = record.BitsPerMinute,
                 IsRecorded = record.IsRecorded
             }).ToArray()

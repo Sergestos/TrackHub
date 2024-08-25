@@ -36,7 +36,7 @@ public class ExerciseController : TrackHubController
      }
     
     [HttpGet]
-    [Route("list")]
+    [Route("list")]    
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]
     public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int year, [FromQuery] int month, CancellationToken cancellationToken)
     {
