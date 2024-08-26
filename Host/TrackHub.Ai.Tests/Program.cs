@@ -14,7 +14,7 @@ internal class Program
             AlbumsToInclude = null
         };
 
-        IAiMusicCrawler crawler = new OpenAIMusicCrawler();
+        IAiMusicCrawler crawler = new OpenAIMusicCrawler(null);
         var result = crawler.SearchSongsAsync(songPromptArgsargs, CancellationToken.None).Result;
 
         foreach (var item in result)

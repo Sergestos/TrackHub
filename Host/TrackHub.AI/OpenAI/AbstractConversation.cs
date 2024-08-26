@@ -1,4 +1,5 @@
-﻿using OpenAI_API;
+﻿using Microsoft.Extensions.Configuration;
+using OpenAI_API;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using TrackHub.AiCrawler.PromptModels;
@@ -9,6 +10,13 @@ public abstract class AbstractConversation
 {
     private static Model OpenAIMode = Model.GPT4;
     private static double Temperature = 0;
+
+    private readonly IConfiguration _configuration;
+
+    public AbstractConversation(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
 
     protected Conversation GetConversation(GeneralPromptArgs generalArgs)
     {
@@ -47,7 +55,7 @@ public abstract class AbstractConversation
 
     private Conversation BuildConversation()
     {
-        var apiToken = "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";
+        var apiToken = _configuration["OpenAI:ApiToken"];
         var api = new OpenAIAPI(new APIAuthentication(apiToken));
 
         Conversation chat = api.Chat.CreateConversation();

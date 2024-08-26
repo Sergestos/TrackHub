@@ -1,9 +1,12 @@
-﻿using TrackHub.AiCrawler.PromptModels;
+﻿using Microsoft.Extensions.Configuration;
+using TrackHub.AiCrawler.PromptModels;
 
 namespace TrackHub.AiCrawler.OpenAI;
 
 public class OpenAIMusicCrawler : AbstractConversation, IAiMusicCrawler
 {
+    public OpenAIMusicCrawler(IConfiguration configuration) : base(configuration) { }
+
     public async Task<IEnumerable<string>> SearchSongsAsync(SongPromptArgs args, CancellationToken token)
     {        
         var conversation = GetConversation(args);
