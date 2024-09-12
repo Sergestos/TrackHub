@@ -49,7 +49,7 @@ public abstract class AbstractConversation
 
             result = null;
         }
-
+  
         return result!;
     }
 
