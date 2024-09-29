@@ -5,7 +5,7 @@
             <div class="date-picker">
                 <ng-container *ngIf="pageMode == 'Edit'">
                     <p>Play date: </p>
-                    <input type="date" [value]="Exercise?.playDate | date:'yyyy-MM-dd'" disabled/>
+                    <input type="date" [value]="exercise?.playDate | date:'yyyy-MM-dd'" disabled/>
                 </ng-container>
                 <ng-container *ngIf="pageMode == 'Add'">
                     <p>Use today's date?</p>
@@ -18,16 +18,16 @@
             <div class="btn-controls">
                 <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()" />
                 <input type="button" class="btn btn-action" value="Save" (click)="onSaveClick()"
-                    [disabled]="Exercise?.records!.length == 0" />
+                    [disabled]="exercise?.records!.length == 0" />
                 <input type="button" class="btn btn-remove" value="Remove" (click)="onRemoveClick()" />
             </div>
         </div>
     </div>
     <div class="exercise-grid">
-        <div class="placeholder" *ngIf="Exercise?.records!.length == 0">
+        <div class="placeholder" *ngIf="exercise?.records!.length == 0">
             <p>Click 'Add' to enter played exercise</p>
         </div>
-        <ng-container *ngIf="Exercise?.records!.length > 0">
+        <ng-container *ngIf="exercise?.records!.length > 0">
             <div class="headers">
                 <div class="h-check-all">
                     <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />
@@ -51,7 +51,7 @@
                     <p>Options</p>
                 </div>
             </div>
-            <div class="card" *ngFor="let item of Exercise?.records">
+            <div class="card" *ngFor="let item of exercise?.records">
                 <trh-exercise [model]="item"></trh-exercise>
             </div>
         </ng-container>

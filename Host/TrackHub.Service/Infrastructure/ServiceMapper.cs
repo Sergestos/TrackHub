@@ -13,7 +13,7 @@ internal class ServiceMapper : Profile
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)Enum.Parse(typeof(RecordType), src.RecordType)))
             .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)Enum.Parse(typeof(PlayType), src.PlayType)));
 
-        CreateMap<CreateRecordModel, UpdateRecordModel>()            
+        CreateMap<UpdateRecordModel, Record>()
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)Enum.Parse(typeof(RecordType), src.RecordType)))
             .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)Enum.Parse(typeof(PlayType), src.PlayType)));
     }

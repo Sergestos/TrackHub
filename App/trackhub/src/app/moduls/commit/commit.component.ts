@@ -13,7 +13,7 @@ export class CommitComponent implements OnInit {
 	public isUseTodaysDate: boolean = true;
 	public selectedDate: Date = new Date();
 
-	public Exercise?: ExerciseModel;
+	public exercise?: ExerciseModel;
 
 	public pageMode: "Add" | "Edit" = "Add";
 
@@ -29,18 +29,18 @@ export class CommitComponent implements OnInit {
 
 			if (exerciseId) {
 				this.commitService.getExerciseRecords(exerciseId).subscribe(response => {
-					this.Exercise = response;
+					this.exercise = response;
 					this.pageMode = "Edit";
 				})
 			} else {
-				this.Exercise = new ExerciseModel();
+				this.exercise = new ExerciseModel();
 				this.pageMode = "Add";
 			}
 		});
 	}
 
 	public onAddClick(): void {
-		this.Exercise!.records!.push({
+		this.exercise!.records!.push({
 			recordType: 'Warmup',
 			playType: 'Rhythm',
 			isRecorded: false
@@ -52,15 +52,16 @@ export class CommitComponent implements OnInit {
 			this.commitService.saveExercise({
 				playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
 				records: this.exerciseViews.map(x => x.model)
-			}).subscribe();
+			}).subscribe(_ => window.location.reload());
 		} else {
-			//this.commitService.updateExercise(this.Exercise!).subscribe();
+			this.commitService.updateExercise(this.exercise!)
+				.subscribe(_ => window.location.reload());
 		}
 	}
 
 	public onRemoveClick(): void {
 		var exercisesToRemove = this.exerciseViews.filter(x => x.isSelected).map(x => x.model.recordId);
-		this.Exercise!.records = this.Exercise!.records!.filter(x => !exercisesToRemove.includes(x.recordId));
+		this.exercise!.records = this.exercise!.records!.filter(x => !exercisesToRemove.includes(x.recordId));
 	}
 
 	public onAllSelectedChanged(event: any): void {
