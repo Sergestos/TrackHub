@@ -5,7 +5,7 @@
             <div class="date-picker">
                 <ng-container *ngIf="pageMode == 'Edit'">
                     <p>Play date: </p>
-                    <input type="date" [value]="exercise?.playDate | date:'yyyy-MM-dd'" disabled/>
+                    <input type="date" [value]="exercise?.playDate | date:'yyyy-MM-dd'" disabled />
                 </ng-container>
                 <ng-container *ngIf="pageMode == 'Add'">
                     <p>Use today's date?</p>
