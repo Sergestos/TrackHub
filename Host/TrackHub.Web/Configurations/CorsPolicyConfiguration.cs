@@ -16,7 +16,8 @@ public static class CorsPolicyConfiguration
                         "http://localhost:4200",
                         "http://localhost:5044",
                         "https://localhost:7012",
-                        "https://accounts.google.com");
+                        "https://accounts.google.com",
+                        "https://trackhub-app.azurewebsites.net");
             });
         });  
     }
