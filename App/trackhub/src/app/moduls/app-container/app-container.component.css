@@ -6,10 +6,6 @@
     @apply text-c-text-normal cursor-pointer
 }
 
-.logo-color {
-    @apply text-c-logo
-}
-
 .nav-icon {
     @apply text-c-text-normal pt-1
 }
