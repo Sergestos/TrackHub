@@ -1,21 +1,7 @@
-.user-profile-block {
-    margin: 7.5vh 1px 0 92.5%;
+.action-item {
+    @apply flex flex-row justify-center px-10 py-2
+}
 
-    .user-profile-block-item {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-
-        width: 7rem;
-        margin: 1vh 0;
-
-        p {
-            color: #9fa6bc;
-        }
-
-        i {
-            padding-top: 8px;
-            padding-right: 5px;
-        }
-    }
+.action-item-icon {
+    @apply text-c-text-normal mt-2.5 pr-1.5
 }
