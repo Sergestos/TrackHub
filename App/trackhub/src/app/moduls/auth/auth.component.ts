@@ -4,16 +4,13 @@ import { Router } from "@angular/router";
 import { SocialUser } from "@abacritt/angularx-social-login";
 
 @Component({
-	selector: 'trh-auth',
-	templateUrl: './auth.component.html',
-	styleUrls: ['./auth.component.css']
+	selector: 'trackhub-auth',
+	templateUrl: './auth.component.html'
 })
 export class AuthComponent implements OnInit {	
     constructor(
         private authService: AuthService,
-        private router: Router) {
-        
-    }
+        private router: Router) { }
 
     public ngOnInit(): void {
         this.authService.getGoogleAuthState().subscribe((user: SocialUser) => {

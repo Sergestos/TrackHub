@@ -1,5 +1,5 @@
 
-<main>
+<div>
     <ng-container *ngIf="isUserMenuAsked">
       <trh-user-dropdown (isUserMenuAskedEmmiter)="onUserMenuPanelMouseOut($event)"></trh-user-dropdown>
     </ng-container>
@@ -29,4 +29,4 @@
     <div class="content">
         <router-outlet></router-outlet>
     </div>
-</main>
+</div>
