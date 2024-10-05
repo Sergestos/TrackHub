@@ -4,10 +4,10 @@ import { Router } from "@angular/router";
 import { SocialUser } from "@abacritt/angularx-social-login";
 
 @Component({
-	selector: 'trackhub-auth',
-	templateUrl: './auth.component.html'
+    selector: 'trackhub-auth',
+    templateUrl: './auth.component.html'
 })
-export class AuthComponent implements OnInit {	
+export class AuthComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private router: Router) { }
@@ -17,6 +17,6 @@ export class AuthComponent implements OnInit {
             this.authService.authExternalUser(user).subscribe(_ => {
                 this.router.navigateByUrl('/app/list');
             });
-        });   
+        });
     }
 }

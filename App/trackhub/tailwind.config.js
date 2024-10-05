@@ -9,10 +9,9 @@ module.exports = {
         'c-bg-accent': '#141824',
         'c-bg-normal': '#241824',
         'c-border': '#31374a',
-        'c-text-low': '#9fa6bc'
-      },
-      fontSize: {
-        '28': '28px'
+        'c-text-normal': '#9fa6bc',
+
+        'c-logo': '#ffae00'
       }
     },
   },

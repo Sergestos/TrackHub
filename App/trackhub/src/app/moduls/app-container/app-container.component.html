@@ -3,30 +3,30 @@
     <ng-container *ngIf="isUserMenuAsked">
       <trh-user-dropdown (isUserMenuAskedEmmiter)="onUserMenuPanelMouseOut($event)"></trh-user-dropdown>
     </ng-container>
-    <div class="menu">
-        <div class="logo">
-            <i class="fa-solid fa-music fa-beat fa-lg menu-i"></i>
-            <p>TrackHub</p>
+    <div class="menu p-2 flex flex-row justify-between items-center bg-c-bg-accent border-b border-solid border-c-border">
+        <div class="flex pl-5 logo">
+            <i class="fa-solid fa-music fa-beat fa-lg menu-i logo-color pt-[1.175rem]"></i>
+            <p class="text-[24px] text-white pl-4">TrackHub</p>
         </div>        
         <ng-container *ngIf="isAuthorized$ | async">
-            <div class="nav">
+            <div class="nav ml-[-7.5%] flex flex-row justify-around gap-1">
                 <div class="nav-item">
-                    <i class="fa-solid fa-chart-column"></i>
-                    <p>Dashboard</p>
+                    <i class="fa-solid fa-chart-column nav-icon"></i>
+                    <p class="nav-text">Dashboard</p>
                 </div>     
-                <div class="nav-item">  
-                    <i class="fa-solid fa-list-ul"></i>
-                    <a routerLink="/app/list">List</a>                 
+                <div class="nav-item" (click)="onNavigationClicked('/app/list')">  
+                    <i class="fa-solid fa-list-ul nav-icon"></i>
+                    <p class="nav-text">List</p>
                 </div> 
-                <div class="nav-item">
-                    <i class="fa-solid fa-plus"></i>
-                    <a routerLink="/app/commit">Commit</a>                
+                <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
+                    <i class="fa-solid fa-plus nav-icon"></i>
+                    <p class="nav-text">Commit</p>                
                 </div>   
             </div>                     
-            <i class="fa-solid fa-circle-user fa-xl menu-i" (click)="onMenuDropDown()"></i>
+            <i class="fa-solid fa-circle-user fa-xl nav-icon pr-2" (click)="onMenuDropDown()"></i>
         </ng-container>
     </div>
-    <div class="content">
+    <div class="min-h-[70vh] mb-[5vh]">
         <router-outlet></router-outlet>
     </div>
 </div>
