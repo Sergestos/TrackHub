@@ -2,7 +2,7 @@
 
 public record CosmosClientOptions
 {
-    public required string AccoutEndpoint { get; set; }
+    public required string AccountEndpoint { get; set; }
 
     public required string DateBaseName { get; set; }
 

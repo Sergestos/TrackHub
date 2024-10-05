@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ExerciseModel, RecordModel } from '../../moduls/commit/commit.models';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CommitService {
-    private url: string = 'http://localhost:5044/api/exercise';
+    private url: string = environment.apiUrl + '/api/exercise';
     private headers: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json'
     });

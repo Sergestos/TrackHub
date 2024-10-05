@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { ExerciseItemView, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class ExerciseListService {
@@ -14,7 +15,7 @@ export class ExerciseListService {
     }
 
     public getFilteredExercises(year: number, month: number): Observable<ExerciseItemView[]> {
-        const url = 'http://localhost:5044/api/exercise/list';
+        const url = environment.apiUrl + '/api/exercise/list';
         const params = new HttpParams()
             .set('year', year)
             .set('month', month);

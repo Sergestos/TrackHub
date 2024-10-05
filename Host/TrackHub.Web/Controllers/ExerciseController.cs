@@ -32,7 +32,7 @@ public class ExerciseController : TrackHubController
      {         
          var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, CurrentUserId, cancellationToken);
 
-         return Ok(_mapper.Map<ExerciseView>(result));
+         return Ok(_mapper.Map<ExerciseView>(result)); 
      }
     
     [HttpGet]

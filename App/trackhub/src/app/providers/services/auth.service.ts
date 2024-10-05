@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, Observable } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
+import { environment } from "../../environments/environment";
 
 class GoogleAuth {
     public idToken!: string;
@@ -45,7 +46,7 @@ export class AuthService {
             idToken: user.idToken
         }
 
-        const url = 'http://localhost:5044/api/auth/google-login';
+        const url = environment.apiUrl + '/api/auth/google-login';
         return this.http.post<string>(url, payload, { headers, responseType: 'text' as 'json' })
             .pipe(
                 map(result => {
