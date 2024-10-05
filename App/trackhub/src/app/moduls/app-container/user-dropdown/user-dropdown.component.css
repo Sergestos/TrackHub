@@ -1,12 +1,5 @@
 .user-profile-block {
-    position: absolute;
-    z-index: 2;
-
     margin: 7.5vh 1px 0 92.5%;
-
-    background-color: #31374a;
-    border: 1px solid #494d5e;
-    border-radius: 4px;
 
     .user-profile-block-item {
         display: flex;

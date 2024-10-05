@@ -5,7 +5,7 @@ import { Observable, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class PermissionsService {
     constructor(
         private router: Router,
@@ -13,7 +13,7 @@ export class PermissionsService {
     ) {
 
     }
-  
+
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.authService.isAuthorized()
             .pipe(tap(isAuthorized => {
@@ -22,8 +22,8 @@ export class PermissionsService {
                 }
             }));
     }
-  }
-  
- export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
+}
+
+export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
     return inject(PermissionsService).canActivate(next, state);
 }

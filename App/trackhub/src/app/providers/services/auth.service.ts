@@ -1,9 +1,10 @@
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, EMPTY, Observable } from "rxjs";
-import { catchError, map } from 'rxjs/operators';
+import { Inject, Injectable } from "@angular/core";
+import { BehaviorSubject, EMPTY, Observable, of } from "rxjs";
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
+import { DOCUMENT } from "@angular/common";
 
 class GoogleAuth {
     public idToken!: string;
@@ -13,19 +14,24 @@ class GoogleAuth {
     providedIn: 'root'
 })
 export class AuthService {
+    private localStorage!: Storage;
+
     private isAuthorized$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(
         private http: HttpClient,
-        private googleAuthService: SocialAuthService
-    ) { }
+        private googleAuthService: SocialAuthService,
+        @Inject(DOCUMENT) private document: Document
+    ) { 
+        this.localStorage = document.defaultView?.localStorage!;
+    }
 
     public getGoogleAuthState(): Observable<SocialUser> {
         return this.googleAuthService.authState;
     }
 
     public logOut(): Observable<boolean> {
-        localStorage.removeItem('access_token');
+        this.localStorage.removeItem('access_token');
 
         this.googleAuthService.signOut();
         this.isAuthorized$.next(false);
@@ -34,7 +40,19 @@ export class AuthService {
     }
 
     public isAuthorized(): Observable<boolean> {
-        return this.isAuthorized$;
+        return this.isAuthorized$
+            .pipe(state$ => { 
+                if (this.localStorage && this.localStorage.getItem('access_token') && !this.isAuthorized$.value) {
+                    const url = environment.apiUrl + '/api/auth/validate-token';
+                    return this.http.get(url)
+                        .pipe(
+                            catchError(_ => of(false)),
+                            map(_ => true)                       
+                        );
+                }
+                
+                return state$
+            });
     }
 
     public authExternalUser(user: any): Observable<string> {
@@ -51,7 +69,7 @@ export class AuthService {
             .pipe(
                 map(result => {
                     this.isAuthorized$.next(true);
-                    localStorage.setItem('access_token', result);
+                    this.localStorage.setItem('access_token', result);
                     return result;
                 }),
                 catchError((err, caught) => {

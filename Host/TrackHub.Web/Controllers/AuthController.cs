@@ -24,11 +24,19 @@ public class AuthController : Controller
         _jwtTokenGenerator = new JwtTokenGenerator(_configuration["Authentication:Jwt:PrivateKey"]!);
     }
 
+    [HttpGet]
+    [Authorize]
+    [Route("validate-token")]
+    public IActionResult ValidateToken()
+    {        
+        return Ok();
+    }
+
     [HttpPost]
     [AllowAnonymous]
     [Route("google-login")]
     [ProducesResponseType(typeof(string), 200)]
-    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthToken model, CancellationToken cancellationToken)
+    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthTokenModel model, CancellationToken cancellationToken)
     {
         try
         {
@@ -54,7 +62,7 @@ public class AuthController : Controller
         }
     }
 
-    public record GoogleAuthToken
+    public record GoogleAuthTokenModel
     {
         public required string IdToken { get; set; }
     }
