@@ -12,11 +12,13 @@ export class AuthComponent implements OnInit {
         private authService: AuthService,
         private router: Router) { }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {        
         this.authService.getGoogleAuthState().subscribe((user: SocialUser) => {
-            this.authService.authExternalUser(user).subscribe(_ => {
-                this.router.navigateByUrl('/app/list');
-            });
+            if (user) {
+                this.authService.authExternalUser(user).subscribe(_ => {
+                    this.router.navigateByUrl('/app/list');
+                });
+            }            
         });
     }
 }

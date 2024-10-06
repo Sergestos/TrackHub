@@ -18,10 +18,10 @@ export class AppContainerComponent implements OnInit {
     ) { }
 
     public ngOnInit(): void {
-        this.isAuthorized$ = this.authService.isAuthorized(); 
+        this.isAuthorized$ = this.authService.isAuthorized();
     }
 
-    public onMenuDropDown(): void { 
+    public onMenuDropDown(): void {
         this.isUserMenuAsked = !this.isUserMenuAsked;
     }
 

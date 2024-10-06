@@ -1,0 +1,10 @@
+i {
+    margin: 0.85vh 0.5rem 0 0.5rem;
+
+    color: rgba(133, 170, 255, 0.997);
+    transition: 0.5s;
+}
+
+i:hover {
+    color: rgb(225, 234, 255);
+}
