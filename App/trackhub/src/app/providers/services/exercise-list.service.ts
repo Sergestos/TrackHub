@@ -14,7 +14,7 @@ export class ExerciseListService {
         })
     }
 
-    public getFilteredExercises(year: number, month: number): Observable<ExerciseItemView[]> {
+    public getExercisesByDate(year: number, month: number): Observable<ExerciseItemView[]> {
         const url = environment.apiUrl + '/api/exercise/list';
         const params = new HttpParams()
             .set('year', year)

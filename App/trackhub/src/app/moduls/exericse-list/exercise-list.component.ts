@@ -4,38 +4,37 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ExerciseListService } from "../../providers/services/exercise-list.service";
 
 @Component({
-	selector: 'trh-exercise-list',
+	selector: 'trackhub-exercise-list',
 	templateUrl: './exercise-list.component.html',
 	styleUrls: ['./exercise-list.component.css']
 })
 export class ExerciseListComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
- 
+
 	constructor(
 		private router: Router,
 		private activeRoute: ActivatedRoute,
-		private exerciseListService: ExerciseListService) {
-		
-	}
+		private exerciseListService: ExerciseListService) { }
 
-	public ngOnInit(): void {		
+	public ngOnInit(): void {
 		this.activeRoute.queryParams.subscribe(params => {
 			let year: number;
 			let month: number;
 
 			const currentDate = new Date();
 			year = params['year'] || currentDate.getFullYear();
-			month = params['month'] || currentDate.getMonth() + 1;			
+			month = params['month'] || currentDate.getMonth() + 1;
 
 			this.setExerciseGrid({
 				year: year,
 				month: month,
-				showNonPlayed: true
+				showNonPlayed: false,
+				showExpanded: true
 			});
-		  });		
-	}	
+		});
+	}
 
-	public onCardExpand(exercise: ExerciseItemView): void {		
+	public onCardExpand(exercise: ExerciseItemView): void {
 		exercise.isExpanded = !exercise.isExpanded;
 	}
 
@@ -62,22 +61,19 @@ export class ExerciseListComponent implements OnInit {
 	}
 
 	private setExerciseGrid(filter: FilterModel): void {
-		this.exerciseListService.getFilteredExercises(filter.year, filter.month)
-			.subscribe(result => {				
-				this.exercises = result;	
+		this.exerciseListService.getExercisesByDate(filter.year, filter.month)
+			.subscribe(result => {
+				this.exercises = result;				
 				this.exercises.forEach(x => {
 					x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
+					x.isExpanded = filter.showExpanded;					
 				});
 
-				this.fillNonPlayedDays(filter.year, filter.month, this.exercises);							
-
-				if (filter.showExpanded) {
-					// this.exercises.filter(x => x.exerciseId != '-1')
-				}
+				this.fillNonPlayedDays(filter.year, filter.month, this.exercises, !filter.showNonPlayed!);
 			})
 	}
 
-	private fillNonPlayedDays(year: number, month: number, items: ExerciseItem[]): void {
+	private fillNonPlayedDays(year: number, month: number, items: ExerciseItem[], isHidden: boolean): void {
 		for (let dayOfMonth = 1; dayOfMonth <= new Date(year, month, 0).getDate(); dayOfMonth++) {
 			let dateToFill = new Date(year, month - 1, dayOfMonth);
 			if (!items.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
@@ -85,7 +81,7 @@ export class ExerciseListComponent implements OnInit {
 					exerciseId: "-1",
 					playDate: dateToFill,
 					records: null,
-					isHidden: false
+					isHidden: isHidden
 				});
 			}
 		}

@@ -5,19 +5,27 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ExerciseListComponent } from './exercise-list.component';
 import { DetailsExerciseItemComponent } from './details-exercise-card/details-exercise-card.component';
-import { DateFilterComponent } from './date-filter/date-filter.component';
+import { DateFilterComponent } from './exercise-filter/exercise-filter.component';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         ExerciseListComponent,
         DetailsExerciseItemComponent,
         DateFilterComponent
     ],
-    exports: [], imports: [CommonModule,
+    exports: [
+
+    ], 
+    imports: [
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: ExerciseListComponent }
-        ])], providers: [
+        ])
+    ], 
+    providers: [
         provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]
+})
 export class ExerciseListModule { }

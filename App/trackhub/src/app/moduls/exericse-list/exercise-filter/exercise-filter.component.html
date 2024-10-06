@@ -1,0 +1,25 @@
+<div class="flex flex-row justify-end gap-6 w-full">
+    <div class="flex flex-row gap-1 mt-2 filter-options">
+        <label class="text-sm text-c-text-shadow">Show expanded</label>
+        <input type="checkbox" class="t-checkbox" (click)="onExpandAllClicked($event)"
+            [ngModel]="filter.showExpanded"/>
+    </div>
+    <div class="flex flex-row gap-1 mt-2 filter-options">
+        <label class="text-sm text-c-text-shadow">Show non-playd days</label>
+        <input type="checkbox" class="t-checkbox" (click)="onShowNonPlayedClicked($event)"
+            [ngModel]="filter.showNonPlayed"/>
+    </div>
+    <div class="flex flex-row">
+        <select class="w-20 p-0.5 text-c-text-grid bg-transparent border-b border-solid border-c-text-grid" [ngModel]="filter.year">
+            <option *ngFor="let year of userProfileYears.reverse()" [value]="year">{{ year }}</option> 
+        </select>
+        <i class="fa-solid fa-caret-down mt-2 -ml-3 text-c-text-grid"></i>
+    </div>
+    <div class="flex mt-2.5">
+        <i class="fa-solid fa-chevron-left fa-lg mt-2 mr-2 text-c-text-grid"></i>
+        <div class="-mt-[0.15rem]" *ngFor="let e of [].constructor(12); let monthIndex = index">
+            <p class="cursor-pointer pl-1 text-c-text-grid" (click)="onMonthClick(monthIndex + 1)">{{ monthIndex + 1 }}</p>
+        </div>
+        <i class="fa-solid fa-chevron-right fa-lg mt-2 ml-2 text-c-text-grid"></i>
+    </div>
+</div>

@@ -25,13 +25,11 @@ export class UserDropdownComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private router: Router,
-        private eRef: ElementRef) {
-
-    }
+        private eRef: ElementRef) { }
 
     public ngOnInit(): void {
         setTimeout(() => {
-            this.isComponentReady = true;            
+            this.isComponentReady = true;
         }, 0);
     }
 
@@ -43,7 +41,7 @@ export class UserDropdownComponent implements OnInit {
                     this.router.navigateByUrl('app/login');
                 },
                 error: err => {
-                    
+
                 }
             });
     }

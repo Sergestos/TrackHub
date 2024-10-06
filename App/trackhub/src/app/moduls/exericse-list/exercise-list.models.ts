@@ -1,6 +1,6 @@
 export class ExerciseItem {
     public exerciseId!: string;
-    public records: RecordDetailsItem[] | null = null; 
+    public records: RecordDetailsItem[] | null = null;
     public playDate!: Date;
 }
 
@@ -11,15 +11,15 @@ export class ExerciseItemView extends ExerciseItem {
     public totalPlayed?: number = 0;
 }
 
-export class RecordDetailsItem {    
+export class RecordDetailsItem {
     public recordType!: string;
     public duration!: number;
     public name!: string;
-    public author!: string;    
+    public author!: string;
 }
 
 export class UserExerciseProfile {
-    public firstExerciseDate!: Date; 
+    public firstExerciseDate!: Date;
 }
 
 export class FiltersModel {
