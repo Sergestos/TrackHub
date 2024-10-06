@@ -15,6 +15,7 @@ module.exports = {
         'c-text-normal': '#9fa6bc',
         'c-text-data': '#90A1D3',
         'c-text-grid': '#85A9FF',
+        'c-text-shadow': '#6773B4',
 
         'c-grid-icon': '#85A9FF',
         'c-remove-icon': '#F66E6E',
