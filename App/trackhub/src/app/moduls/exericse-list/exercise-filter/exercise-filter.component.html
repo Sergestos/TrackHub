@@ -1,4 +1,4 @@
-<main>
+<div class="flex flex-row justify-end gap-6 w-full">
     <div class="filter-options">
         <label>Show expanded</label>
         <input type="checkbox" class="t-checkbox" (click)="onExpandAllClicked($event)"
@@ -10,7 +10,6 @@
             [ngModel]="filter.showNonPlayed"/>
     </div>
     <div class="filter-year-selector">
-        <!-- <select ([ngModel])="selectedYear"> -->
         <select class="input-select" [ngModel]="filter.year">
             <option *ngFor="let year of userProfileYears.reverse()" [value]="year">{{ year }}</option> 
         </select>
@@ -23,4 +22,4 @@
         </div>
         <i class="fa-solid fa-chevron-right fa-lg"></i>
     </div>
-</main>
+</div>

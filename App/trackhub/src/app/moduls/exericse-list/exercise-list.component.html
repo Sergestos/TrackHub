@@ -1,51 +1,59 @@
-<main>
-    <div class="top-wrapper">
-        <p class="page-header">Exercise List</p>
+<div>
+    <div class="mt-[1.15rem] mb-14 ml-12">
+        <p class="text-[28px] text-white">Exercise List</p>
     </div>
-    <div class="exerice-list-wrapper">
-        <div class="card-header">
-            <div class="grid-item grid-headers">
-                <p class="grid-item-expand"></p>                
-                <p class="grid-item-play-date">Play date</p>                
-                <p class="grid-item-total-played">Total played</p>
+    <div class="w-full h-full bg-c-bg-accent exerice-list-wrapper border-t border-solid border-c-border">
+        <div class="flex flex-row mb-10 justify-around">
+            <div class="flex mt-4 ml-12 w-full">
+                <p class="grid-item w-[4%]"></p>                
+                <p class="grid-item w-[12%]">Play date</p>                
+                <p class="grid-item w-[10%]">Total played</p>
             </div>
-            <div class="paging">
-                <trh-date-filter 
+            <div class="absolute z-[2] mt-3 ml-[60%]">
+                <trackhub-exercise-filter 
                     (onDateChangedEmmiter)="onDateChanged($event)"
                     (onShowNonPlayedEmitter)="onShowNonPlayedChanged($event)"
                     (onExpandAllEmitter)="onExpandChanged($event)">
-                </trh-date-filter>
+                </trackhub-exercise-filter >
             </div>
         </div>
-        <div class="scrollable-cards">
+        <div class="overflow-auto h-[75vh]">
             <ng-container *ngFor="let item of exercises">
-                <div class="card" *ngIf="!item.isHidden">
-                    <div class="grid-item grid-short-view">
-                        <div class="grid-item-expand">
+                <div class="pb-4 border-b border-solid border-b-slate-800" *ngIf="!item.isHidden">
+                    <div class="flex flex-row mt-4 ml-12">
+                        <div class="w-[4%]">
                             <ng-container *ngIf="item.totalPlayed! > 0">
-                                <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg" 
+                                <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon" 
                                     *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>       
-                                <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg"
+                                <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
                                     *ngIf="item.isExpanded" (click)="onCardExpand(item)"></i>                 
                             </ng-container>                                                                                           
                         </div>                
-                        <p class="grid-item-play-date">{{ item.playDate | date: 'dd/MM/yyyy'}}</p>
-                        <p *ngIf="item.totalPlayed! > 0" class="grid-item-total-played">{{ item.totalPlayed }} minute(s)</p>
-                        <div class="grid-item-actions" *ngIf="item.totalPlayed! > 0">
-                            <i class="fa-regular fa-pen-to-square fa-lg" (click)="onExerciseEdit(item)"></i>
-                            <i class="fa-solid fa-xmark fa-lg i-remove" (click)="onRemoveItem(item)"></i>
+                        <p class="grid-item w-[12%]">
+                            {{ item.playDate | date: 'dd/MM/yyyy'}}
+                        </p>
+                        <p class="grid-item w-[10%]" 
+                        *ngIf="item.totalPlayed! > 0">
+                            {{ item.totalPlayed }} minute(s)
+                        </p>
+                        <div class="flex flex-row justify-end gap-3 w-[70%] mt-2" 
+                            *ngIf="item.totalPlayed! > 0">
+                            <i class="fa-regular fa-pen-to-square fa-lg grid-icon" 
+                                (click)="onExerciseEdit(item)"></i>
+                            <i class="fa-solid fa-xmark fa-lg text-c-remove-icon  transition duration-300 hover:text-gray-200"
+                                (click)="onRemoveItem(item)"></i>
                         </div>  
                     </div>
                     <ng-container *ngIf="item.isExpanded">
-                        <div class="details-wrapper">
-                            <trh-details-exercise-card 
+                        <div class="mt-2 ml-[7.75rem]">
+                            <trackhub-details-exercise-card 
                                 [exerciseId]="item.exerciseId"
                                 [exerciseDetailsModels]="item.records">
-                            </trh-details-exercise-card>
+                            </trackhub-details-exercise-card>
                         </div>
                     </ng-container>
                 </div>
             </ng-container>
         </div> 
     </div>
-</main>
+</div>
