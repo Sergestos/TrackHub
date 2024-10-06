@@ -2,7 +2,7 @@ import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, Observable, of } from "rxjs";
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
 import { DOCUMENT } from "@angular/common";
 
@@ -21,7 +21,7 @@ export class AuthService {
     constructor(
         private http: HttpClient,
         private googleAuthService: SocialAuthService,
-        @Inject(DOCUMENT) private document: Document
+        @Inject(DOCUMENT) document: Document
     ) { 
         this.localStorage = document.defaultView?.localStorage!;
     }
