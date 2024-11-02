@@ -2,5 +2,5 @@
 
 public record UpdateRecordModel : CreateRecordModel
 {
-    public required string RecordId { get; set; }
+    public string? RecordId { get; set; }
 }

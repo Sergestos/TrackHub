@@ -2,7 +2,7 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ExerciseModel, RecordModel } from './commit.models';
 import { ExerciseComponent } from './exercise/exercise.component';
 import { CommitService } from '../../providers/services/commit.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
 	selector: 'trh-commit',
@@ -21,6 +21,7 @@ export class CommitComponent implements OnInit {
 
 	constructor(
 		private commitService: CommitService,
+		private router: Router,
 		private activatedRoute: ActivatedRoute) { }
 
 	public ngOnInit(): void {
@@ -60,8 +61,18 @@ export class CommitComponent implements OnInit {
 	}
 
 	public onRemoveClick(): void {
+	/*	var exercisesToRemove = this.exerciseViews.filter(x => x.isSelected).map(x => x.model.recordId);
+		this.exercise!.records = this.exercise!.records!.filter(x => !exercisesToRemove.includes(x.recordId));*/
 		var exercisesToRemove = this.exerciseViews.filter(x => x.isSelected).map(x => x.model.recordId);
-		this.exercise!.records = this.exercise!.records!.filter(x => !exercisesToRemove.includes(x.recordId));
+
+		if (exercisesToRemove.length == 0 && this.pageMode == 'Edit') {
+			this.commitService
+				.deleteExercise(this.exercise?.exerciseId!.toString()!)
+				.subscribe();
+			this.router.navigateByUrl('/app/list');
+		} else {
+
+		}
 	}
 
 	public onAllSelectedChanged(event: any): void {

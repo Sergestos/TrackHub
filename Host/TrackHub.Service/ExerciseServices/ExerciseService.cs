@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Reflection;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 using TrackHub.Service.ExerciseServices.Models;
@@ -45,7 +46,18 @@ internal class ExerciseService : IExerciseService
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
 
-        exercise.Records = _mapper.Map<Record[]>(exerciseModel.Records.ToArray());
+        IEnumerable<UpdateRecordModel> newRecords = exerciseModel.Records.Where(x => string.IsNullOrWhiteSpace(x.RecordId));
+        IEnumerable<UpdateRecordModel> existingRecords = exerciseModel.Records.Where(x => !string.IsNullOrWhiteSpace(x.RecordId));
+
+        exercise.Records = _mapper.Map<Record[]>(existingRecords)
+            .Union(newRecords.Select(x =>
+            {
+                Record record = _mapper.Map<Record>(x);
+                record.RecordId = Guid.NewGuid().ToString();
+
+                return record;
+            }))
+            .ToArray();
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 

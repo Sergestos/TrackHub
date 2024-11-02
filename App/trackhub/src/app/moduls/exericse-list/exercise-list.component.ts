@@ -40,6 +40,9 @@ export class ExerciseListComponent implements OnInit {
 
 	public onRemoveItem(item: ExerciseItemView): void {
 		this.exercises = this.exercises.filter(x => x != item);
+		this.exerciseListService
+			.deleteExercise(item.exerciseId)
+			.subscribe();
 	}
 
 	public onExerciseEdit(item: ExerciseItemView): void {

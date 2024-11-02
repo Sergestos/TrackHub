@@ -7,18 +7,25 @@ import { CommitService } from '../../providers/services/commit.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-@NgModule({ 
+@NgModule({
     declarations: [
         ExerciseComponent,
         CommitComponent
     ],
-    exports: [], imports: [CommonModule,
+    exports: [
+
+    ],
+    imports: [
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild([
             { path: '', component: CommitComponent }
-        ])], providers: [
+        ])
+    ],
+    providers: [
         CommitService,
         provideHttpClient(withInterceptorsFromDi())
-    ] })
+    ]
+})
 export class CommitModule { }

@@ -34,6 +34,13 @@ export class CommitService {
         return this.http.get<ExerciseModel>(this.url, { params});
     }
 
+    public deleteExercise(exerciseId: string): Observable<void> {
+        const params = new HttpParams()
+            .set('exerciseId', exerciseId);
+
+        return this.http.delete<void>(this.url, { params });
+    }
+
     public getSongSuggestrions(pattern: string): Observable<string[]> {
         // return this.http.get<string[]>('https://jsonplaceholder.typicode.com/todos');
         return of([

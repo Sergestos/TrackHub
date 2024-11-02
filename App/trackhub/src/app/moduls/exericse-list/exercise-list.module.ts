@@ -15,7 +15,7 @@ import { DateFilterComponent } from './exercise-filter/exercise-filter.component
     ],
     exports: [
 
-    ], 
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -23,7 +23,7 @@ import { DateFilterComponent } from './exercise-filter/exercise-filter.component
         RouterModule.forChild([
             { path: '', component: ExerciseListComponent }
         ])
-    ], 
+    ],
     providers: [
         provideHttpClient(withInterceptorsFromDi())
     ]

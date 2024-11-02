@@ -47,9 +47,7 @@ export class ExerciseComponent implements OnInit {
 
     constructor(
         private commitService: CommitService, 
-        private eRef: ElementRef) { 
-
-        }
+        private eRef: ElementRef) { }
     
     @HostListener('document:click', ['$event'])
     public clickout(event: any) {

@@ -66,7 +66,9 @@ public class ExerciseController : TrackHubController
     [HttpDelete]    
     public async Task<IActionResult> DeleteAsync(string exerciseId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _exerciseRepository.DeleteExerciseAsync(exerciseId, CurrentUserId, cancellationToken);
+
+        return Ok();
     }
 
     [HttpDelete]
