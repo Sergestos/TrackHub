@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { RecordModel } from '../commit.models';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -11,7 +11,7 @@ enum SuggestionType {
     author
 }
 
-enum RecordStatusType {
+export enum RecordStatusType {
     changed,
     saved,
     draft
@@ -27,8 +27,11 @@ export class ExerciseComponent implements OnInit {
     public playTypes: string[] = [ 'Rhythm', 'Solo', 'Both' ]
 
     @Input()
-    public model!: RecordModel;
+    public model!: RecordModel;    
     public initialModel?: RecordModel;
+
+    @Output()
+    public onSelectToggle: EventEmitter<void> = new EventEmitter<void>();
 
     public isSelected: boolean = false;
     public isSuggestionsAsked: boolean = false;
@@ -89,11 +92,16 @@ export class ExerciseComponent implements OnInit {
                         });
                 }                
             });
-        }, 0);        
-    }
+        }, 0);                
+    }   
 
     public toggleIsSelected(value: boolean): void {
         this.isSelected = value;
+        this.onSelectToggle.emit();
+    }    
+
+    public onIsSelectedChanged($event: any): void  {
+        this.onSelectToggle.emit();
     }
 
     public onSongInputClick(event: any): void {

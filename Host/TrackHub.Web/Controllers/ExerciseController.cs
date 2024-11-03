@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
-using TrackHub.Service.ExerciseServices;
-using TrackHub.Service.ExerciseServices.Models;
+using TrackHub.Service.Services.ExerciseServices;
+using TrackHub.Service.Services.ExerciseServices.Models;
 using TrackHub.Web.Controllers;
 using TrackHub.Web.Models;
 
@@ -73,8 +73,10 @@ public class ExerciseController : TrackHubController
 
     [HttpDelete]
     [Route("{exerciseId}/records")]
-    public async Task<IActionResult> DeleteRecordsAsync([FromRoute] string exerciseId, [FromBody] string[] recordId, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteRecordsAsync([FromRoute] string exerciseId, [FromQuery] string[] recordId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var result = await _exerciseService.DeleteExerciseAsync(exerciseId, recordId, CurrentUserId, cancellationToken);
+
+        return Ok(result);
     }
 }

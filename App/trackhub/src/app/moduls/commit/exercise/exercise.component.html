@@ -1,7 +1,7 @@
 <main>
     <div class="exercise-wrapper">
         <div class="input-wrapper h-check-all">
-            <input type="checkbox" class="t-checkbox" [(ngModel)]="isSelected"/>
+            <input type="checkbox" class="t-checkbox" [(ngModel)]="isSelected" (ngModelChange)="onIsSelectedChanged($event)"/>
         </div>
         <div class="input-wrapper h-duration">
             <input type="text" class="input-text" placeholder="played minute(s)" 

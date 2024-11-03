@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Service.UserServices.Models;
+﻿namespace TrackHub.Service.Services.UserServices.Models;
 
 public class SocialUser
 {

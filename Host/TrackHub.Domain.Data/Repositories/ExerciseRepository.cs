@@ -10,16 +10,16 @@ internal class ExerciseRepository : IExerciseRepository
 {
     private const string ExerciseContainerType = "exercise";
 
-    private readonly Container _container;
+    private readonly Container _exerciseContainer;
 
     public ExerciseRepository(ICosmosDbContext context)
     {
-        _container = context.GetContainer(ExerciseContainerType);
+        _exerciseContainer = context.GetContainer(ExerciseContainerType);
     }
 
     public async Task<Exercise> UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken) 
     {
-        return await _container.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
+        return await _exerciseContainer.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
     }
 
     public async Task<Exercise?> GetExerciseByIdAsync(string exerciseId, string userId, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ internal class ExerciseRepository : IExerciseRepository
 
         try
         {
-            response = await _container.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
+            response = await _exerciseContainer.ReadItemAsync<Exercise>(exerciseId, new PartitionKey(userId), null, cancellationToken);
         }
         catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }
 
@@ -37,7 +37,7 @@ internal class ExerciseRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
-        var matches = _container.GetItemLinqQueryable<Exercise>()
+        var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
@@ -58,7 +58,7 @@ internal class ExerciseRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken)
     {                
-        var matches = _container.GetItemLinqQueryable<Exercise>()
+        var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
@@ -79,7 +79,7 @@ internal class ExerciseRepository : IExerciseRepository
 
     public Exercise? GetExerciseByDate(DateOnly date, string userId, CancellationToken cancellationToken)
     {
-        var result = _container.GetItemLinqQueryable<Exercise>()
+        var result = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId && 
                    x.PlayDate.Year == date.Year && x.PlayDate.Month == date.Month && x.PlayDate.Day == date.Day)
             .FirstOrDefault();
@@ -89,6 +89,6 @@ internal class ExerciseRepository : IExerciseRepository
 
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
-        await _container.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
+        await _exerciseContainer.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ExerciseModel, RecordModel } from './commit.models';
-import { ExerciseComponent } from './exercise/exercise.component';
+import { ExerciseModel } from './commit.models';
+import { ExerciseComponent, RecordStatusType } from './exercise/exercise.component';
 import { CommitService } from '../../providers/services/commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -17,7 +17,10 @@ export class CommitComponent implements OnInit {
 
 	public pageMode: "Add" | "Edit" = "Add";
 
-	@ViewChildren(ExerciseComponent) exerciseViews!: QueryList<ExerciseComponent>;
+	@ViewChildren(ExerciseComponent)
+	private exerciseViews!: QueryList<ExerciseComponent>;
+
+	public isAnySelected: boolean = false;
 
 	constructor(
 		private commitService: CommitService,
@@ -61,18 +64,33 @@ export class CommitComponent implements OnInit {
 	}
 
 	public onRemoveClick(): void {
-	/*	var exercisesToRemove = this.exerciseViews.filter(x => x.isSelected).map(x => x.model.recordId);
-		this.exercise!.records = this.exercise!.records!.filter(x => !exercisesToRemove.includes(x.recordId));*/
-		var exercisesToRemove = this.exerciseViews.filter(x => x.isSelected).map(x => x.model.recordId);
+		if (this.pageMode == 'Edit') {
+			if (this.exerciseViews.length == this.exerciseViews.filter(x => x.isSelected).length) {
+				this.commitService
+					.deleteExercise(this.exercise?.exerciseId?.toString()!)
+					.subscribe(_ => this.router.navigateByUrl("/app/list"));
+			} else {
+				const exerciseIdsToRemove = this.exerciseViews
+					.filter(x => x.isSelected && x.currectRecordStatusType != RecordStatusType.draft)
+					.map(x => x.model.recordId!)					
+				if (exerciseIdsToRemove.length > 0) {
+					this.commitService
+						.deleteRecords(this.exercise!.exerciseId!.toString(), exerciseIdsToRemove)
+						.subscribe();	
+				}				
+			}
+		}		
 
-		if (exercisesToRemove.length == 0 && this.pageMode == 'Edit') {
-			this.commitService
-				.deleteExercise(this.exercise?.exerciseId!.toString()!)
-				.subscribe();
-			this.router.navigateByUrl('/app/list');
-		} else {
+		const seletedExercises = this.exerciseViews
+			.filter(x => x.isSelected)
+			.map(x => x.model);
+		for (let index = 0; index < seletedExercises.length; index++) {					
+			this.exercise!.records = this.exercise?.records.filter(x => x !== seletedExercises[index])!;
+		}			
+	}
 
-		}
+	public onSelectToggle(): void {
+		this.isAnySelected  = this.exerciseViews.some(x => x.isSelected === true);			
 	}
 
 	public onAllSelectedChanged(event: any): void {

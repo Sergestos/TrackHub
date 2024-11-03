@@ -2,8 +2,8 @@
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Service.UserServices;
-using TrackHub.Service.UserServices.Models;
+using TrackHub.Service.Services.UserServices;
+using TrackHub.Service.Services.UserServices.Models;
 using TrackHub.Web.Utilities;
 
 namespace TrackHub.Web.Controllers;

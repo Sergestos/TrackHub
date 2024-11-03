@@ -1,8 +1,8 @@
 ﻿using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
-using TrackHub.Service.UserServices.Models;
+using TrackHub.Service.Services.UserServices.Models;
 
-namespace TrackHub.Service.UserServices;
+namespace TrackHub.Service.Services.UserServices;
 
 internal class UserService : IUserService
 {

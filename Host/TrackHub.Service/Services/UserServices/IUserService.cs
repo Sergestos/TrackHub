@@ -1,7 +1,7 @@
 ﻿using TrackHub.Domain.Entities;
-using TrackHub.Service.UserServices.Models;
+using TrackHub.Service.Services.UserServices.Models;
 
-namespace TrackHub.Service.UserServices;
+namespace TrackHub.Service.Services.UserServices;
 
 public interface IUserService
 {

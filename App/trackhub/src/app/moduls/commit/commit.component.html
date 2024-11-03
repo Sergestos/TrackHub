@@ -19,7 +19,8 @@
                 <input type="button" class="btn btn-action" value="Add" (click)="onAddClick()" />
                 <input type="button" class="btn btn-action" value="Save" (click)="onSaveClick()"
                     [disabled]="exercise?.records!.length == 0" />
-                <input type="button" class="btn btn-remove" value="Remove" (click)="onRemoveClick()" />
+                <input type="button" class="btn btn-remove" value="Remove" (click)="onRemoveClick()"
+                    [disabled]="!isAnySelected" />
             </div>
         </div>
     </div>
@@ -30,7 +31,7 @@
         <ng-container *ngIf="exercise?.records!.length > 0">
             <div class="headers">
                 <div class="h-check-all">
-                    <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />
+                    <input type="checkbox" class="t-checkbox" (change)="onAllSelectedChanged($event)" />                
                 </div>
                 <div class="h-duration">
                     <p>Duration</p>
@@ -52,7 +53,7 @@
                 </div>
             </div>
             <div class="card" *ngFor="let item of exercise?.records">
-                <trh-exercise [model]="item"></trh-exercise>
+                <trh-exercise [model]="item" (onSelectToggle)="onSelectToggle()"></trh-exercise>
             </div>
         </ng-container>
     </div>

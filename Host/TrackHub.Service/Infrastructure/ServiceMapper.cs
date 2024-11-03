@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
-using TrackHub.Service.ExerciseServices.Models;
+using TrackHub.Service.Services.ExerciseServices.Models;
 namespace TrackHub.Service.Infrastructure;
 
 internal class ServiceMapper : Profile

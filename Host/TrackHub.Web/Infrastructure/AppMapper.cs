@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Google.Apis.Auth;
 using TrackHub.Domain.Entities;
-using TrackHub.Service.UserServices.Models;
+using TrackHub.Service.Services.UserServices.Models;
 using TrackHub.Web.Models;
 
 namespace TrackHub.Web.Mappers;
