@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ExerciseListService } from "../exercise-list.service";
 import { FiltersModel, UserExerciseProfile } from "../exercise-list.models";
+import { ThisReceiver } from "@angular/compiler";
 
 @Component({
     selector: 'trackhub-exercise-filter',
@@ -24,7 +25,7 @@ export class DateFilterComponent implements OnInit {
     constructor(private exerciseListService: ExerciseListService) {
         this.filter = {
             year: 2024,
-            month: 1,
+            month: new Date().getMonth() + 1,
             showNonPlayed: false,
             showExpanded: true
         };

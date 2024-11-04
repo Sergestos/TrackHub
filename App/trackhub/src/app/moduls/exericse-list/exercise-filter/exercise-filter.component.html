@@ -18,7 +18,10 @@
     <div class="flex mt-2.5">
         <i class="fa-solid fa-chevron-left fa-lg mt-2 mr-2 text-c-text-grid"></i>
         <div class="-mt-[0.15rem]" *ngFor="let e of [].constructor(12); let monthIndex = index">
-            <p class="cursor-pointer pl-1 text-c-text-grid" (click)="onMonthClick(monthIndex + 1)">{{ monthIndex + 1 }}</p>
+            <p class="cursor-pointer pl-1 text-c-text-grid" 
+                [ngClass]="monthIndex + 1 == this.filter.month ? 'text-c-text-grid' : 'text-c-text-shadow'"
+                (click)="onMonthClick(monthIndex + 1)">{{ monthIndex + 1 }}
+            </p>
         </div>
         <i class="fa-solid fa-chevron-right fa-lg mt-2 ml-2 text-c-text-grid"></i>
     </div>
