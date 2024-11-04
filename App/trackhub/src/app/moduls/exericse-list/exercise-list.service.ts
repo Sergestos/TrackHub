@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { ExerciseItemView, UserExerciseProfile } from "../../moduls/exericse-list/exercise-list.models";
+import { ExerciseItemView, UserExerciseProfile } from "./exercise-list.models";
 import { environment } from "../../environments/environment";
 
 @Injectable()

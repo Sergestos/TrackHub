@@ -38,7 +38,7 @@ internal class ExerciseRepository : IExerciseRepository
     public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);
+            .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);            
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
         {
@@ -52,7 +52,9 @@ internal class ExerciseRepository : IExerciseRepository
                 }
             }
 
-            return result;
+            return result
+                .OrderBy(x => x.PlayDate)
+                .ToList();
         }
     }
 

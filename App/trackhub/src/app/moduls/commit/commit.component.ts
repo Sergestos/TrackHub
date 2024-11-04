@@ -3,6 +3,9 @@ import { ExerciseModel } from './commit.models';
 import { ExerciseComponent, RecordStatusType } from './exercise/exercise.component';
 import { CommitService } from '../../providers/services/commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalResult, openDeleteConfirmationModal } from '../../components/mat-modal/mat-modal.component';
+import { LoadingService } from '../../providers/services/loading.service';
 
 @Component({
 	selector: 'trh-commit',
@@ -24,6 +27,8 @@ export class CommitComponent implements OnInit {
 
 	constructor(
 		private commitService: CommitService,
+		private loadingService: LoadingService,
+		private matDialog: MatDialog,
 		private router: Router,
 		private activatedRoute: ActivatedRoute) { }
 
@@ -32,10 +37,14 @@ export class CommitComponent implements OnInit {
 			const exerciseId = params['exerciseId'];
 
 			if (exerciseId) {
-				this.commitService.getExerciseRecords(exerciseId).subscribe(response => {
-					this.exercise = response;
-					this.pageMode = "Edit";
-				})
+		        this.loadingService.show();
+				this.commitService.getExerciseRecords(exerciseId).subscribe({
+					next: (response) => {
+						this.exercise = response;
+						this.pageMode = "Edit";
+					},
+					complete: () => this.loadingService.hide()
+				});			
 			} else {
 				this.exercise = new ExerciseModel();
 				this.pageMode = "Add";
@@ -51,7 +60,7 @@ export class CommitComponent implements OnInit {
 		});
 	}
 
-	public onSaveClick(): void {
+	public onSaveClick(): void {		
 		if (this.pageMode === "Add") {
 			this.commitService.saveExercise({
 				playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
@@ -64,29 +73,40 @@ export class CommitComponent implements OnInit {
 	}
 
 	public onRemoveClick(): void {
+		let isEntirtExericeToDelete: boolean = false;
+
 		if (this.pageMode == 'Edit') {
 			if (this.exerciseViews.length == this.exerciseViews.filter(x => x.isSelected).length) {
-				this.commitService
-					.deleteExercise(this.exercise?.exerciseId?.toString()!)
-					.subscribe(_ => this.router.navigateByUrl("/app/list"));
+				isEntirtExericeToDelete = true;
+				const modal = openDeleteConfirmationModal(this.matDialog);
+				modal.afterClosed().subscribe(result => {
+					if (result == ModalResult.Confirmed) {
+						this.commitService
+							.deleteExercise(this.exercise?.exerciseId?.toString()!)
+							.subscribe(_ => this.router.navigateByUrl("/app/list"));
+					}
+				});		
 			} else {
 				const exerciseIdsToRemove = this.exerciseViews
 					.filter(x => x.isSelected && x.currectRecordStatusType != RecordStatusType.draft)
 					.map(x => x.model.recordId!)					
 				if (exerciseIdsToRemove.length > 0) {
+					this.loadingService.show();
 					this.commitService
-						.deleteRecords(this.exercise!.exerciseId!.toString(), exerciseIdsToRemove)
-						.subscribe();	
+						.deleteRecords(this.exercise!.exerciseId!.toString(), exerciseIdsToRemove)		        
+						.subscribe({ complete: () => this.loadingService.hide()});	
 				}				
 			}
 		}		
 
-		const seletedExercises = this.exerciseViews
-			.filter(x => x.isSelected)
-			.map(x => x.model);
-		for (let index = 0; index < seletedExercises.length; index++) {					
-			this.exercise!.records = this.exercise?.records.filter(x => x !== seletedExercises[index])!;
-		}			
+		if (!isEntirtExericeToDelete) {
+			const seletedExercises = this.exerciseViews
+				.filter(x => x.isSelected)
+				.map(x => x.model);
+			for (let index = 0; index < seletedExercises.length; index++) {					
+				this.exercise!.records = this.exercise?.records.filter(x => x !== seletedExercises[index])!;
+			}			
+		}		
 	}
 
 	public onSelectToggle(): void {

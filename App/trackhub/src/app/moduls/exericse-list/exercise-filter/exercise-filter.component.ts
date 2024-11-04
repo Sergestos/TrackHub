@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import { ExerciseListService } from "../../../providers/services/exercise-list.service";
+import { ExerciseListService } from "../exercise-list.service";
 import { FiltersModel, UserExerciseProfile } from "../exercise-list.models";
 
 @Component({

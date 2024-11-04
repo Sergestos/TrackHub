@@ -1,4 +1,8 @@
 
+<div class="fixed inset-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50" 
+    *ngIf="isLoading$ | async">
+    <mat-spinner color="accent" diameter="50" strokeWidth="5"></mat-spinner>
+</div>
 <div>
     <ng-container *ngIf="isUserMenuAsked">
       <trh-user-dropdown (isUserMenuAskedEmmiter)="onUserMenuPanelMouseOut($event)"></trh-user-dropdown>

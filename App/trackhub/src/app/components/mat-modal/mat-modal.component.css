@@ -1,0 +1,8 @@
+::ng-deep .mat-button {
+    color: #19c221;
+  }
+  
+  .custom-dialog-container {
+    border-radius: 1px !important;
+    background-color: #19c221 !important;
+  }

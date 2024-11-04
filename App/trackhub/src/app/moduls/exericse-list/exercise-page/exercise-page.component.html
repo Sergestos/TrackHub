@@ -41,7 +41,7 @@
                             <i class="fa-regular fa-pen-to-square fa-lg grid-icon" 
                                 (click)="onExerciseEdit(item)"></i>
                             <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
-                                (click)="onRemoveItem(item)"></i>
+                                (click)="openDialog(item)"></i>
                         </div>  
                     </div>
                     <ng-container *ngIf="item.isExpanded">

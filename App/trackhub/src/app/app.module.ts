@@ -10,9 +10,11 @@ import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
 import { PermissionsService } from './providers/guards/auth.guard';
 import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
-import { ExerciseListService } from './providers/services/exercise-list.service';
+import { ExerciseListService } from './moduls/exericse-list/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
@@ -27,6 +29,7 @@ import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
         BrowserModule,
         RouterModule,
         AppRoutingModule,
+        MatProgressSpinnerModule
     ],
     providers: [       
         provideClientHydration(),
@@ -61,5 +64,6 @@ import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
                 }
             } as SocialAuthServiceConfig
         },
+        provideAnimationsAsync(),
     ]})
 export class AppModule { }
