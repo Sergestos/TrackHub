@@ -13,5 +13,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IExerciseService, ExerciseService>();
+        services.AddScoped<IExerciseSearchService, ExerciseSearchService>();
     }
 }

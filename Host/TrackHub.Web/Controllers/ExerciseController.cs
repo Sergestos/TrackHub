@@ -17,12 +17,14 @@ public class ExerciseController : TrackHubController
 {
     private readonly IExerciseRepository _exerciseRepository;
     private readonly IExerciseService _exerciseService;
+    private readonly IExerciseSearchService _exerciseSearchService;
     private readonly IMapper _mapper;
 
-    public ExerciseController(IExerciseService exerciseService, IExerciseRepository exerciseRepository, IMapper mapper)
+    public ExerciseController(IExerciseService exerciseService, IExerciseRepository exerciseRepository, IExerciseSearchService exerciseSearchService, IMapper mapper)
     {
         _exerciseService = exerciseService;
         _exerciseRepository = exerciseRepository;
+        _exerciseSearchService = exerciseSearchService;
         _mapper = mapper;
     }
 
@@ -38,9 +40,9 @@ public class ExerciseController : TrackHubController
     [HttpGet]
     [Route("list")]    
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]
-    public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int year, [FromQuery] int month, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int? year, [FromQuery] int? month, CancellationToken cancellationToken)
     {
-        var result = await _exerciseRepository.GetExerciseListByDateAsync(year, month, CurrentUserId, cancellationToken);
+        var result = await _exerciseSearchService.GetExercisesByDateAsync(year, month, CurrentUserId, cancellationToken);
 
         return Ok(_mapper.Map<IEnumerable<ExerciseListItem>>(result));
     }
