@@ -65,12 +65,15 @@ export class AuthService {
         }
 
         const url = environment.apiUrl + '/api/auth/google-login';
-        return this.http.post<string>(url, payload, { headers, responseType: 'text' as 'json' })
+        return this.http.post<any>(url, payload, { headers })
             .pipe(
                 map(result => {
+                    this.localStorage.setItem('profile_url', result.user.photoUrl);
+                    this.localStorage.setItem('user_name', result.user.fullName);
+                    this.localStorage.setItem('access_token', result.token);
+
                     this.isAuthorized$.next(true);
-                    this.localStorage.setItem('access_token', result);
-                    return result;
+                    return result.token;
                 }),
                 catchError((err, caught) => {
                     console.error(err);

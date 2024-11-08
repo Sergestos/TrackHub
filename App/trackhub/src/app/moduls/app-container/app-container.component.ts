@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../providers/services/auth.service';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../providers/services/loading.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'trh-app-container',
@@ -10,19 +11,32 @@ import { LoadingService } from '../../providers/services/loading.service';
     styleUrls: ['./app-container.component.css']
 })
 export class AppContainerComponent implements OnInit {
+    private localStorage!: Storage;
+    
     public isLoading$!: Observable<boolean>;
     public isAuthorized$!: Observable<boolean>;
     public isUserMenuAsked: boolean = false;
 
+    public userName: string = ''
+    public userPictureUrl: string = ''
+
     constructor(
         private router: Router,
         private authService: AuthService,
-        private loadingService: LoadingService
-    ) { }
+        private loadingService: LoadingService,
+        @Inject(DOCUMENT) document: Document
+    ) { 
+        this.localStorage = document.defaultView?.localStorage!;
+    }
 
     public ngOnInit(): void {
         this.isAuthorized$ = this.authService.isAuthorized();
         this.isLoading$ = this.loadingService.loading$;
+
+        if (this.localStorage) {
+            this.userName = this.localStorage.getItem('user_name') ?? 'user';
+            this.userPictureUrl = this.localStorage.getItem('profile_url') ?? '';
+        }        
     }
 
     public onMenuDropDown(): void {

@@ -49,7 +49,7 @@ public class AuthController : Controller
                 var user = await _userService.GetInsertedUserAsync(_mapper.Map<SocialUser>(googlePayload), cancellationToken);
                 var token = _jwtTokenGenerator.CreateUserAuthToken(user);          
 
-                return Ok(token);
+                return Ok(new { user, token });
             }
             else
             {
