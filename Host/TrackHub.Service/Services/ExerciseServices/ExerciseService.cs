@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
-using TrackHub.Service.ExerciseServices.Models;
+using TrackHub.Service.Services.ExerciseServices.Models;
 
-namespace TrackHub.Service.ExerciseServices;
+namespace TrackHub.Service.Services.ExerciseServices;
 
 internal class ExerciseService : IExerciseService
 {
@@ -20,14 +20,14 @@ internal class ExerciseService : IExerciseService
     {
         var exercise = _exerciseRepository.GetExerciseByDate(DateOnly.FromDateTime(exerciseModel.PlayDate), userId, cancellationToken);
         if (exercise != null)
-            throw new InvalidOperationException("Exercise already exists for this date.");        
+            throw new InvalidOperationException("Exercise already exists for this date.");
 
         var newExercise = new Exercise()
         {
-            ExerciseId = Guid.NewGuid().ToString(),            
+            ExerciseId = Guid.NewGuid().ToString(),
             UserId = userId,
             PlayDate = PlayDate.FormatFromDateTime(exerciseModel.PlayDate),
-            Records = exerciseModel.Records.Select(model => 
+            Records = exerciseModel.Records.Select(model =>
             {
                 Record record = _mapper.Map<Record>(model);
                 record.RecordId = Guid.NewGuid().ToString();
@@ -45,8 +45,31 @@ internal class ExerciseService : IExerciseService
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
 
-        exercise.Records = _mapper.Map<Record[]>(exerciseModel.Records.ToArray());
+        IEnumerable<UpdateRecordModel> newRecords = exerciseModel.Records.Where(x => string.IsNullOrWhiteSpace(x.RecordId));
+        IEnumerable<UpdateRecordModel> existingRecords = exerciseModel.Records.Where(x => !string.IsNullOrWhiteSpace(x.RecordId));
 
+        exercise.Records = _mapper.Map<Record[]>(existingRecords)
+            .Union(newRecords.Select(x =>
+            {
+                Record record = _mapper.Map<Record>(x);
+                record.RecordId = Guid.NewGuid().ToString();
+
+                return record;
+            }))
+            .ToArray();
+
+        var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
+
+        return result;
+    }
+
+    public async Task<Exercise> DeleteExerciseAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken)
+    {
+        var exercise = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, userId, cancellationToken);
+        if (exercise == null)
+            throw new InvalidOperationException("Exercise is not found.");
+
+        exercise.Records = exercise.Records.Where(x => !recordIds.Contains(x.RecordId)).ToArray();
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
         return result;

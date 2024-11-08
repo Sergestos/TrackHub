@@ -2,8 +2,8 @@
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Service.UserServices;
-using TrackHub.Service.UserServices.Models;
+using TrackHub.Service.Services.UserServices;
+using TrackHub.Service.Services.UserServices.Models;
 using TrackHub.Web.Utilities;
 
 namespace TrackHub.Web.Controllers;
@@ -49,7 +49,7 @@ public class AuthController : Controller
                 var user = await _userService.GetInsertedUserAsync(_mapper.Map<SocialUser>(googlePayload), cancellationToken);
                 var token = _jwtTokenGenerator.CreateUserAuthToken(user);          
 
-                return Ok(token);
+                return Ok(new { user, token });
             }
             else
             {

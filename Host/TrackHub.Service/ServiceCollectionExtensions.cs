@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Service.ExerciseServices;
 using TrackHub.Service.Infrastructure;
-using TrackHub.Service.UserServices;
+using TrackHub.Service.Services.ExerciseServices;
+using TrackHub.Service.Services.UserServices;
 
 namespace TrackHub.Service;
 
@@ -13,5 +13,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IExerciseService, ExerciseService>();
+        services.AddScoped<IExerciseSearchService, ExerciseSearchService>();
     }
 }

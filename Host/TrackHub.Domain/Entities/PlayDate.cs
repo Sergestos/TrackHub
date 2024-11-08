@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace TrackHub.Domain.Entities;
 
-public class PlayDate
+public class PlayDate : IComparable<PlayDate>
 {
     [JsonProperty("year")]
     public required int Year { get; set; }
@@ -21,5 +21,27 @@ public class PlayDate
             Month = dateTime.Month,
             Day = dateTime.Day
         };
+    }
+
+    public int CompareTo(PlayDate other)
+    {
+        if (other == null)
+        {
+            return 1;
+        }
+
+        int yearComparison = Year.CompareTo(other.Year);
+        if (yearComparison != 0)
+        {
+            return yearComparison;
+        }
+
+        int monthComparison = Month.CompareTo(other.Month);
+        if (monthComparison != 0)
+        {
+            return monthComparison;
+        }
+
+        return Day.CompareTo(other.Day);
     }
 }

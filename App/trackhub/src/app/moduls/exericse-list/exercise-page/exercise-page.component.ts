@@ -1,20 +1,26 @@
 import { Component, OnInit } from "@angular/core";
-import { ExerciseItem, ExerciseItemView, FiltersModel as FilterModel } from "./exercise-list.models";
+import { ExerciseItem, ExerciseItemView, FiltersModel as FilterModel } from "../exercise-list.models";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ExerciseListService } from "../../providers/services/exercise-list.service";
+import { ExerciseListService } from "../exercise-list.service";
+import { MatDialog } from '@angular/material/dialog';
+import { ModalResult, openDeleteConfirmationModal } from "../../../components/mat-modal/mat-modal.component";
+import { LoadingService } from "../../../providers/services/loading.service";
 
 @Component({
-	selector: 'trackhub-exercise-list',
-	templateUrl: './exercise-list.component.html',
-	styleUrls: ['./exercise-list.component.css']
+	selector: 'trackhub-exercise-page',
+	templateUrl: './exercise-page.component.html',
+	styleUrls: ['./exercise-page.component.css']
 })
-export class ExerciseListComponent implements OnInit {
+export class ExercisePageComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
 
 	constructor(
 		private router: Router,
+		private matDialog: MatDialog,
 		private activeRoute: ActivatedRoute,
-		private exerciseListService: ExerciseListService) { }
+		private exerciseListService: ExerciseListService,
+        private loadingService: LoadingService
+	) { }
 
 	public ngOnInit(): void {
 		this.activeRoute.queryParams.subscribe(params => {
@@ -38,8 +44,17 @@ export class ExerciseListComponent implements OnInit {
 		exercise.isExpanded = !exercise.isExpanded;
 	}
 
-	public onRemoveItem(item: ExerciseItemView): void {
-		this.exercises = this.exercises.filter(x => x != item);
+	public openDialog(item: ExerciseItemView): void {
+		const modal = openDeleteConfirmationModal(this.matDialog);
+		modal.afterClosed().subscribe((result: ModalResult) => {
+			if (result == ModalResult.Confirmed) {
+				this.exercises = this.exercises.filter(x => x != item);		
+				this.loadingService.show();		
+				this.exerciseListService
+					.deleteExercise(item.exerciseId)
+					.subscribe({ complete: () => this.loadingService.hide()});
+			}
+		});
 	}
 
 	public onExerciseEdit(item: ExerciseItemView): void {
@@ -61,16 +76,20 @@ export class ExerciseListComponent implements OnInit {
 	}
 
 	private setExerciseGrid(filter: FilterModel): void {
-		this.exerciseListService.getExercisesByDate(filter.year, filter.month)
-			.subscribe(result => {
-				this.exercises = result;				
-				this.exercises.forEach(x => {
-					x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
-					x.isExpanded = filter.showExpanded;					
-				});
-
-				this.fillNonPlayedDays(filter.year, filter.month, this.exercises, !filter.showNonPlayed!);
-			})
+		this.loadingService.show();
+		this.exerciseListService.getExercisesByDate(filter.year, filter.month)		
+			.subscribe({
+				next: (result) => {
+					this.exercises = result;
+					this.exercises.forEach(x => {
+						x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
+						x.isExpanded = filter.showExpanded;
+					});
+	
+					this.fillNonPlayedDays(filter.year, filter.month, this.exercises, !filter.showNonPlayed!);
+				},
+				complete: () => this.loadingService.hide()
+			});
 	}
 
 	private fillNonPlayedDays(year: number, month: number, items: ExerciseItem[], isHidden: boolean): void {

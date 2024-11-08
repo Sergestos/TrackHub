@@ -1,4 +1,8 @@
 
+<div class="fixed inset-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50" 
+    *ngIf="isLoading$ | async">
+    <mat-spinner color="accent" diameter="50" strokeWidth="5"></mat-spinner>
+</div>
 <div>
     <ng-container *ngIf="isUserMenuAsked">
       <trh-user-dropdown (isUserMenuAskedEmmiter)="onUserMenuPanelMouseOut($event)"></trh-user-dropdown>
@@ -9,7 +13,7 @@
             <p class="text-[24px] text-white pl-4">TrackHub</p>
         </div>        
         <ng-container *ngIf="isAuthorized$ | async">
-            <div class="nav ml-[-7.5%] flex flex-row justify-around gap-1">
+            <div class="nav flex flex-row justify-around gap-1">
                 <div class="nav-item">
                     <i class="fa-solid fa-chart-column nav-icon"></i>
                     <p class="nav-text">Dashboard</p>
@@ -22,8 +26,11 @@
                     <i class="fa-solid fa-plus nav-icon"></i>
                     <p class="nav-text">Commit</p>                
                 </div>   
-            </div>                     
-            <i class="fa-solid fa-circle-user fa-xl nav-icon pr-2" (click)="onMenuDropDown()"></i>
+            </div>  
+            <div class="flex">
+                <p class="nav-text pr-3 pt-1">Welcome, {{userName}}</p>    
+                <img [src]="userPictureUrl" class="w-7 h-7 rounded-full" alt="User Profile Picture" (click)="onMenuDropDown()" />
+            </div>                          
         </ng-container>
     </div>
     <div class="min-h-[70vh] mb-[5vh]">

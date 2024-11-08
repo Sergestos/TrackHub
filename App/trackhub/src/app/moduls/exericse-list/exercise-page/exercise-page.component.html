@@ -2,7 +2,7 @@
     <div class="mt-[1.15rem] mb-14 ml-12">
         <p class="text-[28px] text-white">Exercise List</p>
     </div>
-    <div class="w-full h-full bg-c-bg-accent exerice-list-wrapper border-t border-solid border-c-border">
+    <div class="w-full h-full bg-c-bg-accent border-t border-solid border-c-border">
         <div class="flex flex-row mb-10 justify-around">
             <div class="flex mt-4 ml-12 w-full">
                 <p class="grid-item w-[4%]"></p>                
@@ -40,8 +40,8 @@
                             *ngIf="item.totalPlayed! > 0">
                             <i class="fa-regular fa-pen-to-square fa-lg grid-icon" 
                                 (click)="onExerciseEdit(item)"></i>
-                            <i class="fa-solid fa-xmark fa-lg text-c-remove-icon  transition duration-300 hover:text-gray-200"
-                                (click)="onRemoveItem(item)"></i>
+                            <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
+                                (click)="openDialog(item)"></i>
                         </div>  
                     </div>
                     <ng-container *ngIf="item.isExpanded">

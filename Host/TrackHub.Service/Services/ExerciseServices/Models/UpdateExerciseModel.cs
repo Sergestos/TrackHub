@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Service.ExerciseServices.Models;
+﻿namespace TrackHub.Service.Services.ExerciseServices.Models;
 
 public record UpdateExerciseModel
 {

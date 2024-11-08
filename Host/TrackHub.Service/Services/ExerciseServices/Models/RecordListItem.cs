@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Web.Models;
+﻿namespace TrackHub.Service.Services.ExerciseServices.Models;
 
 public class RecordListItem
 {

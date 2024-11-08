@@ -22,6 +22,10 @@
         background-color: #ce2424;
     }
 
+    .btn-remove:disabled {            
+        background-color: #4d3b3b;
+    }
+
     .btn-action {
         background-color: #3874ff;        
     }
