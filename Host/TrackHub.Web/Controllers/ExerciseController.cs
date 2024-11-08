@@ -28,15 +28,25 @@ public class ExerciseController : TrackHubController
         _mapper = mapper;
     }
 
-     [HttpGet]
-     [ProducesResponseType(typeof(ExerciseView), 200)]
-     public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
-     {         
-         var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, CurrentUserId, cancellationToken);
+    [HttpGet]
+    [ProducesResponseType(typeof(ExerciseView), 200)]
+    public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
+    {         
+        var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, CurrentUserId, cancellationToken);
 
-         return Ok(_mapper.Map<ExerciseView>(result)); 
-     }
-    
+        return Ok(_mapper.Map<ExerciseView>(result)); 
+    }
+
+    [HttpGet]
+    [Route("by-date")]
+    [ProducesResponseType(typeof(ExerciseView), 200)]
+    public IActionResult GetByDateAsync([FromQuery] DateOnly date, CancellationToken cancellationToken)
+    {
+        var result = _exerciseRepository.GetExerciseByDate(date, CurrentUserId, cancellationToken);
+
+        return Ok(_mapper.Map<ExerciseView>(result));
+    }
+
     [HttpGet]
     [Route("list")]    
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]

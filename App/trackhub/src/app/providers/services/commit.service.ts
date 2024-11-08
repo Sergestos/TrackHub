@@ -27,11 +27,18 @@ export class CommitService {
         });
     }
 
-    public getExerciseRecords(exerciseId: string): Observable<ExerciseModel> {
+    public getExerciseRecordById(exerciseId: string): Observable<ExerciseModel> {
         const params = new HttpParams()
             .set('exerciseId', exerciseId)
 
         return this.http.get<ExerciseModel>(this.baseUrl, { params});
+    }
+
+    public getExerciseRecordByDate(date: Date): Observable<ExerciseModel> {
+        const params = new HttpParams()
+            .set('date', date.toDateString())
+
+        return this.http.get<ExerciseModel>(this.baseUrl + '/by-date', { params});
     }
 
     public deleteExercise(exerciseId: string): Observable<void> {

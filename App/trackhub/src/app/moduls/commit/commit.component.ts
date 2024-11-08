@@ -38,7 +38,7 @@ export class CommitComponent implements OnInit {
 
 			if (exerciseId) {
 		        this.loadingService.show();
-				this.commitService.getExerciseRecords(exerciseId).subscribe({
+				this.commitService.getExerciseRecordById(exerciseId).subscribe({
 					next: (response) => {
 						this.exercise = response;
 						this.pageMode = "Edit";
@@ -46,8 +46,15 @@ export class CommitComponent implements OnInit {
 					complete: () => this.loadingService.hide()
 				});			
 			} else {
-				this.exercise = new ExerciseModel();
-				this.pageMode = "Add";
+				this.commitService.getExerciseRecordByDate(new Date())
+					.subscribe(result => {
+						if (result) {
+							this.router.navigateByUrl("/app/commit?exerciseId=" + result.exerciseId);							
+						} else {
+							this.exercise = new ExerciseModel();
+							this.pageMode = "Add";
+						}
+					});				
 			}
 		});
 	}
