@@ -78,7 +78,7 @@ public class ExerciseController : TrackHubController
     [HttpDelete]    
     public async Task<IActionResult> DeleteAsync(string exerciseId, CancellationToken cancellationToken)
     {
-        await _exerciseRepository.DeleteExerciseAsync(exerciseId, CurrentUserId, cancellationToken);
+        await _exerciseService.DeleteExerciseAsync(exerciseId, CurrentUserId, cancellationToken);
 
         return Ok();
     }
@@ -87,7 +87,7 @@ public class ExerciseController : TrackHubController
     [Route("{exerciseId}/records")]
     public async Task<IActionResult> DeleteRecordsAsync([FromRoute] string exerciseId, [FromQuery] string[] recordId, CancellationToken cancellationToken)
     {
-        var result = await _exerciseService.DeleteExerciseAsync(exerciseId, recordId, CurrentUserId, cancellationToken);
+        var result = await _exerciseService.DeleteRecordsAsync(exerciseId, recordId, CurrentUserId, cancellationToken);
 
         return Ok(result);
     }

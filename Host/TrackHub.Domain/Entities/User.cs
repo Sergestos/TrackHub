@@ -24,4 +24,10 @@ public class User
 
     [JsonProperty("last_entrance_date")]
     public DateTimeOffset? LastEntranceDate { get; set; }
+
+    [JsonProperty("last_play_date")]
+    public DateTimeOffset? LastPlayDate { get; set; }
+
+    [JsonProperty("first_play_date")]
+    public DateTimeOffset? FirstPlayDate { get; set; }
 }

@@ -80,11 +80,11 @@ export class CommitComponent implements OnInit {
 	}
 
 	public onRemoveClick(): void {
-		let isEntirtExericeToDelete: boolean = false;
+		let isEntireExericeToDelete: boolean = false;
 
 		if (this.pageMode == 'Edit') {
 			if (this.exerciseViews.length == this.exerciseViews.filter(x => x.isSelected).length) {
-				isEntirtExericeToDelete = true;
+				isEntireExericeToDelete = true;
 				const modal = openDeleteConfirmationModal(this.matDialog);
 				modal.afterClosed().subscribe(result => {
 					if (result == ModalResult.Confirmed) {
@@ -106,7 +106,7 @@ export class CommitComponent implements OnInit {
 			}
 		}		
 
-		if (!isEntirtExericeToDelete) {
+		if (!isEntireExericeToDelete) {
 			const seletedExercises = this.exerciseViews
 				.filter(x => x.isSelected)
 				.map(x => x.model);

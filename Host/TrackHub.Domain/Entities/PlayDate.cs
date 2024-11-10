@@ -13,6 +13,11 @@ public class PlayDate : IComparable<PlayDate>
     [JsonProperty("day")]
     public required int Day { get; set; }
 
+    public DateTime ToDateTime()
+    {
+        return new DateTime(Year, Month, Day);
+    }
+
     public static PlayDate FormatFromDateTime(DateTime dateTime)
     {
         return new PlayDate()
