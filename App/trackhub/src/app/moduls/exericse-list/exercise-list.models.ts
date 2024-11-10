@@ -18,10 +18,6 @@ export class RecordDetailsItem {
     public author!: string;
 }
 
-export class UserExerciseProfile {
-    public firstExerciseDate!: Date;
-}
-
 export class FiltersModel {
     public year!: number;
     public month!: number;

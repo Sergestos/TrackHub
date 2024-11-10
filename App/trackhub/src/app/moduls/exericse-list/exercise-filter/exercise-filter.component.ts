@@ -1,15 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ExerciseListService } from "../exercise-list.service";
-import { FiltersModel, UserExerciseProfile } from "../exercise-list.models";
-import { ThisReceiver } from "@angular/compiler";
+import { FiltersModel } from "../exercise-list.models";
 
 @Component({
     selector: 'trackhub-exercise-filter',
     templateUrl: './exercise-filter.component.html'
 })
 export class DateFilterComponent implements OnInit {
-    private userExerciseProfile?: UserExerciseProfile;
-
     public filter!: FiltersModel;
     public userProfileYears: number[] = [];
 
@@ -24,7 +21,7 @@ export class DateFilterComponent implements OnInit {
 
     constructor(private exerciseListService: ExerciseListService) {
         this.filter = {
-            year: 2024,
+            year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
             showNonPlayed: false,
             showExpanded: true
@@ -34,8 +31,8 @@ export class DateFilterComponent implements OnInit {
     public ngOnInit(): void {
         this.exerciseListService.getUserExerciseProfile()
             .subscribe(item => {
-                let currentYear = new Date().getFullYear();
-                for (let year = item.firstExerciseDate.getFullYear(); year <= currentYear; year++) {
+                const currentYear = new Date().getFullYear();
+                for (let year = item.getFullYear(); year <= currentYear; year++) {
                     this.userProfileYears.push(year);
                 }
             })
