@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrackHub.Crawler\TrackHub.Crawler.csproj" />
     <ProjectReference Include="..\TrackHub.Domain.Data\TrackHub.Domain.Data.csproj" />
     <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
     <ProjectReference Include="..\TrackHub.Service\TrackHub.Service.csproj" />
