@@ -1,7 +1,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ExerciseModel } from './commit.models';
 import { ExerciseComponent, RecordStatusType } from './exercise/exercise.component';
-import { CommitService } from '../../providers/services/commit.service';
+import { CommitService } from './commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalResult, openDeleteConfirmationModal } from '../../components/mat-modal/mat-modal.component';

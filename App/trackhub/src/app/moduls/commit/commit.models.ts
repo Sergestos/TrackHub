@@ -14,3 +14,8 @@ export class ExerciseModel {
     public playDate?: Date;
     public records: RecordModel[] = [];
 }
+
+export class SuggestionResult {
+    public result!: string;
+    public source!: string;
+}

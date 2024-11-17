@@ -9,7 +9,7 @@ internal class Program
         var songPromptArgsargs = new SongPromptArgs()
         {
             SearchPattern = "Live",
-            ExpectedLength = 5,
+            ExpectedResultLength = 5,
             AlbumsToExclude = null,
             AlbumsToInclude = null
         };

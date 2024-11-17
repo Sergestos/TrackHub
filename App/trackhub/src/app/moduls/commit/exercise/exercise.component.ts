@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { RecordModel } from '../commit.models';
+import { RecordModel, SuggestionResult } from '../commit.models';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { CommitService } from '../../../providers/services/commit.service';
+import { CommitService } from '../commit.service';
 
 const MinSearchLength: number = 3;
 
@@ -86,8 +86,8 @@ export class ExerciseComponent implements OnInit {
             .subscribe(input => {
                 if (input && input.length >= MinSearchLength) {
                     this.commitService.getAuthorSuggestrions(input)
-                        .subscribe(result => {
-                            this.authorSuggestions = result;
+                        .subscribe((result: SuggestionResult[]) => {
+                            this.authorSuggestions = result.map(x => x.result);
                             this.displaySuggestions(SuggestionType.author)
                         });
                 }                

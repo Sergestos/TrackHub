@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { Router, RouterModule, withHashLocation } from '@angular/router';
-import { CommitService } from './providers/services/commit.service';
+import { CommitService } from './moduls/commit/commit.service';
 import { AppContainerComponent } from './moduls/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';

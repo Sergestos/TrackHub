@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ExerciseModel, RecordModel } from '../../moduls/commit/commit.models';
+import { ExerciseModel, RecordModel, SuggestionResult } from './commit.models';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CommitService {
-    private baseUrl: string = environment.apiUrl + '/api/exercise';
+    private baseExerciseUrl: string = environment.apiUrl + '/api/exercise';
+    private baseSuggestionUrl: string = environment.apiUrl + '/api/suggestion';
+
     private headers: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json'
     });
@@ -14,14 +16,14 @@ export class CommitService {
     constructor(private http: HttpClient) { }
 
     public saveExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
-        return this.http.post<any>(this.baseUrl, exerciseModel, {
+        return this.http.post<any>(this.baseExerciseUrl, exerciseModel, {
             headers: this.headers, 
             responseType: 'text' as 'json' 
         });
     }
 
     public updateExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
-        return this.http.put<any>(this.baseUrl, exerciseModel, { 
+        return this.http.put<any>(this.baseExerciseUrl, exerciseModel, { 
             headers: this.headers,
             responseType: 'text' as 'json' 
         });
@@ -31,25 +33,25 @@ export class CommitService {
         const params = new HttpParams()
             .set('exerciseId', exerciseId)
 
-        return this.http.get<ExerciseModel>(this.baseUrl, { params});
+        return this.http.get<ExerciseModel>(this.baseExerciseUrl, { params});
     }
 
     public getExerciseRecordByDate(date: Date): Observable<ExerciseModel> {
         const params = new HttpParams()
             .set('date', date.toDateString())
 
-        return this.http.get<ExerciseModel>(this.baseUrl + '/by-date', { params});
+        return this.http.get<ExerciseModel>(this.baseExerciseUrl + '/by-date', { params});
     }
 
     public deleteExercise(exerciseId: string): Observable<void> {
         const params = new HttpParams()
             .set('exerciseId', exerciseId);
 
-        return this.http.delete<void>(this.baseUrl, { params });
+        return this.http.delete<void>(this.baseExerciseUrl, { params });
     }
 
     public deleteRecords(exerciseId: string, recordIds: string[]): Observable<void> {
-        const url = this.baseUrl + '/' + exerciseId + '/records';
+        const url = this.baseExerciseUrl + '/' + exerciseId + '/records';
         let params = new HttpParams();
         recordIds.forEach((item) => {
             params = params.append('recordId', item);
@@ -62,24 +64,18 @@ export class CommitService {
         });
     }
 
-    public getSongSuggestrions(pattern: string): Observable<string[]> {
-        // return this.http.get<string[]>('https://jsonplaceholder.typicode.com/todos');
-        return of([
-            'Megalsay',
-            'Magakiller',
-            'Mugamen',
-            'Michaluch',
-            'MinuteOf5'
-        ])
+    public getSongSuggestrions(pattern: string): Observable<string[]> {        
+      /*  const params = new HttpParams()
+            .set('pattern', pattern)
+
+        return this.http.get<string[]>(this.baseSuggestionUrl + '/songs', { params });*/
+        return of([]);
     }
 
-    public getAuthorSuggestrions(pattern: string): Observable<string[]> {
-        return of([
-            'Metallica',
-            'Megadeth',
-            'MegamozG',
-            'Michuga',
-            'Mackintosh'
-        ])
+    public getAuthorSuggestrions(pattern: string): Observable<SuggestionResult[]> {
+        const params = new HttpParams()
+            .set('pattern', pattern)
+
+        return this.http.get<SuggestionResult[]>(this.baseSuggestionUrl + '/authors', { params });
     }
 }

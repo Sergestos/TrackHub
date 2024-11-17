@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Crawler;
+using TrackHub.Crawler.Models;
 
 namespace TrackHub.Web.Controllers;
 
@@ -18,7 +19,7 @@ public class SuggestionController : TrackHubController
 
     [HttpGet]
     [Route("authors")]
-    [ProducesResponseType(typeof(IEnumerable<string>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<SearchResult>), 200)]
     public async Task<IActionResult> GetAuthorsAsync(string pattern, CancellationToken cancellationToken)
     {
         var result = await _crawlerFacade.SearchForAuthorsAsync(pattern, cancellationToken);

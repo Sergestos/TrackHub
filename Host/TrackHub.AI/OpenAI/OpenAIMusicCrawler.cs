@@ -22,11 +22,14 @@ public class OpenAIMusicCrawler : AbstractConversation, IAiMusicCrawler
         return await GetAiResponse(conversation);
     }
 
-    public async Task<IEnumerable<string>> SearchAuthorsAsync(GeneralPromptArgs args, CancellationToken token)
+    public async Task<IEnumerable<string>> SearchAuthorsAsync(AuthorPromptArgs args, CancellationToken token)
     {
         var conversation = GetConversation(args);
 
         conversation.AppendUserInput(Prompts.SearchForAuthors);
+
+        if (args.AuthorsToExclude != null && args.AuthorsToExclude.Any())
+            conversation.AppendUserInput(Prompts.ExcludeAuthors + args.AuthorsToExclude.Select(x => x + ","));
 
         return await GetAiResponse(conversation);
     }

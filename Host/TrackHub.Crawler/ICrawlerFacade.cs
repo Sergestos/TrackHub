@@ -1,6 +1,8 @@
-﻿namespace TrackHub.Crawler;
+﻿using TrackHub.Crawler.Models;
+
+namespace TrackHub.Crawler;
 
 public interface ICrawlerFacade
 {
-    Task<IEnumerable<string>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken);
+    Task<IEnumerable<SearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken);
 }

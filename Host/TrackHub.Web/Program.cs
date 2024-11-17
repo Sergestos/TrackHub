@@ -1,6 +1,7 @@
 using TrackHub.Domain.Data;
 using TrackHub.Service;
 using TrackHub.Crawler;
+using TrackHub.AiCrawler;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
 
@@ -12,6 +13,7 @@ builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddCrawlerServices();
+builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices();
 builder.Services.AddCorsPolicy();
 
