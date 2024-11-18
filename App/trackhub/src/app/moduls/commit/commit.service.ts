@@ -64,12 +64,15 @@ export class CommitService {
         });
     }
 
-    public getSongSuggestrions(pattern: string): Observable<string[]> {        
-      /*  const params = new HttpParams()
-            .set('pattern', pattern)
+    public getSongSuggestrions(pattern: string, author: string | null | undefined): Observable<SuggestionResult[]> {
+         const params = new HttpParams()
+            .set('pattern', pattern);
+        
+        if (author) {
+            params.set('author', author);
+        }
 
-        return this.http.get<string[]>(this.baseSuggestionUrl + '/songs', { params });*/
-        return of([]);
+        return this.http.get<SuggestionResult[]>(this.baseSuggestionUrl + '/songs', { params });        
     }
 
     public getAuthorSuggestrions(pattern: string): Observable<SuggestionResult[]> {

@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Crawler.Models;
+﻿namespace TrackHub.Searcher.Models;
 
 public enum ResultSource
 {

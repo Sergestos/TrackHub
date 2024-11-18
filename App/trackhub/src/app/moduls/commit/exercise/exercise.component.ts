@@ -73,9 +73,9 @@ export class ExerciseComponent implements OnInit {
             .pipe(debounceTime(300))
             .subscribe(input => {
                 if (input && input.length >= MinSearchLength) {
-                    this.commitService.getSongSuggestrions(input)
+                    this.commitService.getSongSuggestrions(input, this.model.author)
                         .subscribe(result => {
-                            this.songSuggestions = result;
+                            this.songSuggestions = result.map(x => x.result);
                             this.displaySuggestions(SuggestionType.song)
                         });
                 }                

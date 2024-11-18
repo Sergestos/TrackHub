@@ -1,21 +1,16 @@
-﻿
-using TrackHub.AiCrawler;
+﻿using TrackHub.AiCrawler;
 using TrackHub.AiCrawler.PromptModels;
-using TrackHub.Crawler.Models;
+using TrackHub.Searcher.Models;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Crawler.Searchers.Authors;
+namespace TrackHub.Searcher.Searchers.Authors;
 
-internal class AuthorCrawler : IAuthorCrawler
-{
-    private const int MinimalDbResultThreshold = 3;
-    private const int MinimalSearchPatternLength = 3;
-    private const int MaximumSearchResultLength = 5;
-
+internal class AuthorSearcher : BaseSearcher, IAuthorSearcher
+{    
     private readonly IRecordRepository _recordRepository;
     private readonly IAiMusicCrawler _aiMusicCrawler;
 
-    public AuthorCrawler(IRecordRepository recordRepository, IAiMusicCrawler aiMusicCrawler)
+    public AuthorSearcher(IRecordRepository recordRepository, IAiMusicCrawler aiMusicCrawler)
     {
         _recordRepository = recordRepository;
         _aiMusicCrawler = aiMusicCrawler;
@@ -46,18 +41,5 @@ internal class AuthorCrawler : IAuthorCrawler
         }
 
         return result;
-    }
-
-    private IEnumerable<string> PolishAiResponse(IEnumerable<string> aiResponse, IEnumerable<string> dbResult)
-    {
-        return aiResponse.Where(x => !dbResult.Contains(x));
-    }
-
-    private string CapitalizeFirstLetter(string str)
-    {
-        if (string.IsNullOrEmpty(str))
-            return str;
-
-        return char.ToUpper(str[0]) + str.Substring(1);
-    }
+    }    
 }

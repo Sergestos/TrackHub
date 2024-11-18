@@ -28,9 +28,10 @@ internal static class Prompts
         Exclude songs from the next albums: ";
 
     internal static string SearchForSongs = @"
-        Search for existing songs. Return names of these songs and their authors.
+        Search for existing songs. Return names of these songs name only, drop authors names.
         Names(pure name of a song, author or band name is not considering as a part of song name)
         of these songs must begin the next pattern. This patten might be a separate word or just a part of a word.
+        Prioritize most popular songs, but they anyway must start with pattern provided previously.
         The pattern was provided previously.";
 
     internal static string SearchForAuthors = @"
@@ -41,4 +42,7 @@ internal static class Prompts
     internal static string ExcludeAuthors = @"
         Exclude some authors or bands. They must not be included into final result.
         Just ignore them. There is a list to ignore: ";
+
+    internal static string NoResponseFormat = @"
+        If you ca'nt assist or find any results, just return empty string. Don't return anything else.";
 }

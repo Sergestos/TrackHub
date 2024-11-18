@@ -1,6 +1,6 @@
 using TrackHub.Domain.Data;
 using TrackHub.Service;
-using TrackHub.Crawler;
+using TrackHub.Searcher;
 using TrackHub.AiCrawler;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;

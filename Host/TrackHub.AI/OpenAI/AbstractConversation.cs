@@ -25,6 +25,7 @@ public abstract class AbstractConversation
         conversation.AppendSystemMessage(Prompts.ConversationTopic);
         conversation.AppendSystemMessage(Prompts.ResponseFormat);
         conversation.AppendSystemMessage(Prompts.PopularAssets);
+        conversation.AppendSystemMessage(Prompts.NoResponseFormat);
 
         conversation.AppendSystemMessage(Prompts.ExpectedResultLength + generalArgs.ExpectedResultLength);
         conversation.AppendSystemMessage($"This is a search text pattern: {generalArgs.SearchPattern}." +

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Crawler.Searchers.Authors;
-using TrackHub.Crawler.Searchers.Song;
+using TrackHub.Searcher.Searchers.Authors;
+using TrackHub.Searcher.Searchers.Song;
 
-namespace TrackHub.Crawler;
+namespace TrackHub.Searcher;
 
 public static class ServiceCollectionExtensions
 {
     public static void AddCrawlerServices(this IServiceCollection services)
     {
-        services.AddScoped<ICrawlerFacade, CrawlerFacade>();
-        services.AddTransient<IAuthorCrawler, AuthorCrawler>();
-        services.AddTransient<ISongCrawler, SongCrawler>();
+        services.AddScoped<ISearcherFacade, SearcherFacade>();
+        services.AddTransient<IAuthorSearcher, AuthorSearcher>();
+        services.AddTransient<ISongSearcher, SongSearcher>();
     }
 }
  
