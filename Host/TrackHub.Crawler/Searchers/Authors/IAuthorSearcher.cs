@@ -4,5 +4,5 @@ namespace TrackHub.Searcher.Searchers.Authors;
 
 public interface IAuthorSearcher
 {
-    Task<IEnumerable<SearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken);
+    Task<IEnumerable<SearchResult>> SearchAsync(string authorName, int resultSize, CancellationToken cancellationToken);
 }

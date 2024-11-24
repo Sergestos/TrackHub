@@ -16,21 +16,22 @@ internal class AuthorSearcher : BaseSearcher, IAuthorSearcher
         _aiMusicCrawler = aiMusicCrawler;
     }
 
-    public async Task<IEnumerable<SearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SearchResult>> SearchAsync(string authorName, int resultSize, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(authorName) || authorName.Length < MinimalSearchPatternLength)
             return Enumerable.Empty<SearchResult>();
 
         var result = new List<SearchResult>();
 
-        var dbResult = await _recordRepository.SearchAuthorsByNameAsync(CapitalizeFirstLetter(authorName), cancellationToken);
+        var dbResult = await _recordRepository.SearchAuthorsByNameAsync(CapitalizeFirstLetter(authorName), resultSize, cancellationToken);
         result.AddRange(dbResult.Select(SearchResultBuilder.FromDateBase));
 
-        if (result.Count() < MinimalDbResultThreshold)
+        int leftoverSize = MinimalDbResultThreshold >= resultSize ? resultSize : MinimalDbResultThreshold;
+        if (result.Count() < leftoverSize)
         {
             var args = new AuthorPromptArgs()
             {
-                ExpectedResultLength = MaximumSearchResultLength - result.Count(),
+                ExpectedResultLength = leftoverSize - result.Count(),
                 SearchPattern = authorName,
                 AuthorsToExclude = dbResult.ToList()
             };

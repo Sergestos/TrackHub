@@ -13,10 +13,10 @@ internal class RecordRepository : CosmosContainerIterator<string>, IRecordReposi
         Container = context.GetContainer(ExerciseContainerType);
     }
 
-    public async Task<IEnumerable<string>> SearchAuthorsByNameAsync(string pattern, CancellationToken cancellationToken)
+    public async Task<IEnumerable<string>> SearchAuthorsByNameAsync(string pattern, int searchSize, CancellationToken cancellationToken)
     {
         string query = @"
-            SELECT DISTINCT                 
+            SELECT DISTINCT TOP @top
                VALUE r.author
             FROM r IN
                e.records
@@ -25,15 +25,16 @@ internal class RecordRepository : CosmosContainerIterator<string>, IRecordReposi
                AND r.author LIKE @pattern";
 
         QueryDefinition queryDefinition = new QueryDefinition(query)
-            .WithParameter("@pattern", pattern + "%");        
+            .WithParameter("@pattern", pattern + "%")
+            .WithParameter("@top", searchSize);        
 
         return await IterateFeedAsync(queryDefinition);        
     }
 
-    public async Task<IEnumerable<string>> SearchSongsByNameAsync(string pattern, CancellationToken cancellationToken)
+    public async Task<IEnumerable<string>> SearchSongsByNameAsync(string pattern, int searchSize, CancellationToken cancellationToken)
     {
         string query = @"
-            SELECT DISTINCT                 
+            SELECT DISTINCT TOP @top                
                VALUE r.name
             FROM r IN
                e.records
@@ -42,7 +43,8 @@ internal class RecordRepository : CosmosContainerIterator<string>, IRecordReposi
                AND r.name LIKE @pattern";
 
         QueryDefinition queryDefinition = new QueryDefinition(query)
-            .WithParameter("@pattern", pattern + "%");
+            .WithParameter("@pattern", pattern + "%")
+            .WithParameter("@top", searchSize);
 
         return await IterateFeedAsync(queryDefinition);
     }

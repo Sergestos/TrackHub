@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TrackHub.Seacher.Models;
 
 namespace TrackHub.Searcher;
 
-public interface ISuggestionCache
+internal interface ISuggestionCache
 {
+    string[]? Get(CacheKey key);
 
+    void Add(CacheItem item);
 }

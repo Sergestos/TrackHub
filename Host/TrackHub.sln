@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Seacher", "TrackHub.Crawler\TrackHub.Seacher.csproj", "{B615F868-8E27-400A-8922-5CB384EB116F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Seacher.Cache", "TrackHub.AzureTableStorageCache\TrackHub.Seacher.Cache.csproj", "{2A04F06E-FB84-4ED3-818D-0AE1AE09D9B9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{B615F868-8E27-400A-8922-5CB384EB116F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B615F868-8E27-400A-8922-5CB384EB116F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B615F868-8E27-400A-8922-5CB384EB116F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A04F06E-FB84-4ED3-818D-0AE1AE09D9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A04F06E-FB84-4ED3-818D-0AE1AE09D9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A04F06E-FB84-4ED3-818D-0AE1AE09D9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A04F06E-FB84-4ED3-818D-0AE1AE09D9B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
