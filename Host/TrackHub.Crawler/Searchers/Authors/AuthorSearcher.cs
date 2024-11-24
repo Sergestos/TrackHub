@@ -1,9 +1,9 @@
 ﻿using TrackHub.AiCrawler;
 using TrackHub.AiCrawler.PromptModels;
-using TrackHub.Searcher.Models;
+using TrackHub.Scraper.Models;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Searcher.Searchers.Authors;
+namespace TrackHub.Scraper.Searchers.Authors;
 
 internal class AuthorSearcher : BaseSearcher, IAuthorSearcher
 {    

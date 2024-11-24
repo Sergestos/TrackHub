@@ -1,9 +1,9 @@
 ﻿using TrackHub.AiCrawler;
 using TrackHub.AiCrawler.PromptModels;
 using TrackHub.Domain.Repositories;
-using TrackHub.Searcher.Models;
+using TrackHub.Scraper.Models;
 
-namespace TrackHub.Searcher.Searchers.Song;
+namespace TrackHub.Scraper.Searchers.Song;
 
 internal class SongSearcher : BaseSearcher, ISongSearcher
 {

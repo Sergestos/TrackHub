@@ -1,19 +1,19 @@
 ﻿using TrackHub.Seacher.Models;
-using TrackHub.Searcher.Models;
-using TrackHub.Searcher.Searchers.Authors;
-using TrackHub.Searcher.Searchers.Song;
+using TrackHub.Scraper.Models;
+using TrackHub.Scraper.Searchers.Authors;
+using TrackHub.Scraper.Searchers.Song;
 
-namespace TrackHub.Searcher;
+namespace TrackHub.Scraper;
 
-internal class SearcherFacade : ISearcherFacade
+internal class ScraperFacade : IScraperFacade
 {
     private int MaximumSearchResultLength { get; set; } = 5;
 
     private readonly IAuthorSearcher _authorSearcher;
     private readonly ISongSearcher _songSearcher;
-    private readonly ISuggestionCache _suggestionCache;
+    private readonly IScraperCache _suggestionCache;
 
-    public SearcherFacade(IAuthorSearcher authorSearcher, ISongSearcher songSearcher, ISuggestionCache suggestionCache)
+    public ScraperFacade(IAuthorSearcher authorSearcher, ISongSearcher songSearcher, IScraperCache suggestionCache)
     {
         _authorSearcher = authorSearcher;
         _songSearcher = songSearcher;

@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TrackHub.Seacher.Cache;
-using TrackHub.Searcher.Searchers.Authors;
-using TrackHub.Searcher.Searchers.Song;
+using TrackHub.Scraper.Searchers.Authors;
+using TrackHub.Scraper.Searchers.Song;
 
-namespace TrackHub.Searcher;
+namespace TrackHub.Scraper;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCrawlerServices(this IServiceCollection services)
+    public static void AddScraperServices(this IServiceCollection services)
     {
-        services.AddScoped<ISearcherFacade, SearcherFacade>();
+        services.AddScoped<IScraperFacade, ScraperFacade>();
         services.AddScoped<IAuthorSearcher, AuthorSearcher>();
         services.AddScoped<ISongSearcher, SongSearcher>();
-        services.AddSingleton<ISuggestionCache, InMemoryCache>();
+        services.AddSingleton<IScraperCache, InMemoryCache>();
 
         services.AddMemoryCache();
     }

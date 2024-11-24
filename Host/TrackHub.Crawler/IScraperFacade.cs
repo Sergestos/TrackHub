@@ -1,8 +1,8 @@
-﻿using TrackHub.Searcher.Models;
+﻿using TrackHub.Scraper.Models;
 
-namespace TrackHub.Searcher;
+namespace TrackHub.Scraper;
 
-public interface ISearcherFacade
+public interface IScraperFacade
 {
     Task<IEnumerable<SearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken);
 

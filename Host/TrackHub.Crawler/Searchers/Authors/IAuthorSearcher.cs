@@ -1,6 +1,6 @@
-﻿using TrackHub.Searcher.Models;
+﻿using TrackHub.Scraper.Models;
 
-namespace TrackHub.Searcher.Searchers.Authors;
+namespace TrackHub.Scraper.Searchers.Authors;
 
 public interface IAuthorSearcher
 {

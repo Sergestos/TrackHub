@@ -1,8 +1,8 @@
 ﻿using TrackHub.Seacher.Models;
 
-namespace TrackHub.Searcher;
+namespace TrackHub.Scraper;
 
-internal interface ISuggestionCache
+internal interface IScraperCache
 {
     string[]? Get(CacheKey key);
 

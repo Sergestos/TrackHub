@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using TrackHub.Seacher.Models;
-using TrackHub.Searcher;
+using TrackHub.Scraper;
 
 namespace TrackHub.Seacher.Cache;
 
-internal class InMemoryCache : ISuggestionCache
+internal class InMemoryCache : IScraperCache
 {
     private const int TTL = 5000;
 

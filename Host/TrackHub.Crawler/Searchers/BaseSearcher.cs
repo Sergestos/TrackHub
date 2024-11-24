@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Searcher.Searchers;
+﻿namespace TrackHub.Scraper.Searchers;
 
 internal abstract class BaseSearcher
 {
