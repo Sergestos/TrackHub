@@ -21,7 +21,7 @@ public class UserController : TrackHubController
     [ProducesResponseType(typeof(string), 200)]
     public IActionResult GetByIdAsync()
     {
-        var result = _userService.GetUserFirstPlayDateAsync(CurrentUserId);
+        var result = _userService.GetUserFirstPlayDate(CurrentUserId);
 
         return Ok(result);
     }

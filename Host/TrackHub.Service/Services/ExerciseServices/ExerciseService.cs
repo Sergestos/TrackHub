@@ -131,7 +131,7 @@ internal class ExerciseService : IExerciseService
     {
         var removedExercisePlayDate = removedExercise.PlayDate.ToDateTime();
 
-        var newestExercise = await _exerciseRepository.FindNewestExercise(user.UserId, cancellation);
+        var newestExercise = await _exerciseRepository.FindNewestExerciseAsync(user.UserId, cancellation);
         if (newestExercise != null)
         {
             var newestExercisePlayDate = newestExercise.PlayDate.ToDateTime();
@@ -142,7 +142,7 @@ internal class ExerciseService : IExerciseService
             }
         }
 
-        var oldestExercise = await _exerciseRepository.FindOldestExercise(user.UserId, cancellation);
+        var oldestExercise = await _exerciseRepository.FindOldestExerciseAsync(user.UserId, cancellation);
         if (oldestExercise != null)
         {
             var oldestExercisePlayDate = oldestExercise.PlayDate.ToDateTime();

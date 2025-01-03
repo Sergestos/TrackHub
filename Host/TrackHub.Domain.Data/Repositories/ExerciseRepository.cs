@@ -35,7 +35,7 @@ internal class ExerciseRepository : IExerciseRepository
         return response?.Resource;
     }
 
-    public async Task<Exercise?> FindNewestExercise(string userId, CancellationToken cancellationToken)
+    public async Task<Exercise?> FindNewestExerciseAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .OrderByDescending(item => item.PlayDate.Year)
@@ -58,7 +58,7 @@ internal class ExerciseRepository : IExerciseRepository
         }
     }
 
-    public async Task<Exercise?> FindOldestExercise(string userId, CancellationToken cancellationToken)
+    public async Task<Exercise?> FindOldestExerciseAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .OrderBy(item => item.PlayDate.Year)

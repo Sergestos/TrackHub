@@ -33,7 +33,7 @@ export class UserDropdownComponent implements OnInit {
         }, 0);
     }
 
-    public onLogout(): void {
+    public onLogoutClick(): void {
         this.authService.logOut()
             .subscribe({
                 next: _ => {

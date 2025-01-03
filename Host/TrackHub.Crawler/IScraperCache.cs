@@ -1,4 +1,4 @@
-﻿using TrackHub.Seacher.Models;
+﻿using TrackHub.Scraper.Models;
 
 namespace TrackHub.Scraper;
 

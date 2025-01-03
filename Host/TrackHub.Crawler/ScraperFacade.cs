@@ -1,5 +1,4 @@
-﻿using TrackHub.Seacher.Models;
-using TrackHub.Scraper.Models;
+﻿using TrackHub.Scraper.Models;
 using TrackHub.Scraper.Searchers.Authors;
 using TrackHub.Scraper.Searchers.Song;
 
@@ -7,7 +6,8 @@ namespace TrackHub.Scraper;
 
 internal class ScraperFacade : IScraperFacade
 {
-    private int MaximumSearchResultLength { get; set; } = 5;
+    private const string CacheSetIdentifier = "author";
+    private const int MaximumSearchResultLength = 5;
 
     private readonly IAuthorSearcher _authorSearcher;
     private readonly ISongSearcher _songSearcher;
@@ -19,11 +19,10 @@ internal class ScraperFacade : IScraperFacade
         _songSearcher = songSearcher;
         _suggestionCache = suggestionCache;
     }
+
     public async Task<IEnumerable<SearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken)
     {
-        string cacheSetIdentifier = "author";
-
-        var cachedResults = _suggestionCache.Get(new CacheKey(cacheSetIdentifier, pattern));
+        var cachedResults = _suggestionCache.Get(new CacheKey(CacheSetIdentifier, pattern));
         if (cachedResults == null || cachedResults.Length < MaximumSearchResultLength)
         {
             int leftoverSize = cachedResults == null ? MaximumSearchResultLength : MaximumSearchResultLength - cachedResults!.Length;
@@ -33,7 +32,7 @@ internal class ScraperFacade : IScraperFacade
             {
                 _suggestionCache.Add(new CacheItem()
                 {
-                    Key = new CacheKey(cacheSetIdentifier, pattern),
+                    Key = new CacheKey(CacheSetIdentifier, pattern),
                     Values = searcherResult.Select(x => x.Result).ToArray()
                 });
             }                

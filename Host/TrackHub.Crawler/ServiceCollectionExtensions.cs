@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Seacher.Cache;
+using TrackHub.Scraper.Cache;
 using TrackHub.Scraper.Searchers.Authors;
 using TrackHub.Scraper.Searchers.Song;
 

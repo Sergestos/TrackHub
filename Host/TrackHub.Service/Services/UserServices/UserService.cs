@@ -39,7 +39,7 @@ internal class UserService : IUserService
         return user!;
     }
 
-    public DateTimeOffset GetUserFirstPlayDateAsync(string userId)
+    public DateTimeOffset GetUserFirstPlayDate(string userId)
     {
         User user = _userRepository.GetUserById(userId)!;
 

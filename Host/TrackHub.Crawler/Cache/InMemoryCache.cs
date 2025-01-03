@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using TrackHub.Seacher.Models;
-using TrackHub.Scraper;
+using TrackHub.Scraper.Models;
 
-namespace TrackHub.Seacher.Cache;
+namespace TrackHub.Scraper.Cache;
 
 internal class InMemoryCache : IScraperCache
 {
@@ -28,7 +27,7 @@ internal class InMemoryCache : IScraperCache
         string composedKey = GetComposedKey(item.Key);
         if (!_memoryCache.TryGetValue(composedKey, out _))
         {
-            _memoryCache.Set<string[]>(GetComposedKey(item.Key), item.Values);
+            _memoryCache.Set<string[]>(composedKey, item.Values);
         }        
     }
 
