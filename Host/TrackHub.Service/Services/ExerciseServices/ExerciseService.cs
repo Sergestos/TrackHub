@@ -41,11 +41,10 @@ internal class ExerciseService : IExerciseService
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
         User user = _userRepository.GetUserById(userId)!;
-        if (user.LastPlayDate != null && user.FirstPlayDate != null)
+        if (TryRecalculatePlayDatesOnCreate(user!, result))
         {
-            ReassignPlayDatesOnCreate(user!, result);
             await _userRepository.UpsertAsync(user, cancellationToken);
-        }            
+        }
 
         return result;
     }
@@ -83,11 +82,10 @@ internal class ExerciseService : IExerciseService
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
         User user = _userRepository.GetUserById(userId)!;
-        if (user.LastPlayDate != null && user.FirstPlayDate != null)
+        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate.ToDateTime(), cancellationToken))            
         {
-            await ReassignPlayDatesOnDeleteAsync(user, exercise, cancellationToken);
             await _userRepository.UpsertAsync(user, cancellationToken);
-        }
+        }        
     }
 
     public async Task<Exercise> DeleteRecordsAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken)
@@ -102,35 +100,27 @@ internal class ExerciseService : IExerciseService
         return result;
     }
 
-    private void ReassignPlayDatesOnCreate(User user, Exercise addedExercise)
+    private bool TryRecalculatePlayDatesOnCreate(User user, Exercise addedExercise)
     {
         DateTimeOffset exercisePlayDate = addedExercise.PlayDate.ToDateTime();
 
-        if (user.FirstPlayDate == null || user.LastPlayDate == null)
-        {
+        if ((user.FirstPlayDate != null && user.FirstPlayDate <= exercisePlayDate) &&
+            (user.LastPlayDate != null && user.LastPlayDate >= exercisePlayDate))
+        {            
+            return false;
+        }
+
+        if (user.FirstPlayDate == null || user.FirstPlayDate > exercisePlayDate)
             user.FirstPlayDate = exercisePlayDate;
+
+        if (user.LastPlayDate == null || user.LastPlayDate < exercisePlayDate)
             user.LastPlayDate = exercisePlayDate;
 
-            return;
-        }
-
-        if (exercisePlayDate < user.FirstPlayDate)
-        {
-            user.FirstPlayDate = exercisePlayDate;
-            return;
-        }
-
-        if (exercisePlayDate > user.LastPlayDate)
-        {
-            user.LastPlayDate = exercisePlayDate;
-            return;
-        }
+        return true;
     }
 
-    private async Task ReassignPlayDatesOnDeleteAsync(User user, Exercise removedExercise, CancellationToken cancellation)
+    private async Task<bool> TryRecalculatePlayDatesOnDeleteAsync(User user, DateTime removedExercisePlayDate, CancellationToken cancellation)
     {
-        var removedExercisePlayDate = removedExercise.PlayDate.ToDateTime();
-
         var newestExercise = await _exerciseRepository.FindNewestExerciseAsync(user.UserId, cancellation);
         if (newestExercise != null)
         {
@@ -138,7 +128,7 @@ internal class ExerciseService : IExerciseService
             if (newestExercise.PlayDate.ToDateTime() < removedExercisePlayDate)
             {
                 user.LastPlayDate = newestExercisePlayDate;
-                return;
+                return true;                
             }
         }
 
@@ -149,8 +139,10 @@ internal class ExerciseService : IExerciseService
             if (oldestExercise.PlayDate.ToDateTime() > removedExercisePlayDate)
             {
                 user.FirstPlayDate = oldestExercisePlayDate;
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 }
