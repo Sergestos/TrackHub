@@ -16,12 +16,12 @@
         </div>
         <div class="input-wrapper h-name">
             <input type="text" class="input-text" placeholder="search a name"
-                [(ngModel)]="model.name" (ngModelChange)="onModelChanged()" 
+                [(ngModel)]="model.name" (ngModelChange)="onModelChanged('name')" 
                 [formControl]="searchSongField" (click)="onSongInputClick($event)" autocomplete="off" />
         </div>
         <div class="input-wrapper h-author">
             <input type="text" class="input-text" placeholder="search an author"
-                [(ngModel)]="model.author" (ngModelChange)="onModelChanged()" 
+                [(ngModel)]="model.author" (ngModelChange)="onModelChanged('author')" 
                 [formControl]="searchAuthorField" (click)="onAuthorInputClick($event)" autocomplete="off" />
         </div>
         <div class="input-wrapper h-bpm">

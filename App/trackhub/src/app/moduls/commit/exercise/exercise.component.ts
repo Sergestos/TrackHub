@@ -121,7 +121,11 @@ export class ExerciseComponent implements OnInit {
         }
     }
 
-    public onModelChanged(): void {
+    public onModelChanged(fieldName?: string): void {
+        if (fieldName) {
+            this.trimFields(fieldName!);
+        }
+
         if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.recordId) {
             this.currectRecordStatusType = RecordStatusType.changed;
         }
@@ -132,5 +136,12 @@ export class ExerciseComponent implements OnInit {
         this.isSuggestionsAsked = 
             (this.currentSuggestionsType == SuggestionType.song && this.songSuggestions.length > 0) ||
             (this.currentSuggestionsType == SuggestionType.author && this.authorSuggestions.length > 0);
+    }
+
+    private trimFields(fieldName: string): void {
+        if (fieldName == 'name')
+            this.model.name = this.model.name?.trim();
+        if (fieldName == 'author')
+            this.model.author = this.model.author?.trim();
     }
 }
