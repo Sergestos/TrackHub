@@ -34,7 +34,7 @@ export class ExercisePageComponent implements OnInit {
 			this.setExerciseGrid({
 				year: year,
 				month: month,
-				showNonPlayed: false,
+				showNonPlayed: true,
 				showExpanded: true
 			});
 		});

@@ -23,7 +23,7 @@ export class DateFilterComponent implements OnInit {
         this.filter = {
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
-            showNonPlayed: false,
+            showNonPlayed: true,
             showExpanded: true
         };
     }
@@ -51,7 +51,7 @@ export class DateFilterComponent implements OnInit {
         this.onDateChangedEmmiter.emit(this.filter);
     }
 
-    public onYearSelected(year: number): void {
+    public onYearSelected($event: any): void {
         this.onDateChangedEmmiter.emit(this.filter);
     }
 }
