@@ -18,7 +18,7 @@ export class PermissionsService {
         return this.authService.isAuthorized()
             .pipe(tap(isAuthorized => {
                 if (!isAuthorized) {
-                    this.router.navigateByUrl("/app/login")
+                    this.router.navigateByUrl('/app/login')
                 }
             }));
     }
