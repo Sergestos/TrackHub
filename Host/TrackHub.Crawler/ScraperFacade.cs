@@ -20,13 +20,13 @@ internal class ScraperFacade : IScraperFacade
         _suggestionCache = suggestionCache;
     }
 
-    public async Task<IEnumerable<SearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScrapperSearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken)
     {
         var cachedResults = _suggestionCache.Get(new CacheKey(CacheSetIdentifier, pattern));
         if (cachedResults == null || cachedResults.Length < MaximumSearchResultLength)
         {
             int leftoverSize = cachedResults == null ? MaximumSearchResultLength : MaximumSearchResultLength - cachedResults!.Length;
-            var searcherResult = await _authorSearcher.SearchAsync(pattern, leftoverSize, cancellationToken);
+            var searcherResult = await _authorSearcher.SearchAsync(pattern, leftoverSize, cachedResults, cancellationToken);
 
             if (searcherResult.Any())
             {
@@ -39,16 +39,16 @@ internal class ScraperFacade : IScraperFacade
 
             return cachedResults == null ? searcherResult :
                  cachedResults
-                    .Select(SearchResultBuilder.FromCache)
+                    .Select(ScrapperSearchResultBuilder.FromCache)
                     .Union(searcherResult);
         }
         else
         {
-            return cachedResults.Select(SearchResultBuilder.FromCache).ToList();
+            return cachedResults.Select(ScrapperSearchResultBuilder.FromCache).ToList();
         }
     }
 
-    public async Task<IEnumerable<SearchResult>> SearchForSongsAsync(string pattern, string? author, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScrapperSearchResult>> SearchForSongsAsync(string pattern, string? author, CancellationToken cancellationToken)
     {
         if (!string.IsNullOrWhiteSpace(author))
         {

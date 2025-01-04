@@ -19,7 +19,7 @@ public class SuggestionController : TrackHubController
 
     [HttpGet]
     [Route("authors")]
-    [ProducesResponseType(typeof(IEnumerable<SearchResult>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<ScrapperSearchResult>), 200)]
     public async Task<IActionResult> GetAuthorsAsync([FromQuery] string pattern, CancellationToken cancellationToken)
     {
         var result = await _scraperFacade.SearchForAuthorsAsync(pattern, cancellationToken);
@@ -29,7 +29,7 @@ public class SuggestionController : TrackHubController
 
     [HttpGet]
     [Route("songs")]
-    [ProducesResponseType(typeof(IEnumerable<SearchResult>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<ScrapperSearchResult>), 200)]
     public async Task<IActionResult> GetSongsAsync([FromQuery] string pattern, [FromQuery] string? author, CancellationToken cancellationToken)
     {
         var result = await _scraperFacade.SearchForSongsAsync(pattern, author, cancellationToken);

@@ -16,20 +16,20 @@ internal class SongSearcher : BaseSearcher, ISongSearcher
         _aiMusicCrawler = aiMusicCrawler;
     }
 
-    public async Task<IEnumerable<SearchResult>> SearchAsync(string pattern, string authorName, int resultSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string pattern, string authorName, int resultSize, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<SearchResult>> SearchAsync(string pattern, int resultSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string pattern, int resultSize, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(pattern) || pattern.Length < MinimalSearchPatternLength)
-            return Enumerable.Empty<SearchResult>();
+            return Enumerable.Empty<ScrapperSearchResult>();
 
-        var result = new List<SearchResult>();
+        var result = new List<ScrapperSearchResult>();
 
-        var dbResult = await _recordRepository.SearchSongsByNameAsync(CapitalizeFirstLetter(pattern), resultSize, cancellationToken);
-        result.AddRange(dbResult.Select(SearchResultBuilder.FromDateBase));
+        var dbResult = await _recordRepository.SearchSongsByNameAsync(CapitalizeFirstLetter(pattern), resultSize, null, cancellationToken);
+        result.AddRange(dbResult.Select(ScrapperSearchResultBuilder.FromDateBase));
 
         int leftoverSize = MinimalDbResultThreshold >= resultSize ? resultSize : MinimalDbResultThreshold;
         if (result.Count() < MinimalDbResultThreshold)
@@ -42,7 +42,7 @@ internal class SongSearcher : BaseSearcher, ISongSearcher
                 AlbumsToInclude = null
             };
             var aiResponse = await _aiMusicCrawler.SearchSongsAsync(args, cancellationToken);
-            var aiResult = PolishAiResponse(aiResponse, dbResult).Select(SearchResultBuilder.FromAi);
+            var aiResult = PolishAiResponse(aiResponse, dbResult).Select(ScrapperSearchResultBuilder.FromAi);
 
             result.AddRange(aiResult);
         }

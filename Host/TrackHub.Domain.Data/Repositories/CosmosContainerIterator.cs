@@ -8,7 +8,7 @@ internal abstract class CosmosContainerIterator<T>
 
     protected async Task<IEnumerable<T>> IterateFeedAsync(QueryDefinition queryDefinition)
     {
-        using FeedIterator<T> feed = Container!.GetItemQueryIterator<T>(queryDefinition);
+        using FeedIterator<T> feed = Container!.GetItemQueryIterator<T>(queryDefinition);        
 
         var result = new List<T>();
         while (feed.HasMoreResults)

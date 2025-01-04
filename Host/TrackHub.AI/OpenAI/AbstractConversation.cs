@@ -46,8 +46,6 @@ public abstract class AbstractConversation
         }
         catch (Exception ex)
         {
-            // TODO log any exceptions here
-
             result = null;
         }
   

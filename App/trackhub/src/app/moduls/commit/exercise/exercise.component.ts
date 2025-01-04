@@ -39,8 +39,8 @@ export class ExerciseComponent implements OnInit {
     public searchSongField = new FormControl();
     public searchAuthorField = new FormControl();
 
-    public songSuggestions: string[] = [];
-    public authorSuggestions: String[] = [];
+    public songSuggestions: SuggestionResult[] = [];
+    public authorSuggestions: SuggestionResult[] = [];
 
     suggestionTypeEnum: typeof SuggestionType = SuggestionType;
     public currentSuggestionsType: SuggestionType | null = null;
@@ -75,7 +75,7 @@ export class ExerciseComponent implements OnInit {
                 if (input && input.length >= MinSearchLength) {
                     this.commitService.getSongSuggestrions(input, this.model.author)
                         .subscribe(result => {
-                            this.songSuggestions = result.map(x => x.result);
+                            this.songSuggestions = result;
                             this.displaySuggestions(SuggestionType.song)
                         });
                 }                
@@ -87,7 +87,7 @@ export class ExerciseComponent implements OnInit {
                 if (input && input.length >= MinSearchLength) {
                     this.commitService.getAuthorSuggestrions(input)
                         .subscribe((result: SuggestionResult[]) => {
-                            this.authorSuggestions = result.map(x => x.result);
+                            this.authorSuggestions = result;
                             this.displaySuggestions(SuggestionType.author)
                         });
                 }                

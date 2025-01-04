@@ -14,10 +14,10 @@ public class OpenAIMusicCrawler : AbstractConversation, IAiMusicCrawler
         conversation.AppendUserInput(Prompts.SearchForSongs);        
 
         if (args.AlbumsToInclude != null && args.AlbumsToInclude.Any())
-            conversation.AppendUserInput(Prompts.IncludeSongsFromAlbums + args.AlbumsToInclude.Select(x => x + ";"));
+            conversation.AppendUserInput(Prompts.IncludeSongsFromAlbums + string.Join(", ", args.AlbumsToInclude));
 
         if (args.AlbumsToExclude != null && args.AlbumsToExclude.Any())
-            conversation.AppendUserInput(Prompts.ExcludeSongsFromAlbums + args.AlbumsToExclude.Select(x => x + ";"));
+            conversation.AppendUserInput(Prompts.ExcludeSongsFromAlbums + string.Join(", ", args.AlbumsToExclude));
 
         return await GetAiResponse(conversation);
     }
@@ -29,7 +29,7 @@ public class OpenAIMusicCrawler : AbstractConversation, IAiMusicCrawler
         conversation.AppendUserInput(Prompts.SearchForAuthors);
 
         if (args.AuthorsToExclude != null && args.AuthorsToExclude.Any())
-            conversation.AppendUserInput(Prompts.ExcludeAuthors + args.AuthorsToExclude.Select(x => x + ","));
+            conversation.AppendUserInput(Prompts.ExcludeAuthors + string.Join(", ",  args.AuthorsToExclude));
 
         return await GetAiResponse(conversation);
     }

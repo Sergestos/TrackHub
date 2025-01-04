@@ -54,14 +54,14 @@
             <ng-container *ngIf="currentSuggestionsType == suggestionTypeEnum.song">
                 <div class="suggestion-wrapper">
                     <div *ngFor="let item of songSuggestions" class="suggestion-item">
-                        <p (click)="onSuggestionClick(item.toString())">{{item}}</p>
+                        <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>                        
                     </div>           
                 </div>
             </ng-container>
             <ng-container *ngIf="currentSuggestionsType == suggestionTypeEnum.author">
                 <div class="suggestion-wrapper">
                     <div *ngFor="let item of authorSuggestions" class="suggestion-item">
-                        <p (click)="onSuggestionClick(item.toString())">{{item}}</p>
+                        <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>
                     </div>           
                 </div>
             </ng-container>
