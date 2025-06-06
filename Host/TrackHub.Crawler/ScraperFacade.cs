@@ -26,7 +26,7 @@ internal class ScraperFacade : IScraperFacade
         if (cachedResults == null || cachedResults.Length < MaximumSearchResultLength)
         {
             int leftoverSize = cachedResults == null ? MaximumSearchResultLength : MaximumSearchResultLength - cachedResults!.Length;
-            var searcherResult = await _authorSearcher.SearchAsync(pattern, leftoverSize, cachedResults, cancellationToken);
+            var searcherResult = await _authorSearcher.SearchAsync(pattern, cancellationToken);
 
             if (searcherResult.Any())
             {

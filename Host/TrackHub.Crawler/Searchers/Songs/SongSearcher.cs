@@ -5,7 +5,7 @@ using TrackHub.Scraper.Models;
 
 namespace TrackHub.Scraper.Searchers.Song;
 
-internal class SongSearcher : BaseSearcher, ISongSearcher
+internal class SongSearcher : ISongSearcher
 {
     private readonly IRecordRepository _recordRepository;
     private readonly IAiMusicCrawler _aiMusicCrawler;
@@ -23,26 +23,27 @@ internal class SongSearcher : BaseSearcher, ISongSearcher
 
     public async Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string pattern, int resultSize, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(pattern) || pattern.Length < MinimalSearchPatternLength)
+        if (string.IsNullOrWhiteSpace(pattern) || pattern.Length < Constants.MinimalSearchPatternLength)
             return Enumerable.Empty<ScrapperSearchResult>();
 
         var result = new List<ScrapperSearchResult>();
 
-        var dbResult = await _recordRepository.SearchSongsByNameAsync(CapitalizeFirstLetter(pattern), resultSize, null, cancellationToken);
+        var dbResult = await _recordRepository.SearchSongsByNameAsync(Helper.CapitalizeFirstLetter(pattern), resultSize, null, cancellationToken);
         result.AddRange(dbResult.Select(ScrapperSearchResultBuilder.FromDateBase));
 
-        int leftoverSize = MinimalDbResultThreshold >= resultSize ? resultSize : MinimalDbResultThreshold;
-        if (result.Count() < MinimalDbResultThreshold)
+        int leftoverSize = Constants.MinimalDbResultThreshold >= resultSize ? resultSize : Constants.MinimalDbResultThreshold;
+        if (result.Count() < Constants.MinimalDbResultThreshold)
         {
             var args = new SongPromptArgs()
             {
-                ExpectedResultLength = MaximumSearchResultLength - result.Count(),
+                ExpectedResultLength = Constants.MaximumSearchResultLength - result.Count(),
                 SearchPattern = pattern,
                 AlbumsToExclude = null,
-                AlbumsToInclude = null
+                AlbumsToInclude = null,
+                AuthorName = null
             };
             var aiResponse = await _aiMusicCrawler.SearchSongsAsync(args, cancellationToken);
-            var aiResult = PolishAiResponse(aiResponse, dbResult).Select(ScrapperSearchResultBuilder.FromAi);
+            var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScrapperSearchResultBuilder.FromAi);
 
             result.AddRange(aiResult);
         }
