@@ -14,11 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {
-      "@./exercise-list": ["libs/exercise-list/src/index.ts"],
-      "@./services": ["libs/services/src/index.ts"],
-      "@./ui-kit": ["libs/ui-kit/src/index.ts"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "tmp"]
 }
