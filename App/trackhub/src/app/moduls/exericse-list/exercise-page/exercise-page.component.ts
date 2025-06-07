@@ -9,7 +9,7 @@ import { LoadingService } from "../../../providers/services/loading.service";
 @Component({
 	selector: 'trackhub-exercise-page',
 	templateUrl: './exercise-page.component.html',
-	styleUrls: ['./exercise-page.component.css']
+	styleUrls: ['./exercise-page.component.scss']
 })
 export class ExercisePageComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];

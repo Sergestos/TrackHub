@@ -5,7 +5,7 @@ import { RecordDetailsItem } from "../exercise-list.models";
 @Component({
 	selector: 'trackhub-details-exercise-card',
 	templateUrl: './details-exercise-card.component.html',
-	styleUrls: ['./details-exercise-card.component.css']
+	styleUrls: ['./details-exercise-card.component.scss']
 })
 export class DetailsExerciseItemComponent implements OnInit {
 	@Input()

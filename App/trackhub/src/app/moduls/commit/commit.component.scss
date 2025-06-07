@@ -1,0 +1,122 @@
+.top-wrapper {
+    margin: 2vh 1.5rem 2.5vh 3rem;    
+    
+    .page-header {
+        font-size: 30px;
+        color: white;
+    }
+
+    .btn {            
+        padding: 0.75vh 2rem;
+        margin-right: 0.5rem;
+        border-radius: 6px;        
+        transition: 0.5s;
+        color: white;    
+    }
+
+    .btn-remove {
+        background-color: #dd5454;        
+    }
+
+    .btn-remove:hover {            
+        background-color: #ce2424;
+    }
+
+    .btn-remove:disabled {            
+        background-color: #4d3b3b;
+    }
+
+    .btn-action {
+        background-color: #3874ff;        
+    }
+    
+    .btn-action:hover {            
+        background-color: #004dff;
+    }
+
+    .header-controlls {
+        display: flex;
+        justify-content: space-between;        
+
+        .date-picker {
+            display: flex;
+            align-items: center;
+            margin-top: 2.5vh;            
+
+            input {
+                margin-left: 0.75rem;
+            }
+
+            input[type="date"] {
+                border-radius: 5px;
+                padding: 2px;
+            }
+
+            p {
+                display: inline;                
+                color: rgba(144, 161, 211, 0.78);
+            }
+        }
+
+        .btn-controls {
+            margin-top: 1.75vh;        
+        }    
+    }    
+}
+
+.exercise-grid {
+    height: 100vh;
+    background-color: #141824;
+    border-top: 1px solid #31374a;            
+
+    .headers {        
+        margin: 2vh 3rem;
+        display: flex;        
+        padding-bottom: 1.66vh;
+        border-bottom: 1px solid #31374a;        
+
+        .h-duration {
+            width: 10.5%;
+        }
+
+        .h-check-all {                        
+            width: 3%;            
+        }
+
+        .h-type {
+            width: 12%;            
+        }
+
+        .h-name {
+            width: 20%;            
+        }
+
+        .h-author {
+            width: 15%;            
+        }
+
+        .h-bpm {
+            width: 10%;            
+        }
+
+        .h-options {
+            width: 15%;            
+        }
+
+        p {
+            font-size: 15px;
+            font-weight: bold;
+            color: rgba(144, 161, 211, 0.884);
+        }
+    }
+
+    .placeholder {      
+        height: 12.5vh;    
+
+        p {
+            text-align: center;                    
+            margin-top: 5vh;    
+            color: white;
+        }
+    }
+}

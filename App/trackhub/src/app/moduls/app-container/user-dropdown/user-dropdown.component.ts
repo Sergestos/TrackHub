@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 @Component({
     selector: 'trh-user-dropdown',
     templateUrl: './user-dropdown.component.html',
-    styleUrls: ['./user-dropdown.component.css']
+    styleUrls: ['./user-dropdown.component.scss']
 })
 export class UserDropdownComponent implements OnInit {
     private isComponentReady: boolean = false;

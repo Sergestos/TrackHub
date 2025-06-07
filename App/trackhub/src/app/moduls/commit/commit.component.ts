@@ -10,7 +10,7 @@ import { LoadingService } from '../../providers/services/loading.service';
 @Component({
 	selector: 'trh-commit',
 	templateUrl: './commit.component.html',
-	styleUrls: ['./commit.component.css']
+	styleUrls: ['./commit.component.scss']
 })
 export class CommitComponent implements OnInit {
 	public isUseTodaysDate: boolean = true;
