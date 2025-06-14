@@ -10,11 +10,11 @@ public static class AuthConfiguration
     {
         services.AddAuthentication(options =>
         {
-     /*       options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;*/
-        });
-    /*    .AddJwtBearer(options =>
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
         {
             options.SaveToken = false;
             options.RequireHttpsMetadata = false;
@@ -29,11 +29,11 @@ public static class AuthConfiguration
                 ClockSkew = TimeSpan.Zero
             };
 
-        })*/
-      /*  .AddGoogle(googleOptions =>
+        })
+        .AddGoogle(googleOptions =>
         {
             googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
             googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
-        });*/
+        });
     }
 }
