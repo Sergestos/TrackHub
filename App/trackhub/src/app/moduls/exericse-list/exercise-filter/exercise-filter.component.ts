@@ -4,7 +4,8 @@ import { FiltersModel } from "../exercise-list.models";
 
 @Component({
     selector: 'trackhub-exercise-filter',
-    templateUrl: './exercise-filter.component.html'
+    templateUrl: './exercise-filter.component.html',
+    standalone: false
 })
 export class DateFilterComponent implements OnInit {
     public filter!: FiltersModel;

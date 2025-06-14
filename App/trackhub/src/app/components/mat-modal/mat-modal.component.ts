@@ -18,9 +18,8 @@ export enum ModalResult {
     selector: 'mat-modal',
     templateUrl: 'mat-modal.component.html',
     styleUrls: ['./mat-modal.component.scss'],
-    standalone: true,
     imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatModal {
     readonly modalRef = inject(MatDialogRef<MatModal>);

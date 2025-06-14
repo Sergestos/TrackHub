@@ -8,9 +8,10 @@ import { ModalResult, openDeleteConfirmationModal } from '../../components/mat-m
 import { LoadingService } from '../../providers/services/loading.service';
 
 @Component({
-	selector: 'trh-commit',
-	templateUrl: './commit.component.html',
-	styleUrls: ['./commit.component.scss']
+    selector: 'trh-commit',
+    templateUrl: './commit.component.html',
+    styleUrls: ['./commit.component.scss'],
+    standalone: false
 })
 export class CommitComponent implements OnInit {
 	public isUseTodaysDate: boolean = true;

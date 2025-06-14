@@ -20,7 +20,8 @@ export enum RecordStatusType {
 @Component({
     selector: 'trh-exercise',
     templateUrl: './exercise.component.html',
-    styleUrls: ['./exercise.component.scss']
+    styleUrls: ['./exercise.component.scss'],
+    standalone: false
 })
 export class ExerciseComponent implements OnInit {
     public recordTypes: string[] = [ 'Warmup', 'Song', 'Improvisation', 'Exercise', 'Composing' ]

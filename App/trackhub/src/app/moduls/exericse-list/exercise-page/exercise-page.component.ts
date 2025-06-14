@@ -7,9 +7,10 @@ import { ModalResult, openDeleteConfirmationModal } from "../../../components/ma
 import { LoadingService } from "../../../providers/services/loading.service";
 
 @Component({
-	selector: 'trackhub-exercise-page',
-	templateUrl: './exercise-page.component.html',
-	styleUrls: ['./exercise-page.component.scss']
+    selector: 'trackhub-exercise-page',
+    templateUrl: './exercise-page.component.html',
+    styleUrls: ['./exercise-page.component.scss'],
+    standalone: false
 })
 export class ExercisePageComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];

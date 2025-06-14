@@ -8,7 +8,8 @@ import { DOCUMENT } from '@angular/common';
 @Component({
     selector: 'trh-app-container',
     templateUrl: './app-container.component.html',
-    styleUrls: ['./app-container.component.scss']
+    styleUrls: ['./app-container.component.scss'],
+    standalone: false
 })
 export class AppContainerComponent implements OnInit {
     private localStorage!: Storage;

@@ -6,7 +6,8 @@ import { LoadingService } from "../../providers/services/loading.service";
 
 @Component({
     selector: 'trackhub-auth',
-    templateUrl: './auth.component.html'
+    templateUrl: './auth.component.html',
+    standalone: false
 })
 export class AuthComponent implements OnInit {
     constructor(
