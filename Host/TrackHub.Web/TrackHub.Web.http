@@ -1,6 +1,3 @@
 @TrackHub.Web_HostAddress = http://localhost:5044
 
-GET {{TrackHub.Web_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
