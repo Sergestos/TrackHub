@@ -15,8 +15,8 @@ builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScraperServices();
 builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices();
-
 builder.Services.AddCorsPolicy();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
