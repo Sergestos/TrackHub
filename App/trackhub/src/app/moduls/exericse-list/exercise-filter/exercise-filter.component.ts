@@ -24,7 +24,7 @@ export class FilterComponent implements OnInit {
                 this.userFirstYear = item.getFullYear();
                 this.filter()!.dateFilter = {
                     year: new Date().getFullYear(),
-                    month: new Date().getMonth()
+                    month: new Date().getMonth() + 1
                 }
             })
     }
