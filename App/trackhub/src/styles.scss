@@ -27,23 +27,6 @@
     border-color: rgba(0, 0, 0, 0.829);
 }
 
-.t-checkbox {
-    width: 17px !important;
-    height: 17px !important;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -o-appearance: none;
-    background-color: #141824 !important;
-    box-shadow: none;
-    accent-color: transparent;
-    border-radius: 0.1rem;
-    border: 1px solid rgba(233, 233, 233, 0.274);
-}
-
-.t-checkbox:checked:after {
-    content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>');
-}
-
 input[type="date"] {
     background-color: transparent !important;
     color: rgb(224, 224, 224);
@@ -112,4 +95,58 @@ select {
         color: #8b949e;
         cursor: not-allowed;
     }
+}
+
+input[type='checkbox'] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    background-color: #0d1117;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        background-color: transparent;
+        mask: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5 13l4 4L19 7'/></svg>");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+    }
+
+    &:checked {
+        background-color: #2f81f7;
+        border-color: #2f81f7;
+
+        &::before {
+            background-color: #ffffff;
+        }
+    }
+
+    &:hover {
+        border-color: #8b949e;
+    }
+
+    &:disabled {
+        background-color: #161b22;
+        border-color: #30363d;
+        cursor: not-allowed;
+    }
+}
+
+label {
+    color: #c9d1d9;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    user-select: none;
 }

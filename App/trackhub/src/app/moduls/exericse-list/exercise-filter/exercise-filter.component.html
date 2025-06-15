@@ -1,18 +1,16 @@
 <div class="flex flex-row justify-end gap-6 w-full">
-    <div class="flex flex-row gap-1 mt-2 filter-options">
-        <label class="text-sm text-c-text-shadow">Show expanded</label>
-      <!--  <input type="checkbox" class="t-checkbox" (click)="onExpandAllClicked($event)"
-            [ngModel]="filter.showExpanded" />-->
-    </div>
-    <div class="flex flex-row gap-1 mt-2 filter-options">
-        <!--<label class="text-sm text-c-text-shadow">Show non-playd days</label>
-        <input type="checkbox" class="t-checkbox" (click)="onShowNonPlayedClicked($event)"
-            [ngModel]="filter.showNonPlayed" />-->
+    <div class="flex gap-6 mt-2">
+        <div class="flex gap-2">
+            <label class="-mt-0.5">Show expanded</label>
+            <input type="checkbox" (click)="onExpandAllClicked($event)" />
+        </div>
+        <div class="flex gap-2">
+            <label class="-mt-0.5">Show non-playd days</label>
+            <input type="checkbox" (click)="onShowNonPlayedClicked($event)"/>
+        </div>
     </div>
     <div>
-        <trackhub-exercise-date-filter  
-            [startYear]="userFirstYear"
-            [ngModel]="dateFilter"
+        <trackhub-exercise-date-filter [startYear]="userFirstYear" [ngModel]="dateFilter"
             (ngModelChange)="onFilterDateChanges($event)">
         </trackhub-exercise-date-filter>
     </div>

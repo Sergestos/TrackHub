@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ExerciseItem, ExerciseItemView, FiltersModel as FilterModel } from "../exercise-list.models";
+import { ExerciseItem, ExerciseItemView, FilterDateModel, FiltersModel as FilterModel } from "../exercise-list.models";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ExerciseListService } from "../exercise-list.service";
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,7 @@ import { LoadingService } from "../../../providers/services/loading.service";
 })
 export class ExercisePageComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
+	public filter!: FilterModel;
 
 	constructor(
 		private router: Router,
@@ -32,14 +33,16 @@ export class ExercisePageComponent implements OnInit {
 			year = params['year'] || currentDate.getFullYear();
 			month = params['month'] || currentDate.getMonth() + 1;
 
-			this.setExerciseGrid({
+			this.filter = {
 				showNonPlayed: true,
 				showExpanded: true,
 				dateFilter: {
 					year: year,
 					month: month
 				}
-			});
+			};
+
+			this.setExerciseGrid();
 		});
 	}
 
@@ -64,8 +67,10 @@ export class ExercisePageComponent implements OnInit {
 		this.router.navigateByUrl("/app/commit?exerciseId=" + item.exerciseId);
 	}
 
-	public onDateChanged(filter: FilterModel): void {
-		this.setExerciseGrid(filter);
+	public onDateChanged(dateFilter: FilterDateModel): void {
+		this.filter.dateFilter = dateFilter;
+
+		this.setExerciseGrid();
 	}
 
 	public onShowNonPlayedChanged(isExpandAsksed: boolean): void {
@@ -78,18 +83,18 @@ export class ExercisePageComponent implements OnInit {
 			.forEach(x => x.isExpanded = isExpandAsksed);
 	}
 
-	private setExerciseGrid(filter: FilterModel): void {
+	private setExerciseGrid(): void {
 		this.loadingService.show();
-		this.exerciseListService.getExercisesByDate(filter.dateFilter?.year, filter.dateFilter!.month)
+		this.exerciseListService.getExercisesByDate(this.filter.dateFilter?.year, this.filter.dateFilter!.month)
 			.subscribe({
 				next: (result) => {
 					this.exercises = result;
 					this.exercises.forEach(x => {
 						x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
-						x.isExpanded = filter.showExpanded;
+						x.isExpanded = this.filter.showExpanded;
 					});
 
-					this.fillNonPlayedDays(filter.dateFilter!.year, filter.dateFilter!.month, this.exercises, !filter.showNonPlayed!);
+					this.fillNonPlayedDays(this.filter.dateFilter!.year, this.filter.dateFilter!.month, this.exercises, this.filter.showNonPlayed!);
 				},
 				complete: () => this.loadingService.hide()
 			});
