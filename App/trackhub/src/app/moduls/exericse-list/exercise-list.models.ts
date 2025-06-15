@@ -19,8 +19,12 @@ export class RecordDetailsItem {
 }
 
 export class FiltersModel {
-    public year!: number;
-    public month!: number;
+    public dateFilter?: FilterDateModel;
     public showNonPlayed?: boolean;
     public showExpanded?: boolean;
+}
+
+export class FilterDateModel {
+    public year?: number;
+    public month?: number;
 }

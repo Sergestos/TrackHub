@@ -17,11 +17,11 @@ export class ExerciseListService {
             .pipe(map(date => new Date(date)));
     }
 
-    public getExercisesByDate(year: number, month: number): Observable<ExerciseItemView[]> {
+    public getExercisesByDate(year?: number, month?: number): Observable<ExerciseItemView[]> {
         const url = this.BaseExerciseUrl + '/list'
         const params = new HttpParams()
-            .set('year', year)
-            .set('month', month);
+            .set('year', year ?? '')
+            .set('month', month ?? '');
 
         return this.http.get<ExerciseItemView[]>(url, { params });
     }    

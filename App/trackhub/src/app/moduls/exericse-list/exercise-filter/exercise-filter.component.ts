@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { ExerciseListService } from "../exercise-list.service";
-import { FiltersModel } from "../exercise-list.models";
+import { FilterDateModel, FiltersModel } from "../exercise-list.models";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: 'trackhub-exercise-filter',
@@ -9,7 +10,8 @@ import { FiltersModel } from "../exercise-list.models";
 })
 export class DateFilterComponent implements OnInit {
     public filter!: FiltersModel;
-    public userProfileYears: number[] = [];
+    public userFirstYear!: number;
+    public dateFilter: FilterDateModel | undefined;
 
     @Output()
     public onDateChangedEmmiter: EventEmitter<FiltersModel> = new EventEmitter<FiltersModel>();
@@ -20,22 +22,28 @@ export class DateFilterComponent implements OnInit {
     @Output()
     public onShowNonPlayedEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    constructor(private exerciseListService: ExerciseListService) {
-        this.filter = {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1,
-            showNonPlayed: true,
-            showExpanded: true
-        };
+    constructor(
+        private exerciseListService: ExerciseListService,
+        private activeRoute: ActivatedRoute,
+        private router: Router) {
+
+        /*     this.filter = {
+                 year: new Date().getFullYear(),
+                 month: new Date().getMonth() + 1,
+                 showNonPlayed: true,
+                 showExpanded: true
+             };*/
     }
 
     public ngOnInit(): void {
         this.exerciseListService.getUserExerciseProfile()
             .subscribe(item => {
-                const currentYear = new Date().getFullYear();
-                for (let year = item.getFullYear(); year <= currentYear; year++) {
-                    this.userProfileYears.push(year);
+                this.userFirstYear = item.getFullYear();
+                this.dateFilter = {
+                    year: 2025,
+                    month: 4
                 }
+
             })
     }
 
@@ -47,8 +55,12 @@ export class DateFilterComponent implements OnInit {
         this.onShowNonPlayedEmitter.emit(event.target.checked);
     }
 
+    public onFilterDateChanges($event: any) {
+        console.log($event);
+    }
+
     public onMonthClick(monthIndex: number): void {
-        this.filter.month = monthIndex;
+        //   this.filter.month = monthIndex;
         this.onDateChangedEmmiter.emit(this.filter);
     }
 

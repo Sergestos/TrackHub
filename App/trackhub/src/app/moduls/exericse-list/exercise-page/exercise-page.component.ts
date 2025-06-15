@@ -7,10 +7,10 @@ import { ModalResult, openDeleteConfirmationModal } from "../../../components/ma
 import { LoadingService } from "../../../providers/services/loading.service";
 
 @Component({
-    selector: 'trackhub-exercise-page',
-    templateUrl: './exercise-page.component.html',
-    styleUrls: ['./exercise-page.component.scss'],
-    standalone: false
+	selector: 'trackhub-exercise-page',
+	templateUrl: './exercise-page.component.html',
+	styleUrls: ['./exercise-page.component.scss'],
+	standalone: false
 })
 export class ExercisePageComponent implements OnInit {
 	public exercises: ExerciseItemView[] = [];
@@ -20,7 +20,7 @@ export class ExercisePageComponent implements OnInit {
 		private matDialog: MatDialog,
 		private activeRoute: ActivatedRoute,
 		private exerciseListService: ExerciseListService,
-        private loadingService: LoadingService
+		private loadingService: LoadingService
 	) { }
 
 	public ngOnInit(): void {
@@ -33,10 +33,12 @@ export class ExercisePageComponent implements OnInit {
 			month = params['month'] || currentDate.getMonth() + 1;
 
 			this.setExerciseGrid({
-				year: year,
-				month: month,
 				showNonPlayed: true,
-				showExpanded: true
+				showExpanded: true,
+				dateFilter: {
+					year: year,
+					month: month
+				}
 			});
 		});
 	}
@@ -49,11 +51,11 @@ export class ExercisePageComponent implements OnInit {
 		const modal = openDeleteConfirmationModal(this.matDialog);
 		modal.afterClosed().subscribe((result: ModalResult) => {
 			if (result == ModalResult.Confirmed) {
-				this.exercises = this.exercises.filter(x => x != item);		
-				this.loadingService.show();		
+				this.exercises = this.exercises.filter(x => x != item);
+				this.loadingService.show();
 				this.exerciseListService
 					.deleteExercise(item.exerciseId)
-					.subscribe({ complete: () => this.loadingService.hide()});
+					.subscribe({ complete: () => this.loadingService.hide() });
 			}
 		});
 	}
@@ -78,7 +80,7 @@ export class ExercisePageComponent implements OnInit {
 
 	private setExerciseGrid(filter: FilterModel): void {
 		this.loadingService.show();
-		this.exerciseListService.getExercisesByDate(filter.year, filter.month)		
+		this.exerciseListService.getExercisesByDate(filter.dateFilter?.year, filter.dateFilter!.month)
 			.subscribe({
 				next: (result) => {
 					this.exercises = result;
@@ -86,17 +88,17 @@ export class ExercisePageComponent implements OnInit {
 						x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
 						x.isExpanded = filter.showExpanded;
 					});
-	
-					this.fillNonPlayedDays(filter.year, filter.month, this.exercises, !filter.showNonPlayed!);
+
+					this.fillNonPlayedDays(filter.dateFilter!.year, filter.dateFilter!.month, this.exercises, !filter.showNonPlayed!);
 				},
 				complete: () => this.loadingService.hide()
 			});
 	}
 
-	private fillNonPlayedDays(year: number, month: number, items: ExerciseItem[], isHidden: boolean): void {
-		for (let dayOfMonth = 1; dayOfMonth <= new Date(year, month, 0).getDate(); dayOfMonth++) {
-			let dateToFill = new Date(year, month - 1, dayOfMonth);
-			if (!items.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
+	private fillNonPlayedDays(year?: number, month?: number, items?: ExerciseItem[], isHidden?: boolean): void {
+		for (let dayOfMonth = 1; dayOfMonth <= new Date(year!, month!, 0).getDate(); dayOfMonth++) {
+			let dateToFill = new Date(year!, month! - 1, dayOfMonth);
+			if (!items!.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
 				this.exercises.push({
 					exerciseId: "-1",
 					playDate: dateToFill,
