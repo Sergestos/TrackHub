@@ -11,8 +11,9 @@
             </div>
             <div class="absolute z-10 mr-6">
                 <trackhub-exercise-filter 
+                    [filter]="filter"
                     (onDateChangedEmmiter)="onDateChanged($event)"
-                    (onShowNonPlayedEmitter)="onShowNonPlayedChanged($event)"
+                    (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)"
                     (onExpandAllEmitter)="onExpandChanged($event)">
                 </trackhub-exercise-filter>
             </div>

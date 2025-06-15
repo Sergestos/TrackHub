@@ -34,7 +34,7 @@ export class ExercisePageComponent implements OnInit {
 			month = params['month'] || currentDate.getMonth() + 1;
 
 			this.filter = {
-				showNonPlayed: true,
+				showPlayedOnly: true,
 				showExpanded: true,
 				dateFilter: {
 					year: year,
@@ -73,8 +73,8 @@ export class ExercisePageComponent implements OnInit {
 		this.setExerciseGrid();
 	}
 
-	public onShowNonPlayedChanged(isExpandAsksed: boolean): void {
-		this.exercises.filter(x => x.exerciseId == "-1").forEach(x => x.isHidden = !isExpandAsksed);
+	public onShowPlayedOnlyEmitter(isExpandAsksed: boolean): void {
+		this.exercises.filter(x => x.exerciseId == "-1").forEach(x => x.isHidden = isExpandAsksed);
 	}
 
 	public onExpandChanged(isExpandAsksed: boolean): void {
@@ -94,7 +94,7 @@ export class ExercisePageComponent implements OnInit {
 						x.isExpanded = this.filter.showExpanded;
 					});
 
-					this.fillNonPlayedDays(this.filter.dateFilter!.year, this.filter.dateFilter!.month, this.exercises, this.filter.showNonPlayed!);
+					this.fillNonPlayedDays(this.filter.dateFilter!.year, this.filter.dateFilter!.month, this.exercises, this.filter.showPlayedOnly!);
 				},
 				complete: () => this.loadingService.hide()
 			});

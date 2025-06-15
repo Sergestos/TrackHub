@@ -20,7 +20,7 @@ export class RecordDetailsItem {
 
 export class FiltersModel {
     public dateFilter?: FilterDateModel;
-    public showNonPlayed?: boolean;
+    public showPlayedOnly?: boolean;
     public showExpanded?: boolean;
 }
 

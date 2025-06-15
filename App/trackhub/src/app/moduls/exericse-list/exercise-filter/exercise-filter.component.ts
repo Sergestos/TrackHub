@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, output } from "@angular/core";
+import { Component, inject, input, OnInit, output } from "@angular/core";
 import { ExerciseListService } from "../exercise-list.service";
-import { FilterDateModel } from "../exercise-list.models";
+import { FilterDateModel, FiltersModel as FilterModel } from "../exercise-list.models";
 
 @Component({
     selector: 'trackhub-exercise-filter',
@@ -9,19 +9,20 @@ import { FilterDateModel } from "../exercise-list.models";
 })
 export class FilterComponent implements OnInit {
     public userFirstYear!: number;
-    public dateFilter: FilterDateModel | undefined;
 
-    private exerciseListService = inject(ExerciseListService);
+    public filter = input<FilterModel>();
 
     public onDateChangedEmmiter = output<FilterDateModel>();
     public onExpandAllEmitter = output<boolean>();
-    public onShowNonPlayedEmitter = output<boolean>();
+    public onShowPlayedOnlyEmitter = output<boolean>();
+
+    private exerciseListService = inject(ExerciseListService);
 
     public ngOnInit(): void {
         this.exerciseListService.getUserExerciseProfile()
             .subscribe(item => {
                 this.userFirstYear = item.getFullYear();
-                this.dateFilter = {
+                this.filter()!.dateFilter = {
                     year: new Date().getFullYear(),
                     month: new Date().getMonth()
                 }
@@ -32,8 +33,8 @@ export class FilterComponent implements OnInit {
         this.onExpandAllEmitter.emit(event.target.checked);
     }
 
-    public onShowNonPlayedClicked(event: any): void {
-        this.onShowNonPlayedEmitter.emit(event.target.checked);
+    public onShowPlayedOnlyClicked(event: any): void {
+        this.onShowPlayedOnlyEmitter.emit(event.target.checked);
     }
 
     public onFilterDateChanges(event: any) {
