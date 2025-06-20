@@ -11,27 +11,27 @@ import { ExerciseDateFilterComponent } from './exercise-date-filter/exercise-dat
 import { MonthNamePipe } from "../../providers/pipes/month.pipe";
 
 @NgModule({
-    declarations: [
-        ExercisePageComponent,
-        ExerciseDateFilterComponent,
-        DetailsExerciseItemComponent,
-        FilterComponent
-    ],
-    exports: [
+  declarations: [
+    ExercisePageComponent,
+    ExerciseDateFilterComponent,
+    DetailsExerciseItemComponent,
+    FilterComponent
+  ],
+  exports: [
 
-    ],
-    imports: [
+  ],
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
     RouterModule.forChild([
-        { path: '', component: ExercisePageComponent }
+      { path: '', component: ExercisePageComponent }
     ]),
     MonthNamePipe
-],
-    providers: [
-        provideHttpClient(withInterceptorsFromDi())
-    ]
+  ],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class ExerciseListModule { }

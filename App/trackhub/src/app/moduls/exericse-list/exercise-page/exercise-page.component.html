@@ -1,56 +1,52 @@
 <div>
-    <div class="mt-[1.15rem] mb-14 ml-12">
-        <p class="text-[28px] text-white">Exercise List</p>
+  <div class="mt-[1.15rem] mb-14 ml-12">
+    <p class="text-[28px] text-white">Exercise List</p>
+  </div>
+  <div class="w-full h-full bg-c-bg-accent border-t border-solid border-c-border">
+    <div class="flex flex-row mb-10 mt-3 justify-end">
+      <div class="flex ml-12 w-full">
+        <p class="grid-item w-[4%]"></p>
+        <p class="grid-item w-[12%]">Play date</p>
+        <p class="grid-item w-[10%]">Total played</p>
+      </div>
+      <div class="absolute z-10 mr-6">
+        <trackhub-exercise-filter [filter]="filter" (onDateChangedEmmiter)="onDateChanged($event)"
+          (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)" (onExpandAllEmitter)="onExpandChanged($event)">
+        </trackhub-exercise-filter>
+      </div>
     </div>
-    <div class="w-full h-full bg-c-bg-accent border-t border-solid border-c-border">
-        <div class="flex flex-row mb-10 mt-3 justify-end">
-            <div class="flex ml-12 w-full">
-                <p class="grid-item w-[4%]"></p>
-                <p class="grid-item w-[12%]">Play date</p>
-                <p class="grid-item w-[10%]">Total played</p>
+    <div class="overflow-auto h-[75vh]">
+      <ng-container *ngFor="let item of exercises">
+        <div class="pb-4 border-b border-solid border-b-slate-800" *ngIf="!item.isHidden">
+          <div class="flex flex-row mt-4 ml-12">
+            <div class="w-[4%]">
+              <ng-container *ngIf="item.totalPlayed! > 0">
+                <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
+                  *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>
+                <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
+                  *ngIf="item.isExpanded" (click)="onCardExpand(item)"></i>
+              </ng-container>
             </div>
-            <div class="absolute z-10 mr-6">
-                <trackhub-exercise-filter 
-                    [filter]="filter"
-                    (onDateChangedEmmiter)="onDateChanged($event)"
-                    (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)"
-                    (onExpandAllEmitter)="onExpandChanged($event)">
-                </trackhub-exercise-filter>
+            <p class="grid-item w-[12%]">
+              {{ item.playDate | date: 'dd/MM/yyyy'}}
+            </p>
+            <p class="grid-item w-[10%]" *ngIf="item.totalPlayed! > 0">
+              {{ item.totalPlayed }} minute(s)
+            </p>
+            <div class="flex flex-row justify-end gap-3 w-[70%] mt-2" *ngIf="item.totalPlayed! > 0">
+              <i class="fa-regular fa-pen-to-square fa-lg grid-icon" (click)="onExerciseEdit(item)"></i>
+              <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
+                (click)="openDialog(item)"></i>
             </div>
+          </div>
+          <ng-container *ngIf="item.isExpanded">
+            <div class="mt-2 ml-[7.75rem]">
+              <trackhub-details-exercise-card [exerciseId]="item.exerciseId" [exerciseDetailsModels]="item.records">
+              </trackhub-details-exercise-card>
+            </div>
+          </ng-container>
         </div>
-        <div class="overflow-auto h-[75vh]">
-            <ng-container *ngFor="let item of exercises">
-                <div class="pb-4 border-b border-solid border-b-slate-800" *ngIf="!item.isHidden">
-                    <div class="flex flex-row mt-4 ml-12">
-                        <div class="w-[4%]">
-                            <ng-container *ngIf="item.totalPlayed! > 0">
-                                <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
-                                    *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>
-                                <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
-                                    *ngIf="item.isExpanded" (click)="onCardExpand(item)"></i>
-                            </ng-container>
-                        </div>
-                        <p class="grid-item w-[12%]">
-                            {{ item.playDate | date: 'dd/MM/yyyy'}}
-                        </p>
-                        <p class="grid-item w-[10%]" *ngIf="item.totalPlayed! > 0">
-                            {{ item.totalPlayed }} minute(s)
-                        </p>
-                        <div class="flex flex-row justify-end gap-3 w-[70%] mt-2" *ngIf="item.totalPlayed! > 0">
-                            <i class="fa-regular fa-pen-to-square fa-lg grid-icon" (click)="onExerciseEdit(item)"></i>
-                            <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
-                                (click)="openDialog(item)"></i>
-                        </div>
-                    </div>
-                    <ng-container *ngIf="item.isExpanded">
-                        <div class="mt-2 ml-[7.75rem]">
-                            <trackhub-details-exercise-card [exerciseId]="item.exerciseId"
-                                [exerciseDetailsModels]="item.records">
-                            </trackhub-details-exercise-card>
-                        </div>
-                    </ng-container>
-                </div>
-            </ng-container>
-        </div>
+      </ng-container>
     </div>
+  </div>
 </div>
