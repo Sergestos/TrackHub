@@ -68,9 +68,8 @@ export class ExercisePageComponent implements OnInit {
   }
 
   public onDateChanged(dateFilter: FilterDateModel): void {
-    this.filter.dateFilter = dateFilter;
-
-    this.setExerciseGrid();
+    let query = `month=${dateFilter.month}&year=${dateFilter.year}`;
+    this.router.navigateByUrl("/app/list?" + query);
   }
 
   public onShowPlayedOnlyEmitter(isExpandAsksed: boolean): void {

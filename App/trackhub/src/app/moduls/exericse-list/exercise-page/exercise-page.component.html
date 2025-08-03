@@ -1,10 +1,10 @@
-<div>
-  <div class="mt-[1.15rem] mb-14 ml-12">
-    <p class="text-[28px] text-white">Exercise List</p>
+<div class="bg-c-bg-contrast">
+  <div class="mb-20 ml-12">
+    <p class="text-[28px] text-white pt-4">Exercise List</p>
   </div>
-  <div class="w-full h-full bg-c-bg-accent border-t border-solid border-c-border">
-    <div class="flex flex-row mb-10 mt-3 justify-end">
-      <div class="flex ml-12 w-full">
+  <div class="pt-4 px-[22.5%] bg-c-bg-accent border-t border-solid border-c-border">
+    <div class="flex flex-row  mt-2 justify-end pb-4 ">
+      <div class="flex ml-12 pt-2 w-full">
         <p class="grid-item w-[4%]"></p>
         <p class="grid-item w-[12%]">Play date</p>
         <p class="grid-item w-[10%]">Total played</p>
@@ -15,10 +15,11 @@
         </trackhub-exercise-filter>
       </div>
     </div>
-    <div class="overflow-auto h-[75vh]">
-      <ng-container *ngFor="let item of exercises">
-        <div class="pb-4 border-b border-solid border-b-slate-800" *ngIf="!item.isHidden">
-          <div class="flex flex-row mt-4 ml-12">
+    <div class="overflow-auto h-[75vh] pb-4">
+      <ng-container *ngFor="let item of exercises; let isFirst = first">
+        <div class="pb-6 border border-solid border-slate-700" *ngIf="!item.isHidden"
+          [ngClass]="isFirst ? 'border-t rounded-t-2xl' : 'border-t'">
+          <div class="flex flex-row pt-4 ml-12">
             <div class="w-[4%]">
               <ng-container *ngIf="item.totalPlayed! > 0">
                 <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
@@ -40,7 +41,7 @@
             </div>
           </div>
           <ng-container *ngIf="item.isExpanded">
-            <div class="mt-2 ml-[7.75rem]">
+            <div class="mt-2 ml-[5.5rem]">
               <trackhub-details-exercise-card [exerciseId]="item.exerciseId" [exerciseDetailsModels]="item.records">
               </trackhub-details-exercise-card>
             </div>

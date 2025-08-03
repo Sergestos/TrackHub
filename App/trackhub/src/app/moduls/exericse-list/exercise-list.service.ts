@@ -6,19 +6,19 @@ import { environment } from "../../environments/environment";
 
 @Injectable()
 export class ExerciseListService {
-  readonly BaseExerciseUrl: string = environment.apiUrl + '/api/exercise';
-  readonly BaseUserUrl: string = environment.apiUrl + '/api/user';
+  readonly baseExerciseUrl: string = environment.apiUrl + '/api/exercise';
+  readonly baseUserUrl: string = environment.apiUrl + '/api/user';
 
   constructor(private http: HttpClient) { }
 
   public getUserExerciseProfile(): Observable<Date> {
-    const url = this.BaseUserUrl + '/first-play'
+    const url = this.baseUserUrl + '/first-play'
     return this.http.get<string>(url)
       .pipe(map(date => new Date(date)));
   }
 
   public getExercisesByDate(year?: number, month?: number): Observable<ExerciseItemView[]> {
-    const url = this.BaseExerciseUrl + '/list'
+    const url = this.baseExerciseUrl + '/list'
     const params = new HttpParams()
       .set('year', year ?? '')
       .set('month', month ?? '');
@@ -30,6 +30,6 @@ export class ExerciseListService {
     const params = new HttpParams()
       .set('exerciseId', exerciseId);
 
-    return this.http.delete<void>(this.BaseExerciseUrl, { params });
+    return this.http.delete<void>(this.baseExerciseUrl, { params });
   }
 }

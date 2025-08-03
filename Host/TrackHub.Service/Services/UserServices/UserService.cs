@@ -43,6 +43,9 @@ internal class UserService : IUserService
     {
         User user = _userRepository.GetUserById(userId)!;
 
-        return user.FirstPlayDate!.Value;
+        if (user.FirstPlayDate.HasValue)
+            return user.FirstPlayDate!.Value;
+        else 
+            return DateTimeOffset.UtcNow;
     }
 }
