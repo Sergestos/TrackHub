@@ -5,7 +5,7 @@ import { AuthGuard } from './providers/guards/auth.guard';
 export const routes: Routes = [
     {
         path: 'app/list',
-        loadChildren: () => import('./moduls/exericse-list/exercise-list.module').then(m => m.ExerciseListModule),
+        loadChildren: () => import('./moduls/exercise-list/exercise-list.module').then(m => m.ExerciseListModule),
         canActivate: [ AuthGuard ]
     },
     {

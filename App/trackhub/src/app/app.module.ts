@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { Router, RouterModule, withHashLocation } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommitService } from './moduls/commit/commit.service';
 import { AppContainerComponent } from './moduls/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,7 +10,7 @@ import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
 import { PermissionsService } from './providers/guards/auth.guard';
 import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
-import { ExerciseListService } from './moduls/exericse-list/exercise-list.service';
+import { ExerciseListService } from './moduls/exercise-list/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
