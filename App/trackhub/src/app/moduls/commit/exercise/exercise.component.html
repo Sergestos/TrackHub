@@ -54,16 +54,20 @@
   </p>
   @if (currentSuggestionsType == suggestionTypeEnum.song) {
   <div class="suggestion-animation flex flex-row gap-1 opacity-1">
-    <div *ngFor="let item of songSuggestions" class="suggestion-item">
+    @for (item of songSuggestions; track $index) {
+    <div class="suggestion-item">
       <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>
     </div>
+    }
   </div>
   }
   @if(currentSuggestionsType == suggestionTypeEnum.author) {
   <div class="suggestion-animation flex flex-row gap-1 opacity-1">
-    <div *ngFor="let item of authorSuggestions" class="suggestion-item">
+    @for (item of authorSuggestions; track $index) {
+    <div class="suggestion-item">
       <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>
     </div>
+    }
   </div>
   }
 </div>
