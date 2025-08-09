@@ -60,7 +60,7 @@
   </div>
   }
   @if(currentSuggestionsType == suggestionTypeEnum.author) {
-  <div class="suggestion-animation">
+  <div class="suggestion-animation flex flex-row gap-1 opacity-1">
     <div *ngFor="let item of authorSuggestions" class="suggestion-item">
       <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>
     </div>
