@@ -6,49 +6,61 @@ import { LoadingService } from '../../providers/services/loading.service';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
-    selector: 'trh-app-container',
-    templateUrl: './app-container.component.html',
-    styleUrls: ['./app-container.component.scss'],
-    standalone: false
+  selector: 'trh-app-container',
+  templateUrl: './app-container.component.html',
+  styleUrls: ['./app-container.component.scss'],
+  standalone: false
 })
 export class AppContainerComponent implements OnInit {
-    private localStorage!: Storage;
-    
-    public isLoading$!: Observable<boolean>;
-    public isAuthorized$!: Observable<boolean>;
-    public isUserMenuAsked: boolean = false;
+  private localStorage!: Storage;
 
-    public userName: string = ''
-    public userPictureUrl: string = ''
+  public isLoading$!: Observable<boolean>;
+  public isAuthorized$!: Observable<boolean>;
+  public isUserMenuAsked: boolean = false;
 
-    constructor(
-        private router: Router,
-        private authService: AuthService,
-        private loadingService: LoadingService,
-        @Inject(DOCUMENT) document: Document
-    ) { 
-        this.localStorage = document.defaultView?.localStorage!;
+  public userName: string = ''
+  public userPictureUrl: string = ''
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private loadingService: LoadingService,
+    @Inject(DOCUMENT) document: Document
+  ) {
+    this.localStorage = document.defaultView?.localStorage!;
+  }
+
+  public ngOnInit(): void {
+    this.isAuthorized$ = this.authService.isAuthorized();
+    this.isLoading$ = this.loadingService.loading$;
+
+    if (this.localStorage) {
+      this.userName = this.localStorage.getItem('user_name') ?? 'user';
+      this.userPictureUrl = this.localStorage.getItem('profile_url') ?? '';
     }
+  }
 
-    public ngOnInit(): void {
-        this.isAuthorized$ = this.authService.isAuthorized();
-        this.isLoading$ = this.loadingService.loading$;
+  public onMenuDropDown(): void {
+    this.isUserMenuAsked = !this.isUserMenuAsked;
+  }
 
-        if (this.localStorage) {
-            this.userName = this.localStorage.getItem('user_name') ?? 'user';
-            this.userPictureUrl = this.localStorage.getItem('profile_url') ?? '';
-        }        
-    }
+  public onUserMenuPanelMouseOut(event: any): void {
+    this.isUserMenuAsked = false;
+  }
 
-    public onMenuDropDown(): void {
-        this.isUserMenuAsked = !this.isUserMenuAsked;
-    }
+  public onNavigationClicked(url: string): void {
+    this.router.navigate([url]);
+  }
 
-    public onUserMenuPanelMouseOut(event: any): void {
-        this.isUserMenuAsked = false;
-    }
+  public onLogoutClick(): void {
+    this.authService.logOut()
+      .subscribe({
+        next: _ => {
+          this.router.navigateByUrl('app/login');
+        },
+        error: err => {
 
-    public onNavigationClicked(url: string): void {
-        this.router.navigate([url]);
-    }
+        }
+      });
+  }
 }

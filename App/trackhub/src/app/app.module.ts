@@ -9,7 +9,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
 import { PermissionsService } from './providers/guards/auth.guard';
-import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
 import { ExerciseListService } from './moduls/exercise-list/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
@@ -20,7 +19,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   declarations: [
     AppComponent,
     AppContainerComponent,
-    UserDropdownComponent
   ],
   bootstrap: [
     AppComponent

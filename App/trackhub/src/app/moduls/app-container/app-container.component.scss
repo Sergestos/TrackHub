@@ -1,11 +1,11 @@
 .nav-item {
-    @apply flex gap-x-3 border-solid rounded-md py-2 px-5 transition duration-300 hover:bg-[#6e789170] cursor-pointer
+  @apply flex gap-x-3 border-solid rounded-md py-2 px-5 transition duration-300 hover:bg-[#6e789170] cursor-pointer
 }
 
 .nav-text {
-    @apply text-c-text-normal
+  @apply text-c-text-normal
 }
 
 .nav-icon {
-    @apply text-c-text-normal pt-1
+  @apply text-c-text-normal pt-1
 }
