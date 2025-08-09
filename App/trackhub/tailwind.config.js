@@ -13,8 +13,8 @@ module.exports = {
         'c-border': '#31374a',
         'c-border-grid': '#37486E',
 
-        'c-text-normal': '#fffff0',
-        'c-text-grey': '#9fa6bc',
+        'c-text-normal': '#fffff0',        
+        'c-text-grey': '#c2c6c9',
         'c-text-data': '#90A1D3',
         'c-text-grid': '#9fa6bc',
         'c-text-shadow': '#6773B4',

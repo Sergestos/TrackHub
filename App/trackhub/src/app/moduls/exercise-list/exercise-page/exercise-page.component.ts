@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { ExerciseItem, ExerciseItemView, FilterDateModel, FiltersModel as FilterModel } from "../exercise-list.models";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ExerciseListService } from "../exercise-list.service";
@@ -16,13 +16,23 @@ export class ExercisePageComponent implements OnInit {
   public exercises: ExerciseItemView[] = [];
   public filter!: FilterModel;
 
-  constructor(
-    private router: Router,
-    private matDialog: MatDialog,
-    private activeRoute: ActivatedRoute,
-    private exerciseListService: ExerciseListService,
-    private loadingService: LoadingService
-  ) { }
+  private router = inject(Router);
+  private matDialog = inject(MatDialog);
+  private activeRoute = inject(ActivatedRoute);
+  private exerciseListService = inject(ExerciseListService);
+  private loadingService = inject(LoadingService);
+
+  public get isAnyExerciseShown(): boolean {
+    if (this.exercises.length == 0) {
+      return false;
+    }
+
+    if (this.exercises.every(x => x.isHidden)) {
+      return false;
+    }
+
+    return true;
+  }
 
   public ngOnInit(): void {
     this.activeRoute.queryParams.subscribe(params => {
@@ -42,7 +52,7 @@ export class ExercisePageComponent implements OnInit {
         }
       };
 
-      this.setExerciseGrid();
+      this.setData();
     });
   }
 
@@ -58,7 +68,9 @@ export class ExercisePageComponent implements OnInit {
         this.loadingService.show();
         this.exerciseListService
           .deleteExercise(item.exerciseId)
-          .subscribe({ complete: () => this.loadingService.hide() });
+          .subscribe({
+            complete: () => this.loadingService.complete()
+          });
       }
     });
   }
@@ -73,7 +85,9 @@ export class ExercisePageComponent implements OnInit {
   }
 
   public onShowPlayedOnlyEmitter(isExpandAsksed: boolean): void {
-    this.exercises.filter(x => x.exerciseId == "-1").forEach(x => x.isHidden = isExpandAsksed);
+    this.exercises
+      .filter(x => x.exerciseId == "-1")
+      .forEach(x => x.isHidden = isExpandAsksed);
   }
 
   public onExpandChanged(isExpandAsksed: boolean): void {
@@ -82,7 +96,7 @@ export class ExercisePageComponent implements OnInit {
       .forEach(x => x.isExpanded = isExpandAsksed);
   }
 
-  private setExerciseGrid(): void {
+  private setData(): void {
     this.loadingService.show();
     this.exerciseListService.getExercisesByDate(this.filter.dateFilter?.year, this.filter.dateFilter!.month)
       .subscribe({
@@ -93,9 +107,13 @@ export class ExercisePageComponent implements OnInit {
             x.isExpanded = this.filter.showExpanded;
           });
 
-          this.fillNonPlayedDays(this.filter.dateFilter!.year, this.filter.dateFilter!.month, this.exercises, this.filter.showPlayedOnly!);
+          this.fillNonPlayedDays(
+            this.filter.dateFilter!.year,
+            this.filter.dateFilter!.month,
+            this.exercises,
+            this.filter.showPlayedOnly!);
         },
-        complete: () => this.loadingService.hide()
+        complete: () => this.loadingService.complete()
       });
   }
 

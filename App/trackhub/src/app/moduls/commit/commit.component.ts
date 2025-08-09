@@ -44,7 +44,7 @@ export class CommitComponent implements OnInit {
 						this.exercise = response;
 						this.pageMode = "Edit";
 					},
-					complete: () => this.loadingService.hide()
+					complete: () => this.loadingService.complete()
 				});			
 			} else {
 				this.commitService.getExerciseRecordByDate(new Date())
@@ -102,7 +102,7 @@ export class CommitComponent implements OnInit {
 					this.loadingService.show();
 					this.commitService
 						.deleteRecords(this.exercise!.exerciseId!.toString(), exerciseIdsToRemove)		        
-						.subscribe({ complete: () => this.loadingService.hide()});	
+						.subscribe({ complete: () => this.loadingService.complete()});	
 				}				
 			}
 		}		
