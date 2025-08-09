@@ -8,24 +8,24 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-    declarations: [
-        ExerciseComponent,
-        CommitComponent
-    ],
-    exports: [
+  declarations: [
+    ExerciseComponent,
+    CommitComponent
+  ],
+  exports: [
 
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule.forChild([
-            { path: '', component: CommitComponent }
-        ])
-    ],
-    providers: [
-        CommitService,
-        provideHttpClient(withInterceptorsFromDi())
-    ]
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forChild([
+      { path: '', component: CommitComponent }
+    ])
+  ],
+  providers: [
+    CommitService,
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class CommitModule { }

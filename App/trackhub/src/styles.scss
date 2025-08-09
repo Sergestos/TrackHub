@@ -97,6 +97,11 @@ select {
     }
 }
 
+input[type="date"] {
+    border-radius: 5px;
+    padding: 4px;
+}
+
 input[type='checkbox'] {
     appearance: none;
     width: 16px;
