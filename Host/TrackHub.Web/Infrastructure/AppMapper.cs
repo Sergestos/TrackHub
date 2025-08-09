@@ -15,7 +15,7 @@ public class AppMapper : Profile
             .ForMember(x => x.PhotoUrl, opt => opt.MapFrom(src => src.Picture));        
 
         CreateMap<Exercise, ExerciseView>()
-            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.GetPlayDateAsDateTime()));
+            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.PlayDate.ToDateTime()));
 
         CreateMap<Record, RecordView>()
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => src.RecordType.ToString()))

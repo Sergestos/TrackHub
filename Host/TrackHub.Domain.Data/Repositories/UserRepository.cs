@@ -32,6 +32,7 @@ internal class UserRepository : IUserRepository
 
         return result;
     }
+
     public async Task<Entities.User?> UpsertAsync(Entities.User user, CancellationToken cancellationToken)
     {
         ItemResponse<Entities.User>? response = null;

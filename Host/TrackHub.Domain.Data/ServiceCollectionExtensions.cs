@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
 
         services.AddTransient<IExerciseRepository, ExerciseRepository>();       
+        services.AddTransient<IRecordRepository, RecordRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
     }
 }

@@ -1,7 +1,0 @@
-.grid-item {
-    @apply text-c-text-grid
-}
-
-.grid-icon {
-    @apply text-c-grid-icon transition duration-300 hover:text-gray-200
-}

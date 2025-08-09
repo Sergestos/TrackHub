@@ -16,7 +16,7 @@ public class CosmosDbClient : ICosmosDbContext
 
     public CosmosDbClient(IOptionsMonitor<CosmosClientOptions> options)
     {
-        _options = options.CurrentValue;     
+        _options = options.CurrentValue;
     }    
 
     public Container GetContainer(string containerName)

@@ -8,6 +8,10 @@ public interface IExerciseRepository
 
     Task<Exercise?> GetExerciseByIdAsync(string exerciseId, string userId, CancellationToken cancellationToken);
 
+    Task<Exercise?> FindNewestExerciseAsync(string userId, CancellationToken cancellationToken);
+
+    Task<Exercise?> FindOldestExerciseAsync(string userId, CancellationToken cancellationToken);
+
     Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken);
 
     Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken);

@@ -13,7 +13,7 @@ internal class ServiceMapper : Profile
             .ForMember(x => x.Duration, opt => opt.MapFrom(src => src.PlayDuration));
 
         CreateMap<Exercise, ExerciseListItem>()
-            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.GetPlayDateAsDateTime()))
+            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.PlayDate.ToDateTime()))
             .ForMember(x => x.Records, opt => opt.MapFrom(src => src.Records));
 
         CreateMap<CreateRecordModel, Record>()

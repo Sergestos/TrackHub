@@ -5,7 +5,8 @@ import { Router } from "@angular/router";
 @Component({
     selector: 'trh-user-dropdown',
     templateUrl: './user-dropdown.component.html',
-    styleUrls: ['./user-dropdown.component.css']
+    styleUrls: ['./user-dropdown.component.scss'],
+    standalone: false
 })
 export class UserDropdownComponent implements OnInit {
     private isComponentReady: boolean = false;
@@ -33,7 +34,7 @@ export class UserDropdownComponent implements OnInit {
         }, 0);
     }
 
-    public onLogout(): void {
+    public onLogoutClick(): void {
         this.authService.logOut()
             .subscribe({
                 next: _ => {

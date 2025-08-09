@@ -25,10 +25,12 @@ public abstract class AbstractConversation
         conversation.AppendSystemMessage(Prompts.ConversationTopic);
         conversation.AppendSystemMessage(Prompts.ResponseFormat);
         conversation.AppendSystemMessage(Prompts.PopularAssets);
+        conversation.AppendSystemMessage(Prompts.NoResponseFormat);
 
-        conversation.AppendSystemMessage($"Limit result in a list with {generalArgs.ExpectedLength} items.");
+        conversation.AppendSystemMessage(Prompts.ExpectedResultLength + generalArgs.ExpectedResultLength);
         conversation.AppendSystemMessage($"This is a search text pattern: {generalArgs.SearchPattern}." +
-            $" You will be provided with instructions what to do with it further");
+            $"This means that you should search for items those are start with this pattern." +
+            $"Ignore any items whose not start with this pattern. It's main rule.");
 
         return conversation;
     }
@@ -40,13 +42,10 @@ public abstract class AbstractConversation
         try
         {
             var chatReponse = await conversation.GetResponseFromChatbotAsync();
-            result = chatReponse.Split(",").ToList();
-
+            result = chatReponse.Split(",").ToList().Select(x => x.Trim());
         }
         catch (Exception ex)
         {
-            // TODO log any exceptions here
-
             result = null;
         }
   
@@ -55,7 +54,7 @@ public abstract class AbstractConversation
 
     private Conversation BuildConversation()
     {
-        var apiToken = _configuration["OpenAI:ApiToken"];
+        var apiToken = _configuration["OpenAI:ApiToken"];        
         var api = new OpenAIAPI(new APIAuthentication(apiToken));
 
         Conversation chat = api.Chat.CreateConversation();

@@ -1,0 +1,26 @@
+.btn {
+  @apply max-h-7 w-24 px-2 bg-blue-700 rounded-md text-teal-100 border border-solid border-blue-800;
+
+  &:hover {
+    @apply bg-blue-400;
+  }
+
+  &:disabled {
+    @apply bg-gray-400 text-gray-200 cursor-not-allowed border-none;
+  }
+}
+
+.btn-error {
+  @extend .btn;
+  @apply bg-red-600 border-red-700;
+
+  &:hover {
+    @apply bg-red-400;
+  }
+}
+
+.headers {
+  p {
+    @apply font-bold text-zinc-300
+  }
+}

@@ -6,7 +6,8 @@ import { LoadingService } from "../../providers/services/loading.service";
 
 @Component({
     selector: 'trackhub-auth',
-    templateUrl: './auth.component.html'
+    templateUrl: './auth.component.html',
+    standalone: false
 })
 export class AuthComponent implements OnInit {
     constructor(
@@ -19,7 +20,7 @@ export class AuthComponent implements OnInit {
             if (user) {
 		        this.loadingService.show();
                 this.authService.authExternalUser(user).subscribe(_ => {
-                    this.loadingService.hide();
+                    this.loadingService.complete();
                     this.router.navigateByUrl('/app/list');
                 });
             }            

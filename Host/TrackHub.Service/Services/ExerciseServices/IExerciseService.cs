@@ -9,5 +9,7 @@ public interface IExerciseService
 
     Task<Exercise> UpdateExerciseAsync(UpdateExerciseModel exerciseModel, string userId, CancellationToken cancellationToken);
 
-    Task<Exercise> DeleteExerciseAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken);
+    Task<Exercise> DeleteRecordsAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken);
+
+    Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken);
 }

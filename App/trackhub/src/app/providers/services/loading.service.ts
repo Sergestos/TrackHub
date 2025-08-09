@@ -12,7 +12,7 @@ export class LoadingService {
         this._loading.next(true);
     }
 
-    public hide(): void {
+    public complete(): void {
         this._loading.next(false);
     }
 }

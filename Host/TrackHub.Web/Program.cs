@@ -1,5 +1,7 @@
 using TrackHub.Domain.Data;
 using TrackHub.Service;
+using TrackHub.Scraper;
+using TrackHub.AiCrawler;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
 
@@ -10,6 +12,8 @@ builder.Services.AddAutoMapper(typeof(AppMapper));
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddScraperServices();
+builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices();
 builder.Services.AddCorsPolicy();
 

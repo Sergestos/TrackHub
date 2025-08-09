@@ -35,6 +35,52 @@ internal class ExerciseRepository : IExerciseRepository
         return response?.Resource;
     }
 
+    public async Task<Exercise?> FindNewestExerciseAsync(string userId, CancellationToken cancellationToken)
+    {
+        var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
+            .OrderByDescending(item => item.PlayDate.Year)
+            .ThenByDescending(item => item.PlayDate.Month)
+            .Take(1);
+
+        using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
+        {
+            var result = new List<Exercise>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<Exercise> iterationResponse = await linqFeed.ReadNextAsync();
+                foreach (Exercise item in iterationResponse)
+                {
+                    return item;
+                }                
+            }
+
+            return null;
+        }
+    }
+
+    public async Task<Exercise?> FindOldestExerciseAsync(string userId, CancellationToken cancellationToken)
+    {
+        var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
+            .OrderBy(item => item.PlayDate.Year)
+            .ThenBy(item => item.PlayDate.Month)
+            .Take(1);
+
+        using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
+        {
+            var result = new List<Exercise>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<Exercise> iterationResponse = await linqFeed.ReadNextAsync();
+                foreach (Exercise item in iterationResponse)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+    }
+
     public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
