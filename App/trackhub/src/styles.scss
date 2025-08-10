@@ -23,6 +23,9 @@
     @apply border-transparent bg-[#cf222e] text-white hover:bg-[#a40e26] focus-visible:ring-[#cf222e]/50;
 }
 
+.btn-primary {
+    @apply border-transparent bg-[#1f883d] text-white hover:bg-[#1a7f37] focus-visible:ring-[#1f883d]/50;
+}
 
 input[type="date"] {
     background-color: transparent !important;
