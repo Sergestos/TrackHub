@@ -27,11 +27,13 @@ export class AuthService {
     if (this.localStorage && this.localStorage.getItem('access_token')) {
       const url = environment.apiUrl + '/api/auth/validate-token';
       this.httpClient.get(url)
-        .pipe(
-          catchError(_ => of(false)),
-          map(_ => true))
-        .subscribe(result => {
-          this.isAuthorized$.set(result);
+        .subscribe({
+          next: () => {
+            this.isAuthorized$.set(true);
+          },
+          error: () => {
+            this.isAuthorized$.set(false);
+          }
         });
     }
   }
