@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
-import { PermissionsService } from './providers/guards/auth.guard';
 import { ExerciseListService } from './moduls/exercise-list/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
@@ -35,7 +34,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AuthService,
     CommitService,
     ExerciseListService,
-    PermissionsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

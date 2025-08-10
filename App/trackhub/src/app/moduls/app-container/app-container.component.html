@@ -8,28 +8,30 @@
       <i class="fa-solid fa-music fa-beat fa-lg menu-i logo-color pt-[1.15rem]"></i>
       <p class="text-[24px] text-white pl-4">TrackHub</p>
     </div>
-    <ng-container *ngIf="isAuthorized$ | async">
-      <div class="nav flex flex-row justify-around gap-1">
-        <div class="nav-item">
-          <i class="fa-solid fa-chart-column nav-icon"></i>
-          <p class="nav-text">Dashboard</p>
-        </div>
-        <div class="nav-item" (click)="onNavigationClicked('/app/list')">
-          <i class="fa-solid fa-list-ul nav-icon"></i>
-          <p class="nav-text">List</p>
-        </div>
-        <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
-          <i class="fa-solid fa-plus nav-icon"></i>
-          <p class="nav-text">Commit</p>
-        </div>
+    @if (isAuthorizedState()) {
+    <div class="nav flex flex-row justify-around gap-1">
+      <div class="nav-item">
+        <i class="fa-solid fa-chart-column nav-icon"></i>
+        <p class="nav-text">Dashboard</p>
       </div>
-      <div class="flex">
-        <p class="nav-text pr-3 pt-1">Welcome, {{userName}}</p>
-        <img [src]="userPictureUrl" class="w-7 h-7 rounded-full" alt="User Profile Picture"
-          (click)="onMenuDropDown()" />
-        <i class="fa-solid text-white pl-3 pr-2 pt-[0.9rem] fa-arrow-right-from-bracket fa-lg cursor-pointer"
-          (click)="onLogoutClick()"></i>
+      <div class="nav-item" (click)="onNavigationClicked('/app/list')">
+        <i class="fa-solid fa-list-ul nav-icon"></i>
+        <p class="nav-text">List</p>
       </div>
-    </ng-container>
+      <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
+        <i class="fa-solid fa-plus nav-icon"></i>
+        <p class="nav-text">Commit</p>
+      </div>
+    </div>
+    <div class="flex">
+      <p class="nav-text pr-3 pt-1">Welcome, {{userName}}</p>
+      <img [src]="userPictureUrl" class="w-7 h-7 rounded-full" alt="User Profile Picture" />
+      <i class="fa-solid text-white pl-3 pr-2 pt-[0.9rem] fa-arrow-right-from-bracket fa-lg cursor-pointer"
+        (click)="onLogoutClick()"></i>
+    </div>
+    }
+  </div>
+  <div class="min-h-[70vh] mb-[5vh]">
+    <router-outlet></router-outlet>
   </div>
 </div>
