@@ -3,7 +3,7 @@ import { ExerciseItem, ExerciseItemView, FilterDateModel, FiltersModel as Filter
 import { ActivatedRoute, Router } from "@angular/router";
 import { ExerciseListService } from "../exercise-list.service";
 import { MatDialog } from '@angular/material/dialog';
-import { ModalResult, openDeleteConfirmationModal } from "../../../components/mat-modal/mat-modal.component";
+import { ModalResult, openDeleteModal } from "../../../components/delete-modal/delete-modal.component";
 import { LoadingService } from "../../../providers/services/loading.service";
 
 @Component({
@@ -61,7 +61,7 @@ export class ExercisePageComponent implements OnInit {
   }
 
   public openDialog(item: ExerciseItemView): void {
-    const modal = openDeleteConfirmationModal(this.matDialog);
+    const modal = openDeleteModal(this.matDialog);
     modal.afterClosed().subscribe((result: ModalResult) => {
       if (result == ModalResult.Confirmed) {
         this.exercises = this.exercises.filter(x => x != item);

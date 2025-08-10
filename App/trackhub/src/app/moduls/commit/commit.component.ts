@@ -4,7 +4,7 @@ import { ExerciseComponent, RecordStatusType } from './exercise/exercise.compone
 import { CommitService } from './commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalResult, openDeleteConfirmationModal } from '../../components/mat-modal/mat-modal.component';
+import { ModalResult, openDeleteModal } from '../../components/delete-modal/delete-modal.component';
 import { LoadingService } from '../../providers/services/loading.service';
 
 @Component({
@@ -83,7 +83,7 @@ export class CommitComponent implements OnInit {
     if (this.pageMode == 'Edit') {
       if (this.exerciseViews.length == this.exerciseViews.filter(x => x.isSelected).length) {
         isEntireExericeToDelete = true;
-        const modal = openDeleteConfirmationModal(this.matDialog);
+        const modal = openDeleteModal(this.matDialog);
         modal.afterClosed().subscribe(result => {
           if (result == ModalResult.Confirmed) {
             this.commitService
