@@ -1,7 +1,7 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ExerciseComponent } from './exercise/exercise.component';
+import { CommitExerciseComponent } from './commit-exercise/commit-exercise.component';
 import { CommitComponent } from './commit.component';
 import { CommitService } from './commit.service';
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    ExerciseComponent,
+    CommitExerciseComponent,
     CommitComponent
   ],
   exports: [

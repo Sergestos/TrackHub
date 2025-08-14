@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ExerciseModel } from './commit.models';
-import { ExerciseComponent, RecordStatusType } from './exercise/exercise.component';
+import { CommitExerciseComponent, RecordStatusType } from './commit-exercise/commit-exercise.component';
 import { CommitService } from './commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,8 +21,8 @@ export class CommitComponent implements OnInit {
 
   public pageMode: "Add" | "Edit" = "Add";
 
-  @ViewChildren(ExerciseComponent)
-  private exerciseViews!: QueryList<ExerciseComponent>;
+  @ViewChildren(CommitExerciseComponent)
+  private exerciseViews!: QueryList<CommitExerciseComponent>;
 
   private commitService = inject(CommitService);
   private loadingService = inject(LoadingService);
