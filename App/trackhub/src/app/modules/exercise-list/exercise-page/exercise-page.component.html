@@ -2,7 +2,7 @@
   <div class="mb-20 ml-12">
     <p class="text-[28px] text-white pt-4">Exercise List</p>
   </div>
-  <div class="pt-4 px-[22.5%] bg-zinc-950 border-t border-solid border-c-border">
+  <div class="pt-4 px-[22.5%] pb-32 bg-zinc-950 border-t border-solid border-c-border">
     <div class="flex flex-row mt-2 justify-end py-4 border-t bg-zinc-900
                 border-l border-r rounded-t-2xl border-solid border-slate-700">
       <div class="flex ml-12 pt-2 w-full">
@@ -16,7 +16,7 @@
         </trackhub-exercise-filter>
       </div>
     </div>
-    <div class="overflow-auto h-[75vh] pb-12 border-t border-solid border-c-border">
+    <div class="overflow-auto h-[68.5vh] border-t border-solid border-c-border">
       @if (isAnyExerciseShown) {
       @for (item of exercises; track $index) {
       <div class="pb-6 border border-solid border-slate-700" *ngIf="!item.isHidden">
@@ -52,7 +52,7 @@
       </div>
       }
       } @else {
-      <div class="flex flex-col items-center py-40 border border-solid border-c-border rounded-b-2xl">
+      <div class="flex flex-col items-center h-full pt-40 border border-solid border-c-border rounded-b-2xl">
         <p class="text-2xl text-zinc-500">Nothing to show</p>
         <p class="text-xl text-zinc-500">Change show options or set different date range</p>
       </div>

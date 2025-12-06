@@ -9,7 +9,7 @@
       <p class="text-[24px] text-white pl-4">TrackHub</p>
     </div>
     @if (isAuthorizedState()) {
-    <div class="nav flex flex-row justify-around gap-1">
+    <div class="ml-20 flex flex-row justify-around">
       <div class="nav-item">
         <i class="fa-solid fa-chart-column nav-icon"></i>
         <p class="nav-text">Dashboard</p>
@@ -18,9 +18,13 @@
         <i class="fa-solid fa-list-ul nav-icon"></i>
         <p class="nav-text">List</p>
       </div>
-      <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
+      <div class="nav-item ml-8" (click)="onNavigationClicked('/app/auto-commit')">
         <i class="fa-solid fa-plus nav-icon"></i>
         <p class="nav-text">Commit</p>
+      </div>
+      <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
+        <i class="fa-solid fa-pen-clip nav-icon"></i>
+        <p class="nav-text">Manual Commit</p>
       </div>
     </div>
     <div class="flex">
