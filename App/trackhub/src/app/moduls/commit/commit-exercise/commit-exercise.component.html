@@ -56,7 +56,7 @@
   <div class="suggestion-animation flex flex-row gap-1 opacity-1">
     @for (item of songSuggestions; track $index) {
     <div class="suggestion-item">
-      <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{item.source}})</p>
+      <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{getSourceName(item.source)}})</p>
     </div>
     }
   </div>

@@ -49,6 +49,15 @@ export class CommitExerciseComponent implements OnInit {
   recordStatusTypeEnum: typeof RecordStatusType = RecordStatusType;
   public currectRecordStatusType: RecordStatusType | null = null;
 
+  public getSourceName(source: any): string {
+    switch (source) {
+      case 0: return 'db';
+      case 1: return 'ai';
+      case 2: return 'cache';
+      default: return '';
+    }
+  }
+
   constructor(
     private commitService: CommitService,
     private eRef: ElementRef) { }

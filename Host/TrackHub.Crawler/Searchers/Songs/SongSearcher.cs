@@ -43,9 +43,12 @@ internal class SongSearcher : ISongSearcher
                 AuthorName = null
             };
             var aiResponse = await _aiMusicCrawler.SearchSongsAsync(args, cancellationToken);
-            var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScrapperSearchResultBuilder.FromAi);
 
-            result.AddRange(aiResult);
+            if (aiResponse != null)
+            {
+                var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScrapperSearchResultBuilder.FromAi);
+                result.AddRange(aiResult);
+            }            
         }
 
         return result;
