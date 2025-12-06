@@ -1,6 +1,4 @@
-﻿using TrackHub.Domain.Entities;
-
-namespace TrackHub.Web.Models;
+﻿namespace TrackHub.Web.Models;
 
 public class ExerciseView
 {

@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from "@angular/core";
 import { AutoCommitService } from "../services/auto-commit.service";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 
-const DEBOUNCE_TIME = 500;
+const DEBOUNCE_TIME = 1000;
 
 @Component({
   selector: 'trh-commit',

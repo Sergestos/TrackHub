@@ -13,8 +13,10 @@ export class AutoCommitService {
     'Content-Type': 'application/json'
   });
 
-  public previewExerice(exerciseText: string): Observable<any> {
-    return this.httpClient.post<any>(this.baseExerciseUrl + '/auto/preview', exerciseText, {
+  public previewExerice(previewText: string): Observable<any> {
+    return this.httpClient.post<any>(this.baseExerciseUrl + '/preview', {
+      previewText
+    }, {
       headers: this.headers,
       responseType: 'text' as 'json'
     });
