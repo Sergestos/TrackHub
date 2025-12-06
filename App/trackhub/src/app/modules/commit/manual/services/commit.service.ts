@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ExerciseModel, RecordModel, SuggestionResult } from './commit.models';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../../environments/environment';
+import { ExerciseModel, RecordModel, SuggestionResult } from '../commit.models';
 
 @Injectable()
 export class CommitService {
@@ -14,6 +14,13 @@ export class CommitService {
   private headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json'
   });
+
+  public saveAutoExercise(exerciseText: string): Observable<any> {
+    return this.httpClient.post<any>(this.baseExerciseUrl + '/auto', exerciseText, {
+      headers: this.headers,
+      responseType: 'text' as 'json'
+    });
+  }
 
   public saveExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
     return this.httpClient.post<any>(this.baseExerciseUrl, exerciseModel, {

@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { RecordModel, SuggestionResult } from '../commit.models';
+import { RecordModel, SuggestionResult } from '../../commit.models';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { CommitService } from '../commit.service';
+import { CommitService } from '../../services/commit.service';
 
 const MinSearchLength: number = 3;
 

@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ExerciseModel } from './commit.models';
-import { CommitExerciseComponent, RecordStatusType } from './commit-exercise/commit-exercise.component';
-import { CommitService } from './commit.service';
+import { ExerciseModel } from '../commit.models';
+import { CommitService } from '../services/commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalResult, openDeleteModal } from '../../components/delete-modal/delete-modal.component';
-import { LoadingService } from '../../providers/services/loading.service';
+import { LoadingService } from '../../../../providers/services/loading.service';
+import { CommitExerciseComponent, RecordStatusType } from './commit-exercise/commit-exercise.component';
+import { ModalResult, openDeleteModal } from '../../../../components/delete-modal/delete-modal.component';
 
 @Component({
   selector: 'trh-commit',

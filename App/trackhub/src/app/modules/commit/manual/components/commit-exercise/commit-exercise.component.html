@@ -2,7 +2,7 @@
   <div class="mr-8 pt-1.5">
     <input type="checkbox" [(ngModel)]="isSelected" (ngModelChange)="onIsSelectedChanged($event)" />
   </div>
-  <div class="w-28">
+  <div class="w-32">
     <input type="text" placeholder="played (min)" [(ngModel)]="model.playDuration" (ngModelChange)="onModelChanged()"
       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
   </div>

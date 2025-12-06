@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { Router, RouterModule } from '@angular/router';
-import { CommitService } from './modules/commit/commit.service';
 import { AppContainerComponent } from './modules/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -32,7 +31,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
     AuthService,
-    CommitService,
     ExerciseListService,
     {
       provide: HTTP_INTERCEPTORS,
