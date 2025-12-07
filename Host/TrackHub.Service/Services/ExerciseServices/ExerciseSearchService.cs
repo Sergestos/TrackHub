@@ -54,6 +54,7 @@ internal class ExerciseSearchService : IExerciseSearchService
         return new Record()
         {
             RecordId = string.Empty,
+            Instrument = records[0].Instrument,
             PlayType = PlayType.Rhythm,
             RecordType = RecordType.Warmup,
             PlayDuration = adjustedTime,

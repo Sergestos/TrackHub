@@ -1,5 +1,3 @@
-using TrackHub.Domain.Entities;
-
 namespace TrackHub.Service.Services.PreviewServices.Models;
 
 public record PreviewValidationModel
@@ -8,7 +6,7 @@ public record PreviewValidationModel
 
     public DateOnly? PlayDate { get; set; }
 
-    public IList<Record> Records { get; set; } = new List<Record>();
+    public IList<PreviewRecordModel> Records { get; set; } = new List<PreviewRecordModel>();
 
     public IList<ValidationIssue> ValidationIssues {get; set; } = new List<ValidationIssue>();
 }

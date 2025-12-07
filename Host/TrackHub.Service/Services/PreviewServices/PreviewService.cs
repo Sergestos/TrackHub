@@ -1,4 +1,4 @@
-using TrackHub.Domain.Entities;
+using System.Text.RegularExpressions;
 using TrackHub.Service.Services.PreviewServices.Models;
 
 namespace TrackHub.Service.Services.PreviewServices;
@@ -20,13 +20,12 @@ internal class PreviewService : IPreviewService
         else
             result.PlayDate = playDate;
     
-
-        foreach (var item in lines.Skip(1))
+        for (int i = 1; i < lines.Length; i++)
         {
-            Record? record;
-            var issues = TryParseExerciseLine(item, out record);
+            PreviewRecordModel? record;
+            var issues = TryParseExerciseLine(lines[i], i, out record);
 
-            if (issues.Any())
+            if (issues != null && issues.Any())
             {
                 foreach (var issue in issues)
                     result.ValidationIssues.Add(issue);
@@ -42,9 +41,48 @@ internal class PreviewService : IPreviewService
         return result;
     }
 
-    public IList<ValidationIssue> TryParseExerciseLine(string input, out Record? record)
+    public IList<ValidationIssue>? TryParseExerciseLine(string input, int lineNumber, out PreviewRecordModel? record)
     {
-        record = null;
+        record = default;
+
+        PracticeLine practiceLine;
+        if (!TryParsePracticeLine(input, out practiceLine))
+        {
+            return new List<ValidationIssue>()
+            {
+                new ValidationIssue()
+                {
+                    FieldName = "Record",
+                    LineNumber = lineNumber,
+                    ErrorReason = "Error while parsing a record line"
+                }
+            };
+        }
+
+        record = new PreviewRecordModel()
+        {
+            Name = practiceLine.Song,
+            PlayDuration = practiceLine.Minutes,
+            Author = practiceLine.Band,
+            IsRecorded = practiceLine.IsStarred,
+            WarmupSongs = practiceLine.WarmupSongs,
+            PlayType = Domain.Enums.PlayType.Both,
+            RecordType = Domain.Enums.RecordType.Song,            
+        };
+
+        string keyword = practiceLine.Keyword.ToLower();
+        if (keyword == "warmup")
+        {
+            record.RecordType = Domain.Enums.RecordType.Warmup;
+            record.Instrument = Domain.Enums.Instrument.Guitar;
+        }
+        else
+        {
+            record.RecordType = Domain.Enums.RecordType.Song;
+            record.Instrument = keyword == "guitar" ?
+                Domain.Enums.Instrument.Guitar : Domain.Enums.Instrument.Bass;            
+        }
+
         return null;
     }
 
@@ -56,7 +94,7 @@ internal class PreviewService : IPreviewService
         ValidationIssue issue = new ValidationIssue()
         {
             FieldName = fieldName,
-            LineNumber = 1,
+            LineNumber = 0,
         };
 
         string clean = string.Concat(input.Where(c => !char.IsWhiteSpace(c)));
@@ -103,5 +141,70 @@ internal class PreviewService : IPreviewService
         {
             return issue;
         }
+    }
+
+    private bool TryParsePracticeLine(string input, out PracticeLine result)
+    {
+        result = null;
+
+        var warmupMatch = PreviewTemplates.WarmupPattern.Match(input);
+        if (warmupMatch.Success)
+        {
+            result = new PracticeLine
+            {
+                Index = int.Parse(warmupMatch.Groups["index"].Value),
+                Minutes = int.Parse(warmupMatch.Groups["minutes"].Value),
+                Keyword = warmupMatch.Groups["keyword"].Value.Trim(),
+            };
+
+            var songsRaw = warmupMatch.Groups["songs"].Value;
+            result.WarmupSongs = songsRaw
+                .Split(',')
+                .Select(s => s.Trim())
+                .Where(s => s.Length > 0)
+                .ToList();
+
+            return true;
+        }
+
+        var match = PreviewTemplates.RegularPattern.Match(input);
+        if (!match.Success)
+            return false;
+
+        result = new PracticeLine
+        {
+            Index = int.Parse(match.Groups["index"].Value),
+            Minutes = int.Parse(match.Groups["minutes"].Value),
+            Keyword = match.Groups["keyword"].Value.Trim(),
+            Band = match.Groups["band"].Value.Trim(),
+            Song = match.Groups["song"].Value.Trim(),
+            SoloText = match.Groups["solo"].Success ? match.Groups["solo"].Value.Trim() : null,
+            IsStarred = match.Groups["star"].Success
+        };
+
+        return true;
+    }
+
+    private class PracticeLine
+    {
+        public int Index { get; set; }       
+        
+        public int Minutes { get; set; }    
+        
+        public string Keyword { get; set; }    
+        
+        public string Band { get; set; }     
+        
+        public string Song { get; set; }    
+        
+        public string SoloText { get; set; }   
+
+        public bool IsStarred { get; set; }
+
+        public bool IsWarmup =>
+            !string.IsNullOrEmpty(Keyword) &&
+            Keyword.Equals("warmup", StringComparison.OrdinalIgnoreCase);
+
+        public List<string> WarmupSongs { get; set; } = new();
     }
 }

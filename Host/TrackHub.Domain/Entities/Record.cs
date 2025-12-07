@@ -9,6 +9,10 @@ public record Record
     [JsonProperty("record_id")]
     public required string RecordId { get; set; }
 
+    [JsonProperty("instrument")]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public required Instrument Instrument { get; set; } = Instrument.Guitar;
+
     [JsonProperty("record_type")]
     [JsonConverter(typeof(StringEnumConverter))]
     public required RecordType RecordType { get; set; }
