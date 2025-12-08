@@ -1,13 +1,14 @@
 using System.Text.RegularExpressions;
+using TrackHub.Service.Services.PreviewServices.Dto;
 using TrackHub.Service.Services.PreviewServices.Models;
 
 namespace TrackHub.Service.Services.PreviewServices;
 
 internal class PreviewService : IPreviewService
 {
-    public async Task<PreviewValidationModel> PreviewExerciseAsync(string previewText, CancellationToken cancellationToken)
+    public async Task<PreviewStateModel> PreviewExerciseAsync(string previewText, CancellationToken cancellationToken)
     {
-        var result = new PreviewValidationModel();
+        var result = new PreviewStateModel();
         DateOnly? playDate;
 
         string[] lines = previewText
@@ -183,28 +184,5 @@ internal class PreviewService : IPreviewService
         };
 
         return true;
-    }
-
-    private class PracticeLine
-    {
-        public int Index { get; set; }       
-        
-        public int Minutes { get; set; }    
-        
-        public string Keyword { get; set; }    
-        
-        public string Band { get; set; }     
-        
-        public string Song { get; set; }    
-        
-        public string SoloText { get; set; }   
-
-        public bool IsStarred { get; set; }
-
-        public bool IsWarmup =>
-            !string.IsNullOrEmpty(Keyword) &&
-            Keyword.Equals("warmup", StringComparison.OrdinalIgnoreCase);
-
-        public List<string> WarmupSongs { get; set; } = new();
     }
 }

@@ -5,5 +5,5 @@ namespace TrackHub.Service.Services.PreviewServices;
 
 public interface IPreviewService
 {
-    Task<PreviewValidationModel> PreviewExerciseAsync(string previewText, CancellationToken cancellationToken);
+    Task<PreviewStateModel> PreviewExerciseAsync(string previewText, CancellationToken cancellationToken);
 }

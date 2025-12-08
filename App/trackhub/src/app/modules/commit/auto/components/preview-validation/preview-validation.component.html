@@ -1,0 +1,8 @@
+<div class="flex flex-row pt-2">
+  <p class="text-red-500">
+    Error on line {{ (previewIssue().lineNumber + 1) }}:
+  </p>
+  <p class="text-zinc-300 italic">
+    &nbsp;&nbsp;{{previewIssue().errorReason}}
+  </p>
+</div>

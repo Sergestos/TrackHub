@@ -1,6 +1,6 @@
-export enum RecordTypesEnum {
-    Warmup,
-    Song,
-    Improvisation, Exercise,
-    Composing
+export enum RecordTypes {
+  Warmup,
+  Song,
+  Improvisation, Exercise,
+  Composing
 }

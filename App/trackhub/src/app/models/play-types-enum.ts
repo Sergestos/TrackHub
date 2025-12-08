@@ -1,5 +1,5 @@
-export enum PlayTypesEnum {
-    Rhythm,
-    Solo,
-    Both
+export enum PlayTypes {
+  Rhythm,
+  Solo,
+  Both
 }

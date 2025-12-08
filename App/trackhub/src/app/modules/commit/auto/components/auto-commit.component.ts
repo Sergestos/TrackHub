@@ -1,23 +1,27 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, inject } from "@angular/core";
 import { AutoCommitService } from "../services/auto-commit.service";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
+import { PreviewRecord, PreviewState, ValidationIssue } from "../models/preview-state.model";
 
 const DEBOUNCE_TIME = 1000;
 
 @Component({
-  selector: 'trh-commit',
+  selector: 'trh-auto-commit',
   templateUrl: './auto-commit.component.html',
-  styleUrls: ['./auto-commit.component.scss'],
   standalone: false
 })
 export class AutoCommitComponent implements OnInit {
   public isValid: boolean = false;
   public playDate?: Date;
 
+  public previewRecords?: PreviewRecord[];
+  public validationIssues?: ValidationIssue[];
+
   private input$ = new Subject<string>();
   public text: string = '';
 
   private autoCommitService = inject(AutoCommitService);
+  private changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.input$
@@ -28,8 +32,12 @@ export class AutoCommitComponent implements OnInit {
         this.autoCommitService
           .previewExerice(value)
           .subscribe({
-            next: (response: boolean) => {
-              this.isValid = response;
+            next: (response: PreviewState) => {
+              this.isValid = response.isValid;
+              this.previewRecords = response.records;
+              this.validationIssues = response.validationIssues;
+              
+              this.changeDetector.detectChanges();
             }
           })
       });

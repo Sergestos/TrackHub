@@ -79,7 +79,7 @@ public class ExerciseController : TrackHubController
 
     [HttpPost]
     [Route("preview")]
-    [ProducesResponseType(typeof(PreviewValidationModel), 200)]
+    [ProducesResponseType(typeof(PreviewStateModel), 200)]
     public async Task<IActionResult> PreviewExerciseAsync([FromBody] PreviewModel model, CancellationToken cancellationToken)
     {
         var result = await _previewService.PreviewExerciseAsync(model.PreviewText, cancellationToken);

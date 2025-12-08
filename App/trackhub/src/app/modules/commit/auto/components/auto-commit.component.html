@@ -11,12 +11,10 @@
   <div class="exercise-grid h-dvh bg-zinc-950 border-t border-solid border-c-border">
     <div class="flex flex-row mx-32 mt-4 gap-6">
       <div>
-        <p class="text-slate-200 mb-2 pl-2">Text to auto recognize:</p>
-        <textarea 
-          [value]="text" 
-          (input)="onInput($event)"
-          class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-c-text-grey"
-          rows="24" cols="80" placeholder="Type your message here..."></textarea>
+        <p class="text-slate-200 mb-2 pl-2">Text to recognition:</p>
+        <textarea [value]="text" (input)="onInput($event)"
+          class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-c-text-grey" rows="24" cols="80"
+          placeholder="Type your message here..."></textarea>
         <div class="flex flex-row mt-2">
           <input type="button" class="btn btn-default" value="Format" />
           <input type="button" class="btn btn-default" value="Clear" />
@@ -24,6 +22,9 @@
       </div>
       <div class="ml-10">
         <p class="text-slate-200">Preview</p>
+        @for (item of validationIssues; track $index) {
+          <trh-preview-validation [previewIssue]="item"></trh-preview-validation>
+        }
       </div>
     </div>
   </div>

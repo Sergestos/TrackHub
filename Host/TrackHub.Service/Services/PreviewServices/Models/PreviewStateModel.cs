@@ -1,6 +1,6 @@
 namespace TrackHub.Service.Services.PreviewServices.Models;
 
-public record PreviewValidationModel
+public record PreviewStateModel
 {
     public bool IsValid { get; set; }
 
