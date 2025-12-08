@@ -10,12 +10,12 @@ export const routes: Routes = [
   },
   {
     path: 'app/auto-commit',
-    loadChildren: () => import('./modules/commit/auto/auto-commit.module').then(m => m.AutoCommitModule),
+    loadChildren: () => import('./modules/commit-auto/auto-commit.module').then(m => m.AutoCommitModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'app/commit',
-    loadChildren: () => import('./modules/commit/manual/commit.module').then(m => m.CommitModule),
+    loadChildren: () => import('./modules/commit-manual/commit.module').then(m => m.CommitModule),
     canActivate: [AuthGuard]
   },
   {

@@ -1,11 +1,14 @@
 import { Injectable, inject } from "@angular/core";
-import { environment } from "../../../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { PreviewState } from "../models/preview-state.model";
+import { Exercise } from "../../../models/exercise";
+import { ExerciseRecord } from "../../../models/exercise-record";
 
 @Injectable()
 export class AutoCommitService {
+  private basePrevieweUrl: string = environment.apiUrl + '/api/preview';
   private baseExerciseUrl: string = environment.apiUrl + '/api/exercise';
 
   private httpClient = inject(HttpClient);
@@ -15,17 +18,16 @@ export class AutoCommitService {
   });
 
   public previewExerice(previewText: string): Observable<PreviewState> {
-    return this.httpClient.post<PreviewState>(this.baseExerciseUrl + '/preview', {
+    return this.httpClient.post<PreviewState>(this.basePrevieweUrl, {
       previewText
     }, {
       headers: this.headers,
     });
   }
 
-  public saveExercise(exerciseText: string): Observable<any> {
-    return this.httpClient.post<any>(this.baseExerciseUrl + '/auto', exerciseText, {
+  public saveExercise(exerciseModel: Exercise): Observable<Exercise> {
+    return this.httpClient.post<any>(this.baseExerciseUrl, exerciseModel, {
       headers: this.headers,
-      responseType: 'text' as 'json'
     });
   }
 }

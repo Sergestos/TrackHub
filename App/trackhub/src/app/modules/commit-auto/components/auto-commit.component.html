@@ -5,7 +5,6 @@
     </div>
     <div class="mt-2 flex flex-row justify-evenly gap-2 place-items-end mb-2 mr-10">
       <input type="button" class="btn btn-default" value="Save" (click)="onAddClick()" />
-      <input type="button" class="btn btn-default" value="Delete" (click)="onDeleteClick()" />
     </div>
   </div>
   <div class="exercise-grid h-dvh bg-zinc-950 border-t border-solid border-c-border">
@@ -15,10 +14,6 @@
         <textarea [value]="text" (input)="onInput($event)"
           class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-c-text-grey" rows="24" cols="80"
           placeholder="Type your message here..."></textarea>
-        <div class="flex flex-row mt-2">
-          <input type="button" class="btn btn-default" value="Format" />
-          <input type="button" class="btn btn-default" value="Clear" />
-        </div>
       </div>
       <div class="ml-10">
         <p class="text-slate-200">Preview</p>

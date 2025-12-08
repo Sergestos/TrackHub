@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, inject } from "@angular/core";
 import { AutoCommitService } from "../services/auto-commit.service";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 import { PreviewRecord, PreviewState, ValidationIssue } from "../models/preview-state.model";
+import { Exercise } from "../../../models/exercise";
+import { ExerciseRecord } from "../../../models/exercise-record";
 
 const DEBOUNCE_TIME = 1000;
 
@@ -23,6 +25,12 @@ export class AutoCommitComponent implements OnInit {
   private autoCommitService = inject(AutoCommitService);
   private changeDetector = inject(ChangeDetectorRef);
 
+  public get isSaveAllowed(): boolean {
+    return this.isValid &&
+      this.previewRecords !== undefined &&
+      this.previewRecords.length > 0;
+  }
+
   public ngOnInit(): void {
     this.input$
       .pipe(
@@ -34,9 +42,10 @@ export class AutoCommitComponent implements OnInit {
           .subscribe({
             next: (response: PreviewState) => {
               this.isValid = response.isValid;
+              this.playDate = response.playDate;
               this.previewRecords = response.records;
               this.validationIssues = response.validationIssues;
-              
+
               this.changeDetector.detectChanges();
             }
           })
@@ -49,16 +58,29 @@ export class AutoCommitComponent implements OnInit {
   }
 
   public onAddClick(): void {
-    this.autoCommitService
-      .saveExercise(this.text)
-      .subscribe({
-        next: (response) => {
+    if (this.isSaveAllowed) {
+      const exercise: Exercise = {
+        exerciseId: undefined,
+        playDate: this.playDate,
+        records: this.previewRecords!.map((x: PreviewRecord) => ({
+          recordId: undefined,
+          name: x.name,
+          author: x.author,
+          recordType: x.recordType,
+          playDuration: x.playDuration,
+          bitsPerMinute: x.bitsPerMinute,
+          playType: x.playType,
+          isRecorded: x.isRecorded
+        }) as ExerciseRecord)
+      };
 
-        }
-      })
-  }
-
-  public onDeleteClick(): void {
-
+      this.autoCommitService
+        .saveExercise(exercise)
+        .subscribe({
+          next: (_) => {
+            window.location.reload()
+          }
+        })
+    }
   }
 }  

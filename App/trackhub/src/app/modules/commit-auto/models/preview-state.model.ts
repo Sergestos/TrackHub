@@ -1,6 +1,6 @@
-import { Instruments } from "../../../../models/instruments";
-import { PlayTypes } from "../../../../models/play-types-enum";
-import { RecordTypes } from "../../../../models/recordy-types-enum";
+import { Instruments } from "../../../models/instruments";
+import { PlayTypes } from "../../../models/play-types-enum";
+import { RecordTypes } from "../../../models/recordy-types-enum";
 
 export class PreviewState {
     isValid!: boolean;

@@ -1,8 +1,9 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { RecordModel, SuggestionResult } from '../../commit.models';
+import { SuggestionResult } from '../../models/suggestion-result.model';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CommitService } from '../../services/commit.service';
+import { ExerciseRecord } from '../../../../models/exercise-record';
 
 const MinSearchLength: number = 3;
 
@@ -28,8 +29,8 @@ export class CommitExerciseComponent implements OnInit {
   public playTypes: string[] = ['Rhythm', 'Solo', 'Both']
 
   @Input()
-  public model!: RecordModel;
-  public initialModel?: RecordModel;
+  public model!: ExerciseRecord;
+  public initialModel?: ExerciseRecord;
 
   @Output()
   public onSelectToggle: EventEmitter<void> = new EventEmitter<void>();

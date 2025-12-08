@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { ExerciseModel, RecordModel, SuggestionResult } from '../commit.models';
+import { environment } from '../../../environments/environment';
+import { Exercise } from '../../../models/exercise';
+import { ExerciseRecord } from '../../../models/exercise-record';
+import { SuggestionResult } from '../models/suggestion-result.model';
 
 @Injectable()
 export class CommitService {
@@ -15,39 +17,32 @@ export class CommitService {
     'Content-Type': 'application/json'
   });
 
-  public saveAutoExercise(exerciseText: string): Observable<any> {
-    return this.httpClient.post<any>(this.baseExerciseUrl + '/auto', exerciseText, {
-      headers: this.headers,
-      responseType: 'text' as 'json'
-    });
-  }
-
-  public saveExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
+  public saveExercise(exerciseModel: Exercise): Observable<Exercise> {
     return this.httpClient.post<any>(this.baseExerciseUrl, exerciseModel, {
       headers: this.headers,
       responseType: 'text' as 'json'
     });
   }
 
-  public updateExercise(exerciseModel: ExerciseModel): Observable<RecordModel[]> {
+  public updateExercise(exerciseModel: Exercise): Observable<ExerciseRecord[]> {
     return this.httpClient.put<any>(this.baseExerciseUrl, exerciseModel, {
       headers: this.headers,
       responseType: 'text' as 'json'
     });
   }
 
-  public getExerciseRecordById(exerciseId: string): Observable<ExerciseModel> {
+  public getExerciseRecordById(exerciseId: string): Observable<Exercise> {
     const params = new HttpParams()
       .set('exerciseId', exerciseId)
 
-    return this.httpClient.get<ExerciseModel>(this.baseExerciseUrl, { params });
+    return this.httpClient.get<Exercise>(this.baseExerciseUrl, { params });
   }
 
-  public getExerciseRecordByDate(date: Date): Observable<ExerciseModel> {
+  public getExerciseRecordByDate(date: Date): Observable<Exercise> {
     const params = new HttpParams()
       .set('date', date.toDateString())
 
-    return this.httpClient.get<ExerciseModel>(`${this.baseExerciseUrl}/by-date`, { params });
+    return this.httpClient.get<Exercise>(`${this.baseExerciseUrl}/by-date`, { params });
   }
 
   public deleteExercise(exerciseId: string): Observable<void> {
