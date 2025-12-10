@@ -19,13 +19,19 @@
       </div>
       }
     </div>
-    <div class="mt-2 flex flex-row justify-evenly gap-2">
-      <input type="button" class="btn btn-default" value="Add" (click)="onAddClick()" />
-      <input type="button" class="btn btn-default" value="Save" (click)="onSaveClick()"
-        [disabled]="exercise?.records!.length == 0" />
-      <input type="button" class="btn btn-danger" value="Remove" (click)="onRemoveClick()"
-        [disabled]="!isAnySelected" />
-      <input type="button" class="btn btn-primary ml-6" value="Import" [disabled]="pageMode == 'Edit'" />
+    <div class="mt-2 h-9 flex flex-row justify-evenly gap-4">
+      <trh-button 
+        [value]="'Add'" 
+        (pressed)="onAddClick($event)" />
+      <trh-button 
+        [value]="'Save'"         
+        [disabled]="exercise?.records!.length == 0" 
+        (pressed)="onSaveClick($event)" />
+      <trh-button 
+        [value]="'Remove'"         
+        [type]="'danger'"
+        [disabled]="!isAnySelected" 
+        (pressed)="onRemoveClick($event)" />
     </div>
   </div>
 </div>

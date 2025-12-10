@@ -6,6 +6,8 @@ import { LoadingService } from '../../../providers/services/loading.service';
 import { CommitExerciseComponent, RecordStatusType } from './commit-exercise/commit-exercise.component';
 import { ModalResult, openDeleteModal } from '../../../components/delete-modal/delete-modal.component';
 import { Exercise } from '../../../models/exercise';
+import { RecordTypes } from '../../../models/recordy-types-enum';
+import { PlayTypes } from '../../../models/play-types-enum';
 
 @Component({
   selector: 'trh-commit',
@@ -57,15 +59,15 @@ export class CommitComponent implements OnInit {
     });
   }
 
-  public onAddClick(): void {
+  public onAddClick($event: any): void {
     this.exercise!.records!.push({
-      recordType: 'Warmup',
-      playType: 'Rhythm',
+      recordType: RecordTypes.Song,
+      playType: PlayTypes.Rhythm,
       isRecorded: false
     });
   }
 
-  public onSaveClick(): void {
+  public onSaveClick($event: any): void {
     if (this.pageMode === "Add") {
       this.commitService.saveExercise({
         playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
@@ -77,7 +79,7 @@ export class CommitComponent implements OnInit {
     }
   }
 
-  public onRemoveClick(): void {
+  public onRemoveClick($event: any): void {
     let isEntireExericeToDelete: boolean = false;
 
     if (this.pageMode == 'Edit') {

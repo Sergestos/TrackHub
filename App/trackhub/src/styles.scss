@@ -6,152 +6,159 @@
 @tailwind utilities;
 
 * {
-    font-family: monospace, monospace;
-    font-size: 0.85rem;
-    margin: 0;
+  font-family: monospace, monospace;
+  font-size: 0.85rem;
+  margin: 0;
 }
 
 .btn {
-    @apply inline-flex items-center gap-2 rounded-md border border-solid text-sm font-medium px-3.5 py-2 transition-shadow select-none shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-60 disabled:cursor-not-allowed;
+  @apply inline-flex items-center gap-2 rounded-md border border-solid text-sm font-medium px-3.5 py-2 transition-shadow select-none shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-60 disabled:cursor-not-allowed;
+}
+
+.button {
+  @apply appearance-none bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-md;
+
+  -webkit-appearance: none; /* <- REQUIRED for Safari/macOS */
+  appearance: none;  
 }
 
 .btn-default {
-    @apply bg-gray-900 text-gray-100 border-gray-700 hover:bg-gray-800 focus-visible:ring-gray-600/60;
+  @apply text-gray-100 border-gray-700 hover:bg-gray-800 focus-visible:ring-gray-600/60;
 }
 
 .btn-danger {
-    @apply border-transparent bg-[#cf222e] text-white hover:bg-[#a40e26] focus-visible:ring-[#cf222e]/50;
+  @apply border-transparent bg-[#cf222e] text-white hover:bg-[#a40e26] focus-visible:ring-[#cf222e]/50;
 }
 
 .btn-primary {
-    @apply border-transparent bg-[#1f883d] text-white hover:bg-[#1a7f37] focus-visible:ring-[#1f883d]/50;
+  @apply border-transparent bg-[#1f883d] text-white hover:bg-[#1a7f37] focus-visible:ring-[#1f883d]/50;
 }
 
 input[type="date"] {
-    background-color: transparent !important;
-    color: rgb(224, 224, 224);
-    border: 1px solid rgba(233, 233, 233, 0.274);
-    color-scheme: dark;
+  background-color: transparent !important;
+  color: rgb(224, 224, 224);
+  border: 1px solid rgba(233, 233, 233, 0.274);
+  color-scheme: dark;
 }
 
 input[type="date"]::-webkit-clear-button {
-    font-size: 18px;
-    height: 30px;
-    position: relative;
+  font-size: 18px;
+  height: 30px;
+  position: relative;
 }
 
 input[type="date"]::-webkit-inner-spin-button {
-    height: 28px;
+  height: 28px;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+  background: #1a1a1a;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #444;
-    border-radius: 10px;
-    border: 3px solid #1a1a1a;
+  background-color: #444;
+  border-radius: 10px;
+  border: 3px solid #1a1a1a;
 }
 
 select {
-    appearance: none;
-    background-color: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 5px 12px;
-    font-size: 14px;
-    color: #c2c6c9;
-    line-height: 20px;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 14px;
+  color: #c2c6c9;
+  line-height: 20px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-    background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23c9d1d9' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-chevron-down' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polyline points='6 9 12 15 18 9'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px 16px;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23c9d1d9' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-chevron-down' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
 
-    &:hover {
-        background-color: #161b22;
-        border-color: #8b949e;
-    }
+  &:hover {
+    background-color: #161b22;
+    border-color: #8b949e;
+  }
 
-    &:focus {
-        border-color: #58a6ff;
-        box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.4);
-    }
+  &:focus {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.4);
+  }
 
-    &:disabled {
-        background-color: #21262d;
-        color: #8b949e;
-        cursor: not-allowed;
-    }
+  &:disabled {
+    background-color: #21262d;
+    color: #8b949e;
+    cursor: not-allowed;
+  }
 }
 
 input[type="date"] {
-    border-radius: 5px;
-    padding: 4px;
+  border-radius: 5px;
+  padding: 4px;
 }
 
 input[type='checkbox'] {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #30363d;
-    border-radius: 4px;
-    background-color: #0d1117;
-    position: relative;
-    cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  background-color: #0d1117;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background-color: transparent;
+    mask: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5 13l4 4L19 7'/></svg>");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  &:checked {
+    background-color: #2f81f7;
+    border-color: #2f81f7;
 
     &::before {
-        content: '';
-        display: block;
-        width: 10px;
-        height: 10px;
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        background-color: transparent;
-        mask: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5 13l4 4L19 7'/></svg>");
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
+      background-color: #ffffff;
     }
+  }
 
-    &:checked {
-        background-color: #2f81f7;
-        border-color: #2f81f7;
+  &:hover {
+    border-color: #8b949e;
+  }
 
-        &::before {
-            background-color: #ffffff;
-        }
-    }
-
-    &:hover {
-        border-color: #8b949e;
-    }
-
-    &:disabled {
-        background-color: #161b22;
-        border-color: #30363d;
-        cursor: not-allowed;
-    }
+  &:disabled {
+    background-color: #161b22;
+    border-color: #30363d;
+    cursor: not-allowed;
+  }
 }
 
 label {
-    color: #c9d1d9;
-    font-size: 14px;
-    line-height: 1.4;
-    cursor: pointer;
-    user-select: none;
+  color: #c9d1d9;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
 }

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CommitExerciseComponent } from './components/commit-exercise/commit-exercise.component';
 import { CommitComponent } from './components/commit.component';
 import { CommitService } from './services/commit.service';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CommitService } from './services/commit.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ButtonComponent,
     RouterModule.forChild([
       { path: '', component: CommitComponent }
     ])

@@ -57,7 +57,7 @@ export class AutoCommitComponent implements OnInit {
     this.input$.next(text);
   }
 
-  public onAddClick(): void {
+  public onAddClick($event: any): void {
     if (this.isSaveAllowed) {
       const exercise: Exercise = {
         exerciseId: undefined,

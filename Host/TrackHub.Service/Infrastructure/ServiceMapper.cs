@@ -18,11 +18,11 @@ internal class ServiceMapper : Profile
 
         CreateMap<CreateRecordModel, Record>()
             .ForMember(x => x.RecordId, opt => opt.Ignore())
-            .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)Enum.Parse(typeof(RecordType), src.RecordType)))
-            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)Enum.Parse(typeof(PlayType), src.PlayType)));
+            .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)src.RecordType))
+            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType));
 
         CreateMap<UpdateRecordModel, Record>()
-            .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)Enum.Parse(typeof(RecordType), src.RecordType)))
-            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)Enum.Parse(typeof(PlayType), src.PlayType)));
+            .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)src.RecordType))
+            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType));
     }
 }

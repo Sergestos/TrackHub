@@ -1,0 +1,25 @@
+.btn {
+  @apply flex justify-center;
+  @apply h-full w-full;
+  @apply min-w-20;
+  @apply content-center;
+  @apply text-gray-300;
+  @apply bg-gray-900;
+  @apply border border-solid border-gray-600 rounded;
+  @apply hover:border-gray-500 hover:text-gray-100;
+  @apply shadow-sm;
+  @apply transition duration-100;
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-50;
+    @apply text-gray-400 bg-gray-800 border-gray-700;
+  }
+}
+
+.danger {
+  @apply bg-red-900 border-none hover:bg-red-800 !important; 
+
+  &:disabled {
+    @apply bg-red-900 !important;
+  }
+}

@@ -12,8 +12,8 @@ export enum ModalResult {
   styleUrls: ['./delete-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeleteModal {
-  readonly modalRef = inject(MatDialogRef<DeleteModal>);
+export class DeleteModalComponent {
+  readonly modalRef = inject(MatDialogRef<DeleteModalComponent>);
 
   public onConfirmClick(): void {
     this.modalRef.close(ModalResult.Confirmed);
@@ -25,7 +25,7 @@ export class DeleteModal {
 }
 
 export function openDeleteModal(modal: MatDialog) {
-  return modal.open(DeleteModal, {
+  return modal.open(DeleteModalComponent, {
     width: '550px',
     panelClass: 'custom-dialog-container',
   });
