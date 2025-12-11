@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalResult, openDeleteModal } from "../../../components/delete-modal/delete-modal.component";
 import { LoadingService } from "../../../providers/services/loading.service";
 
+const UNPLAYED_EXERCISE_ID = "-1";
+
 @Component({
   selector: 'trackhub-exercise-page',
   templateUrl: './exercise-page.component.html',
@@ -86,25 +88,28 @@ export class ExercisePageComponent implements OnInit {
 
   public onShowPlayedOnlyEmitter(isExpandAsksed: boolean): void {
     this.exercises
-      .filter(x => x.exerciseId == "-1")
+      .filter(x => x.exerciseId == UNPLAYED_EXERCISE_ID)
       .forEach(x => x.isHidden = isExpandAsksed);
   }
 
   public onExpandChanged(isExpandAsksed: boolean): void {
     this.exercises
-      .filter(x => x.exerciseId != '-1')
+      .filter(x => x.exerciseId != UNPLAYED_EXERCISE_ID)
       .forEach(x => x.isExpanded = isExpandAsksed);
   }
 
   private setData(): void {
     this.loadingService.show();
-    this.exerciseListService.getExercisesByDate(this.filter.dateFilter?.year, this.filter.dateFilter!.month)
+    this.exerciseListService
+      .getExercisesByDate(this.filter.dateFilter?.year, this.filter.dateFilter!.month)
       .subscribe({
         next: (result) => {
           this.exercises = result;
           this.exercises.forEach(x => {
-            x.totalPlayed = x.records ? x.records.map(r => r.duration).reduce((sum, duration) => sum + duration, 0) : 0;
             x.isExpanded = this.filter.showExpanded;
+            x.totalPlayed = x.records ? x.records
+              .map(r => r.duration)
+              .reduce((sum, duration) => sum + duration, 0) : 0;
           });
 
           this.fillNonPlayedDays(
@@ -122,7 +127,7 @@ export class ExercisePageComponent implements OnInit {
       let dateToFill = new Date(year!, month! - 1, dayOfMonth);
       if (!items!.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
         this.exercises.push({
-          exerciseId: "-1",
+          exerciseId: UNPLAYED_EXERCISE_ID,
           playDate: dateToFill,
           records: null,
           isHidden: isHidden

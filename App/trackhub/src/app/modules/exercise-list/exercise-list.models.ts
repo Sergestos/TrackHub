@@ -1,3 +1,5 @@
+import { RecordTypes } from "../../models/recordy-types-enum";
+
 export class ExerciseItem {
   public exerciseId!: string;
   public records: RecordDetailsItem[] | null = null;
@@ -12,10 +14,11 @@ export class ExerciseItemView extends ExerciseItem {
 }
 
 export class RecordDetailsItem {
-  public recordType!: string;
+  public recordType!: RecordTypes;
   public duration!: number;
-  public name!: string;
+  public name?: string;
   public author!: string;
+  public warmupSongs?: string[];
 }
 
 export class FiltersModel {

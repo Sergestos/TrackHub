@@ -38,4 +38,7 @@ public record Record
 
     [JsonProperty("is_recorded")]
     public bool IsRecorded { get; set; }
+
+    [JsonProperty("warmup_songs")]
+    public string[]? WarmupSongs { get; set;  }
 }

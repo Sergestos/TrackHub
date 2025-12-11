@@ -7,5 +7,6 @@ import { ValidationIssue } from "../../models/preview-state.model";
   standalone: false
 })
 export class PreviewValidationComponent {
-  public previewIssue = input.required<ValidationIssue>();
+  public issue = input.required<string>();
+  public lineNumber = input<number>();
 }

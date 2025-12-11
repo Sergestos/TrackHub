@@ -1,7 +1,7 @@
-<div class="flex flex-row" *ngFor="let item of exerciseDetails$ | async; let i = index">
+<div class="flex flex-row" *ngFor="let item of exerciseDetailsModels(); let i = index">
   <p>{{ (i + 1) }})&nbsp;</p>
   <p>{{ item.duration }} min.&nbsp;</p>
-  <p>{{ item.recordType }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
-  <p *ngIf="item.recordType !== 'Warmup'" class="font-bold">{{ item.author }}&nbsp;-&nbsp;</p>
-  <p>{{ item.name }}</p>
+  <p>{{ getRecordTypeField(item) }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
+  <p *ngIf="item.recordType !== RecordTypes.Warmup" class="font-bold">{{ item.author }}&nbsp;-&nbsp;</p>
+  <p>{{ getNameField(item) }}</p>
 </div>

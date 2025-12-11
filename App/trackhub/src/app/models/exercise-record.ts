@@ -7,4 +7,5 @@ export interface ExerciseRecord {
   bitsPerMinute?: number;
   playType?: number;
   isRecorded?: boolean;
+  warmupSongs?: string[];
 }

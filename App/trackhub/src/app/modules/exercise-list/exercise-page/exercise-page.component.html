@@ -45,8 +45,10 @@
         </div>
         @if (item.isExpanded) {
         <div class="mt-2 ml-[5.5rem]">
-          <trackhub-details-exercise-card [exerciseId]="item.exerciseId" [exerciseDetailsModels]="item.records">
-          </trackhub-details-exercise-card>
+          <trh-details-exercise-card 
+            [exerciseId]="item.exerciseId" 
+            [exerciseDetailsModels]="item.records">
+          </trh-details-exercise-card>
         </div>
         }
       </div>

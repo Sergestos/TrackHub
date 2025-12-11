@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { AutoCommitService } from "../services/auto-commit.service";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 import { PreviewRecord, PreviewState, ValidationIssue } from "../models/preview-state.model";
@@ -17,13 +17,12 @@ export class AutoCommitComponent implements OnInit {
   public playDate?: Date;
 
   public previewRecords?: PreviewRecord[];
-  public validationIssues?: ValidationIssue[];
+  public validationIssues = signal<ValidationIssue[]>([]);
 
   private input$ = new Subject<string>();
   public text: string = '';
 
   private autoCommitService = inject(AutoCommitService);
-  private changeDetector = inject(ChangeDetectorRef);
 
   public get isSaveAllowed(): boolean {
     return this.isValid &&
@@ -32,6 +31,8 @@ export class AutoCommitComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.text = this.getInitialDateTemplate();
+
     this.input$
       .pipe(
         debounceTime(DEBOUNCE_TIME),
@@ -41,12 +42,11 @@ export class AutoCommitComponent implements OnInit {
           .previewExerice(value)
           .subscribe({
             next: (response: PreviewState) => {
-              this.isValid = response.isValid;
               this.playDate = response.playDate;
               this.previewRecords = response.records;
-              this.validationIssues = response.validationIssues;
 
-              this.changeDetector.detectChanges();
+              this.validationIssues.set(response.validationIssues!);
+              this.isValid = this.validationIssues().length > 0;
             }
           })
       });
@@ -62,15 +62,9 @@ export class AutoCommitComponent implements OnInit {
       const exercise: Exercise = {
         exerciseId: undefined,
         playDate: this.playDate,
-        records: this.previewRecords!.map((x: PreviewRecord) => ({
-          recordId: undefined,
-          name: x.name,
-          author: x.author,
-          recordType: x.recordType,
-          playDuration: x.playDuration,
-          bitsPerMinute: x.bitsPerMinute,
-          playType: x.playType,
-          isRecorded: x.isRecorded
+        records: this.previewRecords!.map(record => ({
+          ...record,
+          recordId: undefined
         }) as ExerciseRecord)
       };
 
@@ -82,5 +76,9 @@ export class AutoCommitComponent implements OnInit {
           }
         })
     }
+  }
+
+  private getInitialDateTemplate(): string {
+    return `--${new Intl.DateTimeFormat('uk-UA').format(new Date())}--`;
   }
 }  

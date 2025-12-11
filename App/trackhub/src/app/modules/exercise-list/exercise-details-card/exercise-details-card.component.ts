@@ -1,25 +1,29 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Component, input } from "@angular/core";
 import { RecordDetailsItem } from "../exercise-list.models";
+import { RecordTypes } from "../../../models/recordy-types-enum";
 
 @Component({
-  selector: 'trackhub-details-exercise-card',
+  selector: 'trh-details-exercise-card',
   templateUrl: './exercise-details-card.component.html',
-  styleUrls: ['./exercise-details-card.component.scss'],
+  styles: `p {
+    @apply text-c-text-grid
+  }`,
   standalone: false
 })
-export class DetailsExerciseItemComponent implements OnInit {
-  @Input()
-  public exerciseId!: string;
+export class DetailsExerciseItemComponent {
+  readonly RecordTypes = RecordTypes;
 
-  @Input()
-  public exerciseDetailsModels?: RecordDetailsItem[] | null;
+  public exerciseId = input.required<string>();
+  public exerciseDetailsModels = input<RecordDetailsItem[] | null>();
 
-  public exerciseDetails$: Observable<RecordDetailsItem[]> = new Observable<RecordDetailsItem[]>();
+  public getRecordTypeField(record: RecordDetailsItem): string {
+    return RecordTypes[record.recordType];
+  }
 
-  public ngOnInit(): void {
-    if (this.exerciseDetailsModels) {
-      this.exerciseDetails$ = of(this.exerciseDetailsModels);
-    }
+  public getNameField(record: RecordDetailsItem): string {
+    if (record.recordType == RecordTypes.Warmup)
+      return record.warmupSongs?.join(', ')!;
+
+    return record.name!;
   }
 }

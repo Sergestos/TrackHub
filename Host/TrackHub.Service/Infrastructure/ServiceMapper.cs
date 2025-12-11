@@ -10,7 +10,8 @@ internal class ServiceMapper : Profile
     {
         CreateMap<Record, RecordListItem>()
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => src.RecordType.ToString()))
-            .ForMember(x => x.Duration, opt => opt.MapFrom(src => src.PlayDuration));
+            .ForMember(x => x.Duration, opt => opt.MapFrom(src => src.PlayDuration))
+            .ForMember(x => x.WarmupSongs, opt => opt.MapFrom(src => src.WarmupSongs));
 
         CreateMap<Exercise, ExerciseListItem>()
             .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.PlayDate.ToDateTime()))
@@ -19,10 +20,12 @@ internal class ServiceMapper : Profile
         CreateMap<CreateRecordModel, Record>()
             .ForMember(x => x.RecordId, opt => opt.Ignore())
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)src.RecordType))
-            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType));
+            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType))
+            .ForMember(x => x.WarmupSongs, opt => opt.MapFrom(src => src.WarmupSongs));
 
         CreateMap<UpdateRecordModel, Record>()
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)src.RecordType))
-            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType));
+            .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType))
+            .ForMember(x => x.WarmupSongs, opt => opt.MapFrom(src => src.WarmupSongs));
     }
 }

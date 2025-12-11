@@ -2,9 +2,9 @@
 
 public record CreateRecordModel
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
 
-    public required string Author { get; set; }
+    public string? Author { get; set; }
 
     public int Instrument { get; set; }
 
@@ -17,4 +17,6 @@ public record CreateRecordModel
     public int? BitsPerMinute { get; set; }
 
     public bool IsRecorded { get; set; } = false;
+
+    public IList<string>? WarmupSongs { get; set; }
 }

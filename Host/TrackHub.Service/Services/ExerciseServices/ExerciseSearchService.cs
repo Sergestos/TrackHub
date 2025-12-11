@@ -27,7 +27,7 @@ internal class ExerciseSearchService : IExerciseSearchService
 
         foreach (var exercise in exercises)
         {
-            var warmupRecords = exercise.Records.Where(x => x.RecordType == RecordType.Warmup);            
+            var warmupRecords = exercise.Records.Where(x => x.RecordType == RecordType.Warmup && x.WarmupSongs == null);            
             if (warmupRecords.Any())
             {
                 Record squashedRecord = SquashRecords(warmupRecords.ToArray());
