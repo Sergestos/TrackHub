@@ -12,7 +12,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ButtonComponent } from './components/button/button.component';
+import { ApiService } from './providers/services/api.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import { ButtonComponent } from './components/button/button.component';
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
+    ApiService,
     AuthService,
     ExerciseListService,
     {

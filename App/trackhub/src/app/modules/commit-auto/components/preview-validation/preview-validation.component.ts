@@ -1,5 +1,4 @@
 import { Component, input } from "@angular/core";
-import { ValidationIssue } from "../../models/preview-state.model";
 
 @Component({
   selector: 'trh-preview-validation',

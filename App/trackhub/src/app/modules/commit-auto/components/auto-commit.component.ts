@@ -13,6 +13,8 @@ const DEBOUNCE_TIME = 1000;
   standalone: false
 })
 export class AutoCommitComponent implements OnInit {
+  public text: string = '';
+
   public isValid: boolean = false;
   public playDate?: Date;
 
@@ -20,7 +22,6 @@ export class AutoCommitComponent implements OnInit {
   public validationIssues = signal<ValidationIssue[]>([]);
 
   private input$ = new Subject<string>();
-  public text: string = '';
 
   private autoCommitService = inject(AutoCommitService);
 
