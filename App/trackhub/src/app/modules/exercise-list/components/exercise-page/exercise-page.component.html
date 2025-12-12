@@ -2,24 +2,24 @@
   <div class="mb-20 ml-12">
     <p class="text-[28px] text-white pt-4">Exercise List</p>
   </div>
-  <div class="pt-4 px-[22.5%] pb-32 bg-zinc-950 border-t border-solid border-c-border">
+  <div class="h-[100vh] pt-4 px-[15%] pb-32 bg-zinc-950 border-t border-solid border-c-border">
     <div class="flex flex-row mt-2 justify-end py-4 border-t bg-zinc-900
-                border-l border-r rounded-t-2xl border-solid border-slate-700">
+                rounded-2xl border-solid border-slate-700">
       <div class="flex ml-12 pt-2 w-full">
         <p class="grid-item w-[4%]"></p>
         <p class="grid-item w-[12%]">Play date</p>
         <p class="grid-item w-[10%]">Total played</p>
       </div>
       <div class="absolute z-10 mr-6">
-        <trackhub-exercise-filter [filter]="filter" (onDateChangedEmmiter)="onDateChanged($event)"
+        <trh-exercise-filter [filter]="filter" (onDateChangedEmmiter)="onDateChanged($event)"
           (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)" (onExpandAllEmitter)="onExpandChanged($event)">
-        </trackhub-exercise-filter>
+        </trh-exercise-filter>
       </div>
     </div>
-    <div class="overflow-auto h-[68.5vh] border-t border-solid border-c-border">
+    <div class="overflow-y-auto h-full">
       @if (isAnyExerciseShown) {
       @for (item of exercises; track $index) {
-      <div class="pb-6 border border-solid border-slate-700" *ngIf="!item.isHidden">
+      <div class="pb-6 border-b border-l border-r rounded-lg border-solid border-slate-800" *ngIf="!item.isHidden">
         <div class="flex flex-row pt-4 ml-12">
           <div class="w-[4%]">
             @if (item.totalPlayed! > 0) {

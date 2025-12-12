@@ -1,6 +1,6 @@
 import { Component, input } from "@angular/core";
-import { RecordDetailsItem } from "../exercise-list.models";
-import { RecordTypes } from "../../../models/recordy-types-enum";
+import { RecordTypes } from "../../../../models/recordy-types-enum";
+import { RecordDetailsItem } from "../../models/exercise-list.models";
 
 @Component({
   selector: 'trh-details-exercise-card',

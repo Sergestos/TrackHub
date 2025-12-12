@@ -1,9 +1,9 @@
 import { Component, inject, input, OnInit, output } from "@angular/core";
-import { ExerciseListService } from "../exercise-list.service";
-import { FilterDateModel, FiltersModel as FilterModel } from "../exercise-list.models";
+import { ExerciseListService } from "../../services/exercise-list.service";
+import { FilterDateModel, FilterModel } from "../../models/exercise-list.models";
 
 @Component({
-  selector: 'trackhub-exercise-filter',
+  selector: 'trh-exercise-filter',
   templateUrl: './exercise-filter.component.html',
   standalone: false
 })

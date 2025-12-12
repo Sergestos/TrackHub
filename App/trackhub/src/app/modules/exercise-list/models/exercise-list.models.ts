@@ -1,4 +1,4 @@
-import { RecordTypes } from "../../models/recordy-types-enum";
+import { RecordTypes } from "../../../models/recordy-types-enum";
 
 export class ExerciseItem {
   public exerciseId!: string;
@@ -21,7 +21,7 @@ export class RecordDetailsItem {
   public warmupSongs?: string[];
 }
 
-export class FiltersModel {
+export class FilterModel {
   public dateFilter?: FilterDateModel;
   public showPlayedOnly?: boolean;
   public showExpanded?: boolean;

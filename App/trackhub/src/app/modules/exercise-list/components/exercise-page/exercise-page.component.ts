@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ExerciseItem, ExerciseItemView, FilterDateModel, FiltersModel as FilterModel } from "../exercise-list.models";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ExerciseListService } from "../exercise-list.service";
+import { ExerciseListService } from "../../services/exercise-list.service";
 import { MatDialog } from '@angular/material/dialog';
-import { ModalResult, openDeleteModal } from "../../../components/delete-modal/delete-modal.component";
-import { LoadingService } from "../../../providers/services/loading.service";
+import { ModalResult, openDeleteModal } from "../../../../components/delete-modal/delete-modal.component";
+import { LoadingService } from "../../../../providers/services/loading.service";
+import { ExerciseItem, ExerciseItemView, FilterDateModel, FilterModel } from "../../models/exercise-list.models";
 
 const UNPLAYED_EXERCISE_ID = "-1";
 
 @Component({
-  selector: 'trackhub-exercise-page',
+  selector: 'trh-exercise-page',
   templateUrl: './exercise-page.component.html',
   styleUrls: ['./exercise-page.component.scss'],
   standalone: false

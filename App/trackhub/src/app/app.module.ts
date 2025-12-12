@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
-import { ExerciseListService } from './modules/exercise-list/exercise-list.service';
+import { ExerciseListService } from './modules/exercise-list/services/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -26,7 +26,7 @@ import { ApiService } from './providers/services/api.service';
     BrowserModule,
     RouterModule,
     AppRoutingModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideClientHydration(),

@@ -1,6 +1,8 @@
 ::ng-deep {
   .custom-dialog-container {
-    border-radius: 12px !important;
-    background-color: rgb(22, 18, 21) !important;
+    --mdc-dialog-container-shape: 1rem;
+    --mdc-dialog-container-color: rgb(26, 26, 36);
+    @apply border border-solid border-slate-700 rounded-2xl;
+    
   }
 }

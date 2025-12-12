@@ -1,9 +1,9 @@
 import { Component, effect, forwardRef, input } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { FilterDateModel } from "../../exercise-list.models";
+import { FilterDateModel } from "../../../models/exercise-list.models";
 
 @Component({
-  selector: 'trackhub-exercise-date-filter',
+  selector: 'trh-exercise-date-filter',
   templateUrl: './exercise-date-filter.component.html',
   providers: [{
     provide: NG_VALUE_ACCESSOR,

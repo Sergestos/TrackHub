@@ -27,8 +27,8 @@
         <p class="nav-text">Manual Commit</p>
       </div>
     </div>
-    <div class="flex">
-      <p class="nav-text pr-3 pt-1">Welcome, {{userName}}</p>
+    <div class="flex gap-1.5">
+      <p class="nav-text pr-3 pt-1">{{userName}}</p>
       <img [src]="userPictureUrl" class="w-7 h-7 rounded-full" alt="User Profile Picture" />
       <i class="fa-solid text-white pl-3 pr-2 pt-[0.9rem] fa-arrow-right-from-bracket fa-lg cursor-pointer"
         (click)="onLogoutClick()"></i>
