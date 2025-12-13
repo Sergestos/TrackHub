@@ -1,9 +1,9 @@
 using TrackHub.Domain.Data;
 using TrackHub.Service;
-using TrackHub.Scraper;
 using TrackHub.AiCrawler;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
+using TrackHub.Service.Scrapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Scraper;
-using TrackHub.Scraper.Models;
+using TrackHub.Service.Scrapper;
+using TrackHub.Service.Scrapper.Models;
 
 namespace TrackHub.Web.Controllers;
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34408.163
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11222.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain", "TrackHub.Domain\TrackHub.Domain.csproj", "{93441479-40AA-4B68-9063-177CB7443EF3}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Data", "Tra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackHub.CosmosDb\TrackHub.CosmosDb.csproj", "{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Scraper", "TrackHub.Crawler\TrackHub.Scraper.csproj", "{B615F868-8E27-400A-8922-5CB384EB116F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Scrapper", "TrackHub.Crawler\TrackHub.Service.Scrapper.csproj", "{B615F868-8E27-400A-8922-5CB384EB116F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

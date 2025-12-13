@@ -1,9 +1,9 @@
 ﻿using TrackHub.AiCrawler;
 using TrackHub.AiCrawler.PromptModels;
-using TrackHub.Scraper.Models;
+using TrackHub.Service.Scrapper.Models;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Scraper.Searchers.Authors;
+namespace TrackHub.Service.Scrapper.Searchers.Authors;
 
 internal class AuthorSearcher : IAuthorSearcher
 {
@@ -60,22 +60,20 @@ internal class AuthorSearcher : IAuthorSearcher
             IList<string> authorsToExclude = excludeList != null ? 
                 dbResult.Union(excludeList).ToList() : dbResult.ToList();
 
-           // result.AddRange(aiResult);
+            var args = new AuthorPromptArgs()
+            {
+                ExpectedResultLength = Constants.MaximumSearchResultLength - result.Count(),
+                SearchPattern = authorName,
+            };
+            var aiResponse = await _aiMusicCrawler.SearchAuthorsAsync(args, cancellationToken);
+
+            if (aiResponse != null)
+            {
+                var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScrapperSearchResultBuilder.FromAi);
+                result.AddRange(aiResult);
+            }
         }
 
         return result;
     }    
-
-    private async Task<IEnumerable<ScrapperSearchResult>> SearchFromAiAsync(string authorName, int resultSize, string[]? authorsToExclude, CancellationToken cancellationToken)
-    {
-        var args = new AuthorPromptArgs()
-        {
-            ExpectedResultLength = resultSize,
-            SearchPattern = authorName,
-            AuthorsToExclude = authorsToExclude
-        };
-
-        var aiResponse = await _aiMusicCrawler.SearchAuthorsAsync(args, cancellationToken);
-        return aiResponse.Select(ScrapperSearchResultBuilder.FromAi);
-    }
 }

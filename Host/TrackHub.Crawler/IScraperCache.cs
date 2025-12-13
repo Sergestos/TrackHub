@@ -1,6 +1,6 @@
-﻿using TrackHub.Scraper.Models;
+﻿using TrackHub.Service.Scrapper.Models;
 
-namespace TrackHub.Scraper;
+namespace TrackHub.Service.Scrapper;
 
 internal interface IScraperCache
 {

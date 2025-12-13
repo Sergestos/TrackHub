@@ -1,8 +1,8 @@
-﻿using TrackHub.Scraper.Models;
-using TrackHub.Scraper.Searchers.Authors;
-using TrackHub.Scraper.Searchers.Song;
+﻿using TrackHub.Service.Scrapper.Models;
+using TrackHub.Service.Scrapper.Searchers.Authors;
+using TrackHub.Service.Scrapper.Searchers.Song;
 
-namespace TrackHub.Scraper;
+namespace TrackHub.Service.Scrapper;
 
 internal class ScraperFacade : IScraperFacade
 {

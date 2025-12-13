@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Scraper;
+﻿namespace TrackHub.Service.Scrapper;
 
 internal static class Helper
 { 

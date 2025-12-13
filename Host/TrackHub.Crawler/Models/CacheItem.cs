@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Scraper.Models;
+﻿namespace TrackHub.Service.Scrapper.Models;
 
 internal class CacheItem
 {

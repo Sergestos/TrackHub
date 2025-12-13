@@ -1,6 +1,6 @@
-﻿using TrackHub.Scraper.Models;
+﻿using TrackHub.Service.Scrapper.Models;
 
-namespace TrackHub.Scraper.Searchers.Song;
+namespace TrackHub.Service.Scrapper.Searchers.Song;
 
 public interface ISongSearcher
 {

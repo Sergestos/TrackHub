@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using TrackHub.Scraper.Models;
+using TrackHub.Service.Scrapper.Models;
 
-namespace TrackHub.Scraper.Cache;
+namespace TrackHub.Service.Scrapper.Cache;
 
 internal class InMemoryCache : IScraperCache
 {
