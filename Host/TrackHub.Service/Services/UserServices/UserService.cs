@@ -39,13 +39,16 @@ internal class UserService : IUserService
         return user!;
     }
 
-    public DateTimeOffset GetUserFirstPlayDate(string userId)
+    public UserSettings GetUserSettings(string userId)
     {
-        User user = _userRepository.GetUserById(userId)!;
+        var userSettings = new UserSettings();
 
+        User user = _userRepository.GetUserById(userId)!;
         if (user.FirstPlayDate.HasValue)
-            return user.FirstPlayDate!.Value;
+            userSettings.FirstPlayDate = user.FirstPlayDate!.Value;
         else 
-            return DateTimeOffset.UtcNow;
+            userSettings.FirstPlayDate = DateTimeOffset.UtcNow;
+
+        return userSettings;
     }
 }

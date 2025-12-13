@@ -7,6 +7,7 @@ import { CommitExerciseComponent } from './components/commit-exercise/commit-exe
 import { CommitComponent } from './components/commit.component';
 import { CommitService } from './services/commit.service';
 import { ButtonComponent } from '../../components/button/button.component';
+import { SuggestionService } from './services/suggestion.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ButtonComponent } from '../../components/button/button.component';
   ],
   providers: [
     CommitService,
+    SuggestionService,
     provideHttpClient(withInterceptorsFromDi())
   ]
 })

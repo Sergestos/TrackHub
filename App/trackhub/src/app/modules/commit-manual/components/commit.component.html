@@ -14,8 +14,8 @@
           <p class="text-zinc-400">Use today's date?</p>
           <input type="checkbox" class="mt-0.5" [(ngModel)]="isUseTodaysDate" />
           @if (!isUseTodaysDate) {
-            <input type="date" class="pl-1 ml-6 h-6 mt-[-3px] border-r-8" [value]="selectedDate | date:'yyyy-MM-dd'"
-              [ngModel]="selectedDate | date:'yyyy-MM-dd'" (ngModelChange)="selectedDate=$event"
+            <input type="date" class="pl-1 ml-6 h-6 mt-[-3px] border-r-8" [value]="selectedDate | date:'dd-MM-yyyy'"
+              [ngModel]="selectedDate | date:'dd-MM-yyyy'" (ngModelChange)="selectedDate=$event"
               onfocus="'showPicker' in this && this.showPicker()" />
           }
         </div>
@@ -44,22 +44,24 @@
   </div>
   }
   @if (exercise?.records!.length > 0) {
-  <div class="border rounded-t-xl border-solid border-c-border mt-6 mx-auto w-[70%]">
-    <div class="headers flex flex-row gap-2 py-4 pl-20 bg-zinc-900 border-b rounded-t-xl border-solid border-c-border">
+  <div class="border-t rounded-xl border-solid border-c-border mt-6 mx-auto w-[85%]">
+    <div class="headers flex flex-row gap-2 py-4 pl-20 bg-zinc-900 border-b-0 rounded-xl border-solid border-c-border">
       <input 
         class="mr-8" 
         type="checkbox" 
         (change)="onAllSelectedChanged($event)" />
       <p class="w-32">Duration</p>
       <p class="w-36">Type</p>
-      <p class="w-40">Name(s)</p>
-      <p class="w-40">Author</p>
+      <p class="w-48">Name(s)</p>
+      <p class="w-48">Author</p>
       <p class="w-32">Bpm</p>
       <p class="w-20">Options</p>
     </div>
-    @for (item of exercise?.records; track $index) {
-    <trh-exercise [model]="item" (onSelectToggle)="onSelectToggle()"></trh-exercise>
-    }
+    <div class="border border-solid border-c-border rounded-xl border-t-0">
+      @for (item of exercise?.records; track $index) {
+        <trh-exercise [model]="item" (onSelectToggle)="onSelectToggle()"></trh-exercise>
+      }    
+    </div>
   </div>
   }
 </div>

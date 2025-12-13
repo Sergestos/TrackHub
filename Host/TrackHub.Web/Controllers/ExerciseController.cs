@@ -11,7 +11,7 @@ namespace TrackHub.API.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/exercises")]
 public class ExerciseController : TrackHubController
 {
     private readonly IExerciseRepository _exerciseRepository;
@@ -20,9 +20,9 @@ public class ExerciseController : TrackHubController
     private readonly IMapper _mapper;
 
     public ExerciseController(
-        IExerciseService exerciseService, 
-        IExerciseRepository exerciseRepository, 
-        IExerciseSearchService exerciseSearchService, 
+        IExerciseService exerciseService,
+        IExerciseRepository exerciseRepository,
+        IExerciseSearchService exerciseSearchService,
         IMapper mapper)
     {
         _exerciseService = exerciseService;
@@ -32,16 +32,16 @@ public class ExerciseController : TrackHubController
     }
 
     [HttpGet]
+    [Route("{exerciseId}")]
     [ProducesResponseType(typeof(Exercise), 200)]
-    public async Task<IActionResult> GetByIdAsync([FromQuery] string exerciseId, CancellationToken cancellationToken)
-    {         
+    public async Task<IActionResult> GetExerciseAsync([FromRoute] string exerciseId, [FromQuery] DateOnly? date, CancellationToken cancellationToken)
+    {
         var result = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, CurrentUserId, cancellationToken);
 
-        return Ok(result); 
+        return Ok(result);
     }
 
     [HttpGet]
-    [Route("by-date")]
     [ProducesResponseType(typeof(Exercise), 200)]
     public IActionResult GetByDate([FromQuery] DateOnly date, CancellationToken cancellationToken)
     {
@@ -51,7 +51,7 @@ public class ExerciseController : TrackHubController
     }
 
     [HttpGet]
-    [Route("list")]    
+    [Route("summary")]
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]
     public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int? year, [FromQuery] int? month, CancellationToken cancellationToken)
     {
@@ -70,16 +70,18 @@ public class ExerciseController : TrackHubController
     }
 
     [HttpPut]
+    [Route("{exerciseId}")]
     [ProducesResponseType(typeof(Exercise), 200)]
-    public async Task<IActionResult> PutAsync([FromBody] UpdateExerciseModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> PutAsync([FromRoute] string exerciseId, [FromBody] UpdateExerciseModel model, CancellationToken cancellationToken)
     {
         var result = await _exerciseService.UpdateExerciseAsync(model, CurrentUserId, cancellationToken);
-         
+
         return Ok(result);
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteAsync(string exerciseId, CancellationToken cancellationToken)
+    [Route("{exerciseId}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] string exerciseId, CancellationToken cancellationToken)
     {
         await _exerciseService.DeleteExerciseAsync(exerciseId, CurrentUserId, cancellationToken);
 
@@ -89,7 +91,10 @@ public class ExerciseController : TrackHubController
     [HttpDelete]
     [Route("{exerciseId}/records")]
     [ProducesResponseType(typeof(Exercise), 200)]
-    public async Task<IActionResult> DeleteRecordsAsync([FromRoute] string exerciseId, [FromQuery] string[] recordId, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteRecordsAsync(
+        [FromRoute] string exerciseId,
+        [FromQuery] string[] recordId,
+        CancellationToken cancellationToken)
     {
         var result = await _exerciseService.DeleteRecordsAsync(exerciseId, recordId, CurrentUserId, cancellationToken);
 

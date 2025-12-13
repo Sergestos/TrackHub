@@ -1,86 +1,53 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Exercise } from '../../../models/exercise';
 import { ExerciseRecord } from '../../../models/exercise-record';
-import { SuggestionResult } from '../models/suggestion-result.model';
+import { ApiService } from '../../../providers/services/api.service';
 
 @Injectable()
 export class CommitService {
-  private baseExerciseUrl: string = environment.apiUrl + '/api/exercise';
-  private baseSuggestionUrl: string = environment.apiUrl + '/api/suggestion';
+  readonly exercisesUrl: string = environment.apiUrl + '/api/exercises';
 
-  private httpClient = inject(HttpClient);
-
-  private headers: HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json'
-  });
+  private apiService = inject(ApiService);
 
   public saveExercise(exerciseModel: Exercise): Observable<Exercise> {
-    return this.httpClient.post<any>(this.baseExerciseUrl, exerciseModel, {
-      headers: this.headers,
-      responseType: 'text' as 'json'
-    });
+    return this.apiService.post<Exercise>(
+      this.exercisesUrl,
+      exerciseModel
+    );
   }
 
   public updateExercise(exerciseModel: Exercise): Observable<ExerciseRecord[]> {
-    return this.httpClient.put<any>(this.baseExerciseUrl, exerciseModel, {
-      headers: this.headers,
-      responseType: 'text' as 'json'
-    });
+    return this.apiService.put<ExerciseRecord[]>(
+      `${this.exercisesUrl}/${exerciseModel.exerciseId}`,
+      exerciseModel
+    );
   }
 
   public getExerciseRecordById(exerciseId: string): Observable<Exercise> {
-    const params = new HttpParams()
-      .set('exerciseId', exerciseId)
-
-    return this.httpClient.get<Exercise>(this.baseExerciseUrl, { params });
+    return this.apiService.get<Exercise>(`${this.exercisesUrl}/${exerciseId}`);
   }
 
   public getExerciseRecordByDate(date: Date): Observable<Exercise> {
     const params = new HttpParams()
       .set('date', date.toDateString())
 
-    return this.httpClient.get<Exercise>(`${this.baseExerciseUrl}/by-date`, { params });
+    return this.apiService.get<Exercise>(this.exercisesUrl, params);
   }
 
   public deleteExercise(exerciseId: string): Observable<void> {
-    const params = new HttpParams()
-      .set('exerciseId', exerciseId);
-
-    return this.httpClient.delete<void>(this.baseExerciseUrl, { params });
+    return this.apiService.delete<void>(`${this.exercisesUrl}/${exerciseId}`);
   }
 
   public deleteRecords(exerciseId: string, recordIds: string[]): Observable<void> {
-    const url = `${this.baseExerciseUrl}/${exerciseId}/records`;
+    const url = `${this.exercisesUrl}/${exerciseId}/records`;
     let params = new HttpParams();
     recordIds.forEach((item) => {
       params = params.append('recordId', item);
     });
 
-    return this.httpClient.delete<void>(url, {
-      params: params,
-      headers: this.headers,
-      responseType: 'text' as 'json'
-    });
-  }
-
-  public getSongSuggestrions(pattern: string, author?: string | null): Observable<SuggestionResult[]> {
-    const params = new HttpParams()
-      .set('pattern', pattern);
-
-    if (author) {
-      params.set('author', author);
-    }
-
-    return this.httpClient.get<SuggestionResult[]>(`${this.baseSuggestionUrl}/songs`, { params });
-  }
-
-  public getAuthorSuggestrions(pattern: string): Observable<SuggestionResult[]> {
-    const params = new HttpParams()
-      .set('pattern', pattern)
-
-    return this.httpClient.get<SuggestionResult[]>(`${this.baseSuggestionUrl}/authors`, { params });
+    return this.apiService.delete<void>(url, params);
   }
 }

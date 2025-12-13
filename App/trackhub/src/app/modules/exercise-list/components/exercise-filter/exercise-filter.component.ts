@@ -26,9 +26,9 @@ export class FilterComponent implements OnInit {
       }
     }
 
-    this.exerciseListService.getUserExerciseProfile()
+    this.exerciseListService.getUserExerciseSettings()
       .subscribe(item => {
-        this.userFirstYear = item.getFullYear();
+        this.userFirstYear = new Date(item.firstPlayDate).getFullYear();
       })
   }
 

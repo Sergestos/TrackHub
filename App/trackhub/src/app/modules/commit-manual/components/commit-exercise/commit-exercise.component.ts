@@ -2,10 +2,10 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { SuggestionResult } from '../../models/suggestion-result.model';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { CommitService } from '../../services/commit.service';
 import { ExerciseRecord } from '../../../../models/exercise-record';
 import { RecordTypes } from '../../../../models/recordy-types-enum';
 import { PlayTypes } from '../../../../models/play-types-enum';
+import { SuggestionService } from '../../services/suggestion.service';
 
 const MinSearchLength: number = 3;
 
@@ -56,7 +56,7 @@ export class CommitExerciseComponent implements OnInit {
   public warmupSongs: string = '';
 
   constructor(
-    private commitService: CommitService,
+    private suggestionService: SuggestionService,
     private eRef: ElementRef) { }
 
   @HostListener('document:click', ['$event'])
@@ -70,9 +70,9 @@ export class CommitExerciseComponent implements OnInit {
     this.initialModel = structuredClone(this.model);
 
     if (this.model.recordId) {
-      this.currectRecordStatusType = RecordStatusType.saved;
-
       this.warmupSongs = this.model.warmupSongs?.join(', ') ?? '';
+
+      this.currectRecordStatusType = RecordStatusType.saved;
     } else {
       this.currectRecordStatusType = RecordStatusType.draft;
     }
@@ -82,7 +82,7 @@ export class CommitExerciseComponent implements OnInit {
         .pipe(debounceTime(300))
         .subscribe(input => {
           if (input && input.length >= MinSearchLength) {
-            this.commitService.getSongSuggestrions(input, this.model.author)
+            this.suggestionService.getSongSuggestrions(input, this.model.author)
               .subscribe(result => {
                 this.songSuggestions = result;
                 this.displaySuggestions(SuggestionType.song)
@@ -94,7 +94,7 @@ export class CommitExerciseComponent implements OnInit {
         .pipe(debounceTime(300))
         .subscribe(input => {
           if (input && input.length >= MinSearchLength) {
-            this.commitService.getAuthorSuggestrions(input)
+            this.suggestionService.getAuthorSuggestrions(input)
               .subscribe((result: SuggestionResult[]) => {
                 this.authorSuggestions = result;
                 this.displaySuggestions(SuggestionType.author)
@@ -154,7 +154,7 @@ export class CommitExerciseComponent implements OnInit {
     switch (source) {
       case 0: return 'db';
       case 1: return 'ai';
-      case 2: return 'cache';
+      case 2: return 'ch';
       default: return '';
     }
   }

@@ -7,5 +7,5 @@ public interface IUserService
 {
     Task<User> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken);
 
-    DateTimeOffset GetUserFirstPlayDate(string userId);
+    UserSettings GetUserSettings(string userId);
 }

@@ -1,35 +1,31 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { map, Observable, of } from "rxjs";
+import { HttpParams } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { ExerciseItemView } from "../models/exercise-list.models";
+import { ApiService } from "../../../providers/services/api.service";
+import { UserSettings } from "../models/user-settings.models";
 
 @Injectable()
 export class ExerciseListService {
-  readonly baseExerciseUrl: string = environment.apiUrl + '/api/exercise';
-  readonly baseUserUrl: string = environment.apiUrl + '/api/user';
+  readonly exercisesUrl: string = environment.apiUrl + '/api/exercises';
+  readonly userUrl: string = environment.apiUrl + '/api/user';
 
-  constructor(private http: HttpClient) { }
+  private apiService = inject(ApiService);
 
-  public getUserExerciseProfile(): Observable<Date> {
-    const url = this.baseUserUrl + '/first-play'
-    return this.http.get<string>(url)
-      .pipe(map(date => new Date(date)));
+  public getUserExerciseSettings(): Observable<UserSettings> {
+    return this.apiService.get<UserSettings>(this.userUrl + '/settings');
   }
 
   public getExercisesByDate(year?: number, month?: number): Observable<ExerciseItemView[]> {
-    const url = this.baseExerciseUrl + '/list'
     const params = new HttpParams()
       .set('year', year ?? '')
       .set('month', month ?? '');
 
-    return this.http.get<ExerciseItemView[]>(url, { params });
+    return this.apiService.get<ExerciseItemView[]>(this.exercisesUrl + '/summary', params);
   }
 
   public deleteExercise(exerciseId: string): Observable<void> {
-    const params = new HttpParams()
-      .set('exerciseId', exerciseId);
-
-    return this.http.delete<void>(this.baseExerciseUrl, { params });
+    return this.apiService.delete<void>(`${this.exercisesUrl}/${exerciseId}`);
   }
 }

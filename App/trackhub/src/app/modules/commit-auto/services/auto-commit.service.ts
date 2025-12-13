@@ -7,8 +7,8 @@ import { ApiService } from "../../../providers/services/api.service";
 
 @Injectable()
 export class AutoCommitService {
-  private previeweUrl: string = environment.apiUrl + '/api/preview';
-  private exerciseUrl: string = environment.apiUrl + '/api/exercise';
+  readonly previeweUrl: string = environment.apiUrl + '/api/preview';
+  readonly exerciseUrl: string = environment.apiUrl + '/api/exercise';
 
   private apiService = inject(ApiService);
 

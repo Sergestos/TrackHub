@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Service.Services.UserServices;
+using TrackHub.Service.Services.UserServices.Models;
 
 namespace TrackHub.Web.Controllers;
 
@@ -17,11 +18,11 @@ public class UserController : TrackHubController
     }
 
     [HttpGet]
-    [Route("first-play")]
-    [ProducesResponseType(typeof(string), 200)]
+    [Route("settings")]
+    [ProducesResponseType(typeof(UserSettings), 200)]
     public IActionResult GetByIdAsync()
     {
-        var result = _userService.GetUserFirstPlayDate(CurrentUserId);
+        var result = _userService.GetUserSettings(CurrentUserId);
 
         return Ok(result);
     }

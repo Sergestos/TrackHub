@@ -8,11 +8,11 @@ namespace TrackHub.Web.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class SuggestionController : TrackHubController
+public class SuggestionsController : TrackHubController
 {
     private readonly IScraperFacade _scraperFacade;
 
-    public SuggestionController(IScraperFacade scraperFacade)
+    public SuggestionsController(IScraperFacade scraperFacade)
     {
         _scraperFacade = scraperFacade;
     }
