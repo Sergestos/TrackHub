@@ -3,47 +3,91 @@
     <input type="checkbox" [(ngModel)]="isSelected" (ngModelChange)="onIsSelectedChanged($event)" />
   </div>
   <div class="w-32">
-    <input type="text" placeholder="played (min)" [(ngModel)]="model.playDuration" (ngModelChange)="onModelChanged()"
+    <input 
+      type="text" 
+      placeholder="played (min)" 
+      [(ngModel)]="model.playDuration" 
+      (ngModelChange)="onModelChanged()"
       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
   </div>
   <div class="w-36">
     <select [(ngModel)]="model.recordType" (ngModelChange)="onModelChanged()">
-      <option *ngFor="let recordType of recordTypes">{{recordType}}</option>
+      <option 
+        *ngFor="let recordType of getRecordTypes()"
+        [ngValue]="recordType">
+        {{getRecordType(recordType)}}
+      </option>
     </select>
   </div>
-  <div class="w-40">
-    <input type="text" placeholder="search a name" [(ngModel)]="model.name" (ngModelChange)="onModelChanged('name')"
-      [formControl]="searchSongField" (click)="onSongInputClick($event)" autocomplete="off" />
-  </div>
-  <div class="w-40">
-    <input type="text" placeholder="search an author" [(ngModel)]="model.author"
-      (ngModelChange)="onModelChanged('author')" [formControl]="searchAuthorField" (click)="onAuthorInputClick($event)"
-      autocomplete="off" />
-  </div>
-  <div class="w-32">
-    <input type="text" placeholder="select bpm" [(ngModel)]="model.bitsPerMinute" (ngModelChange)="onModelChanged()"
-      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
-  </div>
-  <div class="w-32">
-    <select class="w-24" [(ngModel)]="model.playType" (ngModelChange)="onModelChanged()">
-      <option *ngFor="let playType of playTypes">{{playType}}</option>
-    </select>
-  </div>
-  <div class="flex align-middle pt-1">
-    <label class="pr-2">Is recorded</label>
-    <input type="checkbox" class="mt-0.5" [(ngModel)]="model.isRecorded" (ngModelChange)="onModelChanged()" />
-  </div>
-  <div class="status">
+  @if (model.recordType !== RecordTypes.Warmup) {
+    <div class="w-40">
+      <input 
+        type="text" 
+        placeholder="search a name" 
+        [(ngModel)]="model.name" 
+        (ngModelChange)="onModelChanged('name')"
+        [formControl]="searchSongField" 
+        (click)="onSongInputClick($event)" 
+        autocomplete="off" />
+    </div>
+    <div class="w-40">
+      <input 
+        type="text" 
+        placeholder="search an author" 
+        [(ngModel)]="model.author"
+        (ngModelChange)="onModelChanged('author')" 
+        [formControl]="searchAuthorField" (click)="onAuthorInputClick($event)"
+        autocomplete="off" />
+    </div>
+    <div class="w-32">
+      <input 
+        type="text" 
+        placeholder="select bpm" 
+        [(ngModel)]="model.bitsPerMinute" 
+        (ngModelChange)="onModelChanged()"
+        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+    </div>
+    <div class="w-32">
+      <select class="w-24" 
+        [(ngModel)]="model.playType"
+        (ngModelChange)="onModelChanged()">
+        <option 
+          *ngFor="let playType of getPlayTypes()"
+          [ngValue]="playType">
+          {{ getPlayType(playType) }}
+        </option>
+      </select>
+    </div>
+    <div class="flex align-middle pt-1">
+      <label class="pr-2">Is recorded</label>
+      <input 
+        type="checkbox" 
+        class="mt-0.5" 
+        [(ngModel)]="model.isRecorded" 
+        (ngModelChange)="onModelChanged()" />
+    </div>
+  }
+  @else { 
+    <div class="w-[60%]">
+      <input 
+        type="text" 
+        placeholder="enter warmup songs, commas separated..." 
+        [value]="warmupSongs"
+        (input)="onWarmupChanges($event)"
+        autocomplete="off" />
+    </div>
+  }
+  <div class="status ml-auto pr-14">
     @switch (currectRecordStatusType) {
-    @case (recordStatusTypeEnum.changed) {
-    <p class="text-yellow-400">changed</p>
-    }
-    @case (recordStatusTypeEnum.saved) {
-    <p class="text-lime-500">saved</p>
-    }
-    @case (recordStatusTypeEnum.draft) {
-    <p class="text-c-text-grey">draft</p>
-    }
+      @case (recordStatusTypeEnum.changed) {
+       <p class="text-yellow-400">changed</p>
+      }
+      @case (recordStatusTypeEnum.saved) {
+        <p class="text-lime-500">saved</p>
+      }
+      @case (recordStatusTypeEnum.draft) {
+        <p class="text-c-text-grey">draft</p>
+      }
     }
   </div>
 </div>
@@ -56,7 +100,9 @@
   <div class="suggestion-animation flex flex-row gap-1 opacity-1">
     @for (item of songSuggestions; track $index) {
     <div class="suggestion-item">
-      <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{getSourceName(item.source)}})</p>
+      <p (click)="onSuggestionClick(item.result)">
+        {{item.result}} ({{getSourceName(item.source)}})
+      </p>
     </div>
     }
   </div>
@@ -65,7 +111,9 @@
   <div class="suggestion-animation flex flex-row gap-1 opacity-1">
     @for (item of authorSuggestions; track $index) {
     <div class="suggestion-item">
-      <p (click)="onSuggestionClick(item.result)">{{item.result}} ({{getSourceName(item.source)}})</p>
+      <p (click)="onSuggestionClick(item.result)">
+        {{item.result}} ({{getSourceName(item.source)}})
+      </p>
     </div>
     }
   </div>

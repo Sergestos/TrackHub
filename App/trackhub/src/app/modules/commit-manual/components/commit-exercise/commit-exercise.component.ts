@@ -4,6 +4,8 @@ import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CommitService } from '../../services/commit.service';
 import { ExerciseRecord } from '../../../../models/exercise-record';
+import { RecordTypes } from '../../../../models/recordy-types-enum';
+import { PlayTypes } from '../../../../models/play-types-enum';
 
 const MinSearchLength: number = 3;
 
@@ -25,7 +27,8 @@ export enum RecordStatusType {
   standalone: false
 })
 export class CommitExerciseComponent implements OnInit {
-  public recordTypes: string[] = ['Warmup', 'Song', 'Improvisation', 'Exercise', 'Composing']
+  readonly RecordTypes = RecordTypes;
+
   public playTypes: string[] = ['Rhythm', 'Solo', 'Both']
 
   @Input()
@@ -50,14 +53,7 @@ export class CommitExerciseComponent implements OnInit {
   recordStatusTypeEnum: typeof RecordStatusType = RecordStatusType;
   public currectRecordStatusType: RecordStatusType | null = null;
 
-  public getSourceName(source: any): string {
-    switch (source) {
-      case 0: return 'db';
-      case 1: return 'ai';
-      case 2: return 'cache';
-      default: return '';
-    }
-  }
+  public warmupSongs: string = '';
 
   constructor(
     private commitService: CommitService,
@@ -75,6 +71,8 @@ export class CommitExerciseComponent implements OnInit {
 
     if (this.model.recordId) {
       this.currectRecordStatusType = RecordStatusType.saved;
+
+      this.warmupSongs = this.model.warmupSongs?.join(', ') ?? '';
     } else {
       this.currectRecordStatusType = RecordStatusType.draft;
     }
@@ -140,6 +138,43 @@ export class CommitExerciseComponent implements OnInit {
     if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.recordId) {
       this.currectRecordStatusType = RecordStatusType.changed;
     }
+  }
+
+  public onWarmupChanges(event: any): void {
+    this.model.warmupSongs = ((event.target).value as string)
+      .replace(/,\s*$/, '')
+      .split(',')
+      .map(s => s.trim())
+      .map(s => s.charAt(0).toUpperCase() + s.slice(1));
+
+    this.onModelChanged();
+  }
+
+  public getSourceName(source: any): string {
+    switch (source) {
+      case 0: return 'db';
+      case 1: return 'ai';
+      case 2: return 'cache';
+      default: return '';
+    }
+  }
+
+  public getRecordType(recordType: RecordTypes): string {
+    return RecordTypes[recordType];
+  }
+
+  public getRecordTypes(): RecordTypes[] {
+    return Object.values(RecordTypes)
+      .filter(v => typeof v === 'number') as RecordTypes[];
+  }
+
+  public getPlayType(playType: PlayTypes): string {
+    return PlayTypes[playType];
+  }
+
+  public getPlayTypes(): PlayTypes[] {
+    return Object.values(PlayTypes)
+      .filter(v => typeof v === 'number') as PlayTypes[];
   }
 
   private displaySuggestions(suggestionType: SuggestionType): void {

@@ -32,7 +32,8 @@ internal static class Prompts
         Names(pure name of a song, author or band name is not considering as a part of song name)
         of these songs must begin the next pattern. This patten might be a separate word or just a part of a word.
         Prioritize most popular songs, but they anyway must start with pattern provided previously.
-        The pattern was provided previously.";
+        The pattern was provided previously. Any mentions of live version or remaster version should be excluded.
+        Any mentions of mix or for example acoustic version should be excluded. Do not return them.";
 
     internal static string SearchForAuthors = @"
         Search for existing authors of Music bands. Return names of these bands or authors.

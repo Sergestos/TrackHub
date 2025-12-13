@@ -14,10 +14,10 @@ public class AppMapper : Profile
             .ForMember(x => x.FullName, opt => opt.MapFrom(src => $"{src.GivenName} {src.FamilyName}"))
             .ForMember(x => x.PhotoUrl, opt => opt.MapFrom(src => src.Picture));        
 
-        CreateMap<Exercise, ExerciseView>()
+        CreateMap<Exercise, ExerciseDto>()
             .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.PlayDate.ToDateTime()));
 
-        CreateMap<Record, RecordView>()
+        CreateMap<Record, RecordDto>()
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => src.RecordType.ToString()))
             .ForMember(x => x.PlayType, opt => opt.MapFrom(src => src.PlayType.ToString()));
     }

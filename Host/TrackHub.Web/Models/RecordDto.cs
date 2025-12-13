@@ -1,12 +1,14 @@
-﻿namespace TrackHub.Web.Models;
+﻿using TrackHub.Domain.Enums;
 
-public class RecordView
+namespace TrackHub.Web.Models;
+
+public class RecordDto
 {
     public required string RecordId { get; set; }
 
-    public required string RecordType { get; set; }
+    public required RecordType RecordType { get; set; }
 
-    public required string PlayType { get; set; }
+    public required PlayType PlayType { get; set; }
 
     public required int PlayDuration { get; set; }
 
@@ -17,4 +19,6 @@ public class RecordView
     public int? BitsPerMinute { get; set; }
 
     public bool IsRecorded { get; set; }
+
+    public string[]? WarmupSongs { get; set; }
 }
