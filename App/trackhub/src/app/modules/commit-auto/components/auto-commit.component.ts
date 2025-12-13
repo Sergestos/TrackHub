@@ -32,7 +32,8 @@ export class AutoCommitComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.text = this.getInitialDateTemplate();
+    this.text = this.getInitialDateTemplate(new Date());
+    this.playDate = new Date();
 
     this.input$
       .pipe(
@@ -47,7 +48,7 @@ export class AutoCommitComponent implements OnInit {
               this.previewRecords = response.records;
 
               this.validationIssues.set(response.validationIssues!);
-              this.isValid = this.validationIssues().length > 0;
+              this.isValid = this.validationIssues().length < 1;
             }
           })
       });
@@ -79,7 +80,7 @@ export class AutoCommitComponent implements OnInit {
     }
   }
 
-  private getInitialDateTemplate(): string {
-    return `--${new Intl.DateTimeFormat('uk-UA').format(new Date())}--`;
+  private getInitialDateTemplate(date: Date): string {
+    return `--${new Intl.DateTimeFormat('uk-UA').format(date)}--`;
   }
 }  

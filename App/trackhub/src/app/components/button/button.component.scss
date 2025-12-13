@@ -8,7 +8,7 @@
   @apply border border-solid border-gray-600 rounded;
   @apply hover:border-gray-500 hover:text-gray-100;
   @apply shadow-sm;
-  @apply transition duration-100;
+  @apply transition duration-200;
 
   &:disabled {
     @apply cursor-not-allowed opacity-50;
