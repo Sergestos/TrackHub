@@ -1,10 +1,8 @@
-﻿using TrackHub.Service.Scrapper.Models;
+﻿using TrackHub.Service.Scraper.Models;
 
-namespace TrackHub.Service.Scrapper.Searchers.Song;
+namespace TrackHub.Service.Scraper.Searchers.Song;
 
 public interface ISongSearcher
 {
-    Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string pattern, string authorName, int resultSize, CancellationToken cancellationToken);
-
-    Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string pattern, int resultSize, CancellationToken cancellationToken);    
+    Task<IEnumerable<ScraperSearchResult>> SearchAsync(string pattern, int resultSize, CancellationToken cancellationToken);    
 }

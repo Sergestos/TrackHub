@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Service.Scrapper.Cache;
-using TrackHub.Service.Scrapper.Searchers.Authors;
-using TrackHub.Service.Scrapper.Searchers.Song;
+using TrackHub.Service.Scraper.Cache;
+using TrackHub.Service.Scraper.Searchers.Authors;
+using TrackHub.Service.Scraper.Searchers.Song;
 
-namespace TrackHub.Service.Scrapper;
+namespace TrackHub.Service.Scraper;
 
 public static class ServiceCollectionExtensions
 {

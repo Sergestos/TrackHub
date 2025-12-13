@@ -1,8 +1,8 @@
-﻿using TrackHub.Service.Scrapper.Models;
+﻿using TrackHub.Service.Scraper.Models;
 
-namespace TrackHub.Service.Scrapper.Searchers.Authors;
+namespace TrackHub.Service.Scraper.Searchers.Authors;
 
 public interface IAuthorSearcher
 {
-    Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken);
+    Task<IEnumerable<ScraperSearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken);
 }

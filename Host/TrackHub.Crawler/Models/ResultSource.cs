@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Service.Scrapper.Models;
+﻿namespace TrackHub.Service.Scraper.Models;
 
 public enum ResultSource
 {

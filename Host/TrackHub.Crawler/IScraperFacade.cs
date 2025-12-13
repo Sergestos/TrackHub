@@ -1,10 +1,10 @@
-﻿using TrackHub.Service.Scrapper.Models;
+﻿using TrackHub.Service.Scraper.Models;
 
-namespace TrackHub.Service.Scrapper;
+namespace TrackHub.Service.Scraper;
 
 public interface IScraperFacade
 {
-    Task<IEnumerable<ScrapperSearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken);
+    Task<IEnumerable<ScraperSearchResult>> SearchForAuthorsAsync(string pattern, CancellationToken cancellationToken);
 
-    Task<IEnumerable<ScrapperSearchResult>> SearchForSongsAsync(string pattern, string? author, CancellationToken cancellationToken);
+    Task<IEnumerable<ScraperSearchResult>> SearchForSongsAsync(string pattern, string? author, CancellationToken cancellationToken);
 }

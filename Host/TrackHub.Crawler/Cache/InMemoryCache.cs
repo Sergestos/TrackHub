@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using TrackHub.Service.Scrapper.Models;
+using TrackHub.Service.Scraper.Models;
 
-namespace TrackHub.Service.Scrapper.Cache;
+namespace TrackHub.Service.Scraper.Cache;
 
 internal class InMemoryCache : IScraperCache
 {
@@ -39,6 +39,11 @@ internal class InMemoryCache : IScraperCache
         }
 
         return null;
+    }
+
+    public void Remove(CacheKey key)
+    {
+        _memoryCache.Remove(GetComposedKey(key));
     }
 
     private string GetComposedKey(CacheKey key)

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Data", "Tra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackHub.CosmosDb\TrackHub.CosmosDb.csproj", "{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Scrapper", "TrackHub.Crawler\TrackHub.Service.Scrapper.csproj", "{B615F868-8E27-400A-8922-5CB384EB116F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Scraper", "TrackHub.Crawler\TrackHub.Service.Scraper.csproj", "{B615F868-8E27-400A-8922-5CB384EB116F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

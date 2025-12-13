@@ -1,9 +1,9 @@
 ﻿using TrackHub.AiCrawler;
 using TrackHub.AiCrawler.PromptModels;
-using TrackHub.Service.Scrapper.Models;
+using TrackHub.Service.Scraper.Models;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Service.Scrapper.Searchers.Authors;
+namespace TrackHub.Service.Scraper.Searchers.Authors;
 
 internal class AuthorSearcher : IAuthorSearcher
 {
@@ -20,16 +20,16 @@ internal class AuthorSearcher : IAuthorSearcher
         _scraperCache = scraperCache;   
     }
 
-    public async Task<IEnumerable<ScrapperSearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScraperSearchResult>> SearchAsync(string authorName, CancellationToken cancellationToken)
     {
-        var result = new List<ScrapperSearchResult>();
+        var result = new List<ScraperSearchResult>();
 
         var cachedResults = _scraperCache.Get(new CacheKey(CacheAuthorIdentifier, authorName));
         if (cachedResults != null && cachedResults.Length >= Constants.MaximumSearchResultLength)
-            return cachedResults.Select(ScrapperSearchResultBuilder.FromCache).ToList();       
+            return cachedResults.Select(ScraperSearchResultBuilder.FromCache).ToList();       
 
         int leftoverLength = cachedResults == null ? Constants.MaximumSearchResultLength : Constants.MaximumSearchResultLength - cachedResults!.Length;
-        var searcherResult = await SearchDbAsync(authorName, leftoverLength, cachedResults, cancellationToken);
+        var searcherResult = await SearchDbAndAiAsync(authorName, leftoverLength, cachedResults, cancellationToken);
         
         if (searcherResult.Any())
         {
@@ -41,18 +41,18 @@ internal class AuthorSearcher : IAuthorSearcher
         }
 
         return cachedResults == null ? searcherResult :
-                cachedResults.Select(ScrapperSearchResultBuilder.FromCache).Union(searcherResult);
+                cachedResults.Select(ScraperSearchResultBuilder.FromCache).Union(searcherResult);
     }
 
-    private async Task<IEnumerable<ScrapperSearchResult>> SearchDbAsync(string authorName, int resultLength, string[]? excludeList, CancellationToken cancellationToken)
+    private async Task<IEnumerable<ScraperSearchResult>> SearchDbAndAiAsync(string authorName, int resultLength, string[]? excludeList, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(authorName) || authorName.Length < Constants.MinimalSearchPatternLength)
-            return Enumerable.Empty<ScrapperSearchResult>();
+            return Enumerable.Empty<ScraperSearchResult>();
 
-        var result = new List<ScrapperSearchResult>();
+        var result = new List<ScraperSearchResult>();
 
         var dbResult = await _recordRepository.SearchAuthorsByNameAsync(Helper.CapitalizeFirstLetter(authorName), resultLength, excludeList, cancellationToken);
-        result.AddRange(dbResult.Select(ScrapperSearchResultBuilder.FromDateBase));
+        result.AddRange(dbResult.Select(ScraperSearchResultBuilder.FromDateBase));
 
         int leftoverSize = Constants.MinimalDbResultThreshold >= resultLength ? resultLength : Constants.MinimalDbResultThreshold;
         if (result.Count() < leftoverSize)
@@ -69,7 +69,7 @@ internal class AuthorSearcher : IAuthorSearcher
 
             if (aiResponse != null)
             {
-                var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScrapperSearchResultBuilder.FromAi);
+                var aiResult = aiResponse.Where(x => !dbResult.Contains(x)).Select(ScraperSearchResultBuilder.FromAi);
                 result.AddRange(aiResult);
             }
         }
