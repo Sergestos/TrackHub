@@ -4,6 +4,11 @@ import { AuthGuard } from './providers/guards/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'app/dashboard',
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'app/list',
     loadChildren: () => import('./modules/exercise-list/exercise-list.module').then(m => m.ExerciseListModule),
     canActivate: [AuthGuard]
