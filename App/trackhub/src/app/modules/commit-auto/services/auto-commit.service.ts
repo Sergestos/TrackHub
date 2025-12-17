@@ -8,7 +8,7 @@ import { ApiService } from "../../../providers/services/api.service";
 @Injectable()
 export class AutoCommitService {
   readonly previeweUrl: string = environment.apiUrl + '/api/preview';
-  readonly exerciseUrl: string = environment.apiUrl + '/api/exercise';
+  readonly exerciseUrl: string = environment.apiUrl + '/api/exercises';
 
   private apiService = inject(ApiService);
 
@@ -22,7 +22,7 @@ export class AutoCommitService {
   public saveExercise(exerciseModel: Exercise): Observable<Exercise> {
     return this.apiService.post<Exercise>(
       this.exerciseUrl,
-      { exerciseModel }
+      exerciseModel
     );
   }
 }
