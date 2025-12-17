@@ -28,7 +28,7 @@ internal class ExerciseService : IExerciseService
         {
             ExerciseId = Guid.NewGuid().ToString(),
             UserId = userId,
-            PlayDate = PlayDate.FormatFromDateTime(exerciseModel.PlayDate),
+            PlayDate = exerciseModel.PlayDate,
             Records = exerciseModel.Records.Select(model =>
             {
                 Record record = _mapper.Map<Record>(model);
@@ -82,7 +82,7 @@ internal class ExerciseService : IExerciseService
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
         User user = _userRepository.GetUserById(userId)!;
-        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate.ToDateTime(), cancellationToken))            
+        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))            
         {
             await _userRepository.UpsertAsync(user, cancellationToken);
         }        
@@ -102,7 +102,7 @@ internal class ExerciseService : IExerciseService
 
     private bool TryRecalculatePlayDatesOnCreate(User user, Exercise addedExercise)
     {
-        DateTimeOffset exercisePlayDate = addedExercise.PlayDate.ToDateTime();
+        DateTimeOffset exercisePlayDate = addedExercise.PlayDate;
 
         if ((user.FirstPlayDate != null && user.FirstPlayDate <= exercisePlayDate) &&
             (user.LastPlayDate != null && user.LastPlayDate >= exercisePlayDate))
@@ -124,8 +124,8 @@ internal class ExerciseService : IExerciseService
         var newestExercise = await _exerciseRepository.FindNewestExerciseAsync(user.UserId, cancellation);
         if (newestExercise != null)
         {
-            var newestExercisePlayDate = newestExercise.PlayDate.ToDateTime();
-            if (newestExercise.PlayDate.ToDateTime() < removedExercisePlayDate)
+            var newestExercisePlayDate = newestExercise.PlayDate;
+            if (newestExercise.PlayDate < removedExercisePlayDate)
             {
                 user.LastPlayDate = newestExercisePlayDate;
                 return true;                
@@ -135,8 +135,8 @@ internal class ExerciseService : IExerciseService
         var oldestExercise = await _exerciseRepository.FindOldestExerciseAsync(user.UserId, cancellation);
         if (oldestExercise != null)
         {
-            var oldestExercisePlayDate = oldestExercise.PlayDate.ToDateTime();
-            if (oldestExercise.PlayDate.ToDateTime() > removedExercisePlayDate)
+            var oldestExercisePlayDate = oldestExercise.PlayDate;
+            if (oldestExercise.PlayDate > removedExercisePlayDate)
             {
                 user.FirstPlayDate = oldestExercisePlayDate;
                 return true;

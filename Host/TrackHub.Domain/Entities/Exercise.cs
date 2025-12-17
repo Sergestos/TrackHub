@@ -17,5 +17,5 @@ public class Exercise
     public required Record[] Records { get; set; }
 
     [JsonProperty("play_date")]
-    public required PlayDate PlayDate { get; set; }
+    public required DateTime PlayDate { get; set; }
 }

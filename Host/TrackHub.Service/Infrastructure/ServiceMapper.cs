@@ -14,7 +14,6 @@ internal class ServiceMapper : Profile
             .ForMember(x => x.WarmupSongs, opt => opt.MapFrom(src => src.WarmupSongs));
 
         CreateMap<Exercise, ExerciseListItem>()
-            .ForMember(x => x.PlayDate, opt => opt.MapFrom(src => src.PlayDate.ToDateTime()))
             .ForMember(x => x.Records, opt => opt.MapFrom(src => src.Records));
 
         CreateMap<CreateRecordModel, Record>()

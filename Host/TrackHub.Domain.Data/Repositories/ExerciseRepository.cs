@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using System.Globalization;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
@@ -83,8 +84,10 @@ internal class ExerciseRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
+        var (fromIso, toIso) = MonthRangeIso(year, month);
+
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);            
+            .Where(x => x.UserId == userId && x.PlayDate >= fromIso && x.PlayDate.tos < toIso);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
         {
@@ -138,5 +141,14 @@ internal class ExerciseRepository : IExerciseRepository
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
         await _exerciseContainer.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
+    }
+
+    private(string fromIso, string toIsoExclusive) MonthRangeIso(int year, int month)
+    {
+        var from = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var to = from.AddMonths(1);
+
+        return (from.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture),
+                to.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", CultureInfo.InvariantCulture));
     }
 }
