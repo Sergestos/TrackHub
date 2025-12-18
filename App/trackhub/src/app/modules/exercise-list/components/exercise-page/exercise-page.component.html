@@ -18,46 +18,52 @@
     </div>
     <div class="overflow-y-auto h-full">
       @if (isAnyExerciseShown) {
-      @for (item of exercises; track $index) {
-      <div class="pb-6 border-b border-l border-r rounded-lg border-solid border-slate-800" *ngIf="!item.isHidden">
-        <div class="flex flex-row pt-4 ml-12">
-          <div class="w-[4%]">
-            @if (item.totalPlayed! > 0) {
-            <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
-              *ngIf="!item.isExpanded" (click)="onCardExpand(item)"></i>
-            <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
-              *ngIf="item.isExpanded" (click)="onCardExpand(item)"></i>
-            }
-          </div>
-          <p class="grid-item w-[12%]">
-            {{ item.playDate | date: 'dd/MM/yyyy'}}
-          </p>
-          @if (item.totalPlayed! > 0) {
-          <p class="grid-item w-[10%]">
-            {{ item.totalPlayed }} minute(s)
-          </p>
-          <div class="flex flex-row justify-end gap-3 w-[70%] mt-2">
-            <i class="fa-regular fa-pen-to-square fa-lg grid-icon" (click)="onExerciseEdit(item)"></i>
-            <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
-              (click)="openDialog(item)"></i>
-          </div>
+        @for (item of exercises; track $index) {
+          @if (!item.isHidden) {
+            <div class="pb-6 border-b border-l border-r rounded-lg border-solid border-slate-800">
+              <div class="flex flex-row pt-4 ml-12">
+                <div class="w-[4%]">
+                  @if (item.totalPlayed! > 0) {
+                    @if (!item.isExpanded) {
+                      <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
+                      (click)="onCardExpand(item)"></i>
+                    }
+                    @if (item.isExpanded) {
+                      <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
+                      (click)="onCardExpand(item)"></i>
+                    }
+                  }
+                </div>
+                <p class="grid-item w-[12%]">
+                  {{ item.playDate | date: 'dd/MM/yyyy'}}
+                </p>
+                @if (item.totalPlayed! > 0) {
+                  <p class="grid-item w-[10%]">
+                    {{ item.totalPlayed }} minute(s)
+                  </p>
+                  <div class="flex flex-row justify-end gap-3 w-[70%] mt-2">
+                    <i class="fa-regular fa-pen-to-square fa-lg grid-icon" (click)="onExerciseEdit(item)"></i>
+                    <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
+                    (click)="openDialog(item)"></i>
+                  </div>
+                }
+              </div>
+              @if (item.isExpanded) {
+                <div class="mt-2 ml-[5.5rem]">
+                  <trh-details-exercise-card
+                    [exerciseId]="item.exerciseId"
+                    [exerciseDetailsModels]="item.records">
+                  </trh-details-exercise-card>
+                </div>
+              }
+            </div>
           }
-        </div>
-        @if (item.isExpanded) {
-        <div class="mt-2 ml-[5.5rem]">
-          <trh-details-exercise-card 
-            [exerciseId]="item.exerciseId" 
-            [exerciseDetailsModels]="item.records">
-          </trh-details-exercise-card>
-        </div>
         }
-      </div>
-      }
       } @else {
-      <div class="flex flex-col items-center h-96 pt-40 border border-solid border-t-0 border-c-border rounded-2xl">
-        <p class="text-2xl text-zinc-500">Nothing to show</p>
-        <p class="text-xl text-zinc-500">Change show options or set different date range</p>
-      </div>
+        <div class="flex flex-col items-center h-96 pt-40 border border-solid border-t-0 border-c-border rounded-2xl">
+          <p class="text-2xl text-zinc-500">Nothing to show</p>
+          <p class="text-xl text-zinc-500">Change show options or set different date range</p>
+        </div>
       }
     </div>
   </div>
