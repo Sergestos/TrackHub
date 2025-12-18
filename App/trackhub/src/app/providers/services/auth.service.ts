@@ -1,10 +1,9 @@
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { inject, Inject, Injectable, signal } from "@angular/core";
+import { inject, Inject, Injectable, signal, DOCUMENT } from "@angular/core";
 import { EMPTY, Observable, of } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
-import { DOCUMENT } from "@angular/common";
 
 class GoogleAuth {
   public idToken!: string;

@@ -1,9 +1,8 @@
-import { Component, computed, effect, inject, Inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, Inject, OnInit, DOCUMENT } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../providers/services/auth.service';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../providers/services/loading.service';
-import { DOCUMENT } from '@angular/common';
 
 const ROUTE_LOGIN = 'app/login';
 
