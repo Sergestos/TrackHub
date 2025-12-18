@@ -7,7 +7,7 @@ namespace TrackHub.Web.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/users")]
 public class UserController : TrackHubController
 {
     private readonly IUserService _userService;
@@ -18,7 +18,7 @@ public class UserController : TrackHubController
     }
 
     [HttpGet]
-    [Route("settings")]
+    [Route("current/settings")]
     [ProducesResponseType(typeof(UserSettings), 200)]
     public IActionResult GetByIdAsync()
     {

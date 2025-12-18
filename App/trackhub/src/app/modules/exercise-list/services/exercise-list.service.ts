@@ -9,12 +9,12 @@ import { UserSettings } from "../models/user-settings.models";
 @Injectable()
 export class ExerciseListService {
   readonly exercisesUrl: string = environment.apiUrl + '/api/exercises';
-  readonly userUrl: string = environment.apiUrl + '/api/user';
+  readonly userUrl: string = environment.apiUrl + '/api/users';
 
   private apiService = inject(ApiService);
 
   public getUserExerciseSettings(): Observable<UserSettings> {
-    return this.apiService.get<UserSettings>(this.userUrl + '/settings');
+    return this.apiService.get<UserSettings>(this.userUrl + '/current/settings');
   }
 
   public getExercisesByDate(year?: number, month?: number): Observable<ExerciseItemView[]> {
