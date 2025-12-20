@@ -162,6 +162,7 @@ internal class ExerciseService : IExerciseService
                 OldRecord = null
             }).ToArray()
         };
+
         await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);
     }
 }
