@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace TrackHub.Domain.Enums;
 

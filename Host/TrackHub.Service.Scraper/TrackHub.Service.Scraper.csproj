@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TrackHub.AI\TrackHub.AiCrawler.csproj" />
+    <ProjectReference Include="..\TrackHub.AiCrawler\TrackHub.AiCrawler.csproj" />
     <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.csproj" />
   </ItemGroup>
 

@@ -150,7 +150,6 @@ internal class ExerciseService : IExerciseService
         return false;
     }
 
-
     private async Task SendAggregationRequestOnCreate(Record[] records, string userId, CancellationToken cancellationToken)
     {
         var aggregationMessage = new AggregationEventMessage()
