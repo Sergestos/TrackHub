@@ -15,7 +15,7 @@ public sealed class AggregationFunctionClient : IAggregationService
     public async Task SendAggregationAsync(AggregationEventMessage payload, CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.PostAsJsonAsync(
-            "api/AggregatePlays",
+            "api/aggregation",
             payload,
             cancellationToken);
 

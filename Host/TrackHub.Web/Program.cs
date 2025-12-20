@@ -14,7 +14,7 @@ builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScraperServices();
 builder.Services.AddAiCrawlerServices();
-builder.Services.AddCommonServices();
+builder.Services.AddCommonServices(builder.Configuration);
 builder.Services.AddCorsPolicy();
 
 builder.Services.AddControllers();
