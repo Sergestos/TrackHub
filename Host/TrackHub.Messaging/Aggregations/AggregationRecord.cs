@@ -1,28 +1,16 @@
-﻿namespace TrackHub.Messaging.Aggregations;
+﻿using TrackHub.Domain.Enums;
+
+namespace TrackHub.Messaging.Aggregations;
 
 public class AggregationRecord
 {
-    public required string RecordId { get; set; }
-
     public required int PlayDuration { get; set; }
+
+    public string? Author { get; set; }
+
+    public string? Name { get; set; }
 
     public required RecordType RecordType { get; set; }
 
     public required PlayType PlayType { get; set; }
-}
-
-public enum RecordType
-{
-    Warmup,
-    Song,
-    Improvisation,
-    Exercise,
-    Composing
-}
-
-public enum PlayType
-{
-    Rhythm,
-    Solo,
-    Both
 }

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Function.Aggregati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Messaging", "TrackHub.Messaging\TrackHub.Messaging.csproj", "{FB5A4BA2-646A-485B-92D2-6CBE4BF933C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Domain.Enums", "TrackHub.Domain.Enums\TrackHub.Domain.Enums.csproj", "{16E5904B-47DF-457E-B34A-08AE59064D37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{FB5A4BA2-646A-485B-92D2-6CBE4BF933C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB5A4BA2-646A-485B-92D2-6CBE4BF933C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB5A4BA2-646A-485B-92D2-6CBE4BF933C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E5904B-47DF-457E-B34A-08AE59064D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E5904B-47DF-457E-B34A-08AE59064D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E5904B-47DF-457E-B34A-08AE59064D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E5904B-47DF-457E-B34A-08AE59064D37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

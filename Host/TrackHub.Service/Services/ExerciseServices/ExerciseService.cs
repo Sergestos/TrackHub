@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
+using TrackHub.Messaging.Aggregations;
 using TrackHub.Service.Aggregation.Services;
 using TrackHub.Service.Services.ExerciseServices.Models;
 
@@ -23,6 +24,8 @@ internal class ExerciseService : IExerciseService
 
     public async Task<Exercise> CreateExerciseAsync(CreateExerciseModel exerciseModel, string userId, CancellationToken cancellationToken)
     {
+        User user = _userRepository.GetUserById(userId)!;
+
         var exercise = _exerciseRepository.GetExerciseByDate(DateOnly.FromDateTime(exerciseModel.PlayDate), userId, cancellationToken);
         if (exercise != null)
             throw new InvalidOperationException("Exercise already exists for this date.");
@@ -43,14 +46,11 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        await _aggregationService.SendAggregationAsync(null, cancellationToken);
+        await SendAggregationRequestOnCreate(newExercise.Records, userId, cancellationToken);
 
-        User user = _userRepository.GetUserById(userId)!;
-        if (TryRecalculatePlayDatesOnCreate(user!, result))
-        {
+        if (TryRecalculatePlayDatesOnCreate(user!, result))        
             await _userRepository.UpsertAsync(user, cancellationToken);
-        }
-
+        
         return result;
     }
 
@@ -80,17 +80,16 @@ internal class ExerciseService : IExerciseService
 
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
+        User user = _userRepository.GetUserById(userId)!;
+
         var exercise = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, userId, cancellationToken);
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
 
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
-        User user = _userRepository.GetUserById(userId)!;
-        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))            
-        {
-            await _userRepository.UpsertAsync(user, cancellationToken);
-        }        
+        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))                    
+            await _userRepository.UpsertAsync(user, cancellationToken);              
     }
 
     public async Task<Exercise> DeleteRecordsAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken)
@@ -149,5 +148,21 @@ internal class ExerciseService : IExerciseService
         }
 
         return false;
+    }
+
+
+    private async Task SendAggregationRequestOnCreate(Record[] records, string userId, CancellationToken cancellationToken)
+    {
+        var aggregationMessage = new AggregationEventMessage()
+        {
+            EventDate = DateTime.UtcNow,
+            UserId = userId,
+            AggregatedRecordStates = records.Select(x => new AggregatedRecordState()
+            {
+                NewRecord = _mapper.Map<AggregationRecord>(x),
+                OldRecord = null
+            }).ToArray()
+        };
+        await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);
     }
 }
