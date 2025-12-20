@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
+using TrackHub.Service.Aggregation.Services;
 using TrackHub.Service.Services.ExerciseServices.Models;
 
 namespace TrackHub.Service.Services.ExerciseServices;
@@ -9,12 +10,14 @@ internal class ExerciseService : IExerciseService
 {
     private readonly IExerciseRepository _exerciseRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IAggregationService _aggregationService;
     private readonly IMapper _mapper;
 
-    public ExerciseService(IExerciseRepository exerciseRepository, IUserRepository userRepository, IMapper mapper)
+    public ExerciseService(IExerciseRepository exerciseRepository, IUserRepository userRepository, IAggregationService aggregationService, IMapper mapper)
     {
         _exerciseRepository = exerciseRepository;
         _userRepository = userRepository;
+        _aggregationService = aggregationService;
         _mapper = mapper;
     }
 
@@ -39,6 +42,8 @@ internal class ExerciseService : IExerciseService
         };
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
+
+        await _aggregationService.SendAggregationAsync(null, cancellationToken);
 
         User user = _userRepository.GetUserById(userId)!;
         if (TryRecalculatePlayDatesOnCreate(user!, result))
