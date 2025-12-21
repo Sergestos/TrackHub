@@ -19,7 +19,7 @@ internal class AggregationProcessor : IAggregationProcessor
     public async Task Process(AggregationEventMessage message, CancellationToken cancellationToken)
     {
         var aggregationIds = AggregationIds.Monthly(message.UserId, message.PlayDate.Date);
-        ExerciseAggregation exerciseAggregation = await _aggregationRepository.GetById(aggregationIds, cancellationToken);
+        ExerciseAggregation? exerciseAggregation = await _aggregationRepository.GetById(aggregationIds, message.UserId, cancellationToken);
         if (exerciseAggregation == null)
         {
             exerciseAggregation = new ExerciseAggregation()
@@ -51,7 +51,7 @@ internal class AggregationProcessor : IAggregationProcessor
             AggregateByType(newRecord, exerciseAggregation);
         }
 
-        await _aggregationRepository.UpsertAggregation(exerciseAggregation, cancellationToken);
+        await _aggregationRepository.UpsertAggregation(message.UserId, exerciseAggregation, cancellationToken);
     }
 
     private void AggregateByPlayType(AggregationRecord aggregationRecord, ExerciseAggregation exerciseAggregation)
