@@ -46,7 +46,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
+        _aggregationService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
 
         if (TryRecalculatePlayDatesOnCreate(user!, result))
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -77,7 +77,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
-        SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
+        _aggregationService.SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
 
         return result;
     }
@@ -94,7 +94,7 @@ internal class ExerciseService : IExerciseService
 
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
-        SendAggregationRequestOnDelete(deletedRecords, userId, exercise.PlayDate);
+        _aggregationService.SendAggregationRequestOnDelete(deletedRecords, userId, exercise.PlayDate);
 
         if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -111,7 +111,7 @@ internal class ExerciseService : IExerciseService
         exercise.Records = exercise.Records.Where(x => !recordIds.Contains(x.RecordId)).ToArray();
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
-        SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
+        _aggregationService.SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
 
         return result;
     }
@@ -160,47 +160,5 @@ internal class ExerciseService : IExerciseService
         }
 
         return false;
-    }
-
-    private void SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId)
-    {
-        var aggregationMessage = new AggregationEventMessage()
-        {
-            EventDate = DateTime.UtcNow,
-            PlayDate = playDate,
-            UserId = userId,
-            NewRecords = _mapper.Map<AggregationRecord[]>(records),
-            OldRecords = null,
-        };
-
-        _aggregationService.SendAggregation(aggregationMessage);
-    }
-
-    private void SendAggregationRequestOnUpdate(Record[] newRecords, Record[] oldRecords, string userId, DateTime playDate)
-    {
-        var aggregationMessage = new AggregationEventMessage()
-        {
-            EventDate = DateTime.UtcNow,
-            PlayDate = playDate,
-            UserId = userId,
-            NewRecords = _mapper.Map<AggregationRecord[]>(newRecords),
-            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
-        };
-
-        _aggregationService.SendAggregation(aggregationMessage);
-    }
-
-    private void SendAggregationRequestOnDelete(Record[] oldRecords, string userId, DateTime playDate)
-    {
-        var aggregationMessage = new AggregationEventMessage()
-        {
-            EventDate = DateTime.UtcNow,
-            PlayDate = playDate,
-            UserId = userId,
-            NewRecords = null,
-            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
-        };
-
-        _aggregationService.SendAggregation(aggregationMessage);
     }
 }
