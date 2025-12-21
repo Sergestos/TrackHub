@@ -6,6 +6,8 @@ public class AggregationEventMessage
 
     public required DateTime EventDate { get; set; }
 
+    public required DateTime PlayDate { get; set; }
+
     public required AggregatedRecordState[] AggregatedRecordStates { get; set; }
 }
 

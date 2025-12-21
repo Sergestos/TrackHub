@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>c49e1682-7e0f-4473-9b11-be1318ec6f54</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
+    <ProjectReference Include="..\TrackHub.Domain.Data\TrackHub.Domain.Data.csproj" />
     <ProjectReference Include="..\TrackHub.Messaging\TrackHub.Messaging.csproj" />
   </ItemGroup>
 

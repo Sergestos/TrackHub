@@ -46,7 +46,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        await SendAggregationRequestOnCreate(newExercise.Records, userId, cancellationToken);
+        await SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId, cancellationToken);
 
         if (TryRecalculatePlayDatesOnCreate(user!, result))        
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -150,11 +150,12 @@ internal class ExerciseService : IExerciseService
         return false;
     }
 
-    private async Task SendAggregationRequestOnCreate(Record[] records, string userId, CancellationToken cancellationToken)
+    private async Task SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId, CancellationToken cancellationToken)
     {
         var aggregationMessage = new AggregationEventMessage()
         {
             EventDate = DateTime.UtcNow,
+            PlayDate = playDate,
             UserId = userId,
             AggregatedRecordStates = records.Select(x => new AggregatedRecordState()
             {

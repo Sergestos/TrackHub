@@ -22,6 +22,9 @@ public class ExerciseAggregation
     [JsonProperty("warmup_aggregation")]
     public ByRecordTypeAggregation? WarmupAggregation { get; set; }
 
+    [JsonProperty("song_aggregation")]
+    public ByRecordTypeAggregation? SongAggregation { get; set; }
+
     [JsonProperty("improvisation_aggregation")]
     public ByRecordTypeAggregation? ImprovisationAggregation { get; set; }
 
@@ -44,13 +47,20 @@ public class ExerciseAggregation
 public class ByRecordTypeAggregation
 {
     [JsonProperty("record_type_name")]
-    public required string RecordTypeName { get; set; }
+    public string RecordTypeName { get; set; }
 
     [JsonProperty("times_played")]
     public int TimesPlayed { get; set; }
 
     [JsonProperty("total_played")]
     public int TotalPlayed { get; set; }
+
+    public ByRecordTypeAggregation(string recordTypeName, int timesPlayed, int totalPlayed)
+    {
+        RecordTypeName = recordTypeName;
+        TimesPlayed = timesPlayed;
+        TotalPlayed = totalPlayed;
+    }
 }
 
 public class ByPlayTypeAggregation
