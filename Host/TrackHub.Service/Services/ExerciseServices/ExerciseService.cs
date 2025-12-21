@@ -46,11 +46,11 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        await SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId, cancellationToken);
+        await SendAggregationRequestOnCreateAsync(newExercise.Records, newExercise.PlayDate, userId, cancellationToken);
 
-        if (TryRecalculatePlayDatesOnCreate(user!, result))        
+        if (TryRecalculatePlayDatesOnCreate(user!, result))
             await _userRepository.UpsertAsync(user, cancellationToken);
-        
+
         return result;
     }
 
@@ -59,6 +59,8 @@ internal class ExerciseService : IExerciseService
         var exercise = await _exerciseRepository.GetExerciseByIdAsync(exerciseModel.ExerciseId, userId, cancellationToken);
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
+
+        var oldRecords = exercise.Records;    
 
         IEnumerable<UpdateRecordModel> newRecords = exerciseModel.Records.Where(x => string.IsNullOrWhiteSpace(x.RecordId));
         IEnumerable<UpdateRecordModel> existingRecords = exerciseModel.Records.Where(x => !string.IsNullOrWhiteSpace(x.RecordId));
@@ -75,6 +77,11 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
+        await SendAggregationRequestOnUpdateAsync(
+            exercise.Records,
+            oldRecords,
+            userId, exercise.PlayDate, cancellationToken);
+
         return result;
     }
 
@@ -88,8 +95,8 @@ internal class ExerciseService : IExerciseService
 
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
-        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))                    
-            await _userRepository.UpsertAsync(user, cancellationToken);              
+        if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))
+            await _userRepository.UpsertAsync(user, cancellationToken);
     }
 
     public async Task<Exercise> DeleteRecordsAsync(string exerciseId, string[] recordIds, string userId, CancellationToken cancellationToken)
@@ -108,9 +115,9 @@ internal class ExerciseService : IExerciseService
     {
         DateTimeOffset exercisePlayDate = addedExercise.PlayDate;
 
-        if ((user.FirstPlayDate != null && user.FirstPlayDate <= exercisePlayDate) &&
-            (user.LastPlayDate != null && user.LastPlayDate >= exercisePlayDate))
-        {            
+        if (user.FirstPlayDate != null && user.FirstPlayDate <= exercisePlayDate &&
+            user.LastPlayDate != null && user.LastPlayDate >= exercisePlayDate)
+        {
             return false;
         }
 
@@ -132,7 +139,7 @@ internal class ExerciseService : IExerciseService
             if (newestExercise.PlayDate < removedExercisePlayDate)
             {
                 user.LastPlayDate = newestExercisePlayDate;
-                return true;                
+                return true;
             }
         }
 
@@ -150,18 +157,34 @@ internal class ExerciseService : IExerciseService
         return false;
     }
 
-    private async Task SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId, CancellationToken cancellationToken)
+    private async Task SendAggregationRequestOnCreateAsync(Record[] records, DateTime playDate, string userId, CancellationToken cancellationToken)
     {
         var aggregationMessage = new AggregationEventMessage()
         {
             EventDate = DateTime.UtcNow,
             PlayDate = playDate,
             UserId = userId,
-            AggregatedRecordStates = records.Select(x => new AggregatedRecordState()
-            {
-                NewRecord = _mapper.Map<AggregationRecord>(x),
-                OldRecord = null
-            }).ToArray()
+            NewRecords = _mapper.Map<AggregationRecord[]>(records),
+            OldRecords = null,
+        };
+
+        await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);
+    }
+
+    private async Task SendAggregationRequestOnUpdateAsync(
+        Record[] newRecords,
+        Record[] oldRecords,
+        string userId,
+        DateTime playDate,
+        CancellationToken cancellationToken)
+    {
+        var aggregationMessage = new AggregationEventMessage()
+        {
+            EventDate = DateTime.UtcNow,
+            PlayDate = playDate,
+            UserId = userId,
+            NewRecords = _mapper.Map<AggregationRecord[]>(newRecords),
+            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
         };
 
         await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace TrackHub.Domain.Aggregations;
 
-public class ExerciseAggregation 
+public class ExerciseAggregation
 {
     [JsonProperty("id")]
     public required string Id { get; set; }
@@ -13,8 +13,11 @@ public class ExerciseAggregation
     [JsonProperty("userId")]
     public required string UserId { get; set; }
 
-    [JsonProperty("play_date")]
-    public required DateTime PlayDate { get; set; }
+    [JsonProperty("aggregation_year")]
+    public required int Year { get; set; }
+
+    [JsonProperty("aggregation_month")]
+    public required int Month { get; set; }
 
     [JsonProperty("total_played")]
     public int TotalPlayed { get; set; }
@@ -66,11 +69,18 @@ public class ByRecordTypeAggregation
 public class ByPlayTypeAggregation
 {
     [JsonProperty("play_type_name")]
-    public required string PlayTypeName { get; set; }
+    public string PlayTypeName { get; set; }
 
     [JsonProperty("times_played")]
     public int TimesPlayed { get; set; }
 
     [JsonProperty("total_played")]
     public int TotalPlayed { get; set; }
+
+    public ByPlayTypeAggregation(string playTypeName, int timesPlayed, int totalPlayed)
+    {
+        PlayTypeName = playTypeName;
+        TimesPlayed = timesPlayed;
+        TotalPlayed = totalPlayed;
+    }
 }
