@@ -1,0 +1,46 @@
+﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
+namespace TrackHub.Domain.Aggregations;
+
+public class SongAggregation
+{
+    [JsonProperty("id")]
+    public required string AggregationId { get; set; }
+
+    [JsonProperty("type")]
+    public required string Type { get; set; }
+
+    [JsonProperty("user_id")]
+    public required string UserId { get; set; }
+
+    [JsonProperty("total_played")]
+    public int TotalPlayed { get; set; }
+
+    [JsonProperty("times_played")]
+    public int TimesPlayed { get; set; }
+
+    [JsonProperty("author")]
+    public required string Author { get; set; }
+
+    [JsonProperty("name")]
+    public required string Name { get; set; }
+
+    [JsonProperty("date_aggregation")]
+    public SongsByDateAggregation[]? SongsByDateAggregations { get; set; }
+}
+
+public class SongsByDateAggregation
+{
+    [JsonPropertyName("year")]
+    public int Year { get; set; } = default!;
+
+    [JsonPropertyName("month")]
+    public int Month { get; set; } = default!;
+
+    [JsonProperty("total_played")]
+    public int TotalPlayed { get; set; }
+
+    [JsonProperty("total_duration")]
+    public int TotalDuration { get; set; }
+}

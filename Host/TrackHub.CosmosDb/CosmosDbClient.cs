@@ -10,7 +10,6 @@ public class CosmosDbClient : ICosmosDbContext
     private CosmosClientOptions _options;
 
     private CosmosClient? _client;
-    private Container? _container;    
 
     private CosmosClient Client => _client ??= new CosmosClientBuilder(_options.AccountEndpoint).Build();
 

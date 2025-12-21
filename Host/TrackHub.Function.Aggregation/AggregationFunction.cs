@@ -1,9 +1,9 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
-using TrackHub.Function.Aggregation.Services;
+using TrackHub.Function.Aggregation.Aggregators;
 using TrackHub.Messaging.Aggregations;
 
 namespace TrackHub.Function.Aggregation;
@@ -11,16 +11,18 @@ namespace TrackHub.Function.Aggregation;
 public class AggregationFunction
 {
     private readonly ILogger<AggregationFunction> _logger;
-    private readonly IAggregationProcessor _aggregationProcessor;
+    private readonly IExerciseAggregator _exerciseAggregator;
+    private readonly ISongAggregator _songAggregator;
 
-    public AggregationFunction(ILogger<AggregationFunction> logger, IAggregationProcessor aggregationProcessor)
+    public AggregationFunction(ILogger<AggregationFunction> logger, IExerciseAggregator exerciseAggregator, ISongAggregator songAggregator)
     {
         _logger = logger;
-        _aggregationProcessor = aggregationProcessor;
+        _exerciseAggregator = exerciseAggregator;
+        _songAggregator = songAggregator;
     }
 
     [Function("aggregation")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Aggregation function started");
 
@@ -35,7 +37,8 @@ public class AggregationFunction
                     PropertyNameCaseInsensitive = true
                 });
 
-            await _aggregationProcessor.Process(payload!, cancellationToken);
+            await _exerciseAggregator.AggregateExercise(payload!, cancellationToken);
+       //     await _songAggregator.AggregateSong(payload!, cancellationToken);
         }
         catch (JsonException ex)
         {

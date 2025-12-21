@@ -12,5 +12,5 @@ public class AggregationRecord
 
     public required RecordType RecordType { get; set; }
 
-    public required PlayType PlayType { get; set; }
+    public PlayType? PlayType { get; set; }
 }

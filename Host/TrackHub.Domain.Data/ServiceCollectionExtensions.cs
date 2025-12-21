@@ -18,5 +18,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IExerciseRepository, ExerciseRepository>();       
         services.AddTransient<IRecordRepository, RecordRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IAggregationRepository, AggregationRepository>();
     }
 }

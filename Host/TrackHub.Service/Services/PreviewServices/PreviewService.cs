@@ -1,3 +1,4 @@
+using TrackHub.Domain.Enums;
 using TrackHub.Service.Services.PreviewServices.Dto;
 using TrackHub.Service.Services.PreviewServices.Models;
 
@@ -66,7 +67,7 @@ internal class PreviewService : IPreviewService
             Author = practiceLine.Band,
             IsRecorded = practiceLine.IsStarred,
             WarmupSongs = practiceLine.WarmupSongs,
-            PlayType = Domain.Enums.PlayType.Both,
+            PlayType = practiceLine.SoloText != null ? PlayType.Solo : PlayType.Rhythm,
             RecordType = Domain.Enums.RecordType.Song,            
         };
 

@@ -12,13 +12,11 @@ public sealed class AggregationFunctionClient : IAggregationService
         _httpClient = httpClient;
     }
 
-    public async Task SendAggregationAsync(AggregationEventMessage payload, CancellationToken cancellationToken = default)
+    public void SendAggregation(AggregationEventMessage payload)
     {
-        var response = await _httpClient.PostAsJsonAsync(
+        _ = _httpClient.PostAsJsonAsync(
             "api/aggregation",
             payload,
-            cancellationToken);
-
-        response.EnsureSuccessStatusCode();
+            CancellationToken.None);
     }
 }

@@ -46,7 +46,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        await SendAggregationRequestOnCreateAsync(newExercise.Records, newExercise.PlayDate, userId, cancellationToken);
+        SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
 
         if (TryRecalculatePlayDatesOnCreate(user!, result))
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -77,10 +77,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
-        await SendAggregationRequestOnUpdateAsync(
-            exercise.Records,
-            oldRecords,
-            userId, exercise.PlayDate, cancellationToken);
+        SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
 
         return result;
     }
@@ -93,7 +90,11 @@ internal class ExerciseService : IExerciseService
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
 
+        var deletedRecords = exercise.Records;
+
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
+
+        SendAggregationRequestOnDelete(deletedRecords, userId, exercise.PlayDate);
 
         if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -105,8 +106,12 @@ internal class ExerciseService : IExerciseService
         if (exercise == null)
             throw new InvalidOperationException("Exercise is not found.");
 
+        var recordsToDelete = exercise.Records.Where(x => recordIds.Contains(x.RecordId)).ToArray();
+
         exercise.Records = exercise.Records.Where(x => !recordIds.Contains(x.RecordId)).ToArray();
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
+
+        SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
 
         return result;
     }
@@ -157,7 +162,7 @@ internal class ExerciseService : IExerciseService
         return false;
     }
 
-    private async Task SendAggregationRequestOnCreateAsync(Record[] records, DateTime playDate, string userId, CancellationToken cancellationToken)
+    private void SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId)
     {
         var aggregationMessage = new AggregationEventMessage()
         {
@@ -168,15 +173,10 @@ internal class ExerciseService : IExerciseService
             OldRecords = null,
         };
 
-        await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);
+        _aggregationService.SendAggregation(aggregationMessage);
     }
 
-    private async Task SendAggregationRequestOnUpdateAsync(
-        Record[] newRecords,
-        Record[] oldRecords,
-        string userId,
-        DateTime playDate,
-        CancellationToken cancellationToken)
+    private void SendAggregationRequestOnUpdate(Record[] newRecords, Record[] oldRecords, string userId, DateTime playDate)
     {
         var aggregationMessage = new AggregationEventMessage()
         {
@@ -187,6 +187,20 @@ internal class ExerciseService : IExerciseService
             OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
         };
 
-        await _aggregationService.SendAggregationAsync(aggregationMessage, cancellationToken);
+        _aggregationService.SendAggregation(aggregationMessage);
+    }
+
+    private void SendAggregationRequestOnDelete(Record[] oldRecords, string userId, DateTime playDate)
+    {
+        var aggregationMessage = new AggregationEventMessage()
+        {
+            EventDate = DateTime.UtcNow,
+            PlayDate = playDate,
+            UserId = userId,
+            NewRecords = null,
+            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
+        };
+
+        _aggregationService.SendAggregation(aggregationMessage);
     }
 }

@@ -3,28 +3,28 @@ using TrackHub.Domain.Enums;
 using TrackHub.Domain.Repositories;
 using TrackHub.Messaging.Aggregations;
 
-namespace TrackHub.Function.Aggregation.Services;
+namespace TrackHub.Function.Aggregation.Aggregators;
 
-internal class AggregationProcessor : IAggregationProcessor
+internal class ExerciseAggregator : IExerciseAggregator
 {
-    private const string AggregationTypeName = "aggregation";
+    private const string AggregationTypeName = "exercise_aggregation";
 
     private readonly IAggregationRepository _aggregationRepository;
 
-    public AggregationProcessor(IAggregationRepository aggregationRepository)
+    public ExerciseAggregator(IAggregationRepository aggregationRepository)
     {
         _aggregationRepository = aggregationRepository;
     }
 
-    public async Task Process(AggregationEventMessage message, CancellationToken cancellationToken)
+    public async Task AggregateExercise(AggregationEventMessage message, CancellationToken cancellationToken)
     {
         var aggregationIds = AggregationIds.Monthly(message.UserId, message.PlayDate.Date);
-        ExerciseAggregation? exerciseAggregation = await _aggregationRepository.GetById(aggregationIds, message.UserId, cancellationToken);
+        ExerciseAggregation? exerciseAggregation = await _aggregationRepository.GetExerciseAggregationById(aggregationIds, message.UserId, cancellationToken);
         if (exerciseAggregation == null)
         {
             exerciseAggregation = new ExerciseAggregation()
             {
-                Id = AggregationIds.Monthly(message.UserId, message.PlayDate.Date),
+                AggregationId = AggregationIds.Monthly(message.UserId, message.PlayDate.Date),
                 Type = AggregationTypeName,
                 UserId = message.UserId,
                 Year = message.PlayDate.Year,
@@ -43,19 +43,25 @@ internal class AggregationProcessor : IAggregationProcessor
             }
         }
 
-        foreach (var newRecord in message.NewRecords)
+        if (message.NewRecords != null)
         {
-            exerciseAggregation.TotalPlayed += newRecord.PlayDuration;
+            foreach (var newRecord in message.NewRecords)
+            {
+                exerciseAggregation.TotalPlayed += newRecord.PlayDuration;
 
-            AggregateByPlayType(newRecord, exerciseAggregation);
-            AggregateByType(newRecord, exerciseAggregation);
+                AggregateByPlayType(newRecord, exerciseAggregation);
+                AggregateByType(newRecord, exerciseAggregation);
+            }
         }
 
-        await _aggregationRepository.UpsertAggregation(message.UserId, exerciseAggregation, cancellationToken);
+        await _aggregationRepository.UpsertExerciseAggregation(message.UserId, exerciseAggregation, cancellationToken);
     }
 
     private void AggregateByPlayType(AggregationRecord aggregationRecord, ExerciseAggregation exerciseAggregation)
     {
+        if (aggregationRecord.RecordType != RecordType.Song)
+            return;
+
         int playDuration = aggregationRecord.PlayDuration;
         int playedTimes = 1;
 
@@ -63,20 +69,47 @@ internal class AggregationProcessor : IAggregationProcessor
         {
             case PlayType.Both:
                 {
-                    exerciseAggregation.BothAggregation =
-                        new ByPlayTypeAggregation(PlayType.Both.ToString(), playedTimes, playDuration);
+                    if (exerciseAggregation.BothAggregation != null)
+                    {
+                        exerciseAggregation.BothAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.BothAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.BothAggregation =
+                            new ByPlayTypeAggregation(PlayType.Both.ToString(), playedTimes, playDuration);
+                    }
+                        
                     break;
                 }
             case PlayType.Rhythm:
                 {
-                    exerciseAggregation.RhythmAggregation =
-                        new ByPlayTypeAggregation(PlayType.Rhythm.ToString(), playedTimes, playDuration);
+                    if (exerciseAggregation.RhythmAggregation != null)
+                    {
+                        exerciseAggregation.RhythmAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.RhythmAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.RhythmAggregation =
+                            new ByPlayTypeAggregation(PlayType.Rhythm.ToString(), playedTimes, playDuration);
+                    }
+                        
                     break;
                 }
             case PlayType.Solo:
                 {
-                    exerciseAggregation.SoloAggregation =
-                        new ByPlayTypeAggregation(PlayType.Solo.ToString(), playedTimes, playDuration);
+                    if (exerciseAggregation.SoloAggregation != null)
+                    {
+                        exerciseAggregation.SoloAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.SoloAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.SoloAggregation =
+                            new ByPlayTypeAggregation(PlayType.Solo.ToString(), playedTimes, playDuration);
+                    }
+                    
                     break;
                 }
         }
@@ -91,32 +124,77 @@ internal class AggregationProcessor : IAggregationProcessor
         {
             case RecordType.Warmup:
                 {
-                    exerciseAggregation.WarmupAggregation =
-                        new ByRecordTypeAggregation(RecordType.Warmup.ToString(), playedTimes, playDuration);
-                    break;
-                }
-            case RecordType.Exercise:
-                {
-                    exerciseAggregation.PracticalExerciseAggregation =
-                        new ByRecordTypeAggregation(RecordType.Warmup.ToString(), playedTimes, playDuration);
-                    break;
-                }
-            case RecordType.Composing:
-                {
-                    exerciseAggregation.ComposingAggregation =
-                     new ByRecordTypeAggregation(RecordType.Composing.ToString(), playedTimes, playDuration);
-                    break;
-                }
-            case RecordType.Improvisation:
-                {
-                    exerciseAggregation.ImprovisationAggregation =
-                     new ByRecordTypeAggregation(RecordType.Improvisation.ToString(), playedTimes, playDuration);
+                    if (exerciseAggregation.WarmupAggregation != null)
+                    {
+                        exerciseAggregation.WarmupAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.WarmupAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.WarmupAggregation =
+                            new ByRecordTypeAggregation(RecordType.Warmup.ToString(), playedTimes, playDuration);
+                    }
+                    
                     break;
                 }
             case RecordType.Song:
                 {
-                    exerciseAggregation.SongAggregation =
-                     new ByRecordTypeAggregation(RecordType.Song.ToString(), playedTimes, playDuration);
+                    if (exerciseAggregation.SongAggregation != null)
+                    {
+                        exerciseAggregation.SongAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.SongAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.SongAggregation =
+                            new ByRecordTypeAggregation(RecordType.Song.ToString(), playedTimes, playDuration);
+                    }
+
+                    break;
+                }
+            case RecordType.Exercise:
+                {
+                    if (exerciseAggregation.PracticalExerciseAggregation != null)
+                    {
+                        exerciseAggregation.PracticalExerciseAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.PracticalExerciseAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.PracticalExerciseAggregation =
+                            new ByRecordTypeAggregation(RecordType.Warmup.ToString(), playedTimes, playDuration);
+                    }
+                        
+                    break;
+                }
+            case RecordType.Composing:
+                {
+                    if (exerciseAggregation.ComposingAggregation != null)
+                    {
+                        exerciseAggregation.ComposingAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.ComposingAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.ComposingAggregation =
+                            new ByRecordTypeAggregation(RecordType.Composing.ToString(), playedTimes, playDuration);
+                    }
+                        
+                    break;
+                }
+            case RecordType.Improvisation:
+                {
+                    if (exerciseAggregation.ComposingAggregation != null)
+                    {
+                        exerciseAggregation.ComposingAggregation.TotalPlayed += playDuration;
+                        exerciseAggregation.ComposingAggregation.TimesPlayed += 1;
+                    }
+                    else
+                    {
+                        exerciseAggregation.ImprovisationAggregation =
+                            new ByRecordTypeAggregation(RecordType.Improvisation.ToString(), playedTimes, playDuration);
+                    }
+                        
                     break;
                 }
         }
@@ -124,6 +202,9 @@ internal class AggregationProcessor : IAggregationProcessor
 
     private void RollBackByPlayType(AggregationRecord aggregationRecord, ExerciseAggregation exerciseAggregation)
     {
+        if (aggregationRecord.RecordType != RecordType.Song)
+            return;
+
         switch (aggregationRecord.PlayType)
         {
             case PlayType.Rhythm:

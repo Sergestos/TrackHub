@@ -5,12 +5,12 @@ namespace TrackHub.Domain.Aggregations;
 public class ExerciseAggregation
 {
     [JsonProperty("id")]
-    public required string Id { get; set; }
+    public required string AggregationId { get; set; }
 
     [JsonProperty("type")]
     public required string Type { get; set; }
 
-    [JsonProperty("userId")]
+    [JsonProperty("user_id")]
     public required string UserId { get; set; }
 
     [JsonProperty("aggregation_year")]

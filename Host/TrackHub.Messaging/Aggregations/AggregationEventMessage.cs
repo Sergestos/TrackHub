@@ -8,7 +8,7 @@ public class AggregationEventMessage
 
     public required DateTime PlayDate { get; set; }
 
-    public required AggregationRecord[] NewRecords { get; set; }
+    public AggregationRecord[]? NewRecords { get; set; }
 
     public AggregationRecord[]? OldRecords { get; set; }
 }

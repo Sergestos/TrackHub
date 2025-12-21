@@ -17,12 +17,12 @@ internal class AggregationRepository : IAggregationRepository
         _container = context.GetContainer(AggregationContainerType);
     }
 
-    public async Task<ExerciseAggregation?> GetById(string id, string userId, CancellationToken cancellationToken)
+    public async Task<ExerciseAggregation?> GetExerciseAggregationById(string aggregationId, string userId, CancellationToken cancellationToken)
     {
         try
         {
             var response = await _container.ReadItemAsync<ExerciseAggregation>(
-                id,
+                aggregationId,
                 new PartitionKey(userId),
                 cancellationToken: cancellationToken);
 
@@ -34,7 +34,34 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<ExerciseAggregation> UpsertAggregation(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken)
+    public async Task<SongAggregation?> GetSongAggregationById(string aggregationId, string userId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await _container.ReadItemAsync<SongAggregation>(
+                aggregationId,
+                new PartitionKey(userId),
+                cancellationToken: cancellationToken);
+
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+
+    public async Task<ExerciseAggregation> UpsertExerciseAggregation(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken)
+    {
+        var response = await _container.UpsertItemAsync(
+            aggregation,
+            new PartitionKey(userId),
+            cancellationToken: cancellationToken);
+
+        return response.Resource;
+    }
+
+    public async Task<SongAggregation> UpsertSongAggregation(string userId, SongAggregation aggregation, CancellationToken cancellationToken)
     {
         var response = await _container.UpsertItemAsync(
             aggregation,
