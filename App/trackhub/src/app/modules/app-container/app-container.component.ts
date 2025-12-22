@@ -20,7 +20,7 @@ export class AppContainerComponent implements OnInit {
   private localStorage!: Storage;
 
   public isLoading$!: Observable<boolean>;
-  public isAuthorizedState = computed(() => this.authService.isAuthorized$());
+  public isAuthorizedState = computed(() => this.authService.isAuthorized());
 
   public userName: string = ''
   public userPictureUrl: string = ''

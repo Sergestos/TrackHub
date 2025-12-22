@@ -16,7 +16,7 @@ export class AuthService {
   private httpClient = inject(HttpClient);
   private googleAuthService = inject(SocialAuthService);
 
-  readonly isAuthorized$ = signal<boolean>(false);
+  readonly isAuthorized = signal<boolean>(false);
 
   private localStorage!: Storage;
 
@@ -28,10 +28,10 @@ export class AuthService {
       this.httpClient.get(url)
         .subscribe({
           next: () => {
-            this.isAuthorized$.set(true);
+            this.isAuthorized.set(true);
           },
           error: () => {
-            this.isAuthorized$.set(false);
+            this.isAuthorized.set(false);
           }
         });
     }
@@ -42,7 +42,7 @@ export class AuthService {
     this.localStorage.removeItem('user_name');
     this.localStorage.removeItem('profile_url');
 
-    this.isAuthorized$.set(false);
+    this.isAuthorized.set(false);
 
     this.googleAuthService.authState
       .subscribe(_ => this.googleAuthService.signOut(true));
@@ -71,12 +71,12 @@ export class AuthService {
           this.localStorage.setItem('user_name', result.user.fullName);
           this.localStorage.setItem('access_token', result.token);
 
-          this.isAuthorized$.set(true);
+          this.isAuthorized.set(true);
 
           return result.token;
         }),
         catchError((err, caught) => {
-          this.isAuthorized$.set(false);
+          this.isAuthorized.set(false);
 
           console.error(err);
           return EMPTY;
