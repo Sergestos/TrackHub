@@ -21,6 +21,7 @@ public class AggregationFunction
         _songAggregator = songAggregator;
     }
 
+    // TODO revert AuthorizationLevel.Anonymous to Function after local testing
     [Function("aggregation")]
     public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest request, CancellationToken cancellationToken)
     {
@@ -31,14 +32,14 @@ public class AggregationFunction
         try
         {
             payload = await JsonSerializer.DeserializeAsync<AggregationEventMessage>(
-                request.Body, 
+                request.Body,
                 new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
             await _exerciseAggregator.AggregateExercise(payload!, cancellationToken);
-       //     await _songAggregator.AggregateSong(payload!, cancellationToken);
+            await _songAggregator.AggregateSong(payload!, cancellationToken);
         }
         catch (JsonException ex)
         {

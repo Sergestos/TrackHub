@@ -39,7 +39,7 @@ public class SongsByDateAggregation
     public int Month { get; set; } = default!;
 
     [JsonProperty("total_played")]
-    public int TotalPlayed { get; set; }
+    public int TimesPlayed { get; set; }
 
     [JsonProperty("total_duration")]
     public int TotalDuration { get; set; }

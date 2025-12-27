@@ -11,4 +11,6 @@ public interface IAggregationRepository
     Task<ExerciseAggregation> UpsertExerciseAggregation(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken);
 
     Task<SongAggregation> UpsertSongAggregation(string userId, SongAggregation aggregation, CancellationToken cancellationToken);
+
+    Task<IEnumerable<SongAggregation>> UpsertSongAggregations(string userId, SongAggregation[] aggregations, CancellationToken cancellationToken);
 }

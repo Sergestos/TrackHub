@@ -12,6 +12,7 @@ internal class SongAggregator : ISongAggregator
     private readonly IAggregationRepository _aggregationRepository;
 
     private Dictionary<string, SongAggregation> _aggregationsCache = new Dictionary<string, SongAggregation>();
+    private Dictionary<string, SongAggregation> _songsToUpdate = new Dictionary<string, SongAggregation>();
 
     public SongAggregator(IAggregationRepository aggregationRepository)
     {
@@ -21,58 +22,92 @@ internal class SongAggregator : ISongAggregator
     public async Task AggregateSong(AggregationEventMessage message, CancellationToken cancellationToken)
     {
         if (message.OldRecords != null)
-        {
-            foreach (var song in message.OldRecords.Where(x => x.RecordType == RecordType.Song))
-            {
-                var aggregationIds = AggregationIds.Song(message.UserId, song.Author!, song.Name!);
-
-                SongAggregation? songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationIds, message.UserId, cancellationToken);                
-                if (songAggregation == null)
-                {
-                    break;
-                }
-                else if (songAggregation.TimesPlayed == 0)
-                {
-                    _aggregationsCache[aggregationIds] = songAggregation;
-
-                    break;
-                }
-                else
-                {
-                    songAggregation.TotalPlayed -= song.PlayDuration;
-                    songAggregation.TimesPlayed -= 1;
-
-                    var songByDate = songAggregation.SongsByDateAggregations!
-                        .FirstOrDefault(x => x.Year == message.PlayDate.Year && x.Month == message.PlayDate.Month);
-
-                    if (songByDate != null)
-                    {
-                        songByDate.TotalPlayed -= 1;
-                        songByDate.TotalDuration -= song.PlayDuration;                        
-                    }
-
-                    await _aggregationRepository.UpsertSongAggregation(message.UserId, songAggregation, cancellationToken);
-                }
-            }
-        }
+            await RollBackOldRecordsAsync(message.OldRecords, message.UserId, message.PlayDate, cancellationToken);
         if (message.NewRecords != null)
-        {
-            foreach (var song in message.NewRecords.Where(x => x.RecordType == RecordType.Song))
-            {
+            await AggregateRecordsAsync(message.NewRecords, message.UserId, message.PlayDate, cancellationToken);
 
+        await _aggregationRepository.UpsertSongAggregations(message.UserId, _songsToUpdate.Values.ToArray(), cancellationToken);
+    }
+
+    private async Task RollBackOldRecordsAsync(AggregationRecord[] aggregationRecords, string userId, DateTime playDate, CancellationToken cancellationToken)
+    {
+        foreach (var song in aggregationRecords.Where(x => x.RecordType == RecordType.Song))
+        {
+            var aggregationId = AggregationIds.Song(userId, song.Author!, song.Name!);
+
+            SongAggregation? songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationId, userId, cancellationToken);
+            if (songAggregation is null)
+            {
+                break;
+            }
+            else if (songAggregation.TimesPlayed == 0)
+            {
+                _aggregationsCache[aggregationId] = songAggregation;
+                break;
+            }
+            else
+            {
+                songAggregation.TotalPlayed -= song.PlayDuration;
+                songAggregation.TimesPlayed--;
+
+                var songByDate = songAggregation.SongsByDateAggregations!
+                    .FirstOrDefault(x => x.Year == playDate.Year && x.Month == playDate.Month);
+
+                if (songByDate != null)
+                {
+                    songByDate.TotalDuration -= song.PlayDuration;
+                    songByDate.TimesPlayed--;
+                }
+
+                _songsToUpdate[aggregationId] = songAggregation;
             }
         }
     }
+
+    private async Task AggregateRecordsAsync(AggregationRecord[] aggregationRecords, string userId, DateTime playDate, CancellationToken cancellationToken)
+    {
+        foreach (var song in aggregationRecords.Where(x => x.RecordType == RecordType.Song))
+        {
+            var aggregationId = AggregationIds.Song(userId, song.Author!, song.Name!);
+
+            SongAggregation? songAggregation;
+            if (_aggregationsCache[aggregationId] is null)
+                songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationId, userId, cancellationToken);
+            else
+                songAggregation = _aggregationsCache[aggregationId];
+
+            if (songAggregation is null)
+            {
+                songAggregation = new SongAggregation()
+                {
+                    AggregationId = aggregationId,
+                    Type = AggregationTypeName,
+                    UserId = userId,
+                    Author = song.Author!,
+                    Name = song.Name!
+                };
+            }
+
+            songAggregation.TotalPlayed += song.PlayDuration;
+            songAggregation.TimesPlayed++;
+
+            var songByDate = songAggregation.SongsByDateAggregations!
+               .FirstOrDefault(x => x.Year == playDate.Year && x.Month == playDate.Month);
+
+            if (songByDate is null)
+            {
+                songByDate = new SongsByDateAggregation()
+                {
+                    Year = playDate.Year,
+                    Month = playDate.Month
+                };
+            }
+
+            songByDate.TotalDuration += song.PlayDuration;
+            songByDate.TimesPlayed++;
+
+            if (_songsToUpdate[aggregationId] is null)
+                _songsToUpdate[aggregationId] = songAggregation;
+        }
+    }
 }
-
-
-/*
- *                     songAggregation = new SongAggregation()
-                    {
-                        AggregationId = aggregationIds,
-                        Type = AggregationTypeName,
-                        UserId = message.UserId,
-                        Author = song.Author!,
-                        Name = song.Name!
-                    };
-*/

@@ -70,4 +70,23 @@ internal class AggregationRepository : IAggregationRepository
 
         return response.Resource;
     }
+
+    public async Task<IEnumerable<SongAggregation>> UpsertSongAggregations(string userId, SongAggregation[] aggregations, CancellationToken cancellationToken)
+    {
+        var upsertedAggregations = new List<SongAggregation>();
+
+        var tasks = aggregations.Select(async doc =>
+       {
+           var response = await _container.UpsertItemAsync(
+               doc,
+               new PartitionKey(userId),
+               cancellationToken: cancellationToken);
+
+           upsertedAggregations.Add(response.Resource);
+       });
+
+        await Task.WhenAll(tasks);
+
+        return upsertedAggregations;
+    }
 }

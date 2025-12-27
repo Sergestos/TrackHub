@@ -72,7 +72,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.BothAggregation != null)
                     {
                         exerciseAggregation.BothAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.BothAggregation.TimesPlayed += 1;
+                        exerciseAggregation.BothAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -87,7 +87,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.RhythmAggregation != null)
                     {
                         exerciseAggregation.RhythmAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.RhythmAggregation.TimesPlayed += 1;
+                        exerciseAggregation.RhythmAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -102,7 +102,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.SoloAggregation != null)
                     {
                         exerciseAggregation.SoloAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.SoloAggregation.TimesPlayed += 1;
+                        exerciseAggregation.SoloAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -127,7 +127,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.WarmupAggregation != null)
                     {
                         exerciseAggregation.WarmupAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.WarmupAggregation.TimesPlayed += 1;
+                        exerciseAggregation.WarmupAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -142,7 +142,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.SongAggregation != null)
                     {
                         exerciseAggregation.SongAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.SongAggregation.TimesPlayed += 1;
+                        exerciseAggregation.SongAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -157,7 +157,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.PracticalExerciseAggregation != null)
                     {
                         exerciseAggregation.PracticalExerciseAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.PracticalExerciseAggregation.TimesPlayed += 1;
+                        exerciseAggregation.PracticalExerciseAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -172,7 +172,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.ComposingAggregation != null)
                     {
                         exerciseAggregation.ComposingAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.ComposingAggregation.TimesPlayed += 1;
+                        exerciseAggregation.ComposingAggregation.TimesPlayed++;
                     }
                     else
                     {
@@ -187,7 +187,7 @@ internal class ExerciseAggregator : IExerciseAggregator
                     if (exerciseAggregation.ComposingAggregation != null)
                     {
                         exerciseAggregation.ComposingAggregation.TotalPlayed += playDuration;
-                        exerciseAggregation.ComposingAggregation.TimesPlayed += 1;
+                        exerciseAggregation.ComposingAggregation.TimesPlayed++;
                     }
                     else
                     {
