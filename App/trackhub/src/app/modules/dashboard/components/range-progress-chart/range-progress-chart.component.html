@@ -1,10 +1,45 @@
-<div class="p-4">
-  <div class="mb-2">
-    <p class="text-stone-50">date filter placeholder</p>
+<div class="w-full flex flex-col">
+  <div
+    class="flex flex-row gap-8 justify-between items-center p-1.5 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">
+    <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>
+    <div class="flex flex-row gap-1 items-center">
+      <div class="flex flex-row items-center gap-2 mr-6">
+        <p>Aggregate by:</p>
+        <select class="w-36 py-1" (change)="onTypeChanged($event)">
+          <option [value]="'total_played'">
+            {{ 'Total played' }}
+          </option>
+          <option [value]="'times_played' ">
+            {{ 'Times played' }}
+          </option>        
+        </select>
+      </div>
+      <p>Range:</p>
+      <input
+        type="date"
+        class="h-7"
+        [value]="startDate | date:'yyyy-MM-dd'"
+        (change)="onStartDateChanged($event)"
+        onfocus="'showPicker' in this && this.showPicker()" 
+      />
+      <p>-</p>
+      <input
+        type="date"
+        class="h-7"
+        [value]="endDate | date:'yyyy-MM-dd'"
+        (change)="onEndDateChanged($event)"
+        onfocus="'showPicker' in this && this.showPicker()" 
+      />
+      <trh-button
+        class="ml-6 h-7"
+        [value]="'Apply'"
+        (pressed)="onApplyPressed()">
+      </trh-button>
+    </div>
   </div>
-  <div  
-    echarts
-    style="width: 100%;" 
+  <div 
+    echarts 
+    class="w-full mt-1" 
     [options]="options">
   </div>
 </div>

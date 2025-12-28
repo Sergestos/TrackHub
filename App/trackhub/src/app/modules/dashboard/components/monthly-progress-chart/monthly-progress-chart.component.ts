@@ -24,7 +24,7 @@ echarts.use([
 })
 export class MonthlyProgressChartComponent {
   public chartHeader = input<string>();
-  public monthlyStatistics = input<ExerciseAggregation | null>();
+  public chartData = input<ExerciseAggregation | null>();
 
   public options: any;
   public mergeOptions: any = null;
@@ -37,7 +37,7 @@ export class MonthlyProgressChartComponent {
 
   constructor() {
     effect(() => {
-      if (this.monthlyStatistics()) {
+      if (this.chartData()) {
         this.buildChart();
       }
     })
@@ -46,7 +46,7 @@ export class MonthlyProgressChartComponent {
   public onTypeChanged($event: Event): void {
     this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'record' | 'play';
 
-    if (this.monthlyStatistics()) {
+    if (this.chartData()) {
       this.buildChart();
     }
   }
@@ -58,38 +58,38 @@ export class MonthlyProgressChartComponent {
     if (this.chartDisplayType == 'record') {
       return [
         {
-          value: this.monthlyStatistics()?.warmup_aggregation?.total_played ?? 0,
+          value: this.chartData()?.warmup_aggregation?.total_played ?? 0,
           name: 'warmup'
         },
         {
-          value: this.monthlyStatistics()?.song_aggregation?.total_played ?? 0,
+          value: this.chartData()?.song_aggregation?.total_played ?? 0,
           name: 'songs'
         },
         {
-          value: this.monthlyStatistics()?.composing_aggregation?.total_played ?? 0,
+          value: this.chartData()?.composing_aggregation?.total_played ?? 0,
           name: 'composition'
         },
         {
-          value: this.monthlyStatistics()?.exercise_aggregation?.total_played ?? 0,
+          value: this.chartData()?.exercise_aggregation?.total_played ?? 0,
           name: 'exercises'
         },
         {
-          value: this.monthlyStatistics()?.improvisation_aggregation?.total_played ?? 0,
+          value: this.chartData()?.improvisation_aggregation?.total_played ?? 0,
           name: 'improvisation'
         },
       ];
     } else {
       return [
         {
-          value: this.monthlyStatistics()?.rhythm_aggregation?.total_played ?? 0,
+          value: this.chartData()?.rhythm_aggregation?.total_played ?? 0,
           name: 'rhythm'
         },
         {
-          value: this.monthlyStatistics()?.solo_aggregation?.total_played ?? 0,
+          value: this.chartData()?.solo_aggregation?.total_played ?? 0,
           name: 'solo'
         },
         {
-          value: this.monthlyStatistics()?.both_aggregation?.total_played ?? 0,
+          value: this.chartData()?.both_aggregation?.total_played ?? 0,
           name: 'rhythm + solo'
         },
       ]

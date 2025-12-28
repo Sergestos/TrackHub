@@ -3,17 +3,24 @@
     <div class="widget w-[40%]">
       <trh-monthly-progress-chart
         [chartHeader]="'Current month'"
-        [monthlyStatistics]="currentMonthStatistics">
+        [chartData]="currentMonthAggregation">
       </trh-monthly-progress-chart>
     </div>
     <div class="widget w-[40%]">
-      <trh-monthly-progress-chart></trh-monthly-progress-chart>
+      <trh-monthly-progress-chart
+        [chartHeader]="'Last month'"
+        [chartData]="lastMonthAggregation">        
+      </trh-monthly-progress-chart>
     </div>
     <div class="widget flex-1">
       <thr-progress-cards></thr-progress-cards>
     </div>
   </div>
   <div class="widget mt-6">
-    <thr-range-progress-chart></thr-range-progress-chart>
+    <thr-range-progress-chart
+      [chartHeader]="'Range chart'"
+      [chartData]="monthRangeAggregations"
+      (applyClicked)="onMonthRangeApplyClicked($event)">
+    </thr-range-progress-chart>
   </div>
 </div>

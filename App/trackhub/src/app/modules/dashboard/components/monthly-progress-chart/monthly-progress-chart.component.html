@@ -1,10 +1,10 @@
-<div class=" w-full flex flex-col">
-  <div class="flex flex-row justify-between p-1.5 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">    
+<div class="w-full flex flex-col">
+  <div class="flex flex-row justify-between p-1 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">    
     <div class="flex flex-row gap-6 items-center">
       <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>        
-      @if (monthlyStatistics()) {
+      @if (chartData()) {
         <p class="text-xs italic">
-          (played: {{ monthlyStatistics()!.total_played }} min.)
+          (total: {{ chartData()!.total_played }} min.)
         </p>
       }
     </div>
@@ -12,15 +12,15 @@
       <p>Aggregate by:</p>
       <select class="w-24 py-1" (change)="onTypeChanged($event)">
         <option [value]="'record'">
-          {{ 'record' }}
+          {{ 'Record' }}
         </option>
         <option [value]="'play' ">
-          {{ 'play' }}
-        </option>        
+          {{ 'Play' }}
+        </option>
       </select>
     </div>
   </div>
-  @if (monthlyStatistics()) {
+  @if (chartData()) {
     <div 
       echarts
       class="w-full h-80" 
