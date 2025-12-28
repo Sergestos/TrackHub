@@ -11,6 +11,10 @@
   margin: 0;
 }
 
+p {
+  @apply text-gray-200;
+}
+
 .btn {
   @apply inline-flex items-center gap-2 rounded-md border border-solid text-sm font-medium px-3.5 py-2 transition-shadow select-none shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 disabled:opacity-60 disabled:cursor-not-allowed;
 }

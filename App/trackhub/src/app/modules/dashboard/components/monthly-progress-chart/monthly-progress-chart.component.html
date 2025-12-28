@@ -1,0 +1,20 @@
+<div class="p-4 w-full min-h-96 flex flex-col">
+  <div class="pl-3">
+    <p class="font-semibold text-base">{{ getHeader() }}</p>
+    @if (monthlyStatistics()) {
+      <p class="pt-2">
+        Total Played: {{ monthlyStatistics()!.total_played }}
+      </p>
+    }
+  </div>
+  @if (monthlyStatistics()) {
+    <div 
+      echarts
+      class="flex-1 pb-4" 
+      [options]="options" 
+      [merge]="mergeOptions" 
+      [autoResize]="true"></div>
+  } @else {
+    <p class="flex-1 text-xl flex items-center justify-center">No data</p>
+  }
+</div>

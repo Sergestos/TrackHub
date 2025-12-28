@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import * as echarts from 'echarts/core';
 
 import { PieChart } from 'echarts/charts';
 import { TooltipComponent, LegendComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+import { ExerciseAggregation } from '../../models/exercise-aggregation.model';
 
 echarts.use([
   PieChart,
@@ -15,21 +16,28 @@ echarts.use([
 
 @Component({
   selector: 'trh-monthly-progress-chart',
-  templateUrl: './montly-progress-chart.component.html',
+  templateUrl: './monthly-progress-chart.component.html',
   standalone: true,
   imports: [NgxEchartsDirective],
   providers: [
     provideEchartsCore({ echarts })
   ]
 })
-export class MontlyProgressChartComponent {
-  options = {
+export class MonthlyProgressChartComponent {
+  public chartHeader = input<string>();
+  public monthlyStatistics = input<ExerciseAggregation | null>();
+
+  public getHeader(): string {
+    return this.chartHeader() ?? 'Monthly Chart';
+  }
+
+  public options = {
     tooltip: {
       trigger: 'item'
     },
     legend: {
-      top: '5%',
-      left: 'center'
+      top: '95%',
+      left: 'center',
     },
     series: [
       {
@@ -37,7 +45,7 @@ export class MontlyProgressChartComponent {
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
-        padAngle: 5,
+        padAngle: 4,
         itemStyle: {
           borderRadius: 10
         },
@@ -45,7 +53,6 @@ export class MontlyProgressChartComponent {
           show: false,
           position: 'center'
         },
-
         labelLine: {
           show: false
         },
