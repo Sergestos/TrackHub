@@ -1,20 +1,33 @@
-<div class="p-4 w-full min-h-96 flex flex-col">
-  <div class="pl-3">
-    <p class="font-semibold text-base">{{ getHeader() }}</p>
-    @if (monthlyStatistics()) {
-      <p class="pt-2">
-        Total Played: {{ monthlyStatistics()!.total_played }}
-      </p>
-    }
+<div class=" w-full flex flex-col">
+  <div class="flex flex-row justify-between p-1.5 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">    
+    <div class="flex flex-row gap-6 items-center">
+      <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>        
+      @if (monthlyStatistics()) {
+        <p class="text-xs italic">
+          (played: {{ monthlyStatistics()!.total_played }} min.)
+        </p>
+      }
+    </div>
+    <div class="flex flex-row items-center gap-2">
+      <p>Aggregate by:</p>
+      <select class="w-24 py-1" (change)="onTypeChanged($event)">
+        <option [value]="'record'">
+          {{ 'record' }}
+        </option>
+        <option [value]="'play' ">
+          {{ 'play' }}
+        </option>        
+      </select>
+    </div>
   </div>
   @if (monthlyStatistics()) {
     <div 
       echarts
-      class="flex-1 pb-4" 
+      class="w-full h-80" 
       [options]="options" 
       [merge]="mergeOptions" 
       [autoResize]="true"></div>
   } @else {
-    <p class="flex-1 text-xl flex items-center justify-center">No data</p>
+    <p class="flex-1 text-xl flex items-center justify-center mt-28">No data</p>
   }
 </div>

@@ -21,7 +21,12 @@ export class StatisticsService {
       warmup_aggregation: {
         record_type_name: 'Exercise',
         times_played: 5,
-        total_played: 126
+        total_played: 100
+      },
+      song_aggregation: {
+        record_type_name: 'Song',
+        times_played: 2,
+        total_played: 25
       }
 
     } as ExerciseAggregation);

@@ -1,5 +1,5 @@
 <div class="flex flex-row gap-2">
-  <select class="w-20" [(ngModel)]="selectedYear" (ngModelChange)="updateValue()">
+  <select class="w-20 py-1" [(ngModel)]="selectedYear" (ngModelChange)="updateValue()">
     @for (year of yearSelectValues; track year) {
       <option [value]="year">
         {{ year }}
