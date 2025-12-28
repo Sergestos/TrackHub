@@ -13,6 +13,8 @@ import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiService } from './providers/services/api.service';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertService } from './providers/services/alert.service';
 
 @NgModule({
   declarations: [
@@ -27,12 +29,14 @@ import { ApiService } from './providers/services/api.service';
     RouterModule,
     AppRoutingModule,
     MatProgressSpinnerModule,
+    AlertComponent
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
     ApiService,
     AuthService,
+    AlertService,
     ExerciseListService,
     {
       provide: HTTP_INTERCEPTORS,

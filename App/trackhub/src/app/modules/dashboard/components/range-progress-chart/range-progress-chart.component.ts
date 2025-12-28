@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../../components/button/button.component';
 import { ByRecordTypeAggregation, ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
+import { AlertService } from '../../../../providers/services/alert.service';
 
 export type RangeRequest = { start: Date; end: Date };
 
@@ -47,6 +48,8 @@ export class RangeProgressChartComponent {
 
   public applyClicked = output<RangeRequest>();
 
+  private alertService = inject(AlertService);
+
   public options: any;
 
   public startDate!: Date;
@@ -55,11 +58,11 @@ export class RangeProgressChartComponent {
   public getHeader(): string {
     return this.chartHeader() ?? 'Range Chart';
   }
+
   constructor() {
     this.endDate = new Date();
     this.startDate = new Date();
     this.startDate.setMonth(this.startDate.getMonth() - 1);
-
     effect(() => {
       if (this.chartData()) {
         this.buildChart();
@@ -68,6 +71,8 @@ export class RangeProgressChartComponent {
   }
 
   public onApplyPressed(): void {
+    this.alertService.show('success', 'hello');
+
     if (this.chartData()) {
       this.buildChart();
     }
@@ -166,6 +171,7 @@ export function buildStackedBarOptions(
       type: 'category',
       data: xLabels,
       axisTick: { alignWithLabel: true },
+      triggerEvent: true,
     },
     yAxis: {
       type: 'value', splitLine: {

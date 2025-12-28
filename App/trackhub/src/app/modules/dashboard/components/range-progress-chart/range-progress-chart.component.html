@@ -3,7 +3,7 @@
     class="flex flex-row gap-8 justify-between items-center p-1.5 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">
     <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>
     <div class="flex flex-row gap-1 items-center">
-      <div class="flex flex-row items-center gap-2 mr-6">
+      <div class="flex flex-row items-center gap-2 mr-8">
         <p>Aggregate by:</p>
         <select class="w-36 py-1" (change)="onTypeChanged($event)">
           <option [value]="'total_played'">
@@ -31,7 +31,7 @@
         onfocus="'showPicker' in this && this.showPicker()" 
       />
       <trh-button
-        class="ml-6 h-7"
+        class="ml-2 h-7"
         [value]="'Apply'"
         (pressed)="onApplyPressed()">
       </trh-button>

@@ -1,3 +1,4 @@
+<app-alert />
 @if (isLoading$ | async) {
   <div class="fixed inset-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50"
     >
@@ -20,7 +21,7 @@
           <i class="fa-solid fa-list-ul nav-icon"></i>
           <p class="nav-text">List</p>
         </div>
-        <div class="nav-item ml-8" (click)="onNavigationClicked('/app/commit')">
+        <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
           <i class="fa-solid fa-plus nav-icon"></i>
           <p class="nav-text">Commit</p>
         </div>
