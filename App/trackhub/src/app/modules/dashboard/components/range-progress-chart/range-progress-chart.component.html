@@ -33,13 +33,14 @@
       <trh-button
         class="ml-2 h-7"
         [value]="'Apply'"
+        [disabled]="!isApplyFiltersAllowed()"
         (pressed)="onApplyPressed()">
       </trh-button>
     </div>
   </div>
   <div 
     echarts 
-    class="w-full mt-1" 
+    class="w-full" 
     [options]="options">
   </div>
 </div>

@@ -55,8 +55,14 @@ export class RangeProgressChartComponent {
   public startDate!: Date;
   public endDate!: Date;
 
+  public isDateRangeValid: boolean = true;
+
   public getHeader(): string {
     return this.chartHeader() ?? 'Range Chart';
+  }
+
+  public isApplyFiltersAllowed(): boolean {
+    return this.isDateRangeValid;
   }
 
   constructor() {
@@ -71,8 +77,6 @@ export class RangeProgressChartComponent {
   }
 
   public onApplyPressed(): void {
-    this.alertService.show('success', 'hello');
-
     if (this.chartData()) {
       this.buildChart();
     }
@@ -89,11 +93,35 @@ export class RangeProgressChartComponent {
   public onStartDateChanged($event: Event): void {
     const value = ($event.target as HTMLInputElement).value;
     this.startDate = value ? new Date(value) : this.startDate;
+
+    this.isDateRangeValid = this.checkDateRange();
   }
 
   public onEndDateChanged($event: Event): void {
     const value = ($event.target as HTMLInputElement).value;
     this.endDate = value ? new Date(value) : this.startDate;
+
+    this.isDateRangeValid = this.checkDateRange();
+  }
+
+  private checkDateRange(): boolean {
+    const from = this.startDate < this.endDate ? this.startDate : this.endDate;
+    const to = this.startDate < this.endDate ? this.endDate : this.startDate;
+
+    const plus3Years = new Date(from);
+    plus3Years.setFullYear(plus3Years.getFullYear() + 3);
+
+    if (to > plus3Years) {
+      this.alertService.show('warning', 'Maximum range is 3 year is exceeded');
+      return false;
+    }
+
+    if (this.startDate > this.endDate) {
+      this.alertService.show('warning', 'Start Date should not exceed End Date');
+      return false;
+    }
+
+    return true;
   }
 
   private buildChart(): void {
