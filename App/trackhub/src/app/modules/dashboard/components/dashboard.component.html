@@ -13,7 +13,10 @@
       </trh-monthly-progress-chart>
     </div>
     <div class="widget flex-1">
-      <thr-progress-cards></thr-progress-cards>
+      <thr-progress-cards
+       [currentMonth]="currentMonthAggregation"
+       [previousMonth]="lastMonthAggregation" >
+      </thr-progress-cards>
     </div>
   </div>
   <div class="widget mt-6">

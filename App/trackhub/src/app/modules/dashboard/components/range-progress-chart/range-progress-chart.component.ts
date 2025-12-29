@@ -68,7 +68,7 @@ export class RangeProgressChartComponent {
   constructor() {
     this.endDate = new Date();
     this.startDate = new Date();
-    this.startDate.setMonth(this.startDate.getMonth() - 1);
+    this.startDate.setFullYear(this.startDate.getFullYear() - 1);
     effect(() => {
       if (this.chartData()) {
         this.buildChart();

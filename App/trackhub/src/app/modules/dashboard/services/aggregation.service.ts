@@ -34,7 +34,26 @@ export class AggregationService {
   }
 
   public getLastMonthAggregation(): Observable<ExerciseAggregation> {
-    return this.apiService.get<ExerciseAggregation>(this.exercisesUrl + '/previous-month', {});
+    return of({
+      id: "1",
+      user_id: "123",
+      aggregation_month: 11,
+      aggregation_year: 2025,
+
+      total_played: 105,
+      warmup_aggregation: {
+        record_type_name: 'Exercise',
+        times_played: 5,
+        total_played: 80
+      },
+      song_aggregation: {
+        record_type_name: 'Song',
+        times_played: 2,
+        total_played: 25
+      }
+
+    } as ExerciseAggregation);
+    //return this.apiService.get<ExerciseAggregation>(this.exercisesUrl + '/previous-month', {});
   }
 
   public getMonthRangeAggregation(startDate: Date, endDate: Date): Observable<ExerciseAggregation[]> {

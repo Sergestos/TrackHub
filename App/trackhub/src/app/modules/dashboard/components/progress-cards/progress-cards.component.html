@@ -1,3 +1,35 @@
-<div class="p-4">
-  <p class="text-teal-50">cards placeholder</p>
+<div class="w-full flex flex-col">
+  <div class="flex flex-row justify-between min-h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">
+    <p class="pl-3 pt-2.5 text-teal-50">Trends</p>
+  </div>
+  @if (this.currentMonth() && this.previousMonth()) {
+  <div class="p-2.5 flex flex-col gap-4">
+    <thr-linear-trend
+      [description]="'Total time'"
+      [currentIndicator]="this.currentMonth()!.total_played"
+      [previousIndicator]="this.previousMonth()!.total_played">
+    </thr-linear-trend>
+    @if (hasSongAggregation) {
+      <thr-linear-trend
+        [description]="'Songs total'"
+        [currentIndicator]="this.currentMonth()!.song_aggregation!.total_played"
+        [previousIndicator]="this.previousMonth()!.song_aggregation!.total_played">
+      </thr-linear-trend>
+    }
+    @if (hasRhythmAggregation) {
+      <thr-linear-trend
+        [description]="'Rhythm total'"
+        [currentIndicator]="this.currentMonth()!.rhythm_aggregation!.total_played"
+        [previousIndicator]="this.previousMonth()!.rhythm_aggregation!.total_played">
+      </thr-linear-trend>
+    }
+    @if (hasSoloAggregation) {
+      <thr-linear-trend
+        [description]="'Solo total'"
+        [currentIndicator]="this.currentMonth()!.solo_aggregation!.total_played"
+        [previousIndicator]="this.previousMonth()!.solo_aggregation!.total_played">
+      </thr-linear-trend>
+    }
+  </div>
+  }
 </div>
