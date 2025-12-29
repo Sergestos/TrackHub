@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col">
+<div class="w-full flex flex-col min-h-[22rem]">
   <div class="flex flex-row justify-between p-1 min-h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">    
     <div class="flex flex-row gap-6 items-center">
       <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>        
@@ -28,6 +28,6 @@
       [merge]="mergeOptions" 
       [autoResize]="true"></div>
   } @else {
-    <p class="flex-1 text-xl flex items-center justify-center mt-32">No data</p>
+    <p class="flex-1 text-xl flex items-center justify-center">No data</p>
   }
 </div>
