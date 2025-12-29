@@ -1,5 +1,4 @@
 ﻿using TrackHub.Domain.Entities;
-using TrackHub.Messaging.Aggregations;
 
 namespace TrackHub.Service.Aggregation.Services;
 

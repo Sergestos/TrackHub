@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using TrackHub.Service.Aggregation.Services;
 using TrackHub.Service.Infrastructure;
+using TrackHub.Service.Services.AggregationServices;
 using TrackHub.Service.Services.ExerciseServices;
 using TrackHub.Service.Services.PreviewServices;
 using TrackHub.Service.Services.UserServices;
@@ -18,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IExerciseService, ExerciseService>();
         services.AddScoped<IExerciseSearchService, ExerciseSearchService>();
         services.AddScoped<IPreviewService, PreviewService>();
+        services.AddScoped<IAggregationReadService, AggregationReadService>();
         services.AddHttpClient<IAggregationService, AggregationFunctionClient>(client =>
         {
             client.BaseAddress = new Uri(configuration.GetSection("AzureFunction:Url").Value!);

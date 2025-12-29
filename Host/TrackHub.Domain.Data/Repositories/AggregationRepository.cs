@@ -34,6 +34,36 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
+    public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByIds(string[] aggregationIds, string userId, CancellationToken cancellationToken)
+    {
+        if (aggregationIds is null) throw new ArgumentNullException(nameof(aggregationIds));
+
+        var ids = aggregationIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (ids.Count == 0)
+            return Enumerable.Empty<ExerciseAggregation>();
+
+        IReadOnlyList<(string id, PartitionKey partitionKey)> items =
+            ids.Select(id => (id, new PartitionKey(userId)))
+               .ToList();
+
+        try
+        {
+            var response = await _container.ReadManyItemsAsync<ExerciseAggregation>(
+                items,
+                cancellationToken: cancellationToken);
+
+            return response.Resource.ToList();
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return Enumerable.Empty<ExerciseAggregation>();
+        }
+    }
+
     public async Task<SongAggregation?> GetSongAggregationById(string aggregationId, string userId, CancellationToken cancellationToken)
     {
         try

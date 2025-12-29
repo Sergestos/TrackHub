@@ -6,6 +6,8 @@ public interface IAggregationRepository
 {
     Task<ExerciseAggregation?> GetExerciseAggregationById(string aggregationId, string userId, CancellationToken cancellationToken);
 
+    Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByIds(string[] aggregationIds, string userId, CancellationToken cancellationToken);
+
     Task<SongAggregation?> GetSongAggregationById(string aggregationId, string userId, CancellationToken cancellationToken);
 
     Task<ExerciseAggregation> UpsertExerciseAggregation(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken);
