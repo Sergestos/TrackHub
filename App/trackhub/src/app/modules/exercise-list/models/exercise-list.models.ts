@@ -1,3 +1,4 @@
+import { MonthPickerModel } from "../../../components/month-picker/month-picker.model";
 import { RecordTypes } from "../../../models/recordy-types-enum";
 
 export class ExerciseItem {
@@ -22,12 +23,7 @@ export class RecordDetailsItem {
 }
 
 export class FilterModel {
-  public dateFilter?: FilterDateModel;
+  public dateFilter?: MonthPickerModel;
   public showPlayedOnly?: boolean;
   public showExpanded?: boolean;
-}
-
-export class FilterDateModel {
-  public year?: number;
-  public month?: number;
 }

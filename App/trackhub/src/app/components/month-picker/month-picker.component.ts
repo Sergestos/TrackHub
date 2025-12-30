@@ -1,18 +1,20 @@
 import { Component, effect, forwardRef, input } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { FilterDateModel } from "../../../models/exercise-list.models";
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MonthNamePipe } from "../../providers/pipes/month.pipe";
+import { MonthPickerModel } from "./month-picker.model";
 
 @Component({
-  selector: 'trh-exercise-date-filter',
-  templateUrl: './exercise-date-filter.component.html',
+  selector: 'trh-month-picker',
+  templateUrl: './month-picker.component.html',
+  imports: [FormsModule, MonthNamePipe],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ExerciseDateFilterComponent),
+    useExisting: forwardRef(() => MonthPickerComponent),
     multi: true
   }],
-  standalone: false
+  standalone: true
 })
-export class ExerciseDateFilterComponent implements ControlValueAccessor {
+export class MonthPickerComponent implements ControlValueAccessor {
   public selectedYear: number | undefined;
   public selectedMonth: number | undefined;
 
@@ -37,7 +39,7 @@ export class ExerciseDateFilterComponent implements ControlValueAccessor {
   }
 
   public writeValue(obj: any): void {
-    const model: FilterDateModel = obj;
+    const model: MonthPickerModel = obj;
 
     if (model) {
       if (model.year) {

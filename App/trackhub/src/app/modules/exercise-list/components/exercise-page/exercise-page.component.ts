@@ -4,7 +4,8 @@ import { ExerciseListService } from "../../services/exercise-list.service";
 import { MatDialog } from '@angular/material/dialog';
 import { ModalResult, openDeleteModal } from "../../../../components/delete-modal/delete-modal.component";
 import { LoadingService } from "../../../../providers/services/loading.service";
-import { ExerciseItem, ExerciseItemView, FilterDateModel, FilterModel } from "../../models/exercise-list.models";
+import { ExerciseItem, ExerciseItemView, FilterModel } from "../../models/exercise-list.models";
+import { MonthPickerModel } from "../../../../components/month-picker/month-picker.model";
 
 const UNPLAYED_EXERCISE_ID = "-1";
 
@@ -81,7 +82,7 @@ export class ExercisePageComponent implements OnInit {
     this.router.navigateByUrl("/app/commit?exerciseId=" + item.exerciseId);
   }
 
-  public onDateChanged(dateFilter: FilterDateModel): void {
+  public onDateChanged(dateFilter: MonthPickerModel): void {
     let query = `month=${dateFilter.month}&year=${dateFilter.year}`;
     this.router.navigateByUrl("/app/list?" + query);
   }

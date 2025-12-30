@@ -1,10 +1,10 @@
-<app-alert />
 @if (isLoading$ | async) {
   <div class="fixed inset-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50"
     >
     <mat-spinner diameter="50" strokeWidth="5"></mat-spinner>
   </div>
 }
+<!--<trh-alert ngSkipHydration></trh-alert>-->
 <div>
   <div class="menu p-2 flex flex-row justify-between items-center bg-zinc-900 border-b border-solid border-zinc-700">
     <div class="flex pl-5 text-c-logo">

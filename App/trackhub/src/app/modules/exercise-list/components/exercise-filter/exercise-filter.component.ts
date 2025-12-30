@@ -1,6 +1,7 @@
 import { Component, inject, input, OnInit, output } from "@angular/core";
 import { ExerciseListService } from "../../services/exercise-list.service";
-import { FilterDateModel, FilterModel } from "../../models/exercise-list.models";
+import { FilterModel } from "../../models/exercise-list.models";
+import { MonthPickerModel } from "../../../../components/month-picker/month-picker.model";
 
 @Component({
   selector: 'trh-exercise-filter',
@@ -12,7 +13,7 @@ export class FilterComponent implements OnInit {
 
   public filter = input<FilterModel>();
 
-  public onDateChangedEmmiter = output<FilterDateModel>();
+  public onDateChangedEmmiter = output<MonthPickerModel>();
   public onExpandAllEmitter = output<boolean>();
   public onShowPlayedOnlyEmitter = output<boolean>();
 

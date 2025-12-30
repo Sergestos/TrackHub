@@ -4,7 +4,7 @@ import { AlertService } from '../../providers/services/alert.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-alert',
+  selector: 'trh-alert',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './alert.component.html'

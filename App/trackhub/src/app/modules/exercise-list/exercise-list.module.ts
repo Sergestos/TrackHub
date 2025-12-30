@@ -7,13 +7,11 @@ import { ExercisePageComponent } from './components/exercise-page/exercise-page.
 import { DetailsExerciseItemComponent } from './components/exercise-details-card/exercise-details-card.component';
 import { FilterComponent } from './components/exercise-filter/exercise-filter.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MonthNamePipe } from "../../providers/pipes/month.pipe";
-import { ExerciseDateFilterComponent } from './components/exercise-filter/exercise-date-filter/exercise-date-filter.component';
+import { MonthPickerComponent } from '../../components/month-picker/month-picker.component';
 
 @NgModule({
   declarations: [
     ExercisePageComponent,
-    ExerciseDateFilterComponent,
     DetailsExerciseItemComponent,
     FilterComponent
   ],
@@ -28,7 +26,7 @@ import { ExerciseDateFilterComponent } from './components/exercise-filter/exerci
     RouterModule.forChild([
       { path: '', component: ExercisePageComponent }
     ]),
-    MonthNamePipe
+    MonthPickerComponent,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi())

@@ -12,7 +12,8 @@ export enum ModalResult {
   templateUrl: 'delete-modal.component.html',
   styleUrls: ['./delete-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent]
+  imports: [ButtonComponent],
+  standalone: true
 })
 export class DeleteModalComponent {
   readonly modalRef = inject(MatDialogRef<DeleteModalComponent>);

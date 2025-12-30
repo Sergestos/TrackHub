@@ -2,16 +2,24 @@
   <div class="flex gap-7 mt-2">
     <div class="flex gap-2">
       <label class="-mt-0.5">Show expanded</label>
-      <input type="checkbox" [checked]="filter()!.showExpanded" (click)="onExpandAllClicked($event)" />
+      <input 
+        type="checkbox" 
+        [checked]="filter()!.showExpanded" 
+        (click)="onExpandAllClicked($event)" />
     </div>
     <div class="flex gap-2">
       <label class="-mt-0.5">Show playd only days</label>
-      <input type="checkbox" [checked]="filter()!.showPlayedOnly" (click)="onShowPlayedOnlyClicked($event)" />
+      <input 
+        type="checkbox" 
+        [checked]="filter()!.showPlayedOnly" 
+        (click)="onShowPlayedOnlyClicked($event)" />
     </div>
   </div>
   <div>
-    <trh-exercise-date-filter [startYear]="userFirstYear" [ngModel]="filter()!.dateFilter"
+    <trh-month-picker 
+      [startYear]="userFirstYear" 
+      [ngModel]="filter()!.dateFilter"
       (ngModelChange)="onFilterDateChanges($event)">
-    </trh-exercise-date-filter>
+    </trh-month-picker>
   </div>
 </div>
