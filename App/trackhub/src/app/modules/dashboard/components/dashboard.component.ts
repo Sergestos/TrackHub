@@ -17,20 +17,6 @@ export class DashboardComponent {
   public monthRangeAggregations: ExerciseAggregation[] | null = null;
 
   constructor() {
-    this.aggregationService.getCurrentMonthAggregation()
-      .subscribe({
-        next: (result) => {
-          this.currentMonthAggregation = result;
-        }
-      });
-
-    this.aggregationService.getLastMonthAggregation()
-      .subscribe({
-        next: (result) => {
-          this.lastMonthAggregation = result;
-        }
-      });
-
     this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
       .subscribe({
         next: (result) => {

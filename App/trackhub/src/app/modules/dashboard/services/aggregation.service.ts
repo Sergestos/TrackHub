@@ -10,16 +10,8 @@ export class AggregationService {
 
   private apiService = inject(ApiService);
 
-  public getCurrentMonthAggregation(): Observable<ExerciseAggregation> {
-    const date = Date.now().toString();
-    return this.apiService.get<ExerciseAggregation>(this.exercisesUrl + `?date=${date}`);
-  }
-
-  public getLastMonthAggregation(): Observable<ExerciseAggregation> {
-    const date = new Date();
-    date.setMonth(date.getMonth() - 1);
-
-    return this.apiService.get<ExerciseAggregation>(this.exercisesUrl + `?date=${date}`);
+  public getMonthAggregation(date: Date): Observable<ExerciseAggregation> {
+    return this.apiService.get<ExerciseAggregation>(this.exercisesUrl + `?date=${date.toDateString()}`);
   }
 
   public getMonthRangeAggregation(startDate: Date, endDate: Date): Observable<ExerciseAggregation[]> {

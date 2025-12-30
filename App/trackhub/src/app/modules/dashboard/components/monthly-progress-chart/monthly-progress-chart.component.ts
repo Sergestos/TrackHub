@@ -39,13 +39,9 @@ export class MonthlyProgressChartComponent implements OnInit {
 
   public getHeader(): string {
     const now = new Date();
-    if (this.selectedDate.getFullYear() == now.getFullYear() &&
-      this.selectedDate.getMonth() == now.getMonth()) {
+    if (this.isSameMonth(this.selectedDate, now)) {
       return 'Current month';
-    } else if (Math.abs(
-      (this.selectedDate.getFullYear() * 12 + this.selectedDate.getMonth()) -
-      (now.getFullYear() * 12 + now.getMonth())
-    ) === 1) {
+    } else if (this.isLastMonth(this.selectedDate, now)) {
       return 'Last month';
     } else {
       return `${this.selectedDate.getFullYear()}/${this.selectedDate.getMonth() + 1}`;
@@ -53,9 +49,9 @@ export class MonthlyProgressChartComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.aggregationService.getCurrentMonthAggregation()
+    this.aggregationService.getMonthAggregation(this.selectedDate)
       .subscribe({
-        next: (result) => {
+        next: (result: ExerciseAggregation) => {
           if (result) {
             this.chartData = result;
             this.buildChart();
@@ -79,6 +75,29 @@ export class MonthlyProgressChartComponent implements OnInit {
   public onMonthSelected($event: Date) {
     this.isMonthPickerShown = false;
     this.selectedDate = $event;
+
+    this.aggregationService
+      .getMonthAggregation(this.selectedDate)
+      .subscribe({
+        next: (result: ExerciseAggregation) => {
+          if (result) {
+            this.chartData = result;
+            this.buildChart();
+          }
+        }
+      });
+  }
+
+  private isSameMonth(a: Date, b: Date): boolean {
+    return a.getFullYear() == b.getFullYear() &&
+      a.getMonth() == b.getMonth();
+  }
+
+  private isLastMonth(a: Date, b: Date): boolean {
+    return Math.abs(
+      (a.getFullYear() * 12 + a.getMonth()) -
+      (b.getFullYear() * 12 + b.getMonth())
+    ) === 1;
   }
 
   private buildData(): {

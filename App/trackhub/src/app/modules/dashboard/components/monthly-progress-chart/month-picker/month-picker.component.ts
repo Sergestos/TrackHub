@@ -16,6 +16,7 @@ import { FormsModule } from "@angular/forms";
     MonthPickerComponent],
 })
 export class ChartMonthPickerComponent {
+  // TODO fix 2023 magic number - get it from some store
   public startYear: number = 2023;
   public monthModel!: MonthPickerModel;
 
