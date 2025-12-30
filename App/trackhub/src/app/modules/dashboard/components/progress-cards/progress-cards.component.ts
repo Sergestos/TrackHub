@@ -1,6 +1,8 @@
-import { Component, effect, input } from "@angular/core";
+import { Component, OnInit, effect, inject, signal } from "@angular/core";
 import { ExerciseAggregation } from "../../models/exercise-aggregation.model";
 import { LinearTrendComponent } from "./linear-trend/linear-trend.component";
+import { AggregationService } from "../../services/aggregation.service";
+import { combineLatest } from "rxjs";
 
 @Component({
   selector: 'thr-progress-cards',
@@ -8,24 +10,34 @@ import { LinearTrendComponent } from "./linear-trend/linear-trend.component";
   imports: [LinearTrendComponent],
   standalone: true,
 })
-export class ProgressCardsComponent {
-  public currentMonth = input<ExerciseAggregation | null>();
-  public previousMonth = input<ExerciseAggregation | null>();
+export class ProgressCardsComponent implements OnInit {
+  public currentMonth = signal<ExerciseAggregation | null>(null);
+  public previousMonth = signal<ExerciseAggregation | null>(null);
 
   public isPlayedTotalMore?: boolean;
   public hasSongAggregation?: boolean;
   public hasRhythmAggregation?: boolean;
   public hasSoloAggregation?: boolean;
 
-  constructor() {
-    effect(() => {
-      if (this.currentMonth() && this.previousMonth()) {
-        this.buildTrands();
-      }
-    })
+  private aggregationService = inject(AggregationService);
+
+  public ngOnInit(): void {
+    const currentMonth = new Date();
+    const previousMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+
+    const currentMonthRequest$ = this.aggregationService.getMonthAggregation(currentMonth);
+    const previousMonthRequest$ = this.aggregationService.getMonthAggregation(previousMonth);
+
+    combineLatest([currentMonthRequest$, previousMonthRequest$])
+      .subscribe(([current, previous]) => {
+        this.currentMonth.set(current);
+        this.previousMonth.set(previous);
+
+        this.buildTrends();
+      });
   }
 
-  private buildTrands(): void {
+  private buildTrends(): void {
     this.isPlayedTotalMore = this.currentMonth()!.total_played > this.previousMonth()!.total_played;
     this.hasSongAggregation = this.currentMonth()!.song_aggregation != null && this.previousMonth()!.song_aggregation != null;
     this.hasRhythmAggregation = this.currentMonth()!.rhythm_aggregation != null && this.previousMonth()!.rhythm_aggregation != null;
