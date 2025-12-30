@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, OnInit, effect, inject, input, output } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
@@ -8,8 +8,7 @@ import { ButtonComponent } from '../../../../components/button/button.component'
 import { ByRecordTypeAggregation, ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
 import { AlertService } from '../../../../providers/services/alert.service';
-
-export type RangeRequest = { start: Date; end: Date };
+import { AggregationService } from '../../services/aggregation.service';
 
 type ChartMetric = 'total_played' | 'times_played';
 
@@ -40,13 +39,10 @@ echarts.use([
     ButtonComponent],
   providers: [provideEchartsCore({ echarts })],
 })
-export class RangeProgressChartComponent {
+export class RangeProgressChartComponent implements OnInit {
   private chartDisplayType: ChartMetric = 'total_played';
 
-  public chartData = input<ExerciseAggregation[] | null>();
-  public chartHeader = input<string>();
-
-  public applyClicked = output<RangeRequest>();
+  public chartData?: ExerciseAggregation[];
 
   private alertService = inject(AlertService);
 
@@ -57,35 +53,42 @@ export class RangeProgressChartComponent {
 
   public isDateRangeValid: boolean = true;
 
-  public getHeader(): string {
-    return this.chartHeader() ?? 'Range Chart';
-  }
-
   public isApplyFiltersAllowed(): boolean {
     return this.isDateRangeValid;
   }
+
+  private aggregationService = inject(AggregationService);
 
   constructor() {
     this.endDate = new Date();
     this.startDate = new Date();
     this.startDate.setFullYear(this.startDate.getFullYear() - 1);
-    effect(() => {
-      if (this.chartData()) {
-        this.buildChart();
-      }
-    })
+  }
+
+  public ngOnInit(): void {
+    this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
+      .subscribe({
+        next: (result: ExerciseAggregation[]) => {
+          this.chartData = result;
+          this.buildChart();
+        }
+      });
   }
 
   public onApplyPressed(): void {
-    if (this.chartData()) {
-      this.buildChart();
-    }
+    this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
+      .subscribe({
+        next: (result: ExerciseAggregation[]) => {
+          this.chartData = result;
+          this.buildChart();
+        }
+      });
   }
 
   public onTypeChanged($event: Event): void {
     this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'total_played' | 'times_played';
 
-    if (this.chartData()) {
+    if (this.chartData) {
       this.buildChart();
     }
   }
@@ -125,7 +128,7 @@ export class RangeProgressChartComponent {
   }
 
   private buildChart(): void {
-    this.options = buildStackedBarOptions(this.chartData()!, this.chartDisplayType);
+    this.options = buildStackedBarOptions(this.chartData!, this.chartDisplayType);
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject, input } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { PieChart } from 'echarts/charts';
 import { TooltipComponent, LegendComponent } from 'echarts/components';

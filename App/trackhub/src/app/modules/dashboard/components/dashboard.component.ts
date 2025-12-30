@@ -1,7 +1,4 @@
-import { Component, inject } from "@angular/core";
-import { ExerciseAggregation } from "../models/exercise-aggregation.model";
-import { AggregationService } from "../services/aggregation.service";
-import { RangeRequest } from "./range-progress-chart/range-progress-chart.component";
+import { Component } from "@angular/core";
 
 @Component({
   selector: 'trh-dashboard',
@@ -10,27 +7,5 @@ import { RangeRequest } from "./range-progress-chart/range-progress-chart.compon
   standalone: false
 })
 export class DashboardComponent {
-  private aggregationService = inject(AggregationService);
 
-  public currentMonthAggregation: ExerciseAggregation | null = null;
-  public lastMonthAggregation: ExerciseAggregation | null = null;
-  public monthRangeAggregations: ExerciseAggregation[] | null = null;
-
-  constructor() {
-    this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
-      .subscribe({
-        next: (result) => {
-          this.monthRangeAggregations = result;
-        }
-      })
-  }
-
-  public onMonthRangeApplyClicked($event: RangeRequest): void {
-    this.aggregationService.getMonthRangeAggregation($event.start, $event.end)
-      .subscribe({
-        next: (result) => {
-          this.monthRangeAggregations = result;
-        }
-      })
-  }
 }
