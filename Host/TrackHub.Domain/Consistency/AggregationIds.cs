@@ -1,7 +1,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace TrackHub.Domain.Aggregations;
+namespace TrackHub.Domain.Consistency;
 
 public static class AggregationIds
 {
@@ -12,11 +12,11 @@ public static class AggregationIds
         => Monthly(userId, date.Year, date.Month);
 
     public static string Song(
-    string userId,
-    string band,
-    string song)
+        string userId,
+        string author,
+        string song)
     {
-        return $"agg|song|{Normalize(userId)}|{Slug(band)}|{Slug(song)}";
+        return $"agg|song|{Normalize(userId)}|{Slug(author)}|{Slug(song)}";
     }
 
     private static string Slug(string value)
@@ -25,9 +25,7 @@ public static class AggregationIds
             return "unknown";
 
         value = value.Trim().ToLowerInvariant();
-
         value = Regex.Replace(value, @"\s+", "_");
-
         value = Regex.Replace(value, @"[^a-z0-9_]", "");
 
         return value;

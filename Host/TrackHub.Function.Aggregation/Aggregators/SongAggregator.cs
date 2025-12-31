@@ -1,4 +1,5 @@
 ﻿using TrackHub.Domain.Aggregations;
+using TrackHub.Domain.Consistency;
 using TrackHub.Domain.Enums;
 using TrackHub.Domain.Repositories;
 using TrackHub.Messaging.Aggregations;

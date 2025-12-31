@@ -24,8 +24,6 @@ internal class ExerciseService : IExerciseService
 
     public async Task<Exercise> CreateExerciseAsync(CreateExerciseModel exerciseModel, string userId, CancellationToken cancellationToken)
     {
-        User user = _userRepository.GetUserById(userId)!;
-
         var exercise = _exerciseRepository.GetExerciseByDate(DateOnly.FromDateTime(exerciseModel.PlayDate), userId, cancellationToken);
         if (exercise != null)
             throw new InvalidOperationException("Exercise already exists for this date.");
@@ -45,11 +43,9 @@ internal class ExerciseService : IExerciseService
         };
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
+        await UpdateUserStats(userId, result, cancellationToken);
 
         _aggregationService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
-
-        if (TryRecalculatePlayDatesOnCreate(user!, result))
-            await _userRepository.UpsertAsync(user, cancellationToken);
 
         return result;
     }
@@ -76,6 +72,7 @@ internal class ExerciseService : IExerciseService
             .ToArray();
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
+        await UpdateUserStats(userId, result, cancellationToken);
 
         _aggregationService.SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
 
@@ -114,6 +111,26 @@ internal class ExerciseService : IExerciseService
         _aggregationService.SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
 
         return result;
+    }
+
+    private async Task UpdateUserStats(string userId, Exercise exercise, CancellationToken cancellationToken)
+    {
+        User user = _userRepository.GetUserById(userId)!;
+        List<string> playedSongs = user.PlayedSongs != null ?
+            user.PlayedSongs
+            .ToList() : new List<string>();
+        List<string> incomingSongs = exercise.Records
+            .Select(x => SongIds.Transform(x.Author!, x.Name))
+            .ToList();
+        var mergedSongs = new HashSet<string>(
+            user.PlayedSongs ?? Enumerable.Empty<string>(),
+            StringComparer.OrdinalIgnoreCase);
+
+        user.PlayedSongs = mergedSongs.ToArray();
+
+        _ = TryRecalculatePlayDatesOnCreate(user!, exercise);
+
+        await _userRepository.UpsertAsync(user, cancellationToken);
     }
 
     private bool TryRecalculatePlayDatesOnCreate(User user, Exercise addedExercise)
