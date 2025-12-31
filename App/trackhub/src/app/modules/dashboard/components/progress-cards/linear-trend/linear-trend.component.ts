@@ -1,7 +1,7 @@
 import { Component, input } from "@angular/core";
 
 @Component({
-  selector: 'thr-linear-trend',
+  selector: 'trh-linear-trend',
   templateUrl: './linear-trend.component.html',
   standalone: true,
 })

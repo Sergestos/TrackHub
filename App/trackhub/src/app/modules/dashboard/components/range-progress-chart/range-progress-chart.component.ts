@@ -40,17 +40,11 @@ echarts.use([
   providers: [provideEchartsCore({ echarts })],
 })
 export class RangeProgressChartComponent implements OnInit {
-  private chartDisplayType: ChartMetric = 'total_played';
-
   public chartData?: ExerciseAggregation[];
-
-  private alertService = inject(AlertService);
-
   public options: any;
 
   public startDate!: Date;
   public endDate!: Date;
-
   public isDateRangeValid: boolean = true;
 
   public isApplyFiltersAllowed(): boolean {
@@ -58,6 +52,9 @@ export class RangeProgressChartComponent implements OnInit {
   }
 
   private aggregationService = inject(AggregationService);
+  private alertService = inject(AlertService);
+
+  private chartDisplayType: ChartMetric = 'total_played';
 
   constructor() {
     this.endDate = new Date();

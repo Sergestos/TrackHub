@@ -4,31 +4,26 @@
   </div>
   @if (this.currentMonth() && this.previousMonth()) {
   <div class="p-2.5 flex flex-col gap-4">
-    <thr-linear-trend
-      [description]="'Total time'"
-      [currentIndicator]="this.currentMonth()!.total_played"
+    <trh-linear-trend [description]="'Total time'" [currentIndicator]="this.currentMonth()!.total_played"
       [previousIndicator]="this.previousMonth()!.total_played">
-    </thr-linear-trend>
+    </trh-linear-trend>
     @if (hasSongAggregation) {
-      <thr-linear-trend
-        [description]="'Songs total'"
-        [currentIndicator]="this.currentMonth()!.song_aggregation!.total_played"
-        [previousIndicator]="this.previousMonth()!.song_aggregation!.total_played">
-      </thr-linear-trend>
+    <trh-linear-trend [description]="'Songs total'"
+      [currentIndicator]="this.currentMonth()!.song_aggregation!.total_played"
+      [previousIndicator]="this.previousMonth()!.song_aggregation!.total_played">
+    </trh-linear-trend>
     }
     @if (hasRhythmAggregation) {
-      <thr-linear-trend
-        [description]="'Rhythm total'"
-        [currentIndicator]="this.currentMonth()!.rhythm_aggregation!.total_played"
-        [previousIndicator]="this.previousMonth()!.rhythm_aggregation!.total_played">
-      </thr-linear-trend>
+    <trh-linear-trend [description]="'Rhythm total'"
+      [currentIndicator]="this.currentMonth()!.rhythm_aggregation!.total_played"
+      [previousIndicator]="this.previousMonth()!.rhythm_aggregation!.total_played">
+    </trh-linear-trend>
     }
     @if (hasSoloAggregation) {
-      <thr-linear-trend
-        [description]="'Solo total'"
-        [currentIndicator]="this.currentMonth()!.solo_aggregation!.total_played"
-        [previousIndicator]="this.previousMonth()!.solo_aggregation!.total_played">
-      </thr-linear-trend>
+    <trh-linear-trend [description]="'Solo total'"
+      [currentIndicator]="this.currentMonth()!.solo_aggregation!.total_played"
+      [previousIndicator]="this.previousMonth()!.solo_aggregation!.total_played">
+    </trh-linear-trend>
     }
   </div>
   }

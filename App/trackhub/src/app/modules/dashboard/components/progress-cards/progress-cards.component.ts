@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject, signal } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { ExerciseAggregation } from "../../models/exercise-aggregation.model";
 import { LinearTrendComponent } from "./linear-trend/linear-trend.component";
 import { AggregationService } from "../../services/aggregation.service";
