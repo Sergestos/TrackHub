@@ -6,6 +6,7 @@ import { MonthlyProgressChartComponent } from "./components/monthly-progress-cha
 import { RangeProgressChartComponent } from "./components/range-progress-chart/range-progress-chart.component";
 import { ProgressCardsComponent } from "./components/progress-cards/progress-cards.component";
 import { AggregationService } from "./services/aggregation.service";
+import { SongChartComponent } from "./components/song-chart/song-chart.component";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AggregationService } from "./services/aggregation.service";
     MonthlyProgressChartComponent,
     RangeProgressChartComponent,
     ProgressCardsComponent,
+    SongChartComponent,
     RouterModule.forChild([
       { path: '', component: DashboardComponent }
     ])
