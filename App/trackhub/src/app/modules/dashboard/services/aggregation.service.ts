@@ -1,8 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { ExerciseAggregation } from "../models/exercise-aggregation.model";
 import { ApiService } from "../../../providers/services/api.service";
+import { SongAggregation } from "../models/song-aggregation.model";
 
 @Injectable()
 export class AggregationService {
@@ -17,5 +18,9 @@ export class AggregationService {
   public getMonthRangeAggregation(startDate: Date, endDate: Date): Observable<ExerciseAggregation[]> {
     const query = `?startDate=${startDate.toDateString()}&endDate=${endDate.toDateString()}`
     return this.apiService.get<ExerciseAggregation[]>(this.exercisesUrl + '/range' + query);
+  }
+
+  public getSongAggregation(): Observable<SongAggregation> {
+    return of({} as SongAggregation);
   }
 }
