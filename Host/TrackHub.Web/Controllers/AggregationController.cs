@@ -19,6 +19,7 @@ public class AggregationController : TrackHubController
 
     [HttpGet]
     [ProducesResponseType(typeof(ExerciseAggregation), 200)]
+    [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Client)]
     public async Task<IActionResult> GetExerciseAggregation([FromQuery] DateTime date, CancellationToken cancellationToken)
     {
         var result = await _aggregationReadService.GetExerciseAggregationByDateAsync(CurrentUserId, date, cancellationToken);
@@ -29,6 +30,7 @@ public class AggregationController : TrackHubController
     [HttpGet]
     [Route("range")]
     [ProducesResponseType(typeof(IEnumerable<ExerciseAggregation>), 200)]
+    [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Client)]
     public async Task<IActionResult> GetExerciseAggregationRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate, CancellationToken cancellationToken)
     {
         var result = await _aggregationReadService.GetExerciseAggregationsByDateRangeAsync(CurrentUserId, startDate, endDate, cancellationToken);
