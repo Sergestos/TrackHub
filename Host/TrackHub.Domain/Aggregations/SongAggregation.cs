@@ -27,7 +27,7 @@ public class SongAggregation
     public required string Name { get; set; }
 
     [JsonProperty("date_aggregation")]
-    public SongsByDateAggregation[]? SongsByDateAggregations { get; set; }
+    public IList<SongsByDateAggregation> SongsByDateAggregations { get; set; } = new List<SongsByDateAggregation>();
 }
 
 public class SongsByDateAggregation

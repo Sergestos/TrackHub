@@ -1,5 +1,6 @@
-using System.Net;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
+using System.Net;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Aggregations;
 using TrackHub.Domain.Repositories;
@@ -9,6 +10,8 @@ namespace TrackHub.Domain.Data.Repositories;
 internal class AggregationRepository : IAggregationRepository
 {
     private const string AggregationContainerType = "aggregation";
+    private const string ExerciseType = "exercise_aggregation";
+    private const string SongType = "song_aggregation";
 
     private readonly Container _container;
 
@@ -78,6 +81,27 @@ internal class AggregationRepository : IAggregationRepository
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
             return null;
+        }
+    }
+
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsByUserId(string userId, CancellationToken cancellationToken)
+    {
+        var matches = _container.GetItemLinqQueryable<SongAggregation>()
+            .Where(x => x.UserId == userId && x.Type == SongType);
+
+        using (FeedIterator<SongAggregation> linqFeed = matches.ToFeedIterator())
+        {
+            var result = new List<SongAggregation>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<SongAggregation> iterationResponse = await linqFeed.ReadNextAsync();
+                foreach (SongAggregation item in iterationResponse)
+                {
+                    result.Add(item);
+                }
+            }
+
+            return result;
         }
     }
 

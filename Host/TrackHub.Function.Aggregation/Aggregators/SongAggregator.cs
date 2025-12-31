@@ -1,5 +1,6 @@
 ﻿using TrackHub.Domain.Aggregations;
 using TrackHub.Domain.Consistency;
+using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
 using TrackHub.Domain.Repositories;
 using TrackHub.Messaging.Aggregations;
@@ -11,13 +12,15 @@ internal class SongAggregator : ISongAggregator
     private const string AggregationTypeName = "song_aggregation";
 
     private readonly IAggregationRepository _aggregationRepository;
+    private readonly IUserRepository _userRepository;
 
     private Dictionary<string, SongAggregation> _aggregationsCache = new Dictionary<string, SongAggregation>();
     private Dictionary<string, SongAggregation> _songsToUpdate = new Dictionary<string, SongAggregation>();
 
-    public SongAggregator(IAggregationRepository aggregationRepository)
+    public SongAggregator(IAggregationRepository aggregationRepository, IUserRepository userRepository)
     {
         _aggregationRepository = aggregationRepository;
+        _userRepository = userRepository;
     }
 
     public async Task AggregateSong(AggregationEventMessage message, CancellationToken cancellationToken)
@@ -28,6 +31,7 @@ internal class SongAggregator : ISongAggregator
             await AggregateRecordsAsync(message.NewRecords, message.UserId, message.PlayDate, cancellationToken);
 
         await _aggregationRepository.UpsertSongAggregations(message.UserId, _songsToUpdate.Values.ToArray(), cancellationToken);
+        await RecalculateUserPlayedSongsAsync(message.UserId, cancellationToken);
     }
 
     private async Task RollBackOldRecordsAsync(AggregationRecord[] aggregationRecords, string userId, DateTime playDate, CancellationToken cancellationToken)
@@ -61,6 +65,7 @@ internal class SongAggregator : ISongAggregator
                 }
 
                 _songsToUpdate[aggregationId] = songAggregation;
+                _aggregationsCache[aggregationId] = songAggregation;
             }
         }
     }
@@ -72,7 +77,7 @@ internal class SongAggregator : ISongAggregator
             var aggregationId = AggregationIds.Song(userId, song.Author!, song.Name!);
 
             SongAggregation? songAggregation;
-            if (_aggregationsCache[aggregationId] is null)
+            if (!_aggregationsCache.ContainsKey(aggregationId))
                 songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationId, userId, cancellationToken);
             else
                 songAggregation = _aggregationsCache[aggregationId];
@@ -85,7 +90,7 @@ internal class SongAggregator : ISongAggregator
                     Type = AggregationTypeName,
                     UserId = userId,
                     Author = song.Author!,
-                    Name = song.Name!
+                    Name = song.Name!                    
                 };
             }
 
@@ -102,13 +107,30 @@ internal class SongAggregator : ISongAggregator
                     Year = playDate.Year,
                     Month = playDate.Month
                 };
+                songAggregation.SongsByDateAggregations.Add(songByDate);
             }
 
             songByDate.TotalDuration += song.PlayDuration;
             songByDate.TimesPlayed++;
 
-            if (_songsToUpdate[aggregationId] is null)
+
+            if (!_songsToUpdate.ContainsKey(aggregationId))
                 _songsToUpdate[aggregationId] = songAggregation;
         }
+    }
+
+    private async Task RecalculateUserPlayedSongsAsync(string userId, CancellationToken cancellationToken)
+    {
+        var storedAggregations = (await _aggregationRepository
+            .GetSongAggregationsByUserId(userId, cancellationToken))
+            .OrderByDescending(x => x.TotalPlayed);
+
+        var orderedSongs = new List<string>();
+        foreach (var item in storedAggregations)        
+            orderedSongs.Add(SongIds.Transform(item.Author!, item.Name));
+
+        User user = _userRepository.GetUserById(userId)!;
+        user.OrderedByDurationPlayedSongs = orderedSongs.ToArray();
+        await _userRepository.UpsertAsync(user, cancellationToken);
     }
 }

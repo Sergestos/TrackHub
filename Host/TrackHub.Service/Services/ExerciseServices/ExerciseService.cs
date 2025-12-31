@@ -43,7 +43,10 @@ internal class ExerciseService : IExerciseService
         };
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
-        await UpdateUserStats(userId, result, cancellationToken);
+
+        User user = _userRepository.GetUserById(userId)!;
+        if (TryRecalculatePlayDatesOnCreate(user!, result))
+            await _userRepository.UpsertAsync(user, cancellationToken);
 
         _aggregationService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
 
@@ -72,7 +75,10 @@ internal class ExerciseService : IExerciseService
             .ToArray();
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
-        await UpdateUserStats(userId, result, cancellationToken);
+
+        User user = _userRepository.GetUserById(userId)!;
+        if (TryRecalculatePlayDatesOnCreate(user!, exercise))
+            await _userRepository.UpsertAsync(user, cancellationToken);
 
         _aggregationService.SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
 
@@ -111,26 +117,6 @@ internal class ExerciseService : IExerciseService
         _aggregationService.SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
 
         return result;
-    }
-
-    private async Task UpdateUserStats(string userId, Exercise exercise, CancellationToken cancellationToken)
-    {
-        User user = _userRepository.GetUserById(userId)!;
-        List<string> playedSongs = user.PlayedSongs != null ?
-            user.PlayedSongs
-            .ToList() : new List<string>();
-        List<string> incomingSongs = exercise.Records
-            .Select(x => SongIds.Transform(x.Author!, x.Name))
-            .ToList();
-        var mergedSongs = new HashSet<string>(
-            user.PlayedSongs ?? Enumerable.Empty<string>(),
-            StringComparer.OrdinalIgnoreCase);
-
-        user.PlayedSongs = mergedSongs.ToArray();
-
-        _ = TryRecalculatePlayDatesOnCreate(user!, exercise);
-
-        await _userRepository.UpsertAsync(user, cancellationToken);
     }
 
     private bool TryRecalculatePlayDatesOnCreate(User user, Exercise addedExercise)

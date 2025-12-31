@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace TrackHub.Domain.Entities;
 
@@ -32,6 +31,6 @@ public class User
     [JsonProperty("first_play_date")]
     public DateTimeOffset? FirstPlayDate { get; set; }
 
-    [JsonProperty("played_songs")]
-    public string[]? PlayedSongs { get; set; }
+    [JsonProperty("ordered_by_duration_played_songs")]
+    public string[]? OrderedByDurationPlayedSongs { get; set; }
 }
