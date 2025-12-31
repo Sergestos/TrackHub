@@ -4,25 +4,25 @@
   </div>
   @if (this.currentMonth() && this.previousMonth()) {
   <div class="p-2.5 flex flex-col gap-4">
-    <trh-linear-trend [description]="'Total time'" [currentIndicator]="this.currentMonth()!.total_played"
-      [previousIndicator]="this.previousMonth()!.total_played">
+    <trh-linear-trend [description]="'Total time'" [currentIndicator]="this.currentMonth()!.totalPlayed"
+      [previousIndicator]="this.previousMonth()!.totalPlayed">
     </trh-linear-trend>
     @if (hasSongAggregation) {
     <trh-linear-trend [description]="'Songs total'"
-      [currentIndicator]="this.currentMonth()!.song_aggregation!.total_played"
-      [previousIndicator]="this.previousMonth()!.song_aggregation!.total_played">
+      [currentIndicator]="this.currentMonth()!.songAggregation!.totalPlayed"
+      [previousIndicator]="this.previousMonth()!.songAggregation!.totalPlayed">
     </trh-linear-trend>
     }
     @if (hasRhythmAggregation) {
     <trh-linear-trend [description]="'Rhythm total'"
-      [currentIndicator]="this.currentMonth()!.rhythm_aggregation!.total_played"
-      [previousIndicator]="this.previousMonth()!.rhythm_aggregation!.total_played">
+      [currentIndicator]="this.currentMonth()!.rhythmAggregation!.totalPlayed"
+      [previousIndicator]="this.previousMonth()!.rhythmAggregation!.totalPlayed">
     </trh-linear-trend>
     }
     @if (hasSoloAggregation) {
     <trh-linear-trend [description]="'Solo total'"
-      [currentIndicator]="this.currentMonth()!.solo_aggregation!.total_played"
-      [previousIndicator]="this.previousMonth()!.solo_aggregation!.total_played">
+      [currentIndicator]="this.currentMonth()!.soloAggregation!.totalPlayed"
+      [previousIndicator]="this.previousMonth()!.soloAggregation!.totalPlayed">
     </trh-linear-trend>
     }
   </div>

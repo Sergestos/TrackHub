@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { PieChart } from 'echarts/charts';
 import { TooltipComponent, LegendComponent } from 'echarts/components';
@@ -25,7 +25,7 @@ echarts.use([
   ]
 })
 export class MonthlyProgressChartComponent implements OnInit {
-  public chartData?: ExerciseAggregation;
+  public chartData = signal<ExerciseAggregation | null>(null);
 
   public options: any;
   public mergeOptions: any = null;
@@ -53,8 +53,10 @@ export class MonthlyProgressChartComponent implements OnInit {
       .subscribe({
         next: (result: ExerciseAggregation) => {
           if (result) {
-            this.chartData = result;
+            this.chartData.set(result);
             this.buildChart();
+          } else {
+            this.chartData.set(null);
           }
         }
       })
@@ -63,7 +65,7 @@ export class MonthlyProgressChartComponent implements OnInit {
   public onTypeChanged($event: Event): void {
     this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'record' | 'play';
 
-    if (this.chartData) {
+    if (this.chartData()) {
       this.buildChart();
     }
   }
@@ -81,8 +83,10 @@ export class MonthlyProgressChartComponent implements OnInit {
       .subscribe({
         next: (result: ExerciseAggregation) => {
           if (result) {
-            this.chartData = result;
+            this.chartData.set(result);
             this.buildChart();
+          } else {
+            this.chartData.set(null);
           }
         }
       });
@@ -107,38 +111,38 @@ export class MonthlyProgressChartComponent implements OnInit {
     if (this.chartDisplayType == 'record') {
       return [
         {
-          value: this.chartData?.warmup_aggregation?.total_played ?? 0,
+          value: this.chartData()?.warmupAggregation?.totalPlayed ?? 0,
           name: 'warmup'
         },
         {
-          value: this.chartData?.song_aggregation?.total_played ?? 0,
+          value: this.chartData()?.songAggregation?.totalPlayed ?? 0,
           name: 'songs'
         },
         {
-          value: this.chartData?.composing_aggregation?.total_played ?? 0,
+          value: this.chartData()?.composingAggregation?.totalPlayed ?? 0,
           name: 'composition'
         },
         {
-          value: this.chartData?.exercise_aggregation?.total_played ?? 0,
+          value: this.chartData()?.practicalExerciseAggregation?.totalPlayed ?? 0,
           name: 'exercises'
         },
         {
-          value: this.chartData?.improvisation_aggregation?.total_played ?? 0,
+          value: this.chartData()?.improvisationAggregation?.totalPlayed ?? 0,
           name: 'improvisation'
         },
       ];
     } else {
       return [
         {
-          value: this.chartData?.rhythm_aggregation?.total_played ?? 0,
+          value: this.chartData()?.rhythmAggregation?.totalPlayed ?? 0,
           name: 'rhythm'
         },
         {
-          value: this.chartData?.solo_aggregation?.total_played ?? 0,
+          value: this.chartData()?.soloAggregation?.totalPlayed ?? 0,
           name: 'solo'
         },
         {
-          value: this.chartData?.both_aggregation?.total_played ?? 0,
+          value: this.chartData()?.bothAggregation?.totalPlayed ?? 0,
           name: 'rhythm + solo'
         },
       ]

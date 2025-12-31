@@ -135,7 +135,7 @@ export function buildStackedBarOptions(
   radius = 8
 ) {
   const xLabels = months.map(m =>
-    `${m.aggregation_year}-${String(m.aggregation_month).padStart(2, '0')}`
+    `${m.year}-${String(m.month).padStart(2, '0')}`
   );
 
   const valuesBySeries: Record<SeriesKey, number[]> = {

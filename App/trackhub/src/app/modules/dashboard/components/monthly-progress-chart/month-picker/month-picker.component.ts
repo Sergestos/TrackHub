@@ -40,9 +40,7 @@ export class ChartMonthPickerComponent {
   }
 
   public onApplyClicked(): void {
-    const date = new Date();
-    date.setFullYear(this.monthModel.year!);
-    date.setMonth(this.monthModel.month! - 1);
+    const date = new Date(this.monthModel.year!, this.monthModel.month! - 1, 1);    
 
     this.monthSelected.emit(date);
   }

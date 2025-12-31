@@ -1,30 +1,32 @@
-
 export interface ExerciseAggregation {
-  id: string;
-  user_id: string;
-  aggregation_year: number;
-  aggregation_month: number;
-  total_played: number;
+  aggregationId: string;
+  type: string;
+  userId: string;
 
-  warmup_aggregation?: ByRecordTypeAggregation | null;
-  song_aggregation?: ByRecordTypeAggregation | null;
-  improvisation_aggregation?: ByRecordTypeAggregation | null;
-  exercise_aggregation?: ByRecordTypeAggregation | null;
-  composing_aggregation?: ByRecordTypeAggregation | null;
+  year: number;
+  month: number;
 
-  rhythm_aggregation?: ByPlayTypeAggregation | null;
-  solo_aggregation?: ByPlayTypeAggregation | null;
-  both_aggregation?: ByPlayTypeAggregation | null;
+  totalPlayed: number;
+
+  warmupAggregation?: ByRecordTypeAggregation | null;
+  songAggregation?: ByRecordTypeAggregation | null;
+  improvisationAggregation?: ByRecordTypeAggregation | null;
+  practicalExerciseAggregation?: ByRecordTypeAggregation | null;
+  composingAggregation?: ByRecordTypeAggregation | null;
+
+  rhythmAggregation?: ByPlayTypeAggregation | null;
+  soloAggregation?: ByPlayTypeAggregation | null;
+  bothAggregation?: ByPlayTypeAggregation | null;
 }
 
 export interface ByRecordTypeAggregation {
-  record_type_name: string;
-  times_played: number;
-  total_played: number;
+  recordTypeName: string;
+  timesPlayed: number;
+  totalPlayed: number;
 }
 
 export interface ByPlayTypeAggregation {
-  play_type_name: string;
-  times_played: number;
-  total_played: number;
+  playTypeName: string;
+  timesPlayed: number;
+  totalPlayed: number;
 }

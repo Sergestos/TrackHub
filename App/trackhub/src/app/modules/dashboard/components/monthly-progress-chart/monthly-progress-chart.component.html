@@ -9,15 +9,15 @@
           </div>
         @if (isMonthPickerShown) {
           <trh-chart-month-picker
-            class="absolute top-full mt-1 left-0"
+            class="absolute top-full mt-1 left-0 z-10"
             (monthSelected)="onMonthSelected($event)">
           </trh-chart-month-picker>
         }
       </div>
       <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>        
-      @if (chartData) {
+      @if (chartData()) {
         <p class="text-xs italic">
-          (total: {{ chartData!.total_played }} min.)
+          (total: {{ chartData()!.totalPlayed }} min.)
         </p>
       }
     </div>
@@ -33,7 +33,7 @@
       </select>
     </div>
   </div>
-  @if (chartData) {
+  @if (chartData()) {
     <div 
       echarts
       class="w-full min-h-[30vh]" 
