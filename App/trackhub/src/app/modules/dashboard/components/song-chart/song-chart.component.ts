@@ -37,6 +37,26 @@ export class SongChartComponent implements OnInit {
   private chartDisplayType: ChartMetric = 'total_played';
   private currentPage: number = 1;
 
+  public get isPreviousPageAllowed(): boolean {
+    if (!this.chartData)
+      return false;
+
+    if (this.currentPage == 1)
+      return false;
+
+    return true;
+  }
+
+  public get IsNextPageAllowed(): boolean {
+    if (!this.chartData)
+      return false;
+
+    if (this.chartData.length < 10)
+      return false;
+
+    return true;
+  }
+
   public ngOnInit(): void {
     this.aggregationService
       .getSongAggregations(this.currentPage, PAGE_SIZE)
@@ -59,6 +79,9 @@ export class SongChartComponent implements OnInit {
   }
 
   public onNextSongsLoad(): void {
+    if (!this.IsNextPageAllowed)
+      return;
+
     this.currentPage++;
 
     this.aggregationService
@@ -71,6 +94,9 @@ export class SongChartComponent implements OnInit {
   }
 
   public onPreviousSongsLoad(): void {
+    if (!this.isPreviousPageAllowed)
+      return;
+
     this.currentPage--;
 
     this.aggregationService
@@ -113,11 +139,12 @@ export class SongChartComponent implements OnInit {
       },
       yAxis: {
         type: 'category',
-        data: this.chartData!.map(x => x.name),
+        data: this.chartData!.map(x => x.author + ' - ' + x.name),
       },
       series: [
         {
-          name: 'Total played (in minutes)',
+          name: this.chartDisplayType == 'total_played' ? 
+            'Total played (in minutes)' : 'Times played',
           type: 'bar',
           data: this.buildData()
         }

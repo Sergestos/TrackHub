@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-public static class SongIds
+public static class UserSongIds
 {    
     public static string Transform(string author, string songName)
     {

@@ -19,7 +19,7 @@ public class AggregationController : TrackHubController
 
     [HttpGet]
     [ProducesResponseType(typeof(ExerciseAggregation), 200)]
-    [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Client)]
+    [ResponseCache(Duration = 3, Location = ResponseCacheLocation.Client)]
     public async Task<IActionResult> GetExerciseAggregation([FromQuery] DateTime date, CancellationToken cancellationToken)
     {
         var result = await _aggregationReadService.GetExerciseAggregationByDateAsync(CurrentUserId, date, cancellationToken);
@@ -30,10 +30,21 @@ public class AggregationController : TrackHubController
     [HttpGet]
     [Route("range")]
     [ProducesResponseType(typeof(IEnumerable<ExerciseAggregation>), 200)]
-    [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Client)]
+    [ResponseCache(Duration = 3, Location = ResponseCacheLocation.Client)]
     public async Task<IActionResult> GetExerciseAggregationRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate, CancellationToken cancellationToken)
     {
         var result = await _aggregationReadService.GetExerciseAggregationsByDateRangeAsync(CurrentUserId, startDate, endDate, cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("songs")]
+    [ProducesResponseType(typeof(IEnumerable<SongAggregation>), 200)]
+    [ResponseCache(Duration = 3, Location = ResponseCacheLocation.Client)]
+    public async Task<IActionResult> GetSongAggregations([FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
+    {
+        var result = await _aggregationReadService.GetSongAggregationsAsync(CurrentUserId, page, pageSize, cancellationToken);
 
         return Ok(result);
     }

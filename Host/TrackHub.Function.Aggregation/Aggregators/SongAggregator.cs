@@ -127,7 +127,7 @@ internal class SongAggregator : ISongAggregator
 
         var orderedSongs = new List<string>();
         foreach (var item in storedAggregations)        
-            orderedSongs.Add(SongIds.Transform(item.Author!, item.Name));
+            orderedSongs.Add(UserSongIds.Transform(item.Author!, item.Name));
 
         User user = _userRepository.GetUserById(userId)!;
         user.OrderedByDurationPlayedSongs = orderedSongs.ToArray();

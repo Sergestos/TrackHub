@@ -3,6 +3,7 @@ using Microsoft.Azure.Cosmos.Linq;
 using System.Net;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Aggregations;
+using TrackHub.Domain.Consistency;
 using TrackHub.Domain.Repositories;
 
 namespace TrackHub.Domain.Data.Repositories;
@@ -37,7 +38,7 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByIds(string[] aggregationIds, string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationListByIds(string[] aggregationIds, string userId, CancellationToken cancellationToken)
     {
         if (aggregationIds is null) throw new ArgumentNullException(nameof(aggregationIds));
 
@@ -81,6 +82,37 @@ internal class AggregationRepository : IAggregationRepository
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
             return null;
+        }
+    }
+
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationListByIds(string userId, string[] songAggregationIds, CancellationToken cancellationToken)
+    {
+        if (songAggregationIds is null) throw new ArgumentNullException(nameof(songAggregationIds));
+
+        var ids = songAggregationIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Distinct(StringComparer.Ordinal)       
+            .Select(x => AggregationIds.Song(userId, x))
+            .ToList();
+
+        if (ids.Count == 0)
+            return Enumerable.Empty<SongAggregation>();
+
+        IReadOnlyList<(string id, PartitionKey partitionKey)> items =
+            ids.Select(id => (id, new PartitionKey(userId)))
+               .ToList();
+
+        try
+        {
+            var response = await _container.ReadManyItemsAsync<SongAggregation>(
+                items,
+                cancellationToken: cancellationToken);
+
+            return response.Resource.ToList();
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return Enumerable.Empty<SongAggregation>();
         }
     }
 

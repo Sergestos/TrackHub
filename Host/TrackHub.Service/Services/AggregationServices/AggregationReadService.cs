@@ -7,9 +7,11 @@ namespace TrackHub.Service.Services.AggregationServices;
 internal class AggregationReadService : IAggregationReadService
 {
     private readonly IAggregationRepository _aggregationRepository;
-    public AggregationReadService(IAggregationRepository aggregationRepository)
+    private readonly IUserRepository _userRepository;
+    public AggregationReadService(IAggregationRepository aggregationRepository, IUserRepository userRepository)
     {
         _aggregationRepository = aggregationRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<ExerciseAggregation?> GetExerciseAggregationByDateAsync(string userId, DateTime date, CancellationToken cancellationToken)
@@ -29,7 +31,7 @@ internal class AggregationReadService : IAggregationReadService
             .Select(date => AggregationIds.Monthly(userId, date))
             .ToArray();
 
-        return await _aggregationRepository.GetExerciseAggregationsByIds(aggregationIds, userId, cancellationToken);
+        return await _aggregationRepository.GetExerciseAggregationListByIds(aggregationIds, userId, cancellationToken);
     }
 
     private static IReadOnlyList<DateTime> GetMonthYearRange(
@@ -47,5 +49,19 @@ internal class AggregationReadService : IAggregationReadService
         }
 
         return result;
+    }
+
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
+    {
+        var user = _userRepository.GetUserById(userId);
+        if (user!.OrderedByDurationPlayedSongs is null)
+            return Enumerable.Empty<SongAggregation>();
+        
+        string[] songIds = user!.OrderedByDurationPlayedSongs
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)            
+            .ToArray();
+
+        return await _aggregationRepository.GetSongAggregationListByIds(userId, songIds, cancellationToken);
     }
 }

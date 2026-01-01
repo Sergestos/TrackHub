@@ -19,6 +19,13 @@ public static class AggregationIds
         return $"agg|song|{Normalize(userId)}|{Slug(author)}|{Slug(song)}";
     }
 
+    public static string Song(
+        string userId,        
+        string userSongIdsong)
+    {
+        return $"agg|song|{Normalize(userId)}|{userSongIdsong}";
+    }
+
     private static string Slug(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
