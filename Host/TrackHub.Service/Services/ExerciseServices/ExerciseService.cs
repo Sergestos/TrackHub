@@ -32,7 +32,7 @@ internal class ExerciseService : IExerciseService
         {
             ExerciseId = Guid.NewGuid().ToString(),
             UserId = userId,
-            PlayDate = exerciseModel.PlayDate,
+            PlayDate = DateTime.SpecifyKind(exerciseModel.PlayDate, DateTimeKind.Utc),
             Records = exerciseModel.Records.Select(model =>
             {
                 Record record = _mapper.Map<Record>(model);

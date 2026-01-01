@@ -33,14 +33,23 @@ export class ProgressCardsComponent implements OnInit {
         this.currentMonth.set(current);
         this.previousMonth.set(previous);
 
-        this.buildTrends();
+        if (this.currentMonth() && this.previousMonth()) {
+          this.buildTrends();
+        }
       });
   }
 
   private buildTrends(): void {
-    this.isPlayedTotalMore = this.currentMonth()!.totalPlayed > this.previousMonth()!.totalPlayed;
-    this.hasSongAggregation = this.currentMonth()!.songAggregation != null && this.previousMonth()!.songAggregation != null;
-    this.hasRhythmAggregation = this.currentMonth()!.rhythmAggregation != null && this.previousMonth()!.rhythmAggregation != null;
-    this.hasSoloAggregation = this.currentMonth()!.soloAggregation != null && this.previousMonth()!.soloAggregation != null;
+    this.isPlayedTotalMore = 
+      this.currentMonth()!.totalPlayed > this.previousMonth()!.totalPlayed;
+
+    this.hasSongAggregation = 
+      this.currentMonth()!.songAggregation != null && this.previousMonth()!.songAggregation != null;
+
+    this.hasRhythmAggregation = 
+      this.currentMonth()!.rhythmAggregation != null && this.previousMonth()!.rhythmAggregation != null;
+      
+    this.hasSoloAggregation = 
+      this.currentMonth()!.soloAggregation != null && this.previousMonth()!.soloAggregation != null;
   }
 }
