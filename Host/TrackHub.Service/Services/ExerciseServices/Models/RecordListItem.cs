@@ -1,12 +1,16 @@
-﻿namespace TrackHub.Service.Services.ExerciseServices.Models;
+﻿using TrackHub.Domain.Enums;
+
+namespace TrackHub.Service.Services.ExerciseServices.Models;
 
 public class RecordListItem
 {
-    public required string RecordType { get; set; }
+    public required RecordType RecordType { get; set; }
 
-    public required string Name { get; set; }
+    public required int Duration { get; set; }
 
-    public required string Author { get; set; }
+    public string? Name { get; set; }
 
-    public required int Duration { get; set; }    
+    public string? Author { get; set; }
+
+    public IList<string>? WarmupSongs { get; set; }
 }

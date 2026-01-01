@@ -12,7 +12,6 @@ internal sealed class JwtTokenGenerator
 
     public JwtTokenGenerator(string signingKey)
     {
-        var handler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(signingKey);
 
         _key = new SymmetricSecurityKey(key);

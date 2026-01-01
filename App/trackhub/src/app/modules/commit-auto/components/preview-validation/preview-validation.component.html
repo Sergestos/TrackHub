@@ -1,0 +1,11 @@
+<div class="flex flex-row pl-4 p-2 mt-2 min-w-80
+  border-l border-b border-solid rounded-lg border-zinc-600">
+  @if(lineNumber() !== undefined) {
+  <p class="text-red-500">
+    Error on line {{ (lineNumber()! + 1) }}:&nbsp;&nbsp;
+  </p>
+  }
+  <p class="text-red-500 italic">
+    {{issue()}}
+  </p>
+</div>

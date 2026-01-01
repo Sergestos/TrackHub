@@ -22,15 +22,15 @@ internal class RecordRepository : CosmosContainerIterator<string>, IRecordReposi
                e.records
             WHERE 
                r.record_type IN('Warmup', 'Song') 
-               AND r.author LIKE @pattern
-               AND NOT ARRAY_CONTAINS(@excludeList, r.author)";
+               AND STARTSWITH(r.author, @pattern)";
+        // TO DO return AND NOT ARRAY_CONTAINS(@excludeList, r.name)
 
         string excludeListParam = excludeList != null ? "[" + string.Join(", ", excludeList) + "]": "";
 
         QueryDefinition queryDefinition = new QueryDefinition(query)
-            .WithParameter("@pattern", pattern + "%")
-            .WithParameter("@top", searchSize)
-            .WithParameter("@excludeList", excludeListParam);
+            .WithParameter("@pattern", pattern)
+            .WithParameter("@top", searchSize);
+         //   .WithParameter("@excludeList", excludeListParam);
 
         return await IterateFeedAsync(queryDefinition);        
     }
@@ -44,15 +44,15 @@ internal class RecordRepository : CosmosContainerIterator<string>, IRecordReposi
                e.records
             WHERE 
                r.record_type IN('Warmup', 'Song') 
-               AND r.name LIKE @pattern
-               AND NOT ARRAY_CONTAINS(@excludeList, r.name)";
+               AND STARTSWITH(r.name, @pattern)";
+        // TO DO return AND NOT ARRAY_CONTAINS(@excludeList, r.name)
 
         string excludeListParam = excludeList != null ? "[" + string.Join(", ", excludeList) + "]" : "";
 
         QueryDefinition queryDefinition = new QueryDefinition(query)
-            .WithParameter("@pattern", pattern + "%")
-            .WithParameter("@top", searchSize)
-            .WithParameter("@excludeList", excludeListParam);
+            .WithParameter("@pattern", pattern)
+            .WithParameter("@top", searchSize);
+         //   .WithParameter("@excludeList", excludeListParam);
 
         return await IterateFeedAsync(queryDefinition);
     }

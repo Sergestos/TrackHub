@@ -1,0 +1,44 @@
+@if (isLoading$ | async) {
+  <div class="fixed inset-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50"
+    >
+    <mat-spinner diameter="50" strokeWidth="5"></mat-spinner>
+  </div>
+}
+<!--<trh-alert ngSkipHydration></trh-alert>-->
+<div>
+  <div class="menu p-2 flex flex-row justify-between items-center bg-zinc-900 border-b border-solid border-zinc-700">
+    <div class="flex pl-5 text-c-logo">
+      <i class="fa-solid fa-music fa-beat fa-lg menu-i logo-color pt-[1.15rem]"></i>
+      <p class="text-[24px] text-white pl-4">TrackHub</p>
+    </div>
+    @if (isAuthorizedState()) {
+      <div class="ml-20 flex flex-row justify-around">
+        <div class="nav-item" (click)="onNavigationClicked('/app/dashboard')">
+          <i class="fa-solid fa-chart-column nav-icon"></i>
+          <p class="nav-text">Dashboard</p>
+        </div>
+        <div class="nav-item" (click)="onNavigationClicked('/app/list')">
+          <i class="fa-solid fa-list-ul nav-icon"></i>
+          <p class="nav-text">List</p>
+        </div>
+        <div class="nav-item" (click)="onNavigationClicked('/app/commit')">
+          <i class="fa-solid fa-plus nav-icon"></i>
+          <p class="nav-text">Commit</p>
+        </div>
+        <div class="nav-item" (click)="onNavigationClicked('/app/auto-commit')">
+          <i class="fa-solid fa-pen-clip nav-icon"></i>
+          <p class="nav-text">Template Commit</p>
+        </div>
+      </div>
+      <div class="flex gap-1.5">
+        <p class="nav-text pr-3 pt-1">{{userName}}</p>
+        <img [src]="userPictureUrl" class="w-7 h-7 rounded-full" alt="User Profile Picture" />
+        <i class="fa-solid text-white pl-3 pr-2 pt-[0.9rem] fa-arrow-right-from-bracket fa-lg cursor-pointer"
+        (click)="onLogoutClick()"></i>
+      </div>
+    }
+  </div>
+  <div class="min-h-[70vh] mb-[5vh]">
+    <router-outlet></router-outlet>
+  </div>
+</div>

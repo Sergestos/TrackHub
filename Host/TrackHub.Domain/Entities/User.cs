@@ -30,4 +30,7 @@ public class User
 
     [JsonProperty("first_play_date")]
     public DateTimeOffset? FirstPlayDate { get; set; }
+
+    [JsonProperty("ordered_by_duration_played_songs")]
+    public string[]? OrderedByDurationPlayedSongs { get; set; }
 }

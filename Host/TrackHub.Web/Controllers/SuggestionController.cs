@@ -1,25 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Scraper;
-using TrackHub.Scraper.Models;
+using TrackHub.Service.Scraper;
+using TrackHub.Service.Scraper.Models;
 
 namespace TrackHub.Web.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class SuggestionController : TrackHubController
+public class SuggestionsController : TrackHubController
 {
     private readonly IScraperFacade _scraperFacade;
 
-    public SuggestionController(IScraperFacade scraperFacade)
+    public SuggestionsController(IScraperFacade scraperFacade)
     {
         _scraperFacade = scraperFacade;
     }
 
     [HttpGet]
     [Route("authors")]
-    [ProducesResponseType(typeof(IEnumerable<ScrapperSearchResult>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<ScraperSearchResult>), 200)]
     public async Task<IActionResult> GetAuthorsAsync([FromQuery] string pattern, CancellationToken cancellationToken)
     {
         var result = await _scraperFacade.SearchForAuthorsAsync(pattern, cancellationToken);
@@ -29,7 +29,7 @@ public class SuggestionController : TrackHubController
 
     [HttpGet]
     [Route("songs")]
-    [ProducesResponseType(typeof(IEnumerable<ScrapperSearchResult>), 200)]
+    [ProducesResponseType(typeof(IEnumerable<ScraperSearchResult>), 200)]
     public async Task<IActionResult> GetSongsAsync([FromQuery] string pattern, [FromQuery] string? author, CancellationToken cancellationToken)
     {
         var result = await _scraperFacade.SearchForSongsAsync(pattern, author, cancellationToken);

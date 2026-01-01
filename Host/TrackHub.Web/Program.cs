@@ -1,9 +1,9 @@
 using TrackHub.Domain.Data;
 using TrackHub.Service;
-using TrackHub.Scraper;
 using TrackHub.AiCrawler;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
+using TrackHub.Service.Scraper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScraperServices();
 builder.Services.AddAiCrawlerServices();
-builder.Services.AddCommonServices();
+builder.Services.AddCommonServices(builder.Configuration);
 builder.Services.AddCorsPolicy();
 
 builder.Services.AddControllers();

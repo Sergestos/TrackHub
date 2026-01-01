@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
+using System.Globalization;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
@@ -17,7 +18,7 @@ internal class ExerciseRepository : IExerciseRepository
         _exerciseContainer = context.GetContainer(ExerciseContainerType);
     }
 
-    public async Task<Exercise> UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken) 
+    public async Task<Exercise> UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken)
     {
         return await _exerciseContainer.UpsertItemAsync(exercise, new PartitionKey(exercise.UserId), null, cancellationToken);
     }
@@ -38,8 +39,7 @@ internal class ExerciseRepository : IExerciseRepository
     public async Task<Exercise?> FindNewestExerciseAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .OrderByDescending(item => item.PlayDate.Year)
-            .ThenByDescending(item => item.PlayDate.Month)
+            .OrderByDescending(item => item.PlayDate)
             .Take(1);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
@@ -51,7 +51,7 @@ internal class ExerciseRepository : IExerciseRepository
                 foreach (Exercise item in iterationResponse)
                 {
                     return item;
-                }                
+                }
             }
 
             return null;
@@ -61,8 +61,7 @@ internal class ExerciseRepository : IExerciseRepository
     public async Task<Exercise?> FindOldestExerciseAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .OrderBy(item => item.PlayDate.Year)
-            .ThenBy(item => item.PlayDate.Month)
+            .OrderBy(item => item.PlayDate)
             .Take(1);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
@@ -83,8 +82,11 @@ internal class ExerciseRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken)
     {
+        var from = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
+        var to = from.AddMonths(1);
+
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .Where(x => x.UserId == userId && x.PlayDate.Year == year && x.PlayDate.Month == month);            
+            .Where(x => x.UserId == userId && x.PlayDate >= from && x.PlayDate < to);
 
         using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
         {
@@ -105,7 +107,7 @@ internal class ExerciseRepository : IExerciseRepository
     }
 
     public async Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken)
-    {                
+    {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
             .Where(x => x.UserId == userId);
 
@@ -122,13 +124,13 @@ internal class ExerciseRepository : IExerciseRepository
             }
 
             return result;
-        }            
+        }
     }
 
     public Exercise? GetExerciseByDate(DateOnly date, string userId, CancellationToken cancellationToken)
     {
         var result = _exerciseContainer.GetItemLinqQueryable<Exercise>()
-            .Where(x => x.UserId == userId && 
+            .Where(x => x.UserId == userId &&
                    x.PlayDate.Year == date.Year && x.PlayDate.Month == date.Month && x.PlayDate.Day == date.Day)
             .FirstOrDefault();
 

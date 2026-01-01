@@ -2,25 +2,24 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { Router, RouterModule } from '@angular/router';
-import { CommitService } from './moduls/commit/commit.service';
-import { AppContainerComponent } from './moduls/app-container/app-container.component';
+import { AppContainerComponent } from './modules/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './providers/interceptors/auth.interceptors';
 import { AuthService } from './providers/services/auth.service';
-import { PermissionsService } from './providers/guards/auth.guard';
-import { UserDropdownComponent } from './moduls/app-container/user-dropdown/user-dropdown.component';
-import { ExerciseListService } from './moduls/exercise-list/exercise-list.service';
+import { ExerciseListService } from './modules/exercise-list/services/exercise-list.service';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { JwtInterceptor } from './providers/interceptors/jwt.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ApiService } from './providers/services/api.service';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertService } from './providers/services/alert.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppContainerComponent,
-    UserDropdownComponent
   ],
   bootstrap: [
     AppComponent
@@ -29,15 +28,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowserModule,
     RouterModule,
     AppRoutingModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AlertComponent
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
+    ApiService,
     AuthService,
-    CommitService,
+    AlertService,
     ExerciseListService,
-    PermissionsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

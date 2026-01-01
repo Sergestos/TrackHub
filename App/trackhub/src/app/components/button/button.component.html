@@ -1,0 +1,8 @@
+<input  
+  class="btn"
+  type="button" 
+  [value]="value()" 
+  [disabled]="disabled()"
+  [class.danger]="type() == 'danger'"
+  (click)="onClick($event)" 
+/>

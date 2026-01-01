@@ -1,0 +1,16 @@
+<div class="flex flex-row gap-1">
+  <select class="w-20 py-1" [(ngModel)]="selectedYear" (ngModelChange)="updateValue()">
+    @for (year of yearSelectValues; track year) {
+      <option [value]="year">
+        {{ year }}
+      </option>
+    }
+  </select>
+  <select class="w-28" [(ngModel)]="selectedMonth" (ngModelChange)="updateValue()">
+    @for (month of monthSelectValues; track month) {
+      <option [value]="month">
+        {{ month | monthName }}
+      </option>
+    }
+  </select>
+</div>
