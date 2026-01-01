@@ -4,7 +4,7 @@ import { SongAggregation } from "../../models/song-aggregation.model";
 import * as echarts from 'echarts/core';
 import { NgxEchartsDirective, provideEchartsCore } from "ngx-echarts";
 import { BarChart } from 'echarts/charts';
-import { GridComponent, TooltipComponent } from "echarts/components";
+import { GridComponent, TitleComponent, TooltipComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 
 const PAGE_SIZE = 10;
@@ -15,7 +15,8 @@ echarts.use([
   BarChart,
   GridComponent,
   TooltipComponent,
-  CanvasRenderer
+  CanvasRenderer,
+  TitleComponent 
 ]);
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { PieChart } from 'echarts/charts';
-import { TooltipComponent, LegendComponent } from 'echarts/components';
+import { TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
@@ -12,7 +12,8 @@ echarts.use([
   PieChart,
   TooltipComponent,
   LegendComponent,
-  CanvasRenderer
+  CanvasRenderer,
+  TitleComponent 
 ]);
 
 @Component({

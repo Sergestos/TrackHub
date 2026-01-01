@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
-import { GridComponent, TooltipComponent } from 'echarts/components';
+import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../../components/button/button.component';
@@ -26,7 +26,8 @@ echarts.use([
   BarChart,
   GridComponent,
   TooltipComponent,
-  CanvasRenderer
+  CanvasRenderer,
+  TitleComponent 
 ]);
 
 @Component({
