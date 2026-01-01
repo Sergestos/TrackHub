@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject, input, output } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent } from 'echarts/components';
@@ -10,14 +10,14 @@ import * as echarts from 'echarts/core';
 import { AlertService } from '../../../../providers/services/alert.service';
 import { AggregationService } from '../../services/aggregation.service';
 
-type ChartMetric = 'total_played' | 'times_played';
+type ChartMetric = 'totalPlayed' | 'timesPlayed';
 
 const SERIES_KEYS = [
-  { key: 'warmup_aggregation', name: 'Warmup' },
-  { key: 'song_aggregation', name: 'Song' },
-  { key: 'improvisation_aggregation', name: 'Improvisation' },
-  { key: 'exercise_aggregation', name: 'Exercise' },
-  { key: 'composing_aggregation', name: 'Composing' },
+  { key: 'warmupAggregation', name: 'Warmup' },
+  { key: 'songAggregation', name: 'Song' },
+  { key: 'improvisationAggregation', name: 'Improvisation' },
+  { key: 'practicalExerciseAggregation', name: 'Exercise' },
+  { key: 'composingAggregation', name: 'Composing' },
 ] as const;
 
 type SeriesKey = typeof SERIES_KEYS[number]['key'];
@@ -54,7 +54,7 @@ export class RangeProgressChartComponent implements OnInit {
   private aggregationService = inject(AggregationService);
   private alertService = inject(AlertService);
 
-  private chartDisplayType: ChartMetric = 'total_played';
+  private chartDisplayType: ChartMetric = 'totalPlayed';
 
   constructor() {
     this.endDate = new Date();
@@ -63,27 +63,15 @@ export class RangeProgressChartComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
-      .subscribe({
-        next: (result: ExerciseAggregation[]) => {
-          this.chartData = result;
-          this.buildChart();
-        }
-      });
+    this.fetchData();
   }
 
   public onApplyPressed(): void {
-    this.aggregationService.getMonthRangeAggregation(new Date(), new Date())
-      .subscribe({
-        next: (result: ExerciseAggregation[]) => {
-          this.chartData = result;
-          this.buildChart();
-        }
-      });
+    this.fetchData();
   }
 
   public onTypeChanged($event: Event): void {
-    this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'total_played' | 'times_played';
+    this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'totalPlayed' | 'timesPlayed';
 
     if (this.chartData) {
       this.buildChart();
@@ -102,6 +90,16 @@ export class RangeProgressChartComponent implements OnInit {
     this.endDate = value ? new Date(value) : this.startDate;
 
     this.isDateRangeValid = this.checkDateRange();
+  }
+
+  private fetchData(): void {
+    this.aggregationService.getMonthRangeAggregation(this.startDate, this.endDate)
+      .subscribe({
+        next: (result: ExerciseAggregation[]) => {
+          this.chartData = result;
+          this.buildChart();
+        }
+      });
   }
 
   private checkDateRange(): boolean {
@@ -131,7 +129,7 @@ export class RangeProgressChartComponent implements OnInit {
 
 export function buildStackedBarOptions(
   months: ExerciseAggregation[],
-  metric: ChartMetric = 'total_played',
+  metric: ChartMetric = 'totalPlayed',
   radius = 8
 ) {
   const xLabels = months.map(m =>
@@ -139,11 +137,11 @@ export function buildStackedBarOptions(
   );
 
   const valuesBySeries: Record<SeriesKey, number[]> = {
-    warmup_aggregation: [],
-    song_aggregation: [],
-    improvisation_aggregation: [],
-    exercise_aggregation: [],
-    composing_aggregation: [],
+    warmupAggregation: [],
+    songAggregation: [],
+    improvisationAggregation: [],
+    practicalExerciseAggregation: [],
+    composingAggregation: [],
   };
 
   for (const m of months) {
