@@ -39,6 +39,11 @@ internal class UserService : IUserService
         return user!;
     }
 
+    public User? GetUserById(string userId)
+    {
+        return _userRepository.GetUserById(userId);
+    }
+
     public UserSettings GetUserSettings(string userId)
     {
         var userSettings = new UserSettings();
