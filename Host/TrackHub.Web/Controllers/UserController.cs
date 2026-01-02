@@ -20,7 +20,7 @@ public class UserController : TrackHubController
     [HttpGet]
     [Route("current/settings")]
     [ProducesResponseType(typeof(UserSettings), 200)]
-    public IActionResult GetByIdAsync()
+    public IActionResult GetSettings()
     {
         var result = _userService.GetUserSettings(CurrentUserId);
 
