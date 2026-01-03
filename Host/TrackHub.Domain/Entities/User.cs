@@ -25,6 +25,9 @@ public class User
     [JsonProperty("last_entrance_date")]
     public DateTimeOffset? LastEntranceDate { get; set; }
 
+    [JsonProperty("login_session")]
+    public LoginSession? LoginSession { get; set; }
+
     [JsonProperty("last_play_date")]
     public DateTimeOffset? LastPlayDate { get; set; }
 
@@ -33,4 +36,16 @@ public class User
 
     [JsonProperty("ordered_by_duration_played_songs")]
     public string[]? OrderedByDurationPlayedSongs { get; set; }
+}
+
+public class LoginSession
+{
+    [JsonProperty("session_id")]
+    public required string SessionId { get; set; }
+
+    [JsonProperty("created_at")]
+    public required DateTimeOffset CreatedAt { get; set; }
+
+    [JsonProperty("expires_at")]
+    public required DateTimeOffset ExpiresAt { get; set; }
 }

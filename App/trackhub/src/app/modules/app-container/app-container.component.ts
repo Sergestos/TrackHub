@@ -4,7 +4,7 @@ import { AuthService } from '../../providers/services/auth.service';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../providers/services/loading.service';
 
-const ROUTE_LOGIN = 'app/login';
+const ROUTE_LOGIN = '/app/login';
 
 @Component({
   selector: 'trh-app-container',
@@ -47,7 +47,7 @@ export class AppContainerComponent implements OnInit {
   }
 
   public onLogoutClick(): void {
-    this.authService.logOut()
+    this.authService.logout()
       .subscribe(_ => this.router.navigateByUrl(ROUTE_LOGIN));
   }
 }

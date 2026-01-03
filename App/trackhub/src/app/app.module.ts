@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AppContainerComponent } from './modules/app-container/app-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -41,7 +41,7 @@ import { AlertService } from './providers/services/alert.service';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      deps: [Router],
+      deps: [Router, ActivatedRoute,],
       multi: true
     },
     {

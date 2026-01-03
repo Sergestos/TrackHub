@@ -23,7 +23,7 @@ internal sealed class JwtTokenGenerator
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = GenerateClaims(user),
-            Expires = DateTime.UtcNow.AddMinutes(20),
+            Expires = DateTime.UtcNow.AddMinutes(10),
             SigningCredentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature)
         };
 

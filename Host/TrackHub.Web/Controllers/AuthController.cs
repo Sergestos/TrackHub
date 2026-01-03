@@ -1,8 +1,10 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Security.Cryptography;
+using TrackHub.Domain.Entities;
 using TrackHub.Service.Services.UserServices;
 using TrackHub.Service.Services.UserServices.Models;
 using TrackHub.Web.Utilities;
@@ -42,7 +44,6 @@ public class AuthController : Controller
     [HttpPost]
     [AllowAnonymous]
     [Route("google-login")]
-    [ProducesResponseType(typeof(string), 200)]
     public async Task<IActionResult> GoogleSignIn([FromBody] GoogleAuthTokenModel model, CancellationToken cancellationToken)
     {
         try
@@ -54,9 +55,11 @@ public class AuthController : Controller
             if (googlePayload != null)
             {
                 var user = await _userService.GetInsertedUserAsync(_mapper.Map<SocialUser>(googlePayload), cancellationToken);
-                var token = _jwtTokenGenerator.CreateUserAuthToken(user);
+                var jwt = _jwtTokenGenerator.CreateUserAuthToken(user);
 
-                return Ok(new { user, token });
+                await IssueRefreshToken(user, cancellationToken);
+
+                return Ok(new { user, jwt });
             }
             else
             {
@@ -86,9 +89,9 @@ public class AuthController : Controller
             if (user is null)
                 throw new Exception("User is not found");
 
-            var token = _jwtTokenGenerator.CreateUserAuthToken(user);
+            var jwt = _jwtTokenGenerator.CreateUserAuthToken(user);
 
-            return Ok(new { user, token });
+            return Ok(new { user, jwt });
         }
         catch (Exception ex)
         {
@@ -96,13 +99,105 @@ public class AuthController : Controller
         }
     }
 
-    public record GoogleAuthTokenModel
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("refresh")]
+    public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken)
     {
-        public required string IdToken { get; set; }
+        if (!Request.Cookies.TryGetValue("refresh_token", out var token) || string.IsNullOrWhiteSpace(token))
+            return Unauthorized();
+
+        var (userId, sessionId, secret) = RefreshTokenHelper.UnpackRefreshToken(token)!.Value;
+        var user = _userService.GetUserById(userId);
+
+        if (user!.LoginSession == null || user.LoginSession.SessionId != sessionId)
+            return Unauthorized();
+
+        if (user.LoginSession.ExpiresAt <= DateTime.UtcNow)
+            return Unauthorized();
+
+        var jwt = _jwtTokenGenerator.CreateUserAuthToken(user);
+
+        await IssueRefreshToken(user, cancellationToken);
+
+        return Ok(new { user, jwt });
     }
 
-    public record AuthUserModel
+    [HttpPost]
+    [Authorize]
+    [Route("logout")]
+    public async Task<IActionResult> Logout(CancellationToken cancellationToken)
     {
-        public required string UserId { get; set; }
+        if (!Request.Cookies.TryGetValue("refresh_token", out var token) || string.IsNullOrWhiteSpace(token))
+        {
+            return NoContent();
+        }
+
+        var parsed = RefreshTokenHelper.UnpackRefreshToken(token);
+        if (parsed is null)
+        {
+            ClearRefreshCookie(Response);
+            return NoContent();
+        }
+
+        var (userId, sessionId, secret) = parsed.Value;
+
+        var user = _userService.GetUserById(userId)!;
+        user.LoginSession = null;
+        await _userService.UpdateUserAsync(user, cancellationToken);
+
+        ClearRefreshCookie(Response);
+
+        return NoContent();
     }
+
+    private async Task IssueRefreshToken(User user, CancellationToken cancellationToken)
+    {
+        var bytes = RandomNumberGenerator.GetBytes(64);
+        var secret = Convert.ToBase64String(bytes);
+        var expiresAt = DateTime.UtcNow.AddDays(30);
+
+        var sessionId = Guid.NewGuid().ToString();
+        var refreshToken = RefreshTokenHelper.PackRefreshToken(user.UserId, sessionId, secret);
+
+        user.LoginSession = new LoginSession()
+        {
+            SessionId = sessionId,
+            CreatedAt = DateTime.UtcNow,
+            ExpiresAt = expiresAt,
+        };
+
+        await _userService.UpdateUserAsync(user, cancellationToken);
+
+        HttpContext.Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Lax,
+            Expires = expiresAt,
+            Path = "/api/auth/refresh"
+        });
+    }
+
+    private void ClearRefreshCookie(HttpResponse response)
+    {
+        response.Cookies.Append("refresh_token", "", new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = false,
+            SameSite = SameSiteMode.Lax,
+            Expires = DateTime.UtcNow.AddDays(-1),
+            Path = "/api/auth/refresh"
+        });
+    }
+}
+
+public record GoogleAuthTokenModel
+{
+    public required string IdToken { get; set; }
+}
+
+public record AuthUserModel
+{
+    public required string UserId { get; set; }
 }

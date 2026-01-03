@@ -39,11 +39,6 @@ internal class UserService : IUserService
         return user!;
     }
 
-    public User? GetUserById(string userId)
-    {
-        return _userRepository.GetUserById(userId);
-    }
-
     public UserSettings GetUserSettings(string userId)
     {
         var userSettings = new UserSettings();
@@ -55,5 +50,17 @@ internal class UserService : IUserService
             userSettings.FirstPlayDate = DateTimeOffset.UtcNow;
 
         return userSettings;
+    }
+
+    public User? GetUserById(string userId)
+    {
+        return _userRepository.GetUserById(userId);
+    }
+
+    public async Task<User> UpdateUserAsync(User user, CancellationToken cancellationToken)
+    {
+        var updatedUser = await _userRepository.UpsertAsync(user, cancellationToken);
+
+        return updatedUser!;
     }
 }
