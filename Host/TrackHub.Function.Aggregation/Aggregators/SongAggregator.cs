@@ -55,6 +55,19 @@ internal class SongAggregator : ISongAggregator
                 songAggregation.TotalPlayed -= song.PlayDuration;
                 songAggregation.TimesPlayed--;
 
+                switch (song.PlayType)
+                {
+                    case PlayType.Rhythm:
+                        songAggregation.RhythmPlayed -= song.PlayDuration;
+                        break;
+                    case PlayType.Solo:
+                        songAggregation.SoloPlayed -= song.PlayDuration;
+                        break;
+                    case PlayType.Both:
+                        songAggregation.BothPlayed -= song.PlayDuration;
+                        break;
+                }
+
                 var songByDate = songAggregation.SongsByDateAggregations!
                     .FirstOrDefault(x => x.Year == playDate.Year && x.Month == playDate.Month);
 
@@ -62,6 +75,19 @@ internal class SongAggregator : ISongAggregator
                 {
                     songByDate.TotalDuration -= song.PlayDuration;
                     songByDate.TimesPlayed--;
+
+                    switch (song.PlayType)
+                    {
+                        case PlayType.Rhythm:
+                            songByDate.RhythmPlayed -= song.PlayDuration; 
+                            break;                            
+                        case PlayType.Solo:                           
+                            songByDate.SoloPlayed -= song.PlayDuration;
+                            break;                           
+                        case PlayType.Both:                            
+                            songByDate.BothPlayed -= song.PlayDuration;
+                            break;                            
+                    }
                 }
 
                 _songsToUpdate[aggregationId] = songAggregation;
@@ -97,6 +123,19 @@ internal class SongAggregator : ISongAggregator
             songAggregation.TotalPlayed += song.PlayDuration;
             songAggregation.TimesPlayed++;
 
+            switch (song.PlayType)
+            {
+                case PlayType.Rhythm:
+                    songAggregation.RhythmPlayed += song.PlayDuration; 
+                    break;
+                case PlayType.Solo:
+                    songAggregation.SoloPlayed += song.PlayDuration; 
+                    break;
+                case PlayType.Both:
+                    songAggregation.BothPlayed += song.PlayDuration; 
+                    break;
+            }
+
             var songByDate = songAggregation.SongsByDateAggregations!
                .FirstOrDefault(x => x.Year == playDate.Year && x.Month == playDate.Month);
 
@@ -107,7 +146,21 @@ internal class SongAggregator : ISongAggregator
                     Year = playDate.Year,
                     Month = playDate.Month
                 };
+
                 songAggregation.SongsByDateAggregations.Add(songByDate);
+            }
+
+            switch (song.PlayType)
+            {
+                case PlayType.Rhythm: 
+                    songByDate.RhythmPlayed += song.PlayDuration; 
+                    break;                    
+                case PlayType.Solo: 
+                    songByDate.SoloPlayed += song.PlayDuration; 
+                    break;                    
+                case PlayType.Both:  
+                    songByDate.BothPlayed += song.PlayDuration; 
+                    break;                    
             }
 
             songByDate.TotalDuration += song.PlayDuration;

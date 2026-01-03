@@ -17,6 +17,15 @@ public class SongAggregation
     [JsonProperty("total_played")]
     public int TotalPlayed { get; set; }
 
+    [JsonProperty("rhythm_played")]
+    public int RhythmPlayed { get; set; }
+
+    [JsonProperty("solo_played")]
+    public int SoloPlayed { get; set; }
+
+    [JsonProperty("both_played")]
+    public int BothPlayed{ get; set; }
+
     [JsonProperty("times_played")]
     public int TimesPlayed { get; set; }
 
@@ -43,4 +52,13 @@ public class SongsByDateAggregation
 
     [JsonProperty("total_duration")]
     public int TotalDuration { get; set; }
+
+    [JsonProperty("rhythm_played")]
+    public int RhythmPlayed { get; set; }
+
+    [JsonProperty("solo_played")]
+    public int SoloPlayed { get; set; }
+
+    [JsonProperty("both_played")]
+    public int BothPlayed { get; set; }
 }
