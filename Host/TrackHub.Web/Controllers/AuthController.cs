@@ -172,7 +172,7 @@ public class AuthController : Controller
         HttpContext.Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
         {
             HttpOnly = true,
-            Secure = false,
+            Secure = _env.IsProduction(),
             SameSite = SameSiteMode.Lax,
             Expires = expiresAt,
             Path = "/api/auth/refresh"
