@@ -16,6 +16,7 @@ builder.Services.AddScraperServices();
 builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices(builder.Configuration);
 builder.Services.AddCorsPolicy();
+builder.Services.AddRateLimiter();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
+app.UseRateLimiter();
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseHttpsRedirection();
