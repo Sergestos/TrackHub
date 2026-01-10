@@ -11,7 +11,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: TrackHub.Web\publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-  WORKING_DIRECTORY: TrackHub.Web
+  WORKING_DIRECTORY: Host/TrackHub.Web/TrackHub.Web.csproj
 jobs:
   build:
     runs-on: windows-latest
