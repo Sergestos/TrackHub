@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - main
+    paths:
+      - 'Host/**'
 permissions:
   id-token: write
   contents: read
