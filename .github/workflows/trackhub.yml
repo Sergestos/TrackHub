@@ -48,9 +48,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        client-id: ${{ secrets.trackhub_CLIENT_ID_BF68 }}
-        tenant-id: ${{ secrets.trackhub_TENANT_ID_BF68 }}
-        subscription-id: ${{ secrets.trackhub_SUBSCRIPTION_ID_BF68 }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
