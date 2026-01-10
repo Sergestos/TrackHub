@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Host/**'
   workflow_dispatch:
 
 jobs:
@@ -62,4 +64,5 @@ jobs:
           app-name: 'trackhub-application'
           slot-name: 'Production'
           package: .
+
           
