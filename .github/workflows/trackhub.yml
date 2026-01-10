@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App trackhub
+name: Build and deploy .NET Core application to Web App trackhub 
 on:
   push:
     branches:
