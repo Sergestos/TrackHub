@@ -1,9 +1,9 @@
+using TrackHub.AiCrawler;
 using TrackHub.Domain.Data;
 using TrackHub.Service;
-using TrackHub.AiCrawler;
+using TrackHub.Service.Scraper;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
-using TrackHub.Service.Scraper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +17,7 @@ builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices(builder.Configuration);
 builder.Services.AddCorsPolicy();
 builder.Services.AddRateLimiter();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CorsPolicy");
 app.UseRateLimiter();
+app.AddErrorHandling();
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseHttpsRedirection();
