@@ -21,9 +21,8 @@ public class AggregationFunction
         _songAggregator = songAggregator;
     }
 
-    // TODO revert AuthorizationLevel.Anonymous to Function after local testing
     [Function("aggregation")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Aggregation function started");
 
