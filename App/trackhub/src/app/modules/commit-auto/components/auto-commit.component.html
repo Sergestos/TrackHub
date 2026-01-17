@@ -3,45 +3,52 @@
     <div class="mb-20 ml-12">
       <p class="text-3xl text-white pt-4">Commit</p>
     </div>
-    <div class="mt-2 flex flex-row justify-evenly gap-2 place-items-end mb-3 mr-3">
+    <div
+      class="mt-2 flex flex-row justify-evenly gap-2 place-items-end mb-3 mr-3"
+    >
       <trh-button
-        [value]="'Save'" 
+        [value]="'Save'"
         [disabled]="!isSaveAllowed"
-        (pressed)="onAddClick($event)" />
+        (pressed)="onAddClick($event)"
+      />
     </div>
   </div>
-  <div class="exercise-grid h-dvh bg-zinc-950 border-t border-solid border-c-border">
+  <div
+    class="exercise-grid h-dvh bg-zinc-950 border-t border-solid border-c-border"
+  >
     <div class="flex flex-row mx-32 mt-4 gap-6">
       <div>
         <p class="text-slate-200 mb-2 pl-2">Text template:</p>
-        <textarea 
-          [value]="text" 
+        <textarea
+          [value]="text"
           (input)="onInput($event)"
-          class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-gray-200" 
-          rows="24" cols="80"
-          placeholder="Type your message here..."></textarea>
+          class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-gray-200"
+          rows="24"
+          cols="80"
+          placeholder="Type your message here..."
+        ></textarea>
       </div>
       <div class="ml-10">
         <p class="text-slate-200 mb-2">Preview:</p>
         @if (!playDate) {
-          <trh-preview-validation
-            [issue]="'Play date is required'">
-          </trh-preview-validation>          
+          <trh-preview-validation [issue]="'Play date is required'">
+          </trh-preview-validation>
         }
         @if (!previewRecords || previewRecords.length < 1) {
-          <trh-preview-validation
-            [issue]="'No exercise records detected'">
-          </trh-preview-validation>          
+          <trh-preview-validation [issue]="'No exercise records detected'">
+          </trh-preview-validation>
         }
         @for (item of validationIssues(); track $index) {
-          <trh-preview-validation 
+          <trh-preview-validation
             [issue]="item.errorReason!"
-            [lineNumber]="item.lineNumber">
+            [lineNumber]="item.lineNumber"
+          >
           </trh-preview-validation>
         }
         @if (isSaveAllowed) {
-          <p class="pl-4 p-2 text-lime-500 min-w-80 rounded-lg 
-            border-l border-b border-solid border-zinc-600">
+          <p
+            class="pl-4 p-2 text-lime-500 min-w-80 rounded-lg border-l border-b border-solid border-zinc-600"
+          >
             No issues were found
           </p>
         }

@@ -2,17 +2,24 @@
   <div class="mb-20 ml-12">
     <p class="text-[28px] text-white pt-4">Exercise List</p>
   </div>
-  <div class="h-[100vh] pt-4 px-[15%] pb-32 bg-zinc-950 border-t border-solid border-c-border">
-    <div class="flex flex-row mt-2 justify-end py-4 border-t bg-zinc-900
-                rounded-2xl border-solid border-slate-700">
+  <div
+    class="h-[100vh] pt-4 px-[15%] pb-32 bg-zinc-950 border-t border-solid border-c-border"
+  >
+    <div
+      class="flex flex-row mt-2 justify-end py-4 border-t bg-zinc-900 rounded-2xl border-solid border-slate-700"
+    >
       <div class="flex ml-12 pt-2 w-full">
         <p class="grid-item w-[4%]"></p>
         <p class="grid-item w-[12%]">Play date</p>
         <p class="grid-item w-[10%]">Total played</p>
       </div>
       <div class="absolute z-10 mr-6">
-        <trh-exercise-filter [filter]="filter" (onDateChangedEmmiter)="onDateChanged($event)"
-          (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)" (onExpandAllEmitter)="onExpandChanged($event)">
+        <trh-exercise-filter
+          [filter]="filter"
+          (onDateChangedEmmiter)="onDateChanged($event)"
+          (onShowPlayedOnlyEmitter)="onShowPlayedOnlyEmitter($event)"
+          (onExpandAllEmitter)="onExpandChanged($event)"
+        >
         </trh-exercise-filter>
       </div>
     </div>
@@ -20,31 +27,42 @@
       @if (isAnyExerciseShown) {
         @for (item of exercises; track $index) {
           @if (!item.isHidden) {
-            <div class="pb-6 border-b border-l border-r rounded-lg border-solid border-slate-800">
+            <div
+              class="pb-6 border-b border-l border-r rounded-lg border-solid border-slate-800"
+            >
               <div class="flex flex-row pt-4 ml-12">
                 <div class="w-[4%]">
                   @if (item.totalPlayed! > 0) {
                     @if (!item.isExpanded) {
-                      <i class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
-                      (click)="onCardExpand(item)"></i>
+                      <i
+                        class="fa-solid fa-down-left-and-up-right-to-center fa-flip-horizontal fa-lg grid-icon"
+                        (click)="onCardExpand(item)"
+                      ></i>
                     }
                     @if (item.isExpanded) {
-                      <i class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
-                      (click)="onCardExpand(item)"></i>
+                      <i
+                        class="fa-solid fa-up-right-and-down-left-from-center fa-flip-horizontal fa-lg grid-icon"
+                        (click)="onCardExpand(item)"
+                      ></i>
                     }
                   }
                 </div>
                 <p class="grid-item w-[12%]">
-                  {{ item.playDate | date: 'dd/MM/yyyy'}}
+                  {{ item.playDate | date: "dd/MM/yyyy" }}
                 </p>
                 @if (item.totalPlayed! > 0) {
                   <p class="grid-item w-[10%]">
                     {{ item.totalPlayed }} minute(s)
                   </p>
                   <div class="flex flex-row justify-end gap-3 w-[70%] mt-2">
-                    <i class="fa-regular fa-pen-to-square fa-lg grid-icon" (click)="onExerciseEdit(item)"></i>
-                    <i class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
-                    (click)="openDialog(item)"></i>
+                    <i
+                      class="fa-regular fa-pen-to-square fa-lg grid-icon"
+                      (click)="onExerciseEdit(item)"
+                    ></i>
+                    <i
+                      class="fa-solid fa-xmark fa-lg text-c-remove-icon transition duration-300 hover:text-gray-200"
+                      (click)="openDialog(item)"
+                    ></i>
                   </div>
                 }
               </div>
@@ -52,7 +70,8 @@
                 <div class="mt-2 ml-[5.5rem]">
                   <trh-details-exercise-card
                     [exerciseId]="item.exerciseId"
-                    [exerciseDetailsModels]="item.records">
+                    [exerciseDetailsModels]="item.records"
+                  >
                   </trh-details-exercise-card>
                 </div>
               }
@@ -60,9 +79,13 @@
           }
         }
       } @else {
-        <div class="flex flex-col items-center h-[60vh] pt-52 border border-solid border-t-0 border-c-border rounded-2xl">
-          <p class="text-2xl text-zinc-500 ">Nothing to show</p>
-          <p class="text-xl text-zinc-500">Change show options or set different date range</p>
+        <div
+          class="flex flex-col items-center h-[60vh] pt-52 border border-solid border-t-0 border-c-border rounded-2xl"
+        >
+          <p class="text-2xl text-zinc-500">Nothing to show</p>
+          <p class="text-xl text-zinc-500">
+            Change show options or set different date range
+          </p>
         </div>
       }
     </div>

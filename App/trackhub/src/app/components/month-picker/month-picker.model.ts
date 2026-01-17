@@ -1,3 +1,6 @@
 export class MonthPickerModel {
-  constructor(public year?: number, public month?: number) { }
+  constructor(
+    public year?: number,
+    public month?: number,
+  ) {}
 }

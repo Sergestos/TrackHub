@@ -1,4 +1,12 @@
-import { Component, computed, effect, inject, Inject, OnInit, DOCUMENT } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  Inject,
+  OnInit,
+  DOCUMENT,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../providers/services/auth.service';
 import { Router } from '@angular/router';
@@ -10,7 +18,7 @@ const ROUTE_LOGIN = '/app/login';
   selector: 'trh-app-container',
   templateUrl: './app-container.component.html',
   styleUrls: ['./app-container.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class AppContainerComponent implements OnInit {
   private router = inject(Router);
@@ -22,8 +30,8 @@ export class AppContainerComponent implements OnInit {
   public isLoading$!: Observable<boolean>;
   public isAuthorizedState = computed(() => this.authService.isAuthorized());
 
-  public userName: string = ''
-  public userPictureUrl: string = ''
+  public userName: string = '';
+  public userPictureUrl: string = '';
 
   constructor(@Inject(DOCUMENT) document: Document) {
     this.localStorage = document.defaultView?.localStorage!;
@@ -35,7 +43,7 @@ export class AppContainerComponent implements OnInit {
           this.userPictureUrl = this.localStorage.getItem('profile_url') ?? '';
         }, 0);
       }
-    })
+    });
   }
 
   public ngOnInit(): void {
@@ -47,7 +55,8 @@ export class AppContainerComponent implements OnInit {
   }
 
   public onLogoutClick(): void {
-    this.authService.logout()
-      .subscribe(_ => this.router.navigateByUrl(ROUTE_LOGIN));
+    this.authService
+      .logout()
+      .subscribe((_) => this.router.navigateByUrl(ROUTE_LOGIN));
   }
 }

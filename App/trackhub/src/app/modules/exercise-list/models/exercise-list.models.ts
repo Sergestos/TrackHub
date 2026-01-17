@@ -1,5 +1,5 @@
-import { MonthPickerModel } from "../../../components/month-picker/month-picker.model";
-import { RecordTypes } from "../../../models/recordy-types-enum";
+import { MonthPickerModel } from '../../../components/month-picker/month-picker.model';
+import { RecordTypes } from '../../../models/recordy-types-enum';
 
 export class ExerciseItem {
   public exerciseId!: string;

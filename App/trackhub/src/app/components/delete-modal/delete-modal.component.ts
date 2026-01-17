@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ButtonComponent } from "../button/button.component";
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ButtonComponent } from '../button/button.component';
 
 export enum ModalResult {
   Confirmed,
-  Rejected
+  Rejected,
 }
 
 @Component({
@@ -13,7 +13,7 @@ export enum ModalResult {
   styleUrls: ['./delete-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent],
-  standalone: true
+  standalone: true,
 })
 export class DeleteModalComponent {
   readonly modalRef = inject(MatDialogRef<DeleteModalComponent>);

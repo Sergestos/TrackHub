@@ -2,7 +2,7 @@
   @apply flex justify-center leading-[10px];
   @apply h-full w-full;
   @apply min-w-20;
-  @apply content-center;  
+  @apply content-center;
   @apply text-gray-300;
   @apply bg-zinc-900;
   @apply border border-solid border-gray-600 rounded;
@@ -17,7 +17,7 @@
 }
 
 .danger {
-  @apply bg-red-900 border-none hover:bg-red-800 !important; 
+  @apply bg-red-900 border-none hover:bg-red-800 !important;
 
   &:disabled {
     @apply bg-red-900 !important;

@@ -1,19 +1,26 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ExerciseListService } from "../../services/exercise-list.service";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ExerciseListService } from '../../services/exercise-list.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalResult, openDeleteModal } from "../../../../components/delete-modal/delete-modal.component";
-import { LoadingService } from "../../../../providers/services/loading.service";
-import { ExerciseItem, ExerciseItemView, FilterModel } from "../../models/exercise-list.models";
-import { MonthPickerModel } from "../../../../components/month-picker/month-picker.model";
+import {
+  ModalResult,
+  openDeleteModal,
+} from '../../../../components/delete-modal/delete-modal.component';
+import { LoadingService } from '../../../../providers/services/loading.service';
+import {
+  ExerciseItem,
+  ExerciseItemView,
+  FilterModel,
+} from '../../models/exercise-list.models';
+import { MonthPickerModel } from '../../../../components/month-picker/month-picker.model';
 
-const UNPLAYED_EXERCISE_ID = "-1";
+const UNPLAYED_EXERCISE_ID = '-1';
 
 @Component({
   selector: 'trh-exercise-page',
   templateUrl: './exercise-page.component.html',
   styleUrls: ['./exercise-page.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ExercisePageComponent implements OnInit {
   public exercises: ExerciseItemView[] = [];
@@ -30,7 +37,7 @@ export class ExercisePageComponent implements OnInit {
       return false;
     }
 
-    if (this.exercises.every(x => x.isHidden)) {
+    if (this.exercises.every((x) => x.isHidden)) {
       return false;
     }
 
@@ -38,7 +45,7 @@ export class ExercisePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.activeRoute.queryParams.subscribe(params => {
+    this.activeRoute.queryParams.subscribe((params) => {
       let year: number;
       let month: number;
 
@@ -51,8 +58,8 @@ export class ExercisePageComponent implements OnInit {
         showExpanded: true,
         dateFilter: {
           year: year,
-          month: month
-        }
+          month: month,
+        },
       };
 
       this.setData();
@@ -67,75 +74,94 @@ export class ExercisePageComponent implements OnInit {
     const modal = openDeleteModal(this.matDialog);
     modal.afterClosed().subscribe((result: ModalResult) => {
       if (result == ModalResult.Confirmed) {
-        this.exercises = this.exercises.filter(x => x != item);
+        this.exercises = this.exercises.filter((x) => x != item);
         this.loadingService.show();
-        this.exerciseListService
-          .deleteExercise(item.exerciseId)
-          .subscribe({
-            complete: () => this.loadingService.complete()
-          });
+        this.exerciseListService.deleteExercise(item.exerciseId).subscribe({
+          complete: () => this.loadingService.complete(),
+        });
       }
     });
   }
 
   public onExerciseEdit(item: ExerciseItemView): void {
-    this.router.navigateByUrl("/app/commit?exerciseId=" + item.exerciseId);
+    this.router.navigateByUrl('/app/commit?exerciseId=' + item.exerciseId);
   }
 
   public onDateChanged(dateFilter: MonthPickerModel): void {
     let query = `month=${dateFilter.month}&year=${dateFilter.year}`;
-    this.router.navigateByUrl("/app/list?" + query);
+    this.router.navigateByUrl('/app/list?' + query);
   }
 
   public onShowPlayedOnlyEmitter(isExpandAsksed: boolean): void {
     this.exercises
-      .filter(x => x.exerciseId == UNPLAYED_EXERCISE_ID)
-      .forEach(x => x.isHidden = isExpandAsksed);
+      .filter((x) => x.exerciseId == UNPLAYED_EXERCISE_ID)
+      .forEach((x) => (x.isHidden = isExpandAsksed));
   }
 
   public onExpandChanged(isExpandAsksed: boolean): void {
     this.exercises
-      .filter(x => x.exerciseId != UNPLAYED_EXERCISE_ID)
-      .forEach(x => x.isExpanded = isExpandAsksed);
+      .filter((x) => x.exerciseId != UNPLAYED_EXERCISE_ID)
+      .forEach((x) => (x.isExpanded = isExpandAsksed));
   }
 
   private setData(): void {
     this.loadingService.show();
     this.exerciseListService
-      .getExercisesByDate(this.filter.dateFilter?.year, this.filter.dateFilter!.month)
+      .getExercisesByDate(
+        this.filter.dateFilter?.year,
+        this.filter.dateFilter!.month,
+      )
       .subscribe({
         next: (result) => {
           this.exercises = result;
-          this.exercises.forEach(x => {
+          this.exercises.forEach((x) => {
             x.isExpanded = this.filter.showExpanded;
-            x.totalPlayed = x.records ? x.records
-              .map(r => r.duration)
-              .reduce((sum, duration) => sum + duration, 0) : 0;
+            x.totalPlayed = x.records
+              ? x.records
+                  .map((r) => r.duration)
+                  .reduce((sum, duration) => sum + duration, 0)
+              : 0;
           });
 
           this.fillNonPlayedDays(
             this.filter.dateFilter!.year,
             this.filter.dateFilter!.month,
             this.exercises,
-            this.filter.showPlayedOnly!);
+            this.filter.showPlayedOnly!,
+          );
         },
-        complete: () => this.loadingService.complete()
+        complete: () => this.loadingService.complete(),
       });
   }
 
-  private fillNonPlayedDays(year?: number, month?: number, items?: ExerciseItem[], isHidden?: boolean): void {
-    for (let dayOfMonth = 1; dayOfMonth <= new Date(year!, month!, 0).getDate(); dayOfMonth++) {
+  private fillNonPlayedDays(
+    year?: number,
+    month?: number,
+    items?: ExerciseItem[],
+    isHidden?: boolean,
+  ): void {
+    for (
+      let dayOfMonth = 1;
+      dayOfMonth <= new Date(year!, month!, 0).getDate();
+      dayOfMonth++
+    ) {
       let dateToFill = new Date(year!, month! - 1, dayOfMonth);
-      if (!items!.some(x => new Date(x.playDate).getDate() == dateToFill.getDate())) {
+      if (
+        !items!.some(
+          (x) => new Date(x.playDate).getDate() == dateToFill.getDate(),
+        )
+      ) {
         this.exercises.push({
           exerciseId: UNPLAYED_EXERCISE_ID,
           playDate: dateToFill,
           records: null,
-          isHidden: isHidden
+          isHidden: isHidden,
         });
       }
     }
 
-    this.exercises.sort((a, b) => new Date(b.playDate) >= a.playDate ? -1 : 1);
+    this.exercises.sort((a, b) =>
+      new Date(b.playDate) >= a.playDate ? -1 : 1,
+    );
   }
 }

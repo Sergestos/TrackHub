@@ -1,5 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,23 +16,17 @@ import { MonthPickerComponent } from '../../components/month-picker/month-picker
   declarations: [
     ExercisePageComponent,
     DetailsExerciseItemComponent,
-    FilterComponent
+    FilterComponent,
   ],
-  exports: [
-
-  ],
+  exports: [],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    RouterModule.forChild([
-      { path: '', component: ExercisePageComponent }
-    ]),
+    RouterModule.forChild([{ path: '', component: ExercisePageComponent }]),
     MonthPickerComponent,
   ],
-  providers: [
-    provideHttpClient(withInterceptorsFromDi())
-  ]
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
-export class ExerciseListModule { }
+export class ExerciseListModule {}

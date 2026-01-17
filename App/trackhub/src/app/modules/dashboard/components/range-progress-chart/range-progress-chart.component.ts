@@ -1,11 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
-import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components';
+import {
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+} from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../../components/button/button.component';
-import { ByRecordTypeAggregation, ExerciseAggregation } from '../../models/exercise-aggregation.model';
+import {
+  ByRecordTypeAggregation,
+  ExerciseAggregation,
+} from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
 import { AlertService } from '../../../../providers/services/alert.service';
 import { AggregationService } from '../../services/aggregation.service';
@@ -20,24 +27,21 @@ const SERIES_KEYS = [
   { key: 'composingAggregation', name: 'Composing' },
 ] as const;
 
-type SeriesKey = typeof SERIES_KEYS[number]['key'];
+type SeriesKey = (typeof SERIES_KEYS)[number]['key'];
 
 echarts.use([
   BarChart,
   GridComponent,
   TooltipComponent,
   CanvasRenderer,
-  TitleComponent 
+  TitleComponent,
 ]);
 
 @Component({
   selector: 'thr-range-progress-chart',
   templateUrl: './range-progress-chart.component.html',
   standalone: true,
-  imports: [
-    NgxEchartsDirective,
-    CommonModule,
-    ButtonComponent],
+  imports: [NgxEchartsDirective, CommonModule, ButtonComponent],
   providers: [provideEchartsCore({ echarts })],
 })
 export class RangeProgressChartComponent implements OnInit {
@@ -72,7 +76,9 @@ export class RangeProgressChartComponent implements OnInit {
   }
 
   public onTypeChanged($event: Event): void {
-    this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'totalPlayed' | 'timesPlayed';
+    this.chartDisplayType = ($event.target as HTMLSelectElement).value as
+      | 'totalPlayed'
+      | 'timesPlayed';
 
     if (this.chartData) {
       this.buildChart();
@@ -94,12 +100,13 @@ export class RangeProgressChartComponent implements OnInit {
   }
 
   private fetchData(): void {
-    this.aggregationService.getMonthRangeAggregation(this.startDate, this.endDate)
+    this.aggregationService
+      .getMonthRangeAggregation(this.startDate, this.endDate)
       .subscribe({
         next: (result: ExerciseAggregation[]) => {
           this.chartData = result;
           this.buildChart();
-        }
+        },
       });
   }
 
@@ -116,7 +123,10 @@ export class RangeProgressChartComponent implements OnInit {
     }
 
     if (this.startDate > this.endDate) {
-      this.alertService.show('warning', 'Start Date should not exceed End Date');
+      this.alertService.show(
+        'warning',
+        'Start Date should not exceed End Date',
+      );
       return false;
     }
 
@@ -124,17 +134,20 @@ export class RangeProgressChartComponent implements OnInit {
   }
 
   private buildChart(): void {
-    this.options = buildStackedBarOptions(this.chartData!, this.chartDisplayType);
+    this.options = buildStackedBarOptions(
+      this.chartData!,
+      this.chartDisplayType,
+    );
   }
 }
 
 export function buildStackedBarOptions(
   months: ExerciseAggregation[],
   metric: ChartMetric = 'totalPlayed',
-  radius = 8
+  radius = 8,
 ) {
-  const xLabels = months.map(m =>
-    `${m.year}-${String(m.month).padStart(2, '0')}`
+  const xLabels = months.map(
+    (m) => `${m.year}-${String(m.month).padStart(2, '0')}`,
   );
 
   const valuesBySeries: Record<SeriesKey, number[]> = {
@@ -147,8 +160,11 @@ export function buildStackedBarOptions(
 
   for (const m of months) {
     for (const s of SERIES_KEYS) {
-      const agg = (m as any)[s.key] as ByRecordTypeAggregation | null | undefined;
-      valuesBySeries[s.key].push(agg ? (agg as any)[metric] ?? 0 : 0);
+      const agg = (m as any)[s.key] as
+        | ByRecordTypeAggregation
+        | null
+        | undefined;
+      valuesBySeries[s.key].push(agg ? ((agg as any)[metric] ?? 0) : 0);
     }
   }
 
@@ -164,7 +180,8 @@ export function buildStackedBarOptions(
     const data = valuesBySeries[s.key].map((v, i) => ({
       value: v,
       itemStyle: {
-        borderRadius: topSeriesIndexPerMonth[i] === sIdx ? [radius, radius, 0, 0] : 0,
+        borderRadius:
+          topSeriesIndexPerMonth[i] === sIdx ? [radius, radius, 0, 0] : 0,
       },
     }));
 
@@ -185,12 +202,17 @@ export function buildStackedBarOptions(
       formatter: (params: any[]) => {
         const header = `<b>${params?.[0]?.axisValue ?? ''}</b>`;
         const lines = params
-          .filter(p => p?.value > 0)
-          .map(p => `${p.marker} ${p.seriesName}: ${p.value}`)
+          .filter((p) => p?.value > 0)
+          .map((p) => `${p.marker} ${p.seriesName}: ${p.value}`)
           .join('<br/>');
-        const total = params.reduce((sum, p) => sum + (Number(p.value) || 0), 0);
-        return [header, lines, `<br/><b>Total:</b> ${total}`].filter(Boolean).join('<br/>');
-      }
+        const total = params.reduce(
+          (sum, p) => sum + (Number(p.value) || 0),
+          0,
+        );
+        return [header, lines, `<br/><b>Total:</b> ${total}`]
+          .filter(Boolean)
+          .join('<br/>');
+      },
     },
     legend: { top: 0 },
     grid: { top: 40, left: 40, right: 20, bottom: 40, containLabel: true },
@@ -201,14 +223,15 @@ export function buildStackedBarOptions(
       triggerEvent: true,
     },
     yAxis: {
-      type: 'value', splitLine: {
+      type: 'value',
+      splitLine: {
         show: true,
         lineStyle: {
           color: 'rgba(255,255,255,0.15)',
           width: 1,
-          type: 'solid'
-        }
-      }
+          type: 'solid',
+        },
+      },
     },
     series,
   };

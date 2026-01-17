@@ -13,16 +13,13 @@ export class CommitService {
   private apiService = inject(ApiService);
 
   public saveExercise(exerciseModel: Exercise): Observable<Exercise> {
-    return this.apiService.post<Exercise>(
-      this.exercisesUrl,
-      exerciseModel
-    );
+    return this.apiService.post<Exercise>(this.exercisesUrl, exerciseModel);
   }
 
   public updateExercise(exerciseModel: Exercise): Observable<ExerciseRecord[]> {
     return this.apiService.put<ExerciseRecord[]>(
       `${this.exercisesUrl}/${exerciseModel.exerciseId}`,
-      exerciseModel
+      exerciseModel,
     );
   }
 
@@ -31,8 +28,7 @@ export class CommitService {
   }
 
   public getExerciseRecordByDate(date: Date): Observable<Exercise> {
-    const params = new HttpParams()
-      .set('date', date.toDateString())
+    const params = new HttpParams().set('date', date.toDateString());
 
     return this.apiService.get<Exercise>(this.exercisesUrl, params);
   }
@@ -41,7 +37,10 @@ export class CommitService {
     return this.apiService.delete<void>(`${this.exercisesUrl}/${exerciseId}`);
   }
 
-  public deleteRecords(exerciseId: string, recordIds: string[]): Observable<void> {
+  public deleteRecords(
+    exerciseId: string,
+    recordIds: string[],
+  ): Observable<void> {
     const url = `${this.exercisesUrl}/${exerciseId}/records`;
     let params = new HttpParams();
     recordIds.forEach((item) => {

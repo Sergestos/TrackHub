@@ -1,10 +1,22 @@
-import { Component, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { CommitService } from '../services/commit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingService } from '../../../providers/services/loading.service';
-import { CommitExerciseComponent, RecordStatusType } from './commit-exercise/commit-exercise.component';
-import { ModalResult, openDeleteModal } from '../../../components/delete-modal/delete-modal.component';
+import {
+  CommitExerciseComponent,
+  RecordStatusType,
+} from './commit-exercise/commit-exercise.component';
+import {
+  ModalResult,
+  openDeleteModal,
+} from '../../../components/delete-modal/delete-modal.component';
 import { Exercise } from '../../../models/exercise';
 import { RecordTypes } from '../../../models/recordy-types-enum';
 import { PlayTypes } from '../../../models/play-types-enum';
@@ -13,7 +25,7 @@ import { PlayTypes } from '../../../models/play-types-enum';
   selector: 'trh-commit',
   templateUrl: './commit.component.html',
   styleUrls: ['./commit.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class CommitComponent implements OnInit {
   public isUseTodaysDate: boolean = true;
@@ -21,7 +33,7 @@ export class CommitComponent implements OnInit {
   public selectedDate: Date = new Date();
   public exercise?: Exercise;
 
-  public pageMode: "Add" | "Edit" = "Add";
+  public pageMode: 'Add' | 'Edit' = 'Add';
 
   @ViewChildren(CommitExerciseComponent)
   private exerciseViews!: QueryList<CommitExerciseComponent>;
@@ -33,7 +45,7 @@ export class CommitComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
 
   public ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       const exerciseId = params['exerciseId'];
 
       if (exerciseId) {
@@ -41,18 +53,21 @@ export class CommitComponent implements OnInit {
         this.commitService.getExerciseRecordById(exerciseId).subscribe({
           next: (response) => {
             this.exercise = response;
-            this.pageMode = "Edit";
+            this.pageMode = 'Edit';
           },
-          complete: () => this.loadingService.complete()
+          complete: () => this.loadingService.complete(),
         });
       } else {
-        this.commitService.getExerciseRecordByDate(new Date())
-          .subscribe(result => {
+        this.commitService
+          .getExerciseRecordByDate(new Date())
+          .subscribe((result) => {
             if (result) {
-              this.router.navigateByUrl(`/app/commit?exerciseId=${result.exerciseId}`);
+              this.router.navigateByUrl(
+                `/app/commit?exerciseId=${result.exerciseId}`,
+              );
             } else {
               this.exercise = new Exercise();
-              this.pageMode = "Add";
+              this.pageMode = 'Add';
             }
           });
       }
@@ -63,19 +78,22 @@ export class CommitComponent implements OnInit {
     this.exercise!.records!.push({
       recordType: RecordTypes.Song,
       playType: PlayTypes.Rhythm,
-      isRecorded: false
+      isRecorded: false,
     });
   }
 
   public onSaveClick($event: any): void {
-    if (this.pageMode === "Add") {
-      this.commitService.saveExercise({
-        playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
-        records: this.exerciseViews.map(x => x.model)
-      }).subscribe(_ => window.location.reload());
+    if (this.pageMode === 'Add') {
+      this.commitService
+        .saveExercise({
+          playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
+          records: this.exerciseViews.map((x) => x.model),
+        })
+        .subscribe((_) => window.location.reload());
     } else {
-      this.commitService.updateExercise(this.exercise!)
-        .subscribe(_ => window.location.reload());
+      this.commitService
+        .updateExercise(this.exercise!)
+        .subscribe((_) => window.location.reload());
     }
   }
 
@@ -83,24 +101,34 @@ export class CommitComponent implements OnInit {
     let isEntireExericeToDelete: boolean = false;
 
     if (this.pageMode == 'Edit') {
-      if (this.exerciseViews.length == this.exerciseViews.filter(x => x.isSelected).length) {
+      if (
+        this.exerciseViews.length ==
+        this.exerciseViews.filter((x) => x.isSelected).length
+      ) {
         isEntireExericeToDelete = true;
         const modal = openDeleteModal(this.matDialog);
-        modal.afterClosed().subscribe(result => {
+        modal.afterClosed().subscribe((result) => {
           if (result == ModalResult.Confirmed) {
             this.commitService
               .deleteExercise(this.exercise?.exerciseId?.toString()!)
-              .subscribe(_ => this.router.navigateByUrl("/app/list"));
+              .subscribe((_) => this.router.navigateByUrl('/app/list'));
           }
         });
       } else {
         const exerciseIdsToRemove = this.exerciseViews
-          .filter(x => x.isSelected && x.currectRecordStatusType != RecordStatusType.draft)
-          .map(x => x.model.recordId!)
+          .filter(
+            (x) =>
+              x.isSelected &&
+              x.currectRecordStatusType != RecordStatusType.draft,
+          )
+          .map((x) => x.model.recordId!);
         if (exerciseIdsToRemove.length > 0) {
           this.loadingService.show();
           this.commitService
-            .deleteRecords(this.exercise!.exerciseId!.toString(), exerciseIdsToRemove)
+            .deleteRecords(
+              this.exercise!.exerciseId!.toString(),
+              exerciseIdsToRemove,
+            )
             .subscribe({ complete: () => this.loadingService.complete() });
         }
       }
@@ -108,19 +136,21 @@ export class CommitComponent implements OnInit {
 
     if (!isEntireExericeToDelete) {
       const seletedExercises = this.exerciseViews
-        .filter(x => x.isSelected)
-        .map(x => x.model);
+        .filter((x) => x.isSelected)
+        .map((x) => x.model);
       for (let index = 0; index < seletedExercises.length; index++) {
-        this.exercise!.records = this.exercise?.records.filter(x => x !== seletedExercises[index])!;
+        this.exercise!.records = this.exercise?.records.filter(
+          (x) => x !== seletedExercises[index],
+        )!;
       }
     }
   }
 
   public onSelectToggle(): void {
-    this.isAnySelected = this.exerciseViews.some(x => x.isSelected === true);
+    this.isAnySelected = this.exerciseViews.some((x) => x.isSelected === true);
   }
 
   public onAllSelectedChanged(event: any): void {
-    this.exerciseViews.forEach(x => x.toggleIsSelected(event.target.checked));
+    this.exerciseViews.forEach((x) => x.toggleIsSelected(event.target.checked));
   }
 }

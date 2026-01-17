@@ -1,5 +1,5 @@
-@use  "../node_modules/@fortawesome/fontawesome-free/css/all.css";
-@use 'variables.scss';
+@use "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@use "variables.scss";
 
 @tailwind base;
 @tailwind components;
@@ -23,7 +23,7 @@ p {
   @apply appearance-none bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-md;
 
   -webkit-appearance: none; /* <- REQUIRED for Safari/macOS */
-  appearance: none;  
+  appearance: none;
 }
 
 .btn-default {
@@ -84,7 +84,9 @@ select {
   line-height: 20px;
   cursor: pointer;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23c9d1d9' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' class='feather feather-chevron-down' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><polyline points='6 9 12 15 18 9'/></svg>");
   background-repeat: no-repeat;
@@ -113,7 +115,7 @@ input[type="date"] {
   padding: 4px;
 }
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   appearance: none;
   width: 16px;
   height: 16px;
@@ -122,10 +124,12 @@ input[type='checkbox'] {
   background-color: #0d1117;
   position: relative;
   cursor: pointer;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     width: 10px;
     height: 10px;

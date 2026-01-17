@@ -1,18 +1,21 @@
 <div class="w-full flex flex-col">
   <div
-    class="flex flex-row gap-8 justify-between items-center p-1 h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">
+    class="flex flex-row gap-8 justify-between items-center p-1 h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800"
+  >
     <div class="flex flex-row gap-0.5 items-center">
       <p class="px-2 font-semibold text-sm">Songs Chart</p>
-      <div 
+      <div
         class="arrow"
         (click)="onPreviousSongsLoad()"
-        [class.disabled]="!isPreviousPageAllowed">
+        [class.disabled]="!isPreviousPageAllowed"
+      >
         <i class="fa-regular fa-arrow-left text-gray-300"></i>
       </div>
-      <div 
-        class="arrow" 
+      <div
+        class="arrow"
         (click)="onNextSongsLoad()"
-        [class.disabled]="!IsNextPageAllowed">
+        [class.disabled]="!IsNextPageAllowed"
+      >
         <i class="fa-regular fa-arrow-right text-gray-300"></i>
       </div>
     </div>
@@ -20,17 +23,13 @@
       <p>Aggregate by:</p>
       <select class="w-36 py-1" (change)="onTypeChanged($event)">
         <option [value]="'total_played'">
-          {{ 'Total played' }}
+          {{ "Total played" }}
         </option>
-        <option [value]="'times_played' ">
-          {{ 'Times played' }}
-        </option>        
+        <option [value]="'times_played'">
+          {{ "Times played" }}
+        </option>
       </select>
     </div>
-  </div>  
-  <div 
-    echarts 
-    class="w-full min-h-80  " 
-    [options]="options">
   </div>
+  <div echarts class="w-full min-h-80" [options]="options"></div>
 </div>

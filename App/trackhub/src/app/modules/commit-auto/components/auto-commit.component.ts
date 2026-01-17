@@ -1,16 +1,20 @@
-import { Component, OnInit, inject, signal } from "@angular/core";
-import { AutoCommitService } from "../services/auto-commit.service";
-import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
-import { PreviewRecord, PreviewState, ValidationIssue } from "../models/preview-state.model";
-import { Exercise } from "../../../models/exercise";
-import { ExerciseRecord } from "../../../models/exercise-record";
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { AutoCommitService } from '../services/auto-commit.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import {
+  PreviewRecord,
+  PreviewState,
+  ValidationIssue,
+} from '../models/preview-state.model';
+import { Exercise } from '../../../models/exercise';
+import { ExerciseRecord } from '../../../models/exercise-record';
 
 const DEBOUNCE_TIME = 1000;
 
 @Component({
   selector: 'trh-auto-commit',
   templateUrl: './auto-commit.component.html',
-  standalone: false
+  standalone: false,
 })
 export class AutoCommitComponent implements OnInit {
   public text: string = '';
@@ -26,9 +30,11 @@ export class AutoCommitComponent implements OnInit {
   private autoCommitService = inject(AutoCommitService);
 
   public get isSaveAllowed(): boolean {
-    return this.isValid &&
+    return (
+      this.isValid &&
       this.previewRecords !== undefined &&
-      this.previewRecords.length > 0;
+      this.previewRecords.length > 0
+    );
   }
 
   public ngOnInit(): void {
@@ -36,21 +42,17 @@ export class AutoCommitComponent implements OnInit {
     this.playDate = new Date();
 
     this.input$
-      .pipe(
-        debounceTime(DEBOUNCE_TIME),
-        distinctUntilChanged())
-      .subscribe(value => {
-        this.autoCommitService
-          .previewExerice(value)
-          .subscribe({
-            next: (response: PreviewState) => {
-              this.playDate = response.playDate;
-              this.previewRecords = response.records;
+      .pipe(debounceTime(DEBOUNCE_TIME), distinctUntilChanged())
+      .subscribe((value) => {
+        this.autoCommitService.previewExerice(value).subscribe({
+          next: (response: PreviewState) => {
+            this.playDate = response.playDate;
+            this.previewRecords = response.records;
 
-              this.validationIssues.set(response.validationIssues!);
-              this.isValid = this.validationIssues().length < 1;
-            }
-          })
+            this.validationIssues.set(response.validationIssues!);
+            this.isValid = this.validationIssues().length < 1;
+          },
+        });
       });
   }
 
@@ -64,23 +66,24 @@ export class AutoCommitComponent implements OnInit {
       const exercise: Exercise = {
         exerciseId: undefined,
         playDate: this.playDate,
-        records: this.previewRecords!.map(record => ({
-          ...record,
-          recordId: undefined
-        }) as ExerciseRecord)
+        records: this.previewRecords!.map(
+          (record) =>
+            ({
+              ...record,
+              recordId: undefined,
+            }) as ExerciseRecord,
+        ),
       };
 
-      this.autoCommitService
-        .saveExercise(exercise)
-        .subscribe({
-          next: (_) => {
-            window.location.reload()
-          }
-        })
+      this.autoCommitService.saveExercise(exercise).subscribe({
+        next: (_) => {
+          window.location.reload();
+        },
+      });
     }
   }
 
   private getInitialDateTemplate(date: Date): string {
     return `--${new Intl.DateTimeFormat('uk-UA').format(date)}--`;
   }
-}  
+}

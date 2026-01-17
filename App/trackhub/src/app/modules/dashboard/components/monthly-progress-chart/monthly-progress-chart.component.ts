@@ -1,7 +1,11 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { PieChart } from 'echarts/charts';
-import { TooltipComponent, LegendComponent, TitleComponent } from 'echarts/components';
+import {
+  TooltipComponent,
+  LegendComponent,
+  TitleComponent,
+} from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
@@ -13,7 +17,7 @@ echarts.use([
   TooltipComponent,
   LegendComponent,
   CanvasRenderer,
-  TitleComponent 
+  TitleComponent,
 ]);
 
 @Component({
@@ -21,9 +25,7 @@ echarts.use([
   templateUrl: './monthly-progress-chart.component.html',
   standalone: true,
   imports: [NgxEchartsDirective, ChartMonthPickerComponent],
-  providers: [
-    provideEchartsCore({ echarts })
-  ]
+  providers: [provideEchartsCore({ echarts })],
 })
 export class MonthlyProgressChartComponent implements OnInit {
   public chartData = signal<ExerciseAggregation | null>(null);
@@ -50,21 +52,22 @@ export class MonthlyProgressChartComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.aggregationService.getMonthAggregation(this.selectedDate)
-      .subscribe({
-        next: (result: ExerciseAggregation) => {
-          if (result) {
-            this.chartData.set(result);
-            this.buildChart();
-          } else {
-            this.chartData.set(null);
-          }
+    this.aggregationService.getMonthAggregation(this.selectedDate).subscribe({
+      next: (result: ExerciseAggregation) => {
+        if (result) {
+          this.chartData.set(result);
+          this.buildChart();
+        } else {
+          this.chartData.set(null);
         }
-      })
+      },
+    });
   }
 
   public onTypeChanged($event: Event): void {
-    this.chartDisplayType = ($event.target as HTMLSelectElement).value as 'record' | 'play';
+    this.chartDisplayType = ($event.target as HTMLSelectElement).value as
+      | 'record'
+      | 'play';
 
     if (this.chartData()) {
       this.buildChart();
@@ -79,74 +82,75 @@ export class MonthlyProgressChartComponent implements OnInit {
     this.isMonthPickerShown = false;
     this.selectedDate = $event;
 
-    this.aggregationService
-      .getMonthAggregation(this.selectedDate)
-      .subscribe({
-        next: (result: ExerciseAggregation) => {
-          if (result) {
-            this.chartData.set(result);
-            this.buildChart();
-          } else {
-            this.chartData.set(null);
-          }
+    this.aggregationService.getMonthAggregation(this.selectedDate).subscribe({
+      next: (result: ExerciseAggregation) => {
+        if (result) {
+          this.chartData.set(result);
+          this.buildChart();
+        } else {
+          this.chartData.set(null);
         }
-      });
+      },
+    });
   }
 
   private isSameMonth(a: Date, b: Date): boolean {
-    return a.getFullYear() == b.getFullYear() &&
-      a.getMonth() == b.getMonth();
+    return a.getFullYear() == b.getFullYear() && a.getMonth() == b.getMonth();
   }
 
   private isLastMonth(a: Date, b: Date): boolean {
-    return Math.abs(
-      (a.getFullYear() * 12 + a.getMonth()) -
-      (b.getFullYear() * 12 + b.getMonth())
-    ) === 1;
+    return (
+      Math.abs(
+        a.getFullYear() * 12 +
+          a.getMonth() -
+          (b.getFullYear() * 12 + b.getMonth()),
+      ) === 1
+    );
   }
 
   private buildData(): {
-    value: number,
-    name: string
+    value: number;
+    name: string;
   }[] {
     if (this.chartDisplayType == 'record') {
       return [
         {
           value: this.chartData()?.warmupAggregation?.totalPlayed ?? 0,
-          name: 'warmup'
+          name: 'warmup',
         },
         {
           value: this.chartData()?.songAggregation?.totalPlayed ?? 0,
-          name: 'songs'
+          name: 'songs',
         },
         {
           value: this.chartData()?.composingAggregation?.totalPlayed ?? 0,
-          name: 'composition'
+          name: 'composition',
         },
         {
-          value: this.chartData()?.practicalExerciseAggregation?.totalPlayed ?? 0,
-          name: 'exercises'
+          value:
+            this.chartData()?.practicalExerciseAggregation?.totalPlayed ?? 0,
+          name: 'exercises',
         },
         {
           value: this.chartData()?.improvisationAggregation?.totalPlayed ?? 0,
-          name: 'improvisation'
+          name: 'improvisation',
         },
       ];
     } else {
       return [
         {
           value: this.chartData()?.rhythmAggregation?.totalPlayed ?? 0,
-          name: 'rhythm'
+          name: 'rhythm',
         },
         {
           value: this.chartData()?.soloAggregation?.totalPlayed ?? 0,
-          name: 'solo'
+          name: 'solo',
         },
         {
           value: this.chartData()?.bothAggregation?.totalPlayed ?? 0,
-          name: 'rhythm + solo'
+          name: 'rhythm + solo',
         },
-      ]
+      ];
     }
   }
 
@@ -158,7 +162,7 @@ export class MonthlyProgressChartComponent implements OnInit {
       legend: {
         orient: 'vertical',
         left: '2.5%',
-        top: '5%'
+        top: '5%',
       },
       series: [
         {
@@ -167,18 +171,18 @@ export class MonthlyProgressChartComponent implements OnInit {
           avoidLabelOverlap: false,
           padAngle: 0,
           itemStyle: {
-            borderRadius: 3
+            borderRadius: 3,
           },
           label: {
             show: false,
-            position: 'center'
+            position: 'center',
           },
           labelLine: {
-            show: false
+            show: false,
           },
-          data: this.buildData()
-        }
-      ]
+          data: this.buildData(),
+        },
+      ],
     };
   }
 }

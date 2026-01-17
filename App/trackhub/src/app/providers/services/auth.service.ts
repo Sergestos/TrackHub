@@ -1,17 +1,17 @@
-import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { inject, Inject, Injectable, signal, DOCUMENT } from "@angular/core";
-import { EMPTY, Observable, of } from "rxjs";
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Inject, Injectable, signal, DOCUMENT } from '@angular/core';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { environment } from "../../environments/environment";
-import { ActivatedRoute, Router } from "@angular/router";
+import { environment } from '../../environments/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 class GoogleAuth {
   public idToken!: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private httpClient = inject(HttpClient);
@@ -26,15 +26,14 @@ export class AuthService {
 
     if (this.localStorage && this.localStorage.getItem('access_token')) {
       const url = environment.apiUrl + '/api/auth/validate-token';
-      this.httpClient.get(url)
-        .subscribe({
-          next: () => {
-            this.isAuthorized.set(true);
-          },
-          error: () => {
-            this.isAuthorized.set(false);
-          }
-        });
+      this.httpClient.get(url).subscribe({
+        next: () => {
+          this.isAuthorized.set(true);
+        },
+        error: () => {
+          this.isAuthorized.set(false);
+        },
+      });
     }
   }
 
@@ -50,30 +49,28 @@ export class AuthService {
     this.isAuthorized.set(false);
 
     const url = environment.apiUrl + '/api/auth/logout';
-    return this.httpClient.post(url, {}, { withCredentials: true })
-      .pipe(
-        tap(() => this.googleAuthService.signOut(true)),
-        switchMap(() => of(true)),
-        tap(() => {
-          this.localStorage.removeItem('access_token');
-          this.localStorage.removeItem('user_name');
-          this.localStorage.removeItem('profile_url');
-        }));
+    return this.httpClient.post(url, {}, { withCredentials: true }).pipe(
+      tap(() => this.googleAuthService.signOut(true)),
+      switchMap(() => of(true)),
+      tap(() => {
+        this.localStorage.removeItem('access_token');
+        this.localStorage.removeItem('user_name');
+        this.localStorage.removeItem('profile_url');
+      }),
+    );
   }
 
   public refreshToken(): Observable<any> {
     const url = environment.apiUrl + '/api/auth/refresh';
 
-    return this.httpClient.post(url,
-      {}, { withCredentials: true }
-    ).pipe(
-      map(result => this.handleAuthSuccess(result)),
+    return this.httpClient.post(url, {}, { withCredentials: true }).pipe(
+      map((result) => this.handleAuthSuccess(result)),
       catchError((err, _) => {
         this.isAuthorized.set(false);
 
         console.error(err);
         return EMPTY;
-      })
+      }),
     );
   }
 
@@ -83,20 +80,21 @@ export class AuthService {
     });
 
     const payload: GoogleAuth = {
-      idToken: user.idToken
-    }
+      idToken: user.idToken,
+    };
 
     const url = environment.apiUrl + '/api/auth/google-login';
-    return this.httpClient.post<any>(url, payload, { headers, withCredentials: true })
+    return this.httpClient
+      .post<any>(url, payload, { headers, withCredentials: true })
       .pipe(
-        map(result => this.handleAuthSuccess(result)),
+        map((result) => this.handleAuthSuccess(result)),
         catchError((err, _) => {
           this.isAuthorized.set(false);
 
           console.error(err);
           return EMPTY;
-        })
-      )
+        }),
+      );
   }
 
   private handleAuthSuccess(result: any): string {

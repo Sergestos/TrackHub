@@ -1,4 +1,4 @@
-import { Component, input, output } from "@angular/core";
+import { Component, input, output } from '@angular/core';
 
 export type ButtonType = 'default' | 'danger';
 
@@ -16,8 +16,7 @@ export class ButtonComponent {
   public pressed = output<MouseEvent>();
 
   public onClick(event: MouseEvent): void {
-    if (this.disabled())
-      return;
+    if (this.disabled()) return;
 
     this.pressed.emit(event);
   }

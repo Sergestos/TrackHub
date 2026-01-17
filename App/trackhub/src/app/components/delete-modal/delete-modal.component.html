@@ -4,13 +4,15 @@
     <p class="text-base text-zinc-300">Would you like to delete this item?</p>
     <div class="mt-8 flex flex-row justify-end gap-3">
       <trh-button
-        [value]="'Confirm'" 
+        [value]="'Confirm'"
         class="w-24"
-        (pressed)="onConfirmClick($event)" />
+        (pressed)="onConfirmClick($event)"
+      />
       <trh-button
-        [value]="'Cancel'" 
+        [value]="'Cancel'"
         [type]="'danger'"
-        (pressed)="onRejectClick($event)" />
-      </div>
+        (pressed)="onRejectClick($event)"
+      />
+    </div>
   </div>
-</div>  
+</div>

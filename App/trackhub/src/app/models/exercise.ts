@@ -1,4 +1,4 @@
-import { ExerciseRecord } from "./exercise-record";
+import { ExerciseRecord } from './exercise-record';
 
 export class Exercise {
   public exerciseId?: number;

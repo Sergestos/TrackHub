@@ -1,4 +1,3 @@
-
 import { Component, computed, inject } from '@angular/core';
 import { AlertService } from '../../providers/services/alert.service';
 import { CommonModule } from '@angular/common';
@@ -7,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'trh-alert',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './alert.component.html'
+  templateUrl: './alert.component.html',
 })
 export class AlertComponent {
   private alertService = inject(AlertService);

@@ -1,4 +1,12 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { SuggestionResult } from '../../models/suggestion-result.model';
 import { debounceTime } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -11,25 +19,25 @@ const MinSearchLength: number = 3;
 
 enum SuggestionType {
   song,
-  author
+  author,
 }
 
 export enum RecordStatusType {
   changed,
   saved,
-  draft
+  draft,
 }
 
 @Component({
   selector: 'trh-exercise',
   templateUrl: './commit-exercise.component.html',
   styleUrls: ['./commit-exercise.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class CommitExerciseComponent implements OnInit {
   readonly RecordTypes = RecordTypes;
 
-  public playTypes: string[] = ['Rhythm', 'Solo', 'Both']
+  public playTypes: string[] = ['Rhythm', 'Solo', 'Both'];
 
   @Input()
   public model!: ExerciseRecord;
@@ -57,7 +65,8 @@ export class CommitExerciseComponent implements OnInit {
 
   constructor(
     private suggestionService: SuggestionService,
-    private eRef: ElementRef) { }
+    private eRef: ElementRef,
+  ) {}
 
   @HostListener('document:click', ['$event'])
   public clickout(event: any) {
@@ -80,24 +89,26 @@ export class CommitExerciseComponent implements OnInit {
     setTimeout(() => {
       this.searchSongField.valueChanges
         .pipe(debounceTime(300))
-        .subscribe(input => {
+        .subscribe((input) => {
           if (input && input.length >= MinSearchLength) {
-            this.suggestionService.getSongSuggestrions(input, this.model.author)
-              .subscribe(result => {
+            this.suggestionService
+              .getSongSuggestrions(input, this.model.author)
+              .subscribe((result) => {
                 this.songSuggestions = result;
-                this.displaySuggestions(SuggestionType.song)
+                this.displaySuggestions(SuggestionType.song);
               });
           }
         });
 
       this.searchAuthorField.valueChanges
         .pipe(debounceTime(300))
-        .subscribe(input => {
+        .subscribe((input) => {
           if (input && input.length >= MinSearchLength) {
-            this.suggestionService.getAuthorSuggestrions(input)
+            this.suggestionService
+              .getAuthorSuggestrions(input)
               .subscribe((result: SuggestionResult[]) => {
                 this.authorSuggestions = result;
-                this.displaySuggestions(SuggestionType.author)
+                this.displaySuggestions(SuggestionType.author);
               });
           }
         });
@@ -135,27 +146,34 @@ export class CommitExerciseComponent implements OnInit {
       this.trimFields(fieldName!);
     }
 
-    if (JSON.stringify(this.model) !== JSON.stringify(this.initialModel) && this.model.recordId) {
+    if (
+      JSON.stringify(this.model) !== JSON.stringify(this.initialModel) &&
+      this.model.recordId
+    ) {
       this.currectRecordStatusType = RecordStatusType.changed;
     }
   }
 
   public onWarmupChanges(event: any): void {
-    this.model.warmupSongs = ((event.target).value as string)
+    this.model.warmupSongs = (event.target.value as string)
       .replace(/,\s*$/, '')
       .split(',')
-      .map(s => s.trim())
-      .map(s => s.charAt(0).toUpperCase() + s.slice(1));
+      .map((s) => s.trim())
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1));
 
     this.onModelChanged();
   }
 
   public getSourceName(source: any): string {
     switch (source) {
-      case 0: return 'db';
-      case 1: return 'ai';
-      case 2: return 'ch';
-      default: return '';
+      case 0:
+        return 'db';
+      case 1:
+        return 'ai';
+      case 2:
+        return 'ch';
+      default:
+        return '';
     }
   }
 
@@ -164,8 +182,9 @@ export class CommitExerciseComponent implements OnInit {
   }
 
   public getRecordTypes(): RecordTypes[] {
-    return Object.values(RecordTypes)
-      .filter(v => typeof v === 'number') as RecordTypes[];
+    return Object.values(RecordTypes).filter(
+      (v) => typeof v === 'number',
+    ) as RecordTypes[];
   }
 
   public getPlayType(playType: PlayTypes): string {
@@ -173,21 +192,22 @@ export class CommitExerciseComponent implements OnInit {
   }
 
   public getPlayTypes(): PlayTypes[] {
-    return Object.values(PlayTypes)
-      .filter(v => typeof v === 'number') as PlayTypes[];
+    return Object.values(PlayTypes).filter(
+      (v) => typeof v === 'number',
+    ) as PlayTypes[];
   }
 
   private displaySuggestions(suggestionType: SuggestionType): void {
     this.currentSuggestionsType = suggestionType;
     this.isSuggestionsAsked =
-      (this.currentSuggestionsType == SuggestionType.song && this.songSuggestions.length > 0) ||
-      (this.currentSuggestionsType == SuggestionType.author && this.authorSuggestions.length > 0);
+      (this.currentSuggestionsType == SuggestionType.song &&
+        this.songSuggestions.length > 0) ||
+      (this.currentSuggestionsType == SuggestionType.author &&
+        this.authorSuggestions.length > 0);
   }
 
   private trimFields(fieldName: string): void {
-    if (fieldName == 'name')
-      this.model.name = this.model.name?.trim();
-    if (fieldName == 'author')
-      this.model.author = this.model.author?.trim();
+    if (fieldName == 'name') this.model.name = this.model.name?.trim();
+    if (fieldName == 'author') this.model.author = this.model.author?.trim();
   }
 }

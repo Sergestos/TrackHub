@@ -1,18 +1,24 @@
-import { Component, effect, forwardRef, input } from "@angular/core";
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { MonthNamePipe } from "../../providers/pipes/month.pipe";
-import { MonthPickerModel } from "./month-picker.model";
+import { Component, effect, forwardRef, input } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import { MonthNamePipe } from '../../providers/pipes/month.pipe';
+import { MonthPickerModel } from './month-picker.model';
 
 @Component({
   selector: 'trh-month-picker',
   templateUrl: './month-picker.component.html',
   imports: [FormsModule, MonthNamePipe],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => MonthPickerComponent),
-    multi: true
-  }],
-  standalone: true
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MonthPickerComponent),
+      multi: true,
+    },
+  ],
+  standalone: true,
 })
 export class MonthPickerComponent implements ControlValueAccessor {
   public selectedYear: number | undefined;
@@ -23,8 +29,8 @@ export class MonthPickerComponent implements ControlValueAccessor {
   public yearSelectValues: number[] = [];
   public monthSelectValues: number[] = [];
 
-  private onChange = (_: any) => { };
-  private onTouched = () => { };
+  private onChange = (_: any) => {};
+  private onTouched = () => {};
 
   constructor() {
     effect(() => {
@@ -64,7 +70,7 @@ export class MonthPickerComponent implements ControlValueAccessor {
     this.onTouched();
     this.onChange({
       year: this.selectedYear,
-      month: this.selectedMonth
+      month: this.selectedMonth,
     });
   }
 }

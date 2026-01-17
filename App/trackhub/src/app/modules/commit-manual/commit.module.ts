@@ -1,5 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,26 +13,19 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { SuggestionService } from './services/suggestion.service';
 
 @NgModule({
-  declarations: [
-    CommitExerciseComponent,
-    CommitComponent
-  ],
-  exports: [
-
-  ],
+  declarations: [CommitExerciseComponent, CommitComponent],
+  exports: [],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ButtonComponent,
-    RouterModule.forChild([
-      { path: '', component: CommitComponent }
-    ])
+    RouterModule.forChild([{ path: '', component: CommitComponent }]),
   ],
   providers: [
     CommitService,
     SuggestionService,
-    provideHttpClient(withInterceptorsFromDi())
-  ]
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
-export class CommitModule { }
+export class CommitModule {}

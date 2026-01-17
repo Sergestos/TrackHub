@@ -1,14 +1,16 @@
-import { Component, input } from "@angular/core";
-import { RecordTypes } from "../../../../models/recordy-types-enum";
-import { RecordDetailsItem } from "../../models/exercise-list.models";
+import { Component, input } from '@angular/core';
+import { RecordTypes } from '../../../../models/recordy-types-enum';
+import { RecordDetailsItem } from '../../models/exercise-list.models';
 
 @Component({
   selector: 'trh-details-exercise-card',
   templateUrl: './exercise-details-card.component.html',
-  styles: `p {
-    @apply text-c-text-grid
-  }`,
-  standalone: false
+  styles: `
+    p {
+      @apply text-c-text-grid;
+    }
+  `,
+  standalone: false,
 })
 export class DetailsExerciseItemComponent {
   readonly RecordTypes = RecordTypes;
