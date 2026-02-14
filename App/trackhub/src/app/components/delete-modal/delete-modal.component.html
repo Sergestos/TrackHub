@@ -5,14 +5,11 @@
     <div class="mt-8 flex flex-row justify-end gap-3">
       <trh-button
         [value]="'Confirm'"
+        [type]="'danger'"
         class="w-24"
         (pressed)="onConfirmClick($event)"
       />
-      <trh-button
-        [value]="'Cancel'"
-        [type]="'danger'"
-        (pressed)="onRejectClick($event)"
-      />
+      <trh-button [value]="'Cancel'" (pressed)="onRejectClick($event)" />
     </div>
   </div>
 </div>
