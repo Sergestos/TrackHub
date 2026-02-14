@@ -1,4 +1,4 @@
-<div class="w-full flex flex-col min-h-[22rem]">
+<div class="relative w-full flex flex-col min-h-[22rem]">
   <div
     class="flex flex-row justify-between p-1 min-h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800"
   >
@@ -11,19 +11,14 @@
           <i class="fa-regular fa-calendar-days text-gray-300"></i>
         </div>
         @if (isMonthPickerShown) {
-          <trh-chart-month-picker
-            class="absolute top-full mt-1 left-0 z-10"
-            (monthSelected)="onMonthSelected($event)"
-          >
-          </trh-chart-month-picker>
+        <trh-chart-month-picker
+          class="absolute top-full mt-1 left-0 z-10"
+          (monthSelected)="onMonthSelected($event)"
+        >
+        </trh-chart-month-picker>
         }
       </div>
       <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>
-      @if (chartData()) {
-        <p class="text-xs italic">
-          (total: {{ chartData()!.totalPlayed }} min.)
-        </p>
-      }
     </div>
     <div class="flex flex-row items-center gap-2">
       <p>Aggregate by:</p>
@@ -38,14 +33,20 @@
     </div>
   </div>
   @if (chartData()) {
-    <div
-      echarts
-      class="w-full min-h-[30vh]"
-      [options]="options"
-      [merge]="mergeOptions"
-      [autoResize]="true"
-    ></div>
+  <div
+    echarts
+    class="w-full min-h-[30vh]"
+    [options]="options"
+    [merge]="mergeOptions"
+    [autoResize]="true"
+  ></div>
   } @else {
-    <p class="flex-1 text-xl flex items-center justify-center">No data</p>
+  <p class="flex-1 text-xl flex items-center justify-center">No data</p>
+  } @if (chartData()) {
+  <div class="absolute right-1 top-12">
+    <p class="text-xs text-zinc-400">
+      Total: {{ chartData()!.totalPlayed }} min.
+    </p>
+  </div>
   }
 </div>

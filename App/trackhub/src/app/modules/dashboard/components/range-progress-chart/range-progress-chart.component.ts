@@ -43,6 +43,11 @@ echarts.use([
   standalone: true,
   imports: [NgxEchartsDirective, CommonModule, ButtonComponent],
   providers: [provideEchartsCore({ echarts })],
+  styles: `:host {
+    display: block;
+    height: 100%;
+    min-height: 0;
+  }`,
 })
 export class RangeProgressChartComponent implements OnInit {
   public chartData?: ExerciseAggregation[];
@@ -125,7 +130,7 @@ export class RangeProgressChartComponent implements OnInit {
     if (this.startDate > this.endDate) {
       this.alertService.show(
         'warning',
-        'Start Date should not exceed End Date',
+        'Start Date should not exceed End Date'
       );
       return false;
     }
@@ -136,7 +141,7 @@ export class RangeProgressChartComponent implements OnInit {
   private buildChart(): void {
     this.options = buildStackedBarOptions(
       this.chartData!,
-      this.chartDisplayType,
+      this.chartDisplayType
     );
   }
 }
@@ -144,10 +149,10 @@ export class RangeProgressChartComponent implements OnInit {
 export function buildStackedBarOptions(
   months: ExerciseAggregation[],
   metric: ChartMetric = 'totalPlayed',
-  radius = 8,
+  radius = 8
 ) {
   const xLabels = months.map(
-    (m) => `${m.year}-${String(m.month).padStart(2, '0')}`,
+    (m) => `${m.year}-${String(m.month).padStart(2, '0')}`
   );
 
   const valuesBySeries: Record<SeriesKey, number[]> = {
@@ -164,7 +169,7 @@ export function buildStackedBarOptions(
         | ByRecordTypeAggregation
         | null
         | undefined;
-      valuesBySeries[s.key].push(agg ? ((agg as any)[metric] ?? 0) : 0);
+      valuesBySeries[s.key].push(agg ? (agg as any)[metric] ?? 0 : 0);
     }
   }
 
@@ -207,7 +212,7 @@ export function buildStackedBarOptions(
           .join('<br/>');
         const total = params.reduce(
           (sum, p) => sum + (Number(p.value) || 0),
-          0,
+          0
         );
         return [header, lines, `<br/><b>Total:</b> ${total}`]
           .filter(Boolean)
