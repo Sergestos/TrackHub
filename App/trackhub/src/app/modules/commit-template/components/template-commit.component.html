@@ -31,26 +31,23 @@
       <div class="ml-10">
         <p class="text-slate-200 mb-2">Preview:</p>
         @if (!playDate) {
-          <trh-preview-validation [issue]="'Play date is required'">
-          </trh-preview-validation>
-        }
-        @if (!previewRecords || previewRecords.length < 1) {
-          <trh-preview-validation [issue]="'No exercise records detected'">
-          </trh-preview-validation>
-        }
-        @for (item of validationIssues(); track $index) {
-          <trh-preview-validation
-            [issue]="item.errorReason!"
-            [lineNumber]="item.lineNumber"
-          >
-          </trh-preview-validation>
-        }
-        @if (isSaveAllowed) {
-          <p
-            class="pl-4 p-2 text-lime-500 min-w-80 rounded-lg border-l border-b border-solid border-zinc-600"
-          >
-            No issues were found
-          </p>
+        <trh-preview-validation [issue]="'Play date is required'">
+        </trh-preview-validation>
+        } @if (!previewRecords || previewRecords.length < 1) {
+        <trh-preview-validation [issue]="'No exercise records detected'">
+        </trh-preview-validation>
+        } @for (item of validationIssues(); track $index) {
+        <trh-preview-validation
+          [issue]="item.errorReason!"
+          [lineNumber]="item.lineNumber"
+        >
+        </trh-preview-validation>
+        } @if (isSaveAllowed) {
+        <p
+          class="pl-4 p-2 text-lime-500 min-w-80 rounded-lg border-l border-b border-solid border-zinc-600"
+        >
+          No issues were found
+        </p>
         }
       </div>
     </div>

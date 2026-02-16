@@ -6,7 +6,7 @@ import { Exercise } from '../../../models/exercise';
 import { ApiService } from '../../../providers/services/api.service';
 
 @Injectable()
-export class AutoCommitService {
+export class TemplateCommitService {
   readonly previeweUrl: string = environment.apiUrl + '/api/preview';
   readonly exerciseUrl: string = environment.apiUrl + '/api/exercises';
 

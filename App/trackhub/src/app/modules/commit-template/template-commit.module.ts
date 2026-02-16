@@ -2,21 +2,21 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AutoCommitComponent } from './components/auto-commit.component';
-import { AutoCommitService } from './services/auto-commit.service';
+import { TemplateCommitComponent } from './components/template-commit.component';
+import { TemplateCommitService } from './services/template-commit.service';
 import { PreviewValidationComponent } from './components/preview-validation/preview-validation.component';
 import { ButtonComponent } from '../../components/button/button.component';
 
 @NgModule({
-  declarations: [AutoCommitComponent, PreviewValidationComponent],
+  declarations: [TemplateCommitComponent, PreviewValidationComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ButtonComponent,
-    RouterModule.forChild([{ path: '', component: AutoCommitComponent }]),
+    RouterModule.forChild([{ path: '', component: TemplateCommitComponent }]),
   ],
-  providers: [AutoCommitService],
+  providers: [TemplateCommitService],
   exports: [],
 })
-export class AutoCommitModule {}
+export class TemplateCommitModule {}

@@ -7,7 +7,7 @@ export const routes: Routes = [
     path: 'app/dashboard',
     loadChildren: () =>
       import('./modules/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule,
+        (m) => m.DashboardModule
       ),
     canActivate: [AuthGuard],
   },
@@ -15,15 +15,15 @@ export const routes: Routes = [
     path: 'app/list',
     loadChildren: () =>
       import('./modules/exercise-list/exercise-list.module').then(
-        (m) => m.ExerciseListModule,
+        (m) => m.ExerciseListModule
       ),
     canActivate: [AuthGuard],
   },
   {
     path: 'app/auto-commit',
     loadChildren: () =>
-      import('./modules/commit-auto/auto-commit.module').then(
-        (m) => m.AutoCommitModule,
+      import('./modules/commit-template/template-commit.module').then(
+        (m) => m.TemplateCommitModule
       ),
     canActivate: [AuthGuard],
   },
@@ -31,7 +31,7 @@ export const routes: Routes = [
     path: 'app/commit',
     loadChildren: () =>
       import('./modules/commit-manual/commit.module').then(
-        (m) => m.CommitModule,
+        (m) => m.CommitModule
       ),
     canActivate: [AuthGuard],
   },

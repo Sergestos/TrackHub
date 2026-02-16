@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { AutoCommitService } from '../services/auto-commit.service';
+import { TemplateCommitService } from '../services/template-commit.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import {
   PreviewRecord,
@@ -12,11 +12,11 @@ import { ExerciseRecord } from '../../../models/exercise-record';
 const DEBOUNCE_TIME = 1000;
 
 @Component({
-  selector: 'trh-auto-commit',
-  templateUrl: './auto-commit.component.html',
+  selector: 'trh-template-commit',
+  templateUrl: './template-commit.component.html',
   standalone: false,
 })
-export class AutoCommitComponent implements OnInit {
+export class TemplateCommitComponent implements OnInit {
   public text: string = '';
 
   public isValid: boolean = false;
@@ -27,7 +27,7 @@ export class AutoCommitComponent implements OnInit {
 
   private input$ = new Subject<string>();
 
-  private autoCommitService = inject(AutoCommitService);
+  private templateCommitService = inject(TemplateCommitService);
 
   public get isSaveAllowed(): boolean {
     return (
@@ -44,7 +44,7 @@ export class AutoCommitComponent implements OnInit {
     this.input$
       .pipe(debounceTime(DEBOUNCE_TIME), distinctUntilChanged())
       .subscribe((value) => {
-        this.autoCommitService.previewExerice(value).subscribe({
+        this.templateCommitService.previewExerice(value).subscribe({
           next: (response: PreviewState) => {
             this.playDate = response.playDate;
             this.previewRecords = response.records;
@@ -71,11 +71,11 @@ export class AutoCommitComponent implements OnInit {
             ({
               ...record,
               recordId: undefined,
-            }) as ExerciseRecord,
+            } as ExerciseRecord)
         ),
       };
 
-      this.autoCommitService.saveExercise(exercise).subscribe({
+      this.templateCommitService.saveExercise(exercise).subscribe({
         next: (_) => {
           window.location.reload();
         },
