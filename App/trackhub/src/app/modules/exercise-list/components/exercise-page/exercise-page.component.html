@@ -24,8 +24,8 @@
     <div
       class="flex-1 min-h-0 overflow-y-auto border-r border-solid border-zinc-700"
     >
-      @if (isAnyExerciseShown) { @for (item of exercises; track $index) { @if
-      (!item.isHidden) {
+      @if (isAnyExerciseShown) { @for (item of exercises; track $index) {
+      @if(!item.isHidden) {
       <div
         class="pb-4 bg-zinc-900 border-b border-l border-solid border-zinc-700"
       >

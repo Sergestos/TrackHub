@@ -1,0 +1,12 @@
+<div class="flex flex-row justify-between w-full h-full">
+  <div class="flex-1">
+    <ng-content></ng-content>
+  </div>
+  <div class="basis-96 shrink-0 border-l border-t border-solid border-c-border">
+    @for (item of recentExercises; track $index) {
+    <trh-commit-container-preview
+      [exercise]="item"
+    ></trh-commit-container-preview>
+    }
+  </div>
+</div>

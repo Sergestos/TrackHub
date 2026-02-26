@@ -62,7 +62,7 @@ import { AlertService } from './providers/services/alert.service';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '940834046939-gj9u1uicginda53uv10m66eg8k5hicnc.apps.googleusercontent.com',
+              '940834046939-gj9u1uicginda53uv10m66eg8k5hicnc.apps.googleusercontent.com'
             ),
           },
         ],

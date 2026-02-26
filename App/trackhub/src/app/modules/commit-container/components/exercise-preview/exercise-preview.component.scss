@@ -1,0 +1,11 @@
+.btn-link {
+  @apply bg-transparent;
+  @apply text-blue-400;
+  @apply underline;
+  @apply underline-offset-2;
+  @apply transition-colors;
+
+  &:hover {
+    @apply text-blue-200;
+  }
+}

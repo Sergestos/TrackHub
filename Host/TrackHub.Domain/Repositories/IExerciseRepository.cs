@@ -16,6 +16,8 @@ public interface IExerciseRepository
 
     Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken);
 
+    Task<IEnumerable<Exercise>> GetLastUserExercises(string userId, int lastCount, CancellationToken cancellationToken);
+
     Task<Exercise> UpsertExerciseAsync(Exercise exercise, CancellationToken cancellationToken);
 
     Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken);

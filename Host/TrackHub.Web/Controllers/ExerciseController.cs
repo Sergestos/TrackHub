@@ -51,6 +51,16 @@ public class ExerciseController : TrackHubController
     }
 
     [HttpGet]
+    [Route("recent")]
+    [ProducesResponseType(typeof(IEnumerable<Exercise>), 200)]
+    public async Task<IActionResult> GetLastExercisesAsync([FromQuery] int lastCount, CancellationToken cancellationToken) 
+    {
+        var result = await _exerciseRepository.GetLastUserExercises(CurrentUserId, lastCount, cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet]
     [Route("summary")]
     [ProducesResponseType(typeof(IEnumerable<ExerciseListItem>), 200)]
     public async Task<IActionResult> GetExercisesByDateAsync([FromQuery] int? year, [FromQuery] int? month, CancellationToken cancellationToken)

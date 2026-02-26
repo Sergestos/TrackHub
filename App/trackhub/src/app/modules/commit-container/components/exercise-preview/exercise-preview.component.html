@@ -1,0 +1,23 @@
+<div class="border border-solid border-c-border rounded m-2">
+  <div class="bg-zinc-800 border-b border-solid border-zinc-700">
+    <div class="flex flex-row justify-between items-center p-2">
+      <span class="text-zinc-200">
+        {{ exercise()?.playDate | date : "dd/MM/yyyy" }}
+      </span>
+      <button class="btn-link">apply template</button>
+    </div>
+  </div>
+  <div class="bg-zinc-900">
+    @for (item of exercise()?.records; track item; let i = $index) {
+    <div class="flex flex-row text-zinc-400">
+      <p>{{ i + 1 }})&nbsp;</p>
+      <p>{{ item.playDuration }} min.&nbsp;</p>
+      <p>{{ getRecordTypeField(item) }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
+      @if (item.recordType !== RecordTypes.Warmup) {
+      <p class="font-bold">{{ item.author }}&nbsp;-&nbsp;</p>
+      }
+      <p>{{ getNameField(item) }}</p>
+    </div>
+    }
+  </div>
+</div>
