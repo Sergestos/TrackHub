@@ -2,14 +2,19 @@
   <div class="bg-zinc-800 border-b border-solid border-zinc-700">
     <div class="flex flex-row justify-between items-center p-2">
       <span class="text-zinc-200">
-        {{ exercise()?.playDate | date : "dd/MM/yyyy" }}
+        {{ exercise().playDate | date : "dd/MM/yyyy" }}
       </span>
-      <button class="btn-link">apply template</button>
+      <button class="btn-link" (click)="onTemplateClicked()">
+        apply template
+      </button>
     </div>
   </div>
   <div class="bg-zinc-900 p-3">
-    @for (item of exercise()?.records; track item; let i = $index) {
-    <div class="flex flex-row my-0.5 record-link truncate min-w-0">
+    @for (item of exercise().records; track item; let i = $index) {
+    <div
+      class="flex flex-row my-0.5 record-link truncate min-w-0"
+      (click)="onRecordClicked(item)"
+    >
       <p>{{ i + 1 }})&nbsp;</p>
       <p>{{ item.playDuration }} min.&nbsp;</p>
       <p>{{ getRecordTypeField(item) }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>

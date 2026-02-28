@@ -9,6 +9,8 @@
     @for (item of recentExercises; track $index) {
     <trh-commit-container-preview
       [exercise]="item"
+      (applyTemplate)="onTemplateApplied($event)"
+      (applyRecord)="onRecordApplied($event)"
     ></trh-commit-container-preview>
     }
   </div>

@@ -8,6 +8,7 @@ import {
 } from '../models/preview-state.model';
 import { Exercise } from '../../../models/exercise';
 import { ExerciseRecord } from '../../../models/exercise-record';
+import { RecordTypes } from '../../../models/recordy-types-enum';
 
 const DEBOUNCE_TIME = 1000;
 
@@ -17,6 +18,8 @@ const DEBOUNCE_TIME = 1000;
   standalone: false,
 })
 export class TemplateCommitComponent implements OnInit {
+  readonly RecordTypes = RecordTypes;
+
   public text: string = '';
 
   public isValid: boolean = false;
@@ -83,7 +86,30 @@ export class TemplateCommitComponent implements OnInit {
     }
   }
 
+  public onTemplateApplied(exercise: Exercise): void {}
+
+  public onRecordApplied(record: ExerciseRecord): void {
+    this.text += this.buildRecordLine(record);
+  }
+
   private getInitialDateTemplate(date: Date): string {
     return `--${new Intl.DateTimeFormat('uk-UA').format(date)}--`;
+  }
+
+  private buildRecordLine(record: ExerciseRecord): string {
+    const line =
+      this.previewRecords != null ? this.previewRecords.length + 1 : 1;
+
+    if (record.recordType != RecordTypes.Warmup) {
+      return `${line}) ${record.playDuration} min. ${
+        RecordTypes[record.recordType!]
+      } - ${record.author} - ${record.name}`;
+    } else {
+      const warmUpSongs = record.warmupSongs?.join(' ');
+
+      return `${line}) ${record.playDuration} min. ${
+        RecordTypes[record.recordType!]
+      } - ${warmUpSongs}`;
+    }
   }
 }
