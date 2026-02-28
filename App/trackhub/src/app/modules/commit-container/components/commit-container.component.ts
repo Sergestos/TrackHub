@@ -27,6 +27,11 @@ export class CommitContainerComponent implements OnInit {
   public ngOnInit(): void {
     this.exerciseService.getLastUserExercises().subscribe({
       next: (exercises) => {
+        exercises.forEach((x) => {
+          x.exerciseId = undefined;
+          x.records.forEach((r) => (r.recordId = undefined));
+        });
+
         this.recentExercises = exercises;
       },
     });

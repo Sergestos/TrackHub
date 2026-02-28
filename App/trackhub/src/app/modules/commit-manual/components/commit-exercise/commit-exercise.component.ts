@@ -65,7 +65,7 @@ export class CommitExerciseComponent implements OnInit {
 
   constructor(
     private suggestionService: SuggestionService,
-    private eRef: ElementRef,
+    private eRef: ElementRef
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -77,10 +77,9 @@ export class CommitExerciseComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initialModel = structuredClone(this.model);
+    this.warmupSongs = this.model.warmupSongs?.join(', ') ?? '';
 
     if (this.model.recordId) {
-      this.warmupSongs = this.model.warmupSongs?.join(', ') ?? '';
-
       this.currectRecordStatusType = RecordStatusType.saved;
     } else {
       this.currectRecordStatusType = RecordStatusType.draft;
@@ -183,7 +182,7 @@ export class CommitExerciseComponent implements OnInit {
 
   public getRecordTypes(): RecordTypes[] {
     return Object.values(RecordTypes).filter(
-      (v) => typeof v === 'number',
+      (v) => typeof v === 'number'
     ) as RecordTypes[];
   }
 
@@ -193,7 +192,7 @@ export class CommitExerciseComponent implements OnInit {
 
   public getPlayTypes(): PlayTypes[] {
     return Object.values(PlayTypes).filter(
-      (v) => typeof v === 'number',
+      (v) => typeof v === 'number'
     ) as PlayTypes[];
   }
 

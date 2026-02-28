@@ -155,7 +155,11 @@ export class CommitComponent implements OnInit {
     this.exerciseViews.forEach((x) => x.toggleIsSelected(event.target.checked));
   }
 
-  public onRecordApplied($event: ExerciseRecord): void {}
+  public onRecordApplied(record: ExerciseRecord): void {
+    this.exercise?.records.push(record);
+  }
 
-  public onTemplateApplied($event: Exercise): void {}
+  public onTemplateApplied(exercise: Exercise): void {
+    this.exercise = exercise;
+  }
 }
