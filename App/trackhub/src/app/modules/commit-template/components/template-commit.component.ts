@@ -47,15 +47,7 @@ export class TemplateCommitComponent implements OnInit {
     this.input$
       .pipe(debounceTime(DEBOUNCE_TIME), distinctUntilChanged())
       .subscribe((value) => {
-        this.templateCommitService.previewExerice(value).subscribe({
-          next: (response: PreviewState) => {
-            this.playDate = response.playDate;
-            this.previewRecords = response.records;
-
-            this.validationIssues.set(response.validationIssues!);
-            this.isValid = this.validationIssues().length < 1;
-          },
-        });
+        this.requestTemplateValidation(value);
       });
   }
 
@@ -86,10 +78,29 @@ export class TemplateCommitComponent implements OnInit {
     }
   }
 
-  public onTemplateApplied(exercise: Exercise): void {}
+  public onTemplateApplied(exercise: Exercise): void {
+    for (let record of exercise.records) {
+      this.text += this.buildRecordLine(record);
+    }
+
+    this.requestTemplateValidation(this.text);
+  }
 
   public onRecordApplied(record: ExerciseRecord): void {
     this.text += this.buildRecordLine(record);
+    this.requestTemplateValidation(this.text);
+  }
+
+  private requestTemplateValidation(value: string): void {
+    this.templateCommitService.previewExerice(value).subscribe({
+      next: (response: PreviewState) => {
+        this.playDate = response.playDate;
+        this.previewRecords = response.records;
+
+        this.validationIssues.set(response.validationIssues!);
+        this.isValid = this.validationIssues().length < 1;
+      },
+    });
   }
 
   private getInitialDateTemplate(date: Date): string {
@@ -97,19 +108,13 @@ export class TemplateCommitComponent implements OnInit {
   }
 
   private buildRecordLine(record: ExerciseRecord): string {
-    const line =
-      this.previewRecords != null ? this.previewRecords.length + 1 : 1;
+    const line = this.text.split('\n').length;
 
     if (record.recordType != RecordTypes.Warmup) {
-      return `${line}) ${record.playDuration} min. ${
-        RecordTypes[record.recordType!]
-      } - ${record.author} - ${record.name}`;
+      return `\n${line}) ${record.playDuration} min: guitar - ${record.author} - ${record.name}`;
     } else {
-      const warmUpSongs = record.warmupSongs?.join(' ');
-
-      return `${line}) ${record.playDuration} min. ${
-        RecordTypes[record.recordType!]
-      } - ${warmUpSongs}`;
+      const warmUpSongs = record.warmupSongs?.join(', ');
+      return `\n${line}) ${record.playDuration} min: warmup - ${warmUpSongs}`;
     }
   }
 }

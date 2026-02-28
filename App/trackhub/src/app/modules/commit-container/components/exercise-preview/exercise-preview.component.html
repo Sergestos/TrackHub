@@ -12,8 +12,9 @@
   <div class="bg-zinc-900 p-3">
     @for (item of exercise().records; track item; let i = $index) {
     <div
-      class="flex flex-row my-0.5 record-link truncate min-w-0"
+      class="flex flex-row items-center my-0.5 record-link truncate min-w-0"
       (click)="onRecordClicked(item)"
+      [title]="getNameField(item)"
     >
       <p>{{ i + 1 }})&nbsp;</p>
       <p>{{ item.playDuration }} min.&nbsp;</p>
@@ -21,7 +22,7 @@
       @if (item.recordType !== RecordTypes.Warmup) {
       <p class="font-bold">{{ item.author }}&nbsp;-&nbsp;</p>
       }
-      <p>{{ getNameField(item) }}</p>
+      <p class="truncate">{{ getNameField(item) }}</p>
     </div>
     }
   </div>

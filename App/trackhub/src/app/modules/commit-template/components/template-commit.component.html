@@ -18,23 +18,21 @@
       (applyTemplate)="onTemplateApplied($event)"
       (applyRecord)="onRecordApplied($event)"
     >
-      <div
-        class="h-full min-h-0 bg-zinc-950 border-t border-solid border-c-border"
-      >
+      <div class="h-full min-h-0 border-t border-solid border-c-border">
         <div class="flex flex-col mx-10 mt-4 gap-6">
           <div>
-            <p class="text-slate-200 mb-2 pl-2">Text template:</p>
+            <p class="text-slate-200 mb-1 pl-2">Text template:</p>
             <textarea
               [value]="text"
               (input)="onInput($event)"
-              class="bg-zinc-900 border border-gray-600 rounded-md p-3 text-gray-200"
+              class="bg-zinc-900 border border-gray-600 rounded-md p-2.5 text-gray-200"
               rows="24"
-              cols="80"
+              cols="125"
               placeholder="Type your message here..."
             ></textarea>
           </div>
-          <div class="ml-10">
-            <p class="text-slate-200 mb-2">Preview:</p>
+          <div class="m-2 w-fit">
+            <p class="text-slate-200 mb-1">Preview:</p>
             @if (!playDate) {
             <trh-preview-validation [issue]="'Play date is required'">
             </trh-preview-validation>
@@ -49,7 +47,7 @@
             </trh-preview-validation>
             } @if (isSaveAllowed) {
             <p
-              class="pl-4 p-2 text-lime-500 min-w-80 rounded-lg border-l border-b border-solid border-zinc-600"
+              class="pl-4 p-2 text-lime-500 rounded-l-lg border-l border-b border-solid border-zinc-600"
             >
               No issues were found
             </p>
