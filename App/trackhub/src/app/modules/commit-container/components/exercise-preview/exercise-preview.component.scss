@@ -9,3 +9,21 @@
     @apply text-blue-200;
   }
 }
+
+.record-link {
+  @apply transition-colors;
+  @apply cursor-pointer;
+
+  > p {
+    @apply text-xs;
+    @apply text-gray-300;
+  }
+
+  &:hover {
+    > p {
+      @apply text-blue-400;
+      @apply underline;
+      @apply underline-offset-2;
+    }
+  }
+}

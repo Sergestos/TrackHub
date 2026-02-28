@@ -1,4 +1,4 @@
-<div class="border border-solid border-c-border rounded m-2">
+<div class="border border-solid border-c-border rounded m-3">
   <div class="bg-zinc-800 border-b border-solid border-zinc-700">
     <div class="flex flex-row justify-between items-center p-2">
       <span class="text-zinc-200">
@@ -7,9 +7,9 @@
       <button class="btn-link">apply template</button>
     </div>
   </div>
-  <div class="bg-zinc-900">
+  <div class="bg-zinc-900 p-3">
     @for (item of exercise()?.records; track item; let i = $index) {
-    <div class="flex flex-row text-zinc-400">
+    <div class="flex flex-row my-0.5 record-link truncate min-w-0">
       <p>{{ i + 1 }})&nbsp;</p>
       <p>{{ item.playDuration }} min.&nbsp;</p>
       <p>{{ getRecordTypeField(item) }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
