@@ -13,7 +13,7 @@ export class CommitContainerExerciseService {
   private apiService = inject(ApiService);
 
   public getLastUserExercises(): Observable<Exercise[]> {
-    const query = `${this.exercisesUrl}?lastCount=${LAST_COUNT}`;
+    const query = `${this.exercisesUrl}/recent?lastCount=${LAST_COUNT}`;
     return this.apiService.get<Exercise[]>(query);
   }
 }
