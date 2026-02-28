@@ -1,13 +1,5 @@
-.exercise-wrapper {
-  > div {
-    @apply my-4;
-  }
-}
-
-.status {
-  > p {
-    @apply ml-10 mt-0.5;
-  }
+select {
+  min-height: 1.75rem;
 }
 
 .suggestion-animation {
@@ -23,7 +15,8 @@
 }
 
 input[type="text"] {
-  @apply text-[beige] bg-transparent border border-transparent border-b-2 rounded-s w-[90%] p-[2.5px] focus:outline-none border-b-gray-900;
+  background-color: #0d1117;
+  @apply text-[beige] border px-1.5 py-[3px] focus:outline-none border-zinc-700 rounded;
 }
 
 input[type="text"]::placeholder {

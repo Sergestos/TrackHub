@@ -11,6 +11,7 @@ import { CommitComponent } from './components/commit.component';
 import { CommitService } from './services/commit.service';
 import { ButtonComponent } from '../../components/button/button.component';
 import { SuggestionService } from './services/suggestion.service';
+import { CommitContainerComponent } from '../commit-container/components/commit-container.component';
 
 @NgModule({
   declarations: [CommitExerciseComponent, CommitComponent],
@@ -20,6 +21,7 @@ import { SuggestionService } from './services/suggestion.service';
     FormsModule,
     ReactiveFormsModule,
     ButtonComponent,
+    CommitContainerComponent,
     RouterModule.forChild([{ path: '', component: CommitComponent }]),
   ],
   providers: [

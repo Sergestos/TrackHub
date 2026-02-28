@@ -20,6 +20,7 @@ import {
 import { Exercise } from '../../../models/exercise';
 import { RecordTypes } from '../../../models/recordy-types-enum';
 import { PlayTypes } from '../../../models/play-types-enum';
+import { ExerciseRecord } from '../../../models/exercise-record';
 
 @Component({
   selector: 'trh-commit',
@@ -63,7 +64,7 @@ export class CommitComponent implements OnInit {
           .subscribe((result) => {
             if (result) {
               this.router.navigateByUrl(
-                `/app/commit?exerciseId=${result.exerciseId}`,
+                `/app/commit?exerciseId=${result.exerciseId}`
               );
             } else {
               this.exercise = new Exercise();
@@ -119,7 +120,7 @@ export class CommitComponent implements OnInit {
           .filter(
             (x) =>
               x.isSelected &&
-              x.currectRecordStatusType != RecordStatusType.draft,
+              x.currectRecordStatusType != RecordStatusType.draft
           )
           .map((x) => x.model.recordId!);
         if (exerciseIdsToRemove.length > 0) {
@@ -127,7 +128,7 @@ export class CommitComponent implements OnInit {
           this.commitService
             .deleteRecords(
               this.exercise!.exerciseId!.toString(),
-              exerciseIdsToRemove,
+              exerciseIdsToRemove
             )
             .subscribe({ complete: () => this.loadingService.complete() });
         }
@@ -140,7 +141,7 @@ export class CommitComponent implements OnInit {
         .map((x) => x.model);
       for (let index = 0; index < seletedExercises.length; index++) {
         this.exercise!.records = this.exercise?.records.filter(
-          (x) => x !== seletedExercises[index],
+          (x) => x !== seletedExercises[index]
         )!;
       }
     }
@@ -153,4 +154,8 @@ export class CommitComponent implements OnInit {
   public onAllSelectedChanged(event: any): void {
     this.exerciseViews.forEach((x) => x.toggleIsSelected(event.target.checked));
   }
+
+  public onRecordApplied($event: ExerciseRecord): void {}
+
+  public onTemplateApplied($event: Exercise): void {}
 }
