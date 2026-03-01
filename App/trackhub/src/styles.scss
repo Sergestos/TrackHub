@@ -1,5 +1,5 @@
-@use  "../node_modules/@fortawesome/fontawesome-free/css/all.css";
-@use 'variables.scss';
+@use "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@use "variables.scss";
 
 @tailwind base;
 @tailwind components;
@@ -23,7 +23,7 @@ p {
   @apply appearance-none bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-md;
 
   -webkit-appearance: none; /* <- REQUIRED for Safari/macOS */
-  appearance: none;  
+  appearance: none;
 }
 
 .btn-default {
@@ -76,7 +76,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 select {
   appearance: none;
   background-color: #0d1117;
-  border: 1px solid #30363d;
+  @apply border border-solid border-c-border;
   padding: 0px 12px;
   border-radius: 6px;
   font-size: 14px;
@@ -113,7 +113,7 @@ input[type="date"] {
   padding: 4px;
 }
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   appearance: none;
   width: 16px;
   height: 16px;
@@ -125,7 +125,7 @@ input[type='checkbox'] {
   transition: border-color 0.2s, background-color 0.2s;
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     width: 10px;
     height: 10px;

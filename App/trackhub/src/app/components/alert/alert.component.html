@@ -1,16 +1,15 @@
 @if (alert()) {
 <div
-  class="fixed top-5 right-4 min-w-72 bg-neutral-900 border border-solid border-neutral-700 rounded-l-md shadow-lg text-sm transition-all"
-  (click)="close()">
+  class="fixed top-5 right-3 min-w-72 bg-neutral-900 border-2 border-solid rounded-md shadow-lg text-sm transition-all"
+  [ngClass]="css()"
+  (click)="close()"
+>
   <div class="flex flex-row gap-2">
-    <div class="w-16 rounded-l-md" [ngClass]="css()">
-      <p class="text-gray-950 text-base p-1.5 pl-3">Alert</p>
-    </div>
     <div class="flex flex-row justify-between w-full">
       <p class="p-2">
         {{ alert()!.text }}
       </p>
-      <p class="pr-2 pt-0.5">x</p>
+      <p class="pr-3 pt-[3px] text-lg cursor-pointer">x</p>
     </div>
   </div>
 </div>

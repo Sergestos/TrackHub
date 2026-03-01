@@ -1,0 +1,29 @@
+.btn-link {
+  @apply bg-transparent;
+  @apply text-blue-400;
+  @apply underline;
+  @apply underline-offset-2;
+  @apply transition-colors;
+
+  &:hover {
+    @apply text-blue-200;
+  }
+}
+
+.record-link {
+  @apply transition-colors;
+  @apply cursor-pointer;
+
+  > p {
+    @apply text-sm;
+    @apply text-gray-300;
+  }
+
+  &:hover {
+    > p {
+      @apply text-blue-400;
+      @apply underline;
+      @apply underline-offset-2;
+    }
+  }
+}

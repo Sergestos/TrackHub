@@ -1,29 +1,20 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { AuthComponent } from "./components/auth.component";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AuthComponent } from './components/auth.component';
 import {
   GoogleSigninButtonModule,
   GoogleSigninButtonDirective,
-  SocialLoginModule
-}
-from "@abacritt/angularx-social-login";
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
-  declarations: [
-    AuthComponent
-  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  declarations: [AuthComponent],
   imports: [
     SocialLoginModule,
     GoogleSigninButtonModule,
-    RouterModule.forChild([
-      { path: '', component: AuthComponent }
-    ]),
+    RouterModule.forChild([{ path: '', component: AuthComponent }]),
   ],
-  providers: [
-    GoogleSigninButtonDirective
-  ]
+  providers: [GoogleSigninButtonDirective],
 })
-export class AuthModule { }
+export class AuthModule {}

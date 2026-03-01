@@ -16,7 +16,7 @@ export class AlertService {
   show(type: AlertType, text: string) {
     this._alert.set({ type, text });
 
-    setTimeout(() => this.clear(), 5000);
+    setTimeout(() => this.clear(), 7500);
   }
 
   clear() {

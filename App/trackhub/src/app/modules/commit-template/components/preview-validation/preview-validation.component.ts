@@ -1,9 +1,9 @@
-import { Component, input } from "@angular/core";
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'trh-preview-validation',
   templateUrl: './preview-validation.component.html',
-  standalone: false
+  standalone: false,
 })
 export class PreviewValidationComponent {
   public issue = input.required<string>();

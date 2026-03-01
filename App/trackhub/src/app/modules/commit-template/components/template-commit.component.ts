@@ -1,0 +1,128 @@
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { TemplateCommitService } from '../services/template-commit.service';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import {
+  PreviewRecord,
+  PreviewState,
+  ValidationIssue,
+} from '../models/preview-state.model';
+import { Exercise } from '../../../models/exercise';
+import { ExerciseRecord } from '../../../models/exercise-record';
+import { RecordTypes } from '../../../models/recordy-types-enum';
+import { AlertService } from '../../../providers/services/alert.service';
+import { Router } from '@angular/router';
+
+const DEBOUNCE_TIME = 1000;
+
+@Component({
+  selector: 'trh-template-commit',
+  templateUrl: './template-commit.component.html',
+  standalone: false,
+})
+export class TemplateCommitComponent implements OnInit {
+  readonly RecordTypes = RecordTypes;
+
+  public text: string = '';
+
+  public isValid: boolean = false;
+  public playDate?: Date;
+
+  public previewRecords?: PreviewRecord[];
+  public validationIssues = signal<ValidationIssue[]>([]);
+
+  private input$ = new Subject<string>();
+
+  private readonly templateCommitService = inject(TemplateCommitService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
+
+  public get isSaveAllowed(): boolean {
+    return (
+      this.isValid &&
+      this.previewRecords !== undefined &&
+      this.previewRecords.length > 0
+    );
+  }
+
+  public ngOnInit(): void {
+    this.text = this.getInitialDateTemplate(new Date());
+    this.playDate = new Date();
+
+    this.input$
+      .pipe(debounceTime(DEBOUNCE_TIME), distinctUntilChanged())
+      .subscribe((value) => {
+        this.requestTemplateValidation(value);
+      });
+  }
+
+  public onInput($event: Event): void {
+    const text = ($event.target as HTMLTextAreaElement).value;
+    this.input$.next(text);
+  }
+
+  public onAddClick($event: any): void {
+    if (this.isSaveAllowed) {
+      const exercise: Exercise = {
+        exerciseId: undefined,
+        playDate: this.playDate,
+        records: this.previewRecords!.map(
+          (record) =>
+            ({
+              ...record,
+              recordId: undefined,
+            } as ExerciseRecord)
+        ),
+      };
+
+      this.templateCommitService.saveExercise(exercise).subscribe({
+        next: (_) => {
+          this.alertService.show(
+            'success',
+            'Exercise was successfully commited'
+          );
+          this.router.navigateByUrl('app/list');
+        },
+      });
+    }
+  }
+
+  public onTemplateApplied(exercise: Exercise): void {
+    for (let record of exercise.records) {
+      this.text += this.buildRecordLine(record);
+    }
+
+    this.requestTemplateValidation(this.text);
+  }
+
+  public onRecordApplied(record: ExerciseRecord): void {
+    this.text += this.buildRecordLine(record);
+    this.requestTemplateValidation(this.text);
+  }
+
+  private requestTemplateValidation(value: string): void {
+    this.templateCommitService.previewExerice(value).subscribe({
+      next: (response: PreviewState) => {
+        this.playDate = response.playDate;
+        this.previewRecords = response.records;
+
+        this.validationIssues.set(response.validationIssues!);
+        this.isValid = this.validationIssues().length < 1;
+      },
+    });
+  }
+
+  private getInitialDateTemplate(date: Date): string {
+    return `--${new Intl.DateTimeFormat('uk-UA').format(date)}--`;
+  }
+
+  private buildRecordLine(record: ExerciseRecord): string {
+    const line = this.text.split('\n').length;
+
+    if (record.recordType != RecordTypes.Warmup) {
+      return `\n${line}) ${record.playDuration} min: guitar - ${record.author} - ${record.name}`;
+    } else {
+      const warmUpSongs = record.warmupSongs?.join(', ');
+      return `\n${line}) ${record.playDuration} min: warmup - ${warmUpSongs}`;
+    }
+  }
+}

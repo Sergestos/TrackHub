@@ -36,6 +36,29 @@ internal class ExerciseRepository : IExerciseRepository
         return response?.Resource;
     }
 
+    public async Task<IEnumerable<Exercise>> GetLastUserExercises(string userId, int lastCount, CancellationToken cancellationToken)
+    {
+        var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(item => item.PlayDate)
+            .Take(lastCount);
+
+        using (FeedIterator<Exercise> linqFeed = matches.ToFeedIterator())
+        {
+            var result = new List<Exercise>();
+            while (linqFeed.HasMoreResults)
+            {
+                FeedResponse<Exercise> iterationResponse = await linqFeed.ReadNextAsync();
+                foreach (Exercise item in iterationResponse)
+                {
+                    result.Add(item);
+                }
+            }
+
+            return result;
+        }
+    }    
+
     public async Task<Exercise?> FindNewestExerciseAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _exerciseContainer.GetItemLinqQueryable<Exercise>()

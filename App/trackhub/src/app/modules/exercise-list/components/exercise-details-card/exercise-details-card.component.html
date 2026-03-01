@@ -1,6 +1,6 @@
 @for (item of exerciseDetailsModels(); track item; let i = $index) {
   <div class="flex flex-row">
-    <p>{{ (i + 1) }})&nbsp;</p>
+    <p>{{ i + 1 }})&nbsp;</p>
     <p>{{ item.duration }} min.&nbsp;</p>
     <p>{{ getRecordTypeField(item) }}&nbsp;&nbsp;&#8212;&nbsp;&nbsp;</p>
     @if (item.recordType !== RecordTypes.Warmup) {

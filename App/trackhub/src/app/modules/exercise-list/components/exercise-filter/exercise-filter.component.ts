@@ -1,12 +1,12 @@
-import { Component, inject, input, OnInit, output } from "@angular/core";
-import { ExerciseListService } from "../../services/exercise-list.service";
-import { FilterModel } from "../../models/exercise-list.models";
-import { MonthPickerModel } from "../../../../components/month-picker/month-picker.model";
+import { Component, inject, input, OnInit, output } from '@angular/core';
+import { ExerciseListService } from '../../services/exercise-list.service';
+import { FilterModel } from '../../models/exercise-list.models';
+import { MonthPickerModel } from '../../../../components/month-picker/month-picker.model';
 
 @Component({
   selector: 'trh-exercise-filter',
   templateUrl: './exercise-filter.component.html',
-  standalone: false
+  standalone: false,
 })
 export class FilterComponent implements OnInit {
   public userFirstYear!: number;
@@ -23,14 +23,13 @@ export class FilterComponent implements OnInit {
     if (!this.filter()?.dateFilter) {
       this.filter()!.dateFilter = {
         year: new Date().getFullYear(),
-        month: new Date().getMonth() + 1
-      }
+        month: new Date().getMonth() + 1,
+      };
     }
 
-    this.exerciseListService.getUserExerciseSettings()
-      .subscribe(item => {
-        this.userFirstYear = new Date(item.firstPlayDate).getFullYear();
-      })
+    this.exerciseListService.getUserExerciseSettings().subscribe((item) => {
+      this.userFirstYear = new Date(item.firstPlayDate).getFullYear();
+    });
   }
 
   public onExpandAllClicked(event: any): void {
