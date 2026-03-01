@@ -13,6 +13,7 @@ import {
   FilterModel,
 } from '../../models/exercise-list.models';
 import { MonthPickerModel } from '../../../../components/month-picker/month-picker.model';
+import { ExportService } from '../../../../providers/services/export.service';
 
 const UNPLAYED_EXERCISE_ID = '-1';
 
@@ -25,12 +26,14 @@ const UNPLAYED_EXERCISE_ID = '-1';
 export class ExercisePageComponent implements OnInit {
   public exercises: ExerciseItemView[] = [];
   public filter!: FilterModel;
+  public isExportAvailable: boolean = false;
 
   private router = inject(Router);
   private matDialog = inject(MatDialog);
   private activeRoute = inject(ActivatedRoute);
   private exerciseListService = inject(ExerciseListService);
   private loadingService = inject(LoadingService);
+  private exportService = inject(ExportService);
 
   public get isAnyExerciseShown(): boolean {
     if (this.exercises.length == 0) {
@@ -104,12 +107,19 @@ export class ExercisePageComponent implements OnInit {
       .forEach((x) => (x.isExpanded = isExpandAsksed));
   }
 
+  public export($event: any): void {
+    this.exportService.exportExercises(
+      this.filter.dateFilter?.month!,
+      this.filter.dateFilter?.year!
+    );
+  }
+
   private setData(): void {
     this.loadingService.show();
     this.exerciseListService
       .getExercisesByDate(
         this.filter.dateFilter?.year,
-        this.filter.dateFilter!.month,
+        this.filter.dateFilter!.month
       )
       .subscribe({
         next: (result) => {
@@ -127,10 +137,14 @@ export class ExercisePageComponent implements OnInit {
             this.filter.dateFilter!.year,
             this.filter.dateFilter!.month,
             this.exercises,
-            this.filter.showPlayedOnly!,
+            this.filter.showPlayedOnly!
           );
         },
-        complete: () => this.loadingService.complete(),
+        complete: () => {
+          this.loadingService.complete();
+          this.isExportAvailable =
+            this.exercises.filter((x) => x.exerciseId != '-1').length > 0;
+        },
       });
   }
 
@@ -138,7 +152,7 @@ export class ExercisePageComponent implements OnInit {
     year?: number,
     month?: number,
     items?: ExerciseItem[],
-    isHidden?: boolean,
+    isHidden?: boolean
   ): void {
     for (
       let dayOfMonth = 1;
@@ -148,7 +162,7 @@ export class ExercisePageComponent implements OnInit {
       let dateToFill = new Date(year!, month! - 1, dayOfMonth);
       if (
         !items!.some(
-          (x) => new Date(x.playDate).getDate() == dateToFill.getDate(),
+          (x) => new Date(x.playDate).getDate() == dateToFill.getDate()
         )
       ) {
         this.exercises.push({
@@ -161,7 +175,7 @@ export class ExercisePageComponent implements OnInit {
     }
 
     this.exercises.sort((a, b) =>
-      new Date(b.playDate) >= a.playDate ? -1 : 1,
+      new Date(b.playDate) >= a.playDate ? -1 : 1
     );
   }
 }

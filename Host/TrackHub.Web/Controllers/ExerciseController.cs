@@ -42,12 +42,25 @@ public class ExerciseController : TrackHubController
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(Exercise), 200)]
-    public IActionResult GetByDate([FromQuery] DateOnly date, CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(IEnumerator<Exercise>), 200)]
+    public IActionResult GetByDate(
+        [FromQuery] DateOnly from,
+        [FromQuery] DateOnly to, CancellationToken cancellationToken)
     {
-        var result = _exerciseRepository.GetExerciseByDate(date, CurrentUserId, cancellationToken);
+        if (from == to) 
+        {
+            var result = _exerciseRepository.GetExerciseByDate(from, CurrentUserId, cancellationToken);
 
-        return Ok(result);
+            if (result == null)
+                return Ok(Enumerable.Empty<Exercise>());
+            else 
+                return Ok(new List<Exercise>() {result});
+        } else 
+        {
+            var result = _exerciseRepository.GetExerciseListByDateAsync(from.Year, from.Month, CurrentUserId, cancellationToken);
+
+            return Ok(result);
+        }
     }
 
     [HttpGet]
