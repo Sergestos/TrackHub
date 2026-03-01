@@ -43,7 +43,7 @@ public class ExerciseController : TrackHubController
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerator<Exercise>), 200)]
-    public IActionResult GetByDate(
+    public async Task<IActionResult> GetByDate(
         [FromQuery] DateOnly from,
         [FromQuery] DateOnly to, CancellationToken cancellationToken)
     {
@@ -57,9 +57,9 @@ public class ExerciseController : TrackHubController
                 return Ok(new List<Exercise>() {result});
         } else 
         {
-            var result = _exerciseRepository.GetExerciseListByDateAsync(from.Year, from.Month, CurrentUserId, cancellationToken);
+            var result = await _exerciseRepository.GetExerciseListByDateAsync(from.Year, from.Month, CurrentUserId, cancellationToken);
 
-            return Ok(result);
+            return Ok(result.ToList());
         }
     }
 

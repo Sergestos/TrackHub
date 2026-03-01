@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { ApiService } from './api.service';
+import { RecordTypes } from '../../models/recordy-types-enum';
+import { PlayTypes } from '../../models/play-types-enum';
 
 @Injectable()
 export class ExportService {
@@ -47,7 +49,35 @@ export class ExportService {
   }
 
   private buildExerciseExportData(exercises: Exercise[]): string {
-    return 'dsdas';
+    let text: string = '';
+
+    for (let exercise of exercises)
+    {
+      let block = '';
+      block += `--${this.formatDate(new Date(exercise.playDate!))}--`;
+      block += '\n';
+       
+      for (let i = 0; i < exercise.records.length; i++) {
+        const record = exercise.records[i];
+        const type = record.recordType == RecordTypes.Warmup ? 'warmup' : 'guitar';
+        const playType = record.playType == PlayTypes.Solo ? 'solo' : '';
+
+        let compositionName = record.recordType != RecordTypes.Warmup ?
+         `${record.author} - ${record.name} ${playType}` : record.warmupSongs?.join(', ');
+
+        if (record.isRecorded)
+          compositionName += ' (*)';
+
+        let recordLine = `${i + 1}) ${record.playDuration} min: ${type} - ${compositionName}`;
+        block += recordLine;
+        block += '\n';
+      }
+
+      block += '\n';
+      text += block;
+    }
+
+    return text;
   }
 
   private getMonthDateRange(
@@ -69,5 +99,13 @@ export class ExportService {
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${day}`;
+  }
+
+  private formatDate(date: Date): string {
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+
+    return `${day}.${month}.${year}`;
   }
 }
