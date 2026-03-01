@@ -53,7 +53,7 @@ export class ExportService {
 
     for (let exercise of exercises)
     {
-      let block = '';
+      let block = ''; 
       block += `--${this.formatDate(new Date(exercise.playDate!))}--`;
       block += '\n';
        
