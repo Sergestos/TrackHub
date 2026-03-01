@@ -21,6 +21,7 @@ import { Exercise } from '../../../models/exercise';
 import { RecordTypes } from '../../../models/recordy-types-enum';
 import { PlayTypes } from '../../../models/play-types-enum';
 import { ExerciseRecord } from '../../../models/exercise-record';
+import { AlertService } from '../../../providers/services/alert.service';
 
 @Component({
   selector: 'trh-commit',
@@ -43,6 +44,7 @@ export class CommitComponent implements OnInit {
   private loadingService = inject(LoadingService);
   private matDialog = inject(MatDialog);
   private router = inject(Router);
+  private alertService = inject(AlertService);
   private activatedRoute = inject(ActivatedRoute);
 
   public ngOnInit(): void {
@@ -90,11 +92,25 @@ export class CommitComponent implements OnInit {
           playDate: this.isUseTodaysDate ? new Date() : this.selectedDate,
           records: this.exerciseViews.map((x) => x.model),
         })
-        .subscribe((_) => window.location.reload());
+        .subscribe({
+          next: (_) => {
+            this.alertService.show(
+              'success',
+              'Exercise was successfully commited'
+            );
+            this.router.navigateByUrl('app/list');
+          },
+        });
     } else {
-      this.commitService
-        .updateExercise(this.exercise!)
-        .subscribe((_) => window.location.reload());
+      this.commitService.updateExercise(this.exercise!).subscribe({
+        next: (_) => {
+          this.alertService.show(
+            'success',
+            'Exercise was successfully updated'
+          );
+          this.router.navigateByUrl('app/list');
+        },
+      });
     }
   }
 

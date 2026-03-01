@@ -9,6 +9,8 @@ import {
 import { Exercise } from '../../../models/exercise';
 import { ExerciseRecord } from '../../../models/exercise-record';
 import { RecordTypes } from '../../../models/recordy-types-enum';
+import { AlertService } from '../../../providers/services/alert.service';
+import { Router } from '@angular/router';
 
 const DEBOUNCE_TIME = 1000;
 
@@ -30,7 +32,9 @@ export class TemplateCommitComponent implements OnInit {
 
   private input$ = new Subject<string>();
 
-  private templateCommitService = inject(TemplateCommitService);
+  private readonly templateCommitService = inject(TemplateCommitService);
+  private readonly alertService = inject(AlertService);
+  private readonly router = inject(Router);
 
   public get isSaveAllowed(): boolean {
     return (
@@ -72,7 +76,11 @@ export class TemplateCommitComponent implements OnInit {
 
       this.templateCommitService.saveExercise(exercise).subscribe({
         next: (_) => {
-          window.location.reload();
+          this.alertService.show(
+            'success',
+            'Exercise was successfully commited'
+          );
+          this.router.navigateByUrl('app/list');
         },
       });
     }
