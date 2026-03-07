@@ -18,4 +18,8 @@ export class SongsByDateAggregation {
 
   timesPlayed: number = 0;
   totalDuration: number = 0;
+
+  rhythmPlayed: number = 0;
+  soloPlayed: number = 0;
+  bothPlayed: number = 0;
 }

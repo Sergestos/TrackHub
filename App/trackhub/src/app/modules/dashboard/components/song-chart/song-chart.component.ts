@@ -108,6 +108,38 @@ export class SongChartComponent implements OnInit {
   }
 
   private buildChart(): void {
+    let series;
+    if (this.chartDisplayType == 'times_played')
+      series = [
+        {
+          name: 'Times played',
+          type: 'bar',
+          data: this.buildTimesPlayedChart(),
+        },
+      ];
+    else
+      series = [
+        {
+          name: 'Solo',
+          type: 'bar',
+          stack: 'played',
+          data: this.buildStackedData('solo'),
+        },
+        {
+          name: 'Rhythm',
+          type: 'bar',
+          stack: 'played',
+          data: this.buildStackedData('rhythm'),
+        },
+        {
+          name: 'Both',
+          type: 'bar',
+          stack: 'played',
+          data: this.buildStackedData('both'),
+        },
+      ];
+
+
     this.options = {
       title: {
         text: 'Songs',
@@ -140,22 +172,31 @@ export class SongChartComponent implements OnInit {
         type: 'category',
         data: this.chartData!.map((x) => x.author + ' - ' + x.name),
       },
-      series: [
-        {
-          name:
-            this.chartDisplayType == 'total_played'
-              ? 'Total played (in minutes)'
-              : 'Times played',
-          type: 'bar',
-          data: this.buildData(),
-        },
-      ],
+      series: series
     };
   }
 
-  private buildData(): any {
-    return this.chartDisplayType == 'total_played'
-      ? this.chartData!.map((x) => x.totalPlayed)
-      : this.chartData!.map((x) => x.timesPlayed);
+  private buildTimesPlayedChart(): number[] {
+    return this.chartData!.map((x) => x.timesPlayed);
+  }
+
+  private buildStackedData(type: 'solo' | 'rhythm' | 'both'): number[] {
+    return this.chartData!.map(song => {
+      const dates = song.songsByDateAggregations ?? [];
+
+      switch (type) {
+        case 'solo':
+          return dates.reduce((sum, x) => sum + (x.soloPlayed ?? 0), 0);
+
+        case 'rhythm':
+          return dates.reduce((sum, x) => sum + (x.rhythmPlayed ?? 0), 0);
+
+        case 'both':
+          return dates.reduce((sum, x) => sum + (x.bothPlayed ?? 0), 0);
+
+        default:
+          return 0;
+      }
+    });
   }
 }
