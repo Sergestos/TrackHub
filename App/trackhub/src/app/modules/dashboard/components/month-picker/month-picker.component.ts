@@ -1,7 +1,7 @@
 import { Component, output } from '@angular/core';
-import { ButtonComponent } from '../../../../../components/button/button.component';
-import { MonthPickerComponent } from '../../../../../components/month-picker/month-picker.component';
-import { MonthPickerModel } from '../../../../../components/month-picker/month-picker.model';
+import { ButtonComponent } from '../../../../components/button/button.component';
+import { MonthPickerComponent } from '../../../../components/month-picker/month-picker.component';
+import { MonthPickerModel } from '../../../../components/month-picker/month-picker.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, ButtonComponent, MonthPickerComponent],
 })
 export class ChartMonthPickerComponent {
-  // TODO fix 2023 magic number - get it from some store
-  public startYear: number = 2023;
+  // TODO fix 2018 magic number - get it from some store
+  public startYear: number = 2018;
   public monthModel!: MonthPickerModel;
 
   public monthSelected = output<Date>();
@@ -33,13 +33,16 @@ export class ChartMonthPickerComponent {
 
   public onLastMonthClicked(): void {
     const now = new Date();
-    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthStart = new Date(now);
+    lastMonthStart.setDate(1);
+    lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
 
     this.monthSelected.emit(lastMonthStart);
   }
 
   public onApplyClicked(): void {
-    const date = new Date(this.monthModel.year!, this.monthModel.month! - 1, 1);
+    const date = new Date(this.monthModel.year!, this.monthModel.month! - 1);
+    date.setDate(1);
 
     this.monthSelected.emit(date);
   }

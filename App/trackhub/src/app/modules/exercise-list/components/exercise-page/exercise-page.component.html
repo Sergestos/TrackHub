@@ -32,12 +32,12 @@
       </div>
     </div>
     <div
-      class="flex-1 min-h-0 overflow-y-auto border-r border-solid border-zinc-700"
+      class="flex-1 min-h-0 overflow-y-auto"
     >
       @if (isAnyExerciseShown) { @for (item of exercises; track $index) {
       @if(!item.isHidden) {
       <div
-        class="pb-4 bg-zinc-900 border-b border-l border-solid border-zinc-700"
+        class="pb-4 bg-zinc-900 border-b border-x border-solid border-zinc-700"
       >
         <div class="flex flex-row pt-4 ml-12">
           <div class="w-[4%]">

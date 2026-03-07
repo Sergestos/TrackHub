@@ -20,8 +20,8 @@
       </div>
       <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>
     </div>
-    <div class="flex flex-row items-center gap-2">
-      <p>Aggregate by:</p>
+    <div class="flex flex-row items-center gap-1">
+      <p>Aggregate:</p>
       <select class="w-24 py-1" (change)="onTypeChanged($event)">
         <option [value]="'record'">
           {{ "Record" }}
