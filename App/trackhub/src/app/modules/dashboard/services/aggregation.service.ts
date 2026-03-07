@@ -30,7 +30,7 @@ export class AggregationService {
   public getSongAggregationsByDate(date: Date): Observable<SongAggregation[]> {
     return this.apiService.get<SongAggregation[]>(
       `${this.exercisesUrl}/songs`,
-      { date: date.toISOString() },
+      { date: date.toDateString() },
     );
   }
 

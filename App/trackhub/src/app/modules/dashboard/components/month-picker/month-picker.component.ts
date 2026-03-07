@@ -33,13 +33,16 @@ export class ChartMonthPickerComponent {
 
   public onLastMonthClicked(): void {
     const now = new Date();
-    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthStart = new Date(now);
+    lastMonthStart.setDate(1);
+    lastMonthStart.setMonth(lastMonthStart.getMonth() - 1);
 
     this.monthSelected.emit(lastMonthStart);
   }
 
   public onApplyClicked(): void {
-    const date = new Date(this.monthModel.year!, this.monthModel.month! - 1, 1);
+    const date = new Date(this.monthModel.year!, this.monthModel.month! - 1);
+    date.setDate(1);
 
     this.monthSelected.emit(date);
   }

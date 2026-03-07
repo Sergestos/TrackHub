@@ -3,6 +3,10 @@ export class SongAggregation {
   type?: string;
   userId?: string;
 
+  rhythmPlayed?: number;
+  soloPlayed?: number;
+  bothPlayed?: number;
+
   totalPlayed?: number = 0;
   timesPlayed?: number = 0;
 

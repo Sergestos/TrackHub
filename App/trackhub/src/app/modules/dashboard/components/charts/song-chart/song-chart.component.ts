@@ -227,22 +227,42 @@ export class SongChartComponent implements OnInit {
     return this.chartData!.map((x) => x.timesPlayed!);
   }
 
-  private buildStackedData(type: 'solo' | 'rhythm' | 'both'): number[] {
+  private buildStackedData(type: 'solo' | 'rhythm' | 'both'): any {
     return this.chartData!.map(song => {
-      const dates = song.songsByDateAggregations ?? [];
+      if (this.chartAggregationType == 'total') {
+        const dates = song.songsByDateAggregations ?? [];
 
-      switch (type) {
-        case 'solo':
-          return dates.reduce((sum, x) => sum + (x.soloPlayed ?? 0), 0);
+        switch (type) {
+          case 'solo':
+            return song.soloPlayed ?? [0];
+          case 'rhythm':
+            return song.rhythmPlayed ?? [0];
+          case 'both':
+            return song.bothPlayed ?? [0];
+          default:
+            return [0];
+        }
+      } else {
+        const dates = song.songsByDateAggregations?.find(x =>
+          x.year == this.selectedDate.getFullYear() &&
+          x.month == this.selectedDate.getMonth() + 1);
 
-        case 'rhythm':
-          return dates.reduce((sum, x) => sum + (x.rhythmPlayed ?? 0), 0);
+          console.log(this.selectedDate.getFullYear())
+          console.log(this.selectedDate.getMonth())
 
-        case 'both':
-          return dates.reduce((sum, x) => sum + (x.bothPlayed ?? 0), 0);
+        if (!dates)
+          return [0];
 
-        default:
-          return 0;
+        switch (type) {
+          case 'solo':
+            return dates?.soloPlayed ?? [0];
+          case 'rhythm':
+            return dates?.rhythmPlayed ?? [0];
+          case 'both':
+            return dates?.bothPlayed ?? [0];
+          default:
+            return [0];
+        }
       }
     });
   }
