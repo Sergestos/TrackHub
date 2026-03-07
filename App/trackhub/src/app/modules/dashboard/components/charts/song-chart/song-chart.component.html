@@ -1,0 +1,57 @@
+<div class="w-full flex flex-col">
+  <div
+    class="flex flex-row gap-8 justify-between items-center p-1 h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800">
+    <div class="flex flex-row gap-0.5 items-center">
+      <p class="px-2 font-semibold text-sm">Songs Chart</p>
+      @if(isAggregationByDate) {
+      <div class="relative">
+        <div
+          class="bg-zinc-900 w-10 h-7 flex flex-row justify-center items-center border rounded-md border-solid border-zinc-700 cursor-pointer hover:border-gray-500 hover:text-gray-100 transition duration-200"
+          (click)="onMonthPickerClicked()">
+          <i class="fa-regular fa-calendar-days text-gray-300"></i>
+        </div>
+        @if (isMonthPickerShown) {
+        <trh-chart-month-picker class="absolute top-full mt-1 left-0 z-10" (monthSelected)="onMonthSelected($event)">
+        </trh-chart-month-picker>
+        }
+      </div>
+      <span class="text-zinc-400 ml-2">
+        {{ selectedDate | date : "MM/yyyy" }}
+      </span>
+      }
+      @if(!isAggregationByDate) {
+      <div class="arrow" (click)="onPreviousSongsLoad()" [class.disabled]="!isPreviousPageAllowed">
+        <i class="fa-solid fa-arrow-left text-gray-300"></i>
+      </div>
+      <div class="arrow" (click)="onNextSongsLoad()" [class.disabled]="!IsNextPageAllowed">
+        <i class="fa-solid fa-arrow-right text-gray-300"></i>
+      </div>
+      }
+    </div>
+    <div class="flex flex-row gap-6">
+      <div class="flex flex-row items-center gap-1">
+        <p>Aggregate:</p>
+        <select class="w-24 py-1" (change)="onAggregationChanged($event)">
+          <option [value]="'total'">
+            {{ "Total" }}
+          </option>
+          <option [value]="'date'">
+            {{ "Date" }}
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-row items-center gap-1">
+        <p>Sort:</p>
+        <select class="w-36 py-1" (change)="onTypeChanged($event)" [disabled]="isAggregationByDate ? true : undefined">
+          <option [value]="'total_played'">
+            {{ "Total played" }}
+          </option>
+          <option [value]="'times_played'">
+            {{ "Times played" }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div echarts class="w-full min-h-80" [options]="options"></div>
+</div>

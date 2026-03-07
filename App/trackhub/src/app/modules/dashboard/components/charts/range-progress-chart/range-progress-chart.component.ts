@@ -8,14 +8,13 @@ import {
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../../../components/button/button.component';
-import {
-  ByRecordTypeAggregation,
-  ExerciseAggregation,
-} from '../../models/exercise-aggregation.model';
+
 import * as echarts from 'echarts/core';
-import { AlertService } from '../../../../providers/services/alert.service';
-import { AggregationService } from '../../services/aggregation.service';
+import { ButtonComponent } from '../../../../../components/button/button.component';
+import { ByRecordTypeAggregation, ExerciseAggregation } from '../../../models/exercise-aggregation.model';
+import { AggregationService } from '../../../services/aggregation.service';
+import { AlertService } from '../../../../../providers/services/alert.service';
+
 
 type ChartMetric = 'totalPlayed' | 'timesPlayed';
 

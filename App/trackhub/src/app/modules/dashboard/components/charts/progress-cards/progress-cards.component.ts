@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import { LinearTrendComponent } from './linear-trend/linear-trend.component';
-import { AggregationService } from '../../services/aggregation.service';
 import { combineLatest } from 'rxjs';
+import { ExerciseAggregation } from '../../../models/exercise-aggregation.model';
+import { AggregationService } from '../../../services/aggregation.service';
 
 @Component({
   selector: 'thr-progress-cards',

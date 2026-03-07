@@ -30,7 +30,7 @@ internal class SongAggregator : ISongAggregator
         if (message.NewRecords != null)
             await AggregateRecordsAsync(message.NewRecords, message.UserId, message.PlayDate, cancellationToken);
 
-        await _aggregationRepository.UpsertSongAggregations(message.UserId, _songsToUpdate.Values.ToArray(), cancellationToken);
+        await _aggregationRepository.UpsertSongAggregationsAsync(message.UserId, _songsToUpdate.Values.ToArray(), cancellationToken);
         await RecalculateUserPlayedSongsAsync(message.UserId, cancellationToken);
     }
 
@@ -40,7 +40,7 @@ internal class SongAggregator : ISongAggregator
         {
             var aggregationId = AggregationIds.Song(userId, song.Author!, song.Name!);
 
-            SongAggregation? songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationId, userId, cancellationToken);
+            SongAggregation? songAggregation = await _aggregationRepository.GetSongAggregationByIdAsync(aggregationId, userId, cancellationToken);
             if (songAggregation is null)
             {
                 break;
@@ -104,7 +104,7 @@ internal class SongAggregator : ISongAggregator
 
             SongAggregation? songAggregation;
             if (!_aggregationsCache.ContainsKey(aggregationId))
-                songAggregation = await _aggregationRepository.GetSongAggregationById(aggregationId, userId, cancellationToken);
+                songAggregation = await _aggregationRepository.GetSongAggregationByIdAsync(aggregationId, userId, cancellationToken);
             else
                 songAggregation = _aggregationsCache[aggregationId];
 
@@ -175,7 +175,7 @@ internal class SongAggregator : ISongAggregator
     private async Task RecalculateUserPlayedSongsAsync(string userId, CancellationToken cancellationToken)
     {
         var storedAggregations = (await _aggregationRepository
-            .GetSongAggregationsByUserId(userId, cancellationToken))
+            .GetSongAggregationsByUserIdAsync(userId, cancellationToken))
             .OrderByDescending(x => x.TotalPlayed);
 
         var orderedSongs = new List<string>();

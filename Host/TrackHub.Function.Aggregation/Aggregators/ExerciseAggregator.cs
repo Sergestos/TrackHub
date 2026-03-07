@@ -20,7 +20,7 @@ internal class ExerciseAggregator : IExerciseAggregator
     public async Task AggregateExercise(AggregationEventMessage message, CancellationToken cancellationToken)
     {
         var aggregationIds = AggregationIds.Monthly(message.UserId, message.PlayDate.Date);
-        ExerciseAggregation? exerciseAggregation = await _aggregationRepository.GetExerciseAggregationById(aggregationIds, message.UserId, cancellationToken);
+        ExerciseAggregation? exerciseAggregation = await _aggregationRepository.GetExerciseAggregationByIdAsync(aggregationIds, message.UserId, cancellationToken);
         if (exerciseAggregation == null)
         {
             exerciseAggregation = new ExerciseAggregation()
@@ -55,7 +55,7 @@ internal class ExerciseAggregator : IExerciseAggregator
             }
         }
 
-        await _aggregationRepository.UpsertExerciseAggregation(message.UserId, exerciseAggregation, cancellationToken);
+        await _aggregationRepository.UpsertExerciseAggregationAsync(message.UserId, exerciseAggregation, cancellationToken);
     }
 
     private void AggregateByPlayType(AggregationRecord aggregationRecord, ExerciseAggregation exerciseAggregation)

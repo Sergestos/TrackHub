@@ -7,10 +7,10 @@ import {
   TitleComponent,
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import { ExerciseAggregation } from '../../models/exercise-aggregation.model';
 import * as echarts from 'echarts/core';
-import { ChartMonthPickerComponent } from './month-picker/month-picker.component';
-import { AggregationService } from '../../services/aggregation.service';
+import { ChartMonthPickerComponent } from '../../month-picker/month-picker.component';
+import { ExerciseAggregation } from '../../../models/exercise-aggregation.model';
+import { AggregationService } from '../../../services/aggregation.service';
 
 echarts.use([
   PieChart,
@@ -161,8 +161,8 @@ export class MonthlyProgressChartComponent implements OnInit {
       },
       legend: {
         orient: 'vertical',
-        left: '2.5%',
-        top: '5%',
+        left: '1%',
+        top: '2%',
       },
       series: [
         {

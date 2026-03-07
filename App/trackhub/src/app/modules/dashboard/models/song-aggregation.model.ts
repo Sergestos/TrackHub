@@ -1,13 +1,13 @@
 export class SongAggregation {
-  aggregationId!: string;
-  type!: string;
-  userId!: string;
+  aggregationId?: string;
+  type?: string;
+  userId?: string;
 
-  totalPlayed: number = 0;
-  timesPlayed: number = 0;
+  totalPlayed?: number = 0;
+  timesPlayed?: number = 0;
 
-  author!: string;
-  name!: string;
+  author?: string;
+  name?: string;
 
   songsByDateAggregations: SongsByDateAggregation[] | null = null;
 }

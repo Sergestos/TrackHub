@@ -8,5 +8,5 @@ public interface IAggregationReadService
 
     Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByDateRangeAsync(string userId, DateTime startDate, DateTime endDate, CancellationToken cancellation);
 
-    Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, CancellationToken cancellation);
+    Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, DateOnly? date, CancellationToken cancellation);
 }

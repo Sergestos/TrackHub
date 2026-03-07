@@ -11,7 +11,6 @@ namespace TrackHub.Domain.Data.Repositories;
 internal class AggregationRepository : IAggregationRepository
 {
     private const string AggregationContainerType = "aggregation";
-    private const string ExerciseType = "exercise_aggregation";
     private const string SongType = "song_aggregation";
 
     private readonly Container _container;
@@ -21,7 +20,7 @@ internal class AggregationRepository : IAggregationRepository
         _container = context.GetContainer(AggregationContainerType);
     }
 
-    public async Task<ExerciseAggregation?> GetExerciseAggregationById(string aggregationId, string userId, CancellationToken cancellationToken)
+    public async Task<ExerciseAggregation?> GetExerciseAggregationByIdAsync(string aggregationId, string userId, CancellationToken cancellationToken)
     {
         try
         {
@@ -38,7 +37,7 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationListByIds(string[] aggregationIds, string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationListByIdsAsync(string[] aggregationIds, string userId, CancellationToken cancellationToken)
     {
         if (aggregationIds is null) throw new ArgumentNullException(nameof(aggregationIds));
 
@@ -68,7 +67,7 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<SongAggregation?> GetSongAggregationById(string aggregationId, string userId, CancellationToken cancellationToken)
+    public async Task<SongAggregation?> GetSongAggregationByIdAsync(string aggregationId, string userId, CancellationToken cancellationToken)
     {
         try
         {
@@ -85,7 +84,37 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<IEnumerable<SongAggregation>> GetSongAggregationListByIds(string userId, string[] songAggregationIds, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationListByDateAsync(string userId, DateOnly date, CancellationToken cancellationToken)
+    {
+        var query = new QueryDefinition(@"
+            SELECT DISTINCT
+                VALUE c
+            FROM c
+            JOIN d 
+                IN c.date_aggregation
+            WHERE 
+                c.user_id = @userId
+                AND d.Year = @year
+                AND d.Month = @month")
+            .WithParameter("@userId", userId)
+            .WithParameter("@year", date.Year)
+            .WithParameter("@month", date.Month);
+
+            var results = new List<SongAggregation>();
+
+            using FeedIterator<SongAggregation> iterator =
+                _container.GetItemQueryIterator<SongAggregation>(query);
+
+            while (iterator.HasMoreResults)
+            {
+                FeedResponse<SongAggregation> response = await iterator.ReadNextAsync();
+                results.AddRange(response);
+            }
+
+        return results;
+    }
+
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationListByIdsAsync(string userId, string[] songAggregationIds, CancellationToken cancellationToken)
     {
         if (songAggregationIds is null) throw new ArgumentNullException(nameof(songAggregationIds));
 
@@ -116,7 +145,7 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsByUserId(string userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsByUserIdAsync(string userId, CancellationToken cancellationToken)
     {
         var matches = _container.GetItemLinqQueryable<SongAggregation>()
             .Where(x => x.UserId == userId && x.Type == SongType);
@@ -137,7 +166,7 @@ internal class AggregationRepository : IAggregationRepository
         }
     }
 
-    public async Task<ExerciseAggregation> UpsertExerciseAggregation(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken)
+    public async Task<ExerciseAggregation> UpsertExerciseAggregationAsync(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken)
     {
         var response = await _container.UpsertItemAsync(
             aggregation,
@@ -147,7 +176,7 @@ internal class AggregationRepository : IAggregationRepository
         return response.Resource;
     }
 
-    public async Task<SongAggregation> UpsertSongAggregation(string userId, SongAggregation aggregation, CancellationToken cancellationToken)
+    public async Task<SongAggregation> UpsertSongAggregationAsync(string userId, SongAggregation aggregation, CancellationToken cancellationToken)
     {
         var response = await _container.UpsertItemAsync(
             aggregation,
@@ -157,7 +186,7 @@ internal class AggregationRepository : IAggregationRepository
         return response.Resource;
     }
 
-    public async Task<IEnumerable<SongAggregation>> UpsertSongAggregations(string userId, SongAggregation[] aggregations, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SongAggregation>> UpsertSongAggregationsAsync(string userId, SongAggregation[] aggregations, CancellationToken cancellationToken)
     {
         var upsertedAggregations = new List<SongAggregation>();
 

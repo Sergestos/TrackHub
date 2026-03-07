@@ -18,7 +18,7 @@ internal class AggregationReadService : IAggregationReadService
     {
         var aggregationId = AggregationIds.Monthly(userId, date);
 
-        return await _aggregationRepository.GetExerciseAggregationById(aggregationId, userId, cancellationToken);
+        return await _aggregationRepository.GetExerciseAggregationByIdAsync(aggregationId, userId, cancellationToken);
     }
 
     public async Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByDateRangeAsync(
@@ -31,7 +31,7 @@ internal class AggregationReadService : IAggregationReadService
             .Select(date => AggregationIds.Monthly(userId, date))
             .ToArray();
 
-        return await _aggregationRepository.GetExerciseAggregationListByIds(aggregationIds, userId, cancellationToken);
+        return await _aggregationRepository.GetExerciseAggregationListByIdsAsync(aggregationIds, userId, cancellationToken);
     }
 
     private static IReadOnlyList<DateTime> GetMonthYearRange(
@@ -51,17 +51,34 @@ internal class AggregationReadService : IAggregationReadService
         return result;
     }
 
-    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, DateOnly? date, CancellationToken cancellationToken)
+    {
+        if (date == null)
+        {
+            return await GetSongAggregationByTopOrderAsync(userId, page, pageSize, cancellationToken);
+        }
+        else
+        {
+            return await GetSongAggregationByDateAsync(userId, date.Value, cancellationToken);
+        }
+    }
+
+    private async Task<IEnumerable<SongAggregation>> GetSongAggregationByDateAsync(string userId, DateOnly date, CancellationToken cancellationToken)
+    {
+        return await _aggregationRepository.GetSongAggregationListByDateAsync(userId, date, cancellationToken);
+    }
+
+    private async Task<IEnumerable<SongAggregation>> GetSongAggregationByTopOrderAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
     {
         var user = _userRepository.GetUserById(userId);
         if (user!.OrderedByDurationPlayedSongs is null)
             return Enumerable.Empty<SongAggregation>();
-        
+
         string[] songIds = user!.OrderedByDurationPlayedSongs
             .Skip((page - 1) * pageSize)
-            .Take(pageSize)            
+            .Take(pageSize)
             .ToArray();
 
-        return await _aggregationRepository.GetSongAggregationListByIds(userId, songIds, cancellationToken);
+        return await _aggregationRepository.GetSongAggregationListByIdsAsync(userId, songIds, cancellationToken);
     }
 }

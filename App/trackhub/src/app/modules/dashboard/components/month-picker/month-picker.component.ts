@@ -1,7 +1,7 @@
 import { Component, output } from '@angular/core';
-import { ButtonComponent } from '../../../../../components/button/button.component';
-import { MonthPickerComponent } from '../../../../../components/month-picker/month-picker.component';
-import { MonthPickerModel } from '../../../../../components/month-picker/month-picker.model';
+import { ButtonComponent } from '../../../../components/button/button.component';
+import { MonthPickerComponent } from '../../../../components/month-picker/month-picker.component';
+import { MonthPickerModel } from '../../../../components/month-picker/month-picker.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, ButtonComponent, MonthPickerComponent],
 })
 export class ChartMonthPickerComponent {
-  // TODO fix 2023 magic number - get it from some store
-  public startYear: number = 2023;
+  // TODO fix 2018 magic number - get it from some store
+  public startYear: number = 2018;
   public monthModel!: MonthPickerModel;
 
   public monthSelected = output<Date>();

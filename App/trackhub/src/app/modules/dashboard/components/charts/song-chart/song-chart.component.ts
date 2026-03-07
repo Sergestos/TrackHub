@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AggregationService } from '../../services/aggregation.service';
-import { SongAggregation } from '../../models/song-aggregation.model';
+import { AggregationService } from '../../../services/aggregation.service';
+import { SongAggregation } from '../../../models/song-aggregation.model';
 import * as echarts from 'echarts/core';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { BarChart } from 'echarts/charts';
@@ -10,10 +10,13 @@ import {
   TooltipComponent,
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
+import { ChartMonthPickerComponent } from '../../month-picker/month-picker.component';
+import { DatePipe } from '@angular/common';
 
 const PAGE_SIZE = 10;
 
-type ChartMetric = 'total_played' | 'times_played';
+type ChartSortMetric = 'total_played' | 'times_played';
+type ChartAggregationMetric = 'total' | 'date';
 
 echarts.use([
   BarChart,
@@ -29,16 +32,25 @@ echarts.use([
   styleUrl: './song-chart.component.scss',
   standalone: true,
   providers: [provideEchartsCore({ echarts })],
-  imports: [NgxEchartsDirective],
+  imports: [NgxEchartsDirective, ChartMonthPickerComponent, DatePipe],
 })
 export class SongChartComponent implements OnInit {
   public chartData: SongAggregation[] | null = null;
   public options!: any;
 
+  public isMonthPickerShown: boolean = false;
+
   private aggregationService = inject(AggregationService);
 
-  private chartDisplayType: ChartMetric = 'total_played';
+  private chartAggregationType: ChartAggregationMetric = 'total';
+  private chartDisplayType: ChartSortMetric = 'total_played';
   private currentPage: number = 1;
+
+  public selectedDate: Date = new Date();
+
+  public get isAggregationByDate(): boolean {
+    return this.chartAggregationType == 'date';
+  }
 
   public get isPreviousPageAllowed(): boolean {
     if (!this.chartData) return false;
@@ -57,16 +69,7 @@ export class SongChartComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.aggregationService
-      .getSongAggregations(this.currentPage, PAGE_SIZE)
-      .subscribe({
-        next: (result) => {
-          if (result) {
-            this.chartData = result;
-            this.buildChart();
-          }
-        },
-      });
+    this.requestData();
   }
 
   public onTypeChanged($event: Event) {
@@ -79,32 +82,68 @@ export class SongChartComponent implements OnInit {
     }
   }
 
+  public onAggregationChanged($event: Event): void {
+    this.chartDisplayType = 'total_played';
+    this.currentPage = 1;
+
+    this.chartAggregationType = ($event.target as HTMLSelectElement).value as
+      | 'total'
+      | 'date';
+
+    this.requestData();
+  }
+
   public onNextSongsLoad(): void {
     if (!this.IsNextPageAllowed) return;
 
     this.currentPage++;
-
-    this.aggregationService
-      .getSongAggregations(this.currentPage, PAGE_SIZE)
-      .subscribe({
-        next: (result) => {
-          this.chartData?.concat(result);
-        },
-      });
+    this.requestData();
   }
 
   public onPreviousSongsLoad(): void {
     if (!this.isPreviousPageAllowed) return;
 
     this.currentPage--;
+    this.requestData();
+  }
 
-    this.aggregationService
-      .getSongAggregations(this.currentPage, PAGE_SIZE)
-      .subscribe({
-        next: (result) => {
-          this.chartData?.concat(result);
-        },
-      });
+  public onMonthPickerClicked(): void {
+    this.isMonthPickerShown = !this.isMonthPickerShown;
+  }
+
+  public onMonthSelected($event: Date) {
+    this.isMonthPickerShown = false;
+    this.selectedDate = $event;
+
+    this.requestData();
+  }
+
+  private requestData(): void {
+    if (this.chartAggregationType == 'total') {
+      this.aggregationService
+        .getPagedSongAggregations(this.currentPage, PAGE_SIZE)
+        .subscribe({
+          next: (result) => {
+            this.chartData = result.sort((a, b) => a.totalPlayed! - b.totalPlayed!);
+            this.buildChart();
+          },
+        });
+    } else {
+      this.aggregationService
+        .getSongAggregationsByDate(this.selectedDate)
+        .subscribe({
+          next: (result) => {
+            this.chartData = result.sort((a, b) => {
+              const authorCompare = b.author!.localeCompare(a.author!);
+              if (authorCompare !== 0) return authorCompare;
+
+              return b.name!.localeCompare(a.name!);
+            });
+
+            this.buildChart();
+          },
+        });
+    }
   }
 
   private buildChart(): void {
@@ -150,10 +189,18 @@ export class SongChartComponent implements OnInit {
           type: 'shadow',
         },
       },
+      dataZoom: [
+        {
+          type: 'inside',
+          yAxisIndex: 0,
+          startValue: 0,
+          endValue: 10
+        }
+      ],
       legend: {
         orient: 'vertical',
-        left: '2.5%',
-        top: '5%',
+        left: '1%',
+        top: '90%',
       },
       grid: { top: 40, bottom: 35, left: 60, right: 20, containLabel: true },
       xAxis: {
@@ -177,7 +224,7 @@ export class SongChartComponent implements OnInit {
   }
 
   private buildTimesPlayedChart(): number[] {
-    return this.chartData!.map((x) => x.timesPlayed);
+    return this.chartData!.map((x) => x.timesPlayed!);
   }
 
   private buildStackedData(type: 'solo' | 'rhythm' | 'both'): number[] {

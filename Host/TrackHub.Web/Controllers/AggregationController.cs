@@ -42,9 +42,11 @@ public class AggregationController : TrackHubController
     [Route("songs")]
     [ProducesResponseType(typeof(IEnumerable<SongAggregation>), 200)]
     [ResponseCache(Duration = 3, Location = ResponseCacheLocation.Client)]
-    public async Task<IActionResult> GetSongAggregations([FromQuery] int page, [FromQuery] int pageSize, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetSongAggregations([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] DateTime? date, CancellationToken cancellationToken)
     {
-        var result = await _aggregationReadService.GetSongAggregationsAsync(CurrentUserId, page, pageSize, cancellationToken);
+        DateOnly? dateOnly = date.HasValue ? DateOnly.FromDateTime(date.Value) : null;
+
+        var result = await _aggregationReadService.GetSongAggregationsAsync(CurrentUserId, page, pageSize, dateOnly, cancellationToken);
 
         return Ok(result);
     }
