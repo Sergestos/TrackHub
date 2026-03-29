@@ -67,21 +67,22 @@ internal class PreviewService : IPreviewService
             Author = practiceLine.Band,
             IsRecorded = practiceLine.IsStarred,
             WarmupSongs = practiceLine.WarmupSongs,
-            PlayType = practiceLine.SoloText != null ? PlayType.Solo : PlayType.Rhythm,
-            RecordType = Domain.Enums.RecordType.Song,            
+            PlayType = practiceLine.SoloText == null ? PlayType.Rhythm :
+                       practiceLine.SoloText == "solo" ? PlayType.Solo : PlayType.Both,
+            RecordType = RecordType.Song,
         };
 
         string keyword = practiceLine.Keyword.ToLower();
         if (keyword == "warmup")
         {
-            record.RecordType = Domain.Enums.RecordType.Warmup;
-            record.Instrument = Domain.Enums.Instrument.Guitar;
+            record.RecordType = RecordType.Warmup;
+            record.Instrument = Instrument.Guitar;
         }
         else
         {
-            record.RecordType = Domain.Enums.RecordType.Song;
+            record.RecordType = RecordType.Song;
             record.Instrument = keyword == "guitar" ?
-                Domain.Enums.Instrument.Guitar : Domain.Enums.Instrument.Bass;            
+                Instrument.Guitar : Instrument.Bass;            
         }
 
         return null;
@@ -99,9 +100,9 @@ internal class PreviewService : IPreviewService
         };
 
         string clean = string.Concat(input.Where(c => !char.IsWhiteSpace(c)));
-        if (!clean.StartsWith("--") || !clean.EndsWith("--"))
+        if (!ValidateOpeningDateSymbols(clean))
         {
-            issue.ErrorReason = "Play Date should start and end with --";
+            issue.ErrorReason = "Play Date should start and end with proper symbols";
             return issue;
         }
 
@@ -179,10 +180,24 @@ internal class PreviewService : IPreviewService
             Keyword = match.Groups["keyword"].Value.Trim(),
             Band = match.Groups["band"].Value.Trim(),
             Song = match.Groups["song"].Value.Trim(),
-            SoloText = match.Groups["solo"].Success ? match.Groups["solo"].Value.Trim() : null,
+            SoloText = match.Groups["solo"].Success
+                        ? (match.Groups["soloPlus"].Success ? "both" : "solo")
+                        : null,
             IsStarred = match.Groups["star"].Success
         };
 
         return true;
+    }
+    
+    private bool ValidateOpeningDateSymbols(string dateString)
+    {
+        if ((dateString.StartsWith("--") && dateString.EndsWith("--")) ||
+            (dateString.StartsWith("-") && dateString.EndsWith("-")) ||
+            (dateString.StartsWith("—") && dateString.EndsWith("—")))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

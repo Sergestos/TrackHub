@@ -17,7 +17,7 @@ internal class PreviewTemplates
           (?<band>[^-]+?)
           \s*-\s*
           (?<song>.+?)
-          (?:\s+(?<solo>\+?\s*solo))?
+          (?:\s+(?<soloPlus>\+)?\s*(?<solo>solo))?
           \s*
           (?<star>\(\*\))?
           \s*$

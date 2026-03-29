@@ -1,6 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RecordTypes } from '../../../../models/recordy-types-enum';
 import { RecordDetailsItem } from '../../models/exercise-list.models';
+import { PlayTypes } from '../../../../models/play-types-enum';
 
 @Component({
   selector: 'trh-details-exercise-card',
@@ -14,12 +15,17 @@ import { RecordDetailsItem } from '../../models/exercise-list.models';
 })
 export class DetailsExerciseItemComponent {
   readonly RecordTypes = RecordTypes;
+  readonly PlayTypes = PlayTypes;
 
   public exerciseId = input.required<string>();
   public exerciseDetailsModels = input<RecordDetailsItem[] | null>();
 
   public getRecordTypeField(record: RecordDetailsItem): string {
     return RecordTypes[record.recordType];
+  }
+
+  public getRecordPlayTypeField(record: RecordDetailsItem): string {
+    return PlayTypes[record.playType!].toLowerCase();
   }
 
   public getNameField(record: RecordDetailsItem): string {

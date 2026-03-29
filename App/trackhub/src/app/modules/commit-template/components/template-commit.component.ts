@@ -11,6 +11,7 @@ import { ExerciseRecord } from '../../../models/exercise-record';
 import { RecordTypes } from '../../../models/recordy-types-enum';
 import { AlertService } from '../../../providers/services/alert.service';
 import { Router } from '@angular/router';
+import { PlayTypes } from '../../../models/play-types-enum';
 
 const DEBOUNCE_TIME = 1000;
 
@@ -67,10 +68,10 @@ export class TemplateCommitComponent implements OnInit {
         playDate: this.playDate,
         records: this.previewRecords!.map(
           (record) =>
-            ({
-              ...record,
-              recordId: undefined,
-            } as ExerciseRecord)
+          ({
+            ...record,
+            recordId: undefined,
+          } as ExerciseRecord)
         ),
       };
 
@@ -119,10 +120,22 @@ export class TemplateCommitComponent implements OnInit {
     const line = this.text.split('\n').length;
 
     if (record.recordType != RecordTypes.Warmup) {
-      return `\n${line}) ${record.playDuration} min: guitar - ${record.author} - ${record.name}`;
+      return `\n${line}) ${record.playDuration} min: guitar - ${record.author} - ${record.name} ${this.buildPlayType(record.playType!)}`;
     } else {
       const warmUpSongs = record.warmupSongs?.join(', ');
       return `\n${line}) ${record.playDuration} min: warmup - ${warmUpSongs}`;
+    }
+  }
+
+  private buildPlayType(playType: PlayTypes): string {
+    switch (playType) {
+      case PlayTypes.Both:
+        return '+ solo';
+      case PlayTypes.Solo:
+        return 'solo';
+      case PlayTypes.Rhythm:
+      default:
+        return '';
     }
   }
 }

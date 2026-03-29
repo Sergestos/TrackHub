@@ -6,6 +6,8 @@ public class RecordListItem
 {
     public required RecordType RecordType { get; set; }
 
+    public required PlayType PlayType { get; set; }
+
     public required int Duration { get; set; }
 
     public string? Name { get; set; }

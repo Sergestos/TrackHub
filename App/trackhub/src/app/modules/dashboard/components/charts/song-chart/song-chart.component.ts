@@ -230,8 +230,6 @@ export class SongChartComponent implements OnInit {
   private buildStackedData(type: 'solo' | 'rhythm' | 'both'): any {
     return this.chartData!.map(song => {
       if (this.chartAggregationType == 'total') {
-        const dates = song.songsByDateAggregations ?? [];
-
         switch (type) {
           case 'solo':
             return song.soloPlayed ?? [0];
@@ -246,9 +244,6 @@ export class SongChartComponent implements OnInit {
         const dates = song.songsByDateAggregations?.find(x =>
           x.year == this.selectedDate.getFullYear() &&
           x.month == this.selectedDate.getMonth() + 1);
-
-          console.log(this.selectedDate.getFullYear())
-          console.log(this.selectedDate.getMonth())
 
         if (!dates)
           return [0];
