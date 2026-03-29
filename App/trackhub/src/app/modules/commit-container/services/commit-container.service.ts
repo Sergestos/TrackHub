@@ -4,7 +4,7 @@ import { ApiService } from '../../../providers/services/api.service';
 import { Exercise } from '../../../models/exercise';
 import { Observable } from 'rxjs';
 
-const LAST_COUNT = 5;
+const LAST_COUNT = 7;
 
 @Injectable()
 export class CommitContainerExerciseService {

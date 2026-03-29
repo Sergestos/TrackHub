@@ -3,6 +3,7 @@ import { Exercise } from '../../../../models/exercise';
 import { DatePipe } from '@angular/common';
 import { RecordTypes } from '../../../../models/recordy-types-enum';
 import { ExerciseRecord } from '../../../../models/exercise-record';
+import { PlayTypes } from '../../../../models/play-types-enum';
 
 @Component({
   selector: 'trh-commit-container-preview[exercise]',
@@ -12,6 +13,7 @@ import { ExerciseRecord } from '../../../../models/exercise-record';
 })
 export class ExercisePreviewComponent {
   readonly RecordTypes = RecordTypes;
+  readonly PlayTypes = PlayTypes;
 
   public exercise = input.required<Exercise>();
 
@@ -20,6 +22,10 @@ export class ExercisePreviewComponent {
 
   public getRecordTypeField(record: ExerciseRecord): string {
     return RecordTypes[record.recordType!];
+  }
+
+  public getRecordPlayTypeField(record: ExerciseRecord): string {
+    return record.playType! == PlayTypes.Solo ? 'solo' : '';
   }
 
   public getNameField(record: ExerciseRecord): string {

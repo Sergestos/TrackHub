@@ -59,7 +59,10 @@ internal class AggregationRepository : IAggregationRepository
                 items,
                 cancellationToken: cancellationToken);
 
-            return response.Resource.ToList();
+            return response.Resource
+                .OrderBy(x => x.Year)
+                .ThenBy(x => x.Month)
+                .ToList();
         }
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {

@@ -1,4 +1,5 @@
 import { MonthPickerModel } from '../../../components/month-picker/month-picker.model';
+import { PlayTypes } from '../../../models/play-types-enum';
 import { RecordTypes } from '../../../models/recordy-types-enum';
 
 export class ExerciseItem {
@@ -16,6 +17,7 @@ export class ExerciseItemView extends ExerciseItem {
 
 export class RecordDetailsItem {
   public recordType!: RecordTypes;
+  public playType!: PlayTypes;
   public duration!: number;
   public name?: string;
   public author!: string;
