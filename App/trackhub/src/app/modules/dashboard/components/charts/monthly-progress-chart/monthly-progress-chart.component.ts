@@ -102,8 +102,8 @@ export class MonthlyProgressChartComponent implements OnInit {
     return (
       Math.abs(
         a.getFullYear() * 12 +
-          a.getMonth() -
-          (b.getFullYear() * 12 + b.getMonth()),
+        a.getMonth() -
+        (b.getFullYear() * 12 + b.getMonth()),
       ) === 1
     );
   }
@@ -160,18 +160,19 @@ export class MonthlyProgressChartComponent implements OnInit {
         trigger: 'item',
       },
       legend: {
-        orient: 'vertical',
-        left: '1%',
-        top: '2%',
+        orient: 'horizontal',
+        top: "90%",
+        left: 'center'
       },
       series: [
         {
           type: 'pie',
-          radius: ['40%', '70%'],
+          radius: ['45%', '70%'],
+          center: ['50%', '45%'],
           avoidLabelOverlap: false,
           padAngle: 0,
           itemStyle: {
-            borderRadius: 3,
+            borderRadius: 5,
           },
           label: {
             show: false,

@@ -5,7 +5,7 @@ using TrackHub.Messaging.Aggregations;
 
 namespace TrackHub.Service.Aggregation.Services;
 
-public sealed class AggregationFunctionClient : IAggregationService
+public sealed class AggregationFunctionClient : IAggregationRequestService
 {
     private readonly HttpClient _httpClient;
     private readonly IMapper _mapper;

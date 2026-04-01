@@ -18,7 +18,7 @@
         </trh-chart-month-picker>
         }
       </div>
-      <p class="pl-2 font-semibold text-sm">{{ getHeader() }}</p>
+      <p class="pl-1 font-semibold text-sm">{{ getHeader() }}</p>
     </div>
     <div class="flex flex-row items-center gap-1">
       <p>Aggregate:</p>
@@ -35,7 +35,7 @@
   @if (chartData()) {
   <div
     echarts
-    class="w-full min-h-[30vh]"
+    class="w-full min-h-80"
     [options]="options"
     [merge]="mergeOptions"
     [autoResize]="true"

@@ -12,6 +12,7 @@ internal class AggregationRepository : IAggregationRepository
 {
     private const string AggregationContainerType = "aggregation";
     private const string SongType = "song_aggregation";
+    private const string RecentTrend = "recent_trend";
 
     private readonly Container _container;
 
@@ -67,6 +68,23 @@ internal class AggregationRepository : IAggregationRepository
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
             return Enumerable.Empty<ExerciseAggregation>();
+        }
+    }
+
+    public async Task<DaysTrendAggregation> GetDaysTrendAggregation(string userId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await _container.ReadItemAsync<DaysTrendAggregation>(
+                DaysTrendAggregationId.GetUserRecentTrendId(userId),
+                new PartitionKey(userId),
+                cancellationToken: cancellationToken);
+
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
         }
     }
 
@@ -179,6 +197,16 @@ internal class AggregationRepository : IAggregationRepository
         return response.Resource;
     }
 
+    public async Task<DaysTrendAggregation> UpsertDaysTrendAggregation(string userId, DaysTrendAggregation aggregation, CancellationToken cancellationToken)
+    {
+        var response = await _container.UpsertItemAsync(
+            aggregation,
+            new PartitionKey(userId),
+            cancellationToken: cancellationToken);
+
+        return response.Resource;
+    }
+
     public async Task<SongAggregation> UpsertSongAggregationAsync(string userId, SongAggregation aggregation, CancellationToken cancellationToken)
     {
         var response = await _container.UpsertItemAsync(
@@ -206,5 +234,5 @@ internal class AggregationRepository : IAggregationRepository
         await Task.WhenAll(tasks);
 
         return upsertedAggregations;
-    }
+    }    
 }

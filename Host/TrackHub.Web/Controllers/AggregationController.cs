@@ -50,4 +50,15 @@ public class AggregationController : TrackHubController
 
         return Ok(result);
     }
+
+    [HttpGet]
+    [Route("days-trend")]
+    [ProducesResponseType(typeof(DaysTrendAggregation), 200)]
+    [ResponseCache(Duration = 3, Location = ResponseCacheLocation.Client)]
+    public async Task<IActionResult> GetRecentPeriodTrendsAgregation(CancellationToken cancellationToken)
+    {
+        var result = await _aggregationReadService.GetDaysTrendAggregationsAsync(CurrentUserId, cancellationToken);
+
+        return Ok(result);
+    }
 }

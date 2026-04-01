@@ -14,6 +14,8 @@ public interface IExerciseRepository
 
     Task<IEnumerable<Exercise>> GetExerciseListByDateAsync(int year, int month, string userId, CancellationToken cancellationToken);
 
+    Task<IEnumerable<Exercise>> GetExerciseListByLastDaysAsync(int lastDaysCount, string userId, CancellationToken cancellationToken);
+
     Task<IEnumerable<Exercise>> GetExerciseListByUserAsync(string userId, CancellationToken cancellationToken);
 
     Task<IEnumerable<Exercise>> GetLastUserExercises(string userId, int lastCount, CancellationToken cancellationToken);

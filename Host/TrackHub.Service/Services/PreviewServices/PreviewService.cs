@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using TrackHub.Domain.Enums;
 using TrackHub.Service.Services.PreviewServices.Dto;
 using TrackHub.Service.Services.PreviewServices.Models;
@@ -106,12 +107,13 @@ internal class PreviewService : IPreviewService
             return issue;
         }
 
-        string inner = clean.Substring(2, clean.Length - 4);
-        var parts = inner.Split('.');
+        var cleaned = Regex.Replace(input, @"[^0-9.]", "");
+
+        var parts = cleaned.Split('.');
 
         if (parts.Length != 3)
         {
-            issue.ErrorReason = "Play Date should have 3 parts (DD/MM/YYYY) --";
+            issue.ErrorReason = "Play Date should have 3 parts (DD/MM/YYYY)";
             return issue;
         }
 

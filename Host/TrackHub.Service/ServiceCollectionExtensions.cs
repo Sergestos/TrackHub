@@ -20,7 +20,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IExerciseSearchService, ExerciseSearchService>();
         services.AddScoped<IPreviewService, PreviewService>();
         services.AddScoped<IAggregationReadService, AggregationReadService>();
-        services.AddHttpClient<IAggregationService, AggregationFunctionClient>(client =>
+        services.AddScoped<IAggregationService, AggregationService>();
+        services.AddHttpClient<IAggregationRequestService, AggregationFunctionClient>(client =>
         {
             client.BaseAddress = new Uri(configuration.GetSection("AzureFunction:Url").Value!);
             client.DefaultRequestHeaders.Add("x-functions-key", configuration.GetSection("AzureFunction:Key").Value!);
