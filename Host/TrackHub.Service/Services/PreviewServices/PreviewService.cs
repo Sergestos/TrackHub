@@ -77,7 +77,7 @@ internal class PreviewService : IPreviewService
         };
 
         string keyword = practiceLine.Keyword.ToLower();
-        if (keyword == "warmup")
+        if (keyword == "warmup" || keyword == "warm up")
         {
             record.RecordType = RecordType.Warmup;
             record.Instrument = Instrument.Guitar;
