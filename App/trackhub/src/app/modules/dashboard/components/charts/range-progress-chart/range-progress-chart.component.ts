@@ -118,11 +118,11 @@ export class RangeProgressChartComponent implements OnInit {
     const from = this.startDate < this.endDate ? this.startDate : this.endDate;
     const to = this.startDate < this.endDate ? this.endDate : this.startDate;
 
-    const plus3Years = new Date(from);
-    plus3Years.setFullYear(plus3Years.getFullYear() + 3);
+    const plus10Years = new Date(from);
+    plus10Years.setFullYear(plus10Years.getFullYear() + 10);
 
-    if (to > plus3Years) {
-      this.alertService.show('warning', 'Maximum range is 3 year is exceeded');
+    if (to < plus10Years) {
+      this.alertService.show('warning', 'Maximum range is 10 year is exceeded');
       return false;
     }
 
