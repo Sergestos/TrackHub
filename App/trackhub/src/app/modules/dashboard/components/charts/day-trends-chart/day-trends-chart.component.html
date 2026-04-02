@@ -1,7 +1,31 @@
-<div
-  echarts
-  class="w-full min-h-80"
-  [options]="options"
-  [merge]="mergeOptions"
-  [autoResize]="true"
-></div>
+<div class="relative w-full flex flex-col min-h-[22rem]">
+  <div
+    class="flex flex-row justify-between p-1 min-h-10 border-solid border-b rounded-t-md border-zinc-700 bg-zinc-800"
+  >
+    <div class="flex flex-row gap-1 items-center">
+      <p class="pl-1 font-semibold text-sm">Last 30 Days</p>
+    </div>
+    <!-- <div class="flex flex-row items-center gap-1">
+      <p>Aggregate:</p>
+      <select class="w-24 py-1" (change)="onTypeChanged($event)">
+        <option [value]="'record'">
+          {{ "Record" }}
+        </option>
+        <option [value]="'play'">
+          {{ "Type" }}
+        </option>
+      </select>
+    </div> -->
+  </div>
+  @if (chartData) {
+    <div
+      echarts
+      class="w-full min-h-80"
+      [options]="options"
+      [merge]="mergeOptions"
+      [autoResize]="true"
+    ></div>
+  } @else {
+   <p class="flex-1 text-xl flex items-center justify-center">No data</p>
+  }
+</div>

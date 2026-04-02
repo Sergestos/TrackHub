@@ -1,19 +1,19 @@
 export interface DaysTrendAggregation {
-  id: string;
-  build_date: string; 
-  bars?: DayTrendBar[];
+  aggregationId: string;
+  buildDate: string;
+  daysTrendBarList?: DayTrendBar[];
 }
 
 export interface DayTrendBar {
-  play_date: string; 
+  playDate: string;
 
-  rhythm_aggregation: number;
-  solo_aggregation: number;
-  both_aggregation: number;
+  totalPlayedRhythmDuration: number;
+  totalPlayedSoloDuration: number;
+  totalPlayedBothDuration: number;
 
-  warmup_aggregation?: number;
-  song_aggregation?: number;
-  improvisation_aggregation?: number;
-  exercise_aggregation?: number;
-  composing_aggregation?: number;
+  totalWarmupDuration?: number;
+  totalSongDuration?: number;
+  totalImprovisationDuration?: number;
+  totalPracticalExerciseDuration?: number;
+  totalComposingDuration?: number;
 }
