@@ -1,7 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using System.ComponentModel;
-using System.Globalization;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;

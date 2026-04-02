@@ -5,8 +5,10 @@ import {
   LegendComponent,
   TitleComponent,
 } from 'echarts/components';
-import { Component, OnInit, signal } from "@angular/core";
+import { Component, inject, OnInit, signal } from "@angular/core";
 import { CanvasRenderer } from "echarts/renderers";
+import { AggregationService } from "../../../services/aggregation.service";
+import { DaysTrendAggregation } from "../../../models/days-trend.model";
 
 echarts.use([
   TooltipComponent,
@@ -22,16 +24,25 @@ echarts.use([
   imports: [NgxEchartsDirective],
   providers: [provideEchartsCore({ echarts })],
 })
-export class MonthlyProgressChartComponent implements OnInit {
+export class DaysTrendChartComponent implements OnInit {
   public options: any;
   public mergeOptions: any = null;
 
-  public chartData = signal<any>(null);
+  private aggregationService = inject(AggregationService);
+
+  public chartData?: DaysTrendAggregation;
 
   public ngOnInit(): void {
-    if (this.chartData()) {
-      this.buildChart();
-    }
+    this.aggregationService.getDaysTrendAggregations()
+      .subscribe({
+        next: (data) => {
+          this.chartData = data;
+
+          if (this.chartData) {
+            this.buildChart();
+          }
+        }
+      });
   }
 
   private buildChart(): void {
@@ -42,7 +53,7 @@ export class MonthlyProgressChartComponent implements OnInit {
       series: [
         {
           type: 'scatter',
-          data: this.chartData()
+          data: this.chartData
         },
         {
           type: 'line',

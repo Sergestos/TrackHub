@@ -26,7 +26,8 @@ internal class AggregationService : IAggregationService
         DaysTrendAggregation aggregation = new DaysTrendAggregation()
         {
             AggregationId = DaysTrendAggregationId.GetUserRecentTrendId(userId),
-            BuildDate = DateTime.Now,            
+            BuildDate = DateTime.Now,      
+            UserId = userId
         };
 
         foreach (var exercise in exercisesList)

@@ -7,6 +7,9 @@ public class DaysTrendAggregation
     [JsonProperty("id")]
     public required string AggregationId { get; set; }
 
+    [JsonProperty("user_id")]
+    public required string UserId { get; set; }
+
     [JsonProperty("build_date")]
     public required DateTime BuildDate { get; set; }
 
