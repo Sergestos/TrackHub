@@ -3,6 +3,7 @@ using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 using TrackHub.Messaging.Aggregations;
 using TrackHub.Service.Aggregation.Services;
+using TrackHub.Service.Services.AggregationServices;
 using TrackHub.Service.Services.ExerciseServices.Models;
 
 namespace TrackHub.Service.Services.ExerciseServices;
@@ -11,13 +12,20 @@ internal class ExerciseService : IExerciseService
 {
     private readonly IExerciseRepository _exerciseRepository;
     private readonly IUserRepository _userRepository;
-    private readonly IAggregationService _aggregationService;
+    private readonly IAggregationRequestService _aggregationRequestService;
+    private readonly IAggregationService _aggregationService;    
     private readonly IMapper _mapper;
 
-    public ExerciseService(IExerciseRepository exerciseRepository, IUserRepository userRepository, IAggregationService aggregationService, IMapper mapper)
+    public ExerciseService(
+        IExerciseRepository exerciseRepository,
+        IUserRepository userRepository, 
+        IAggregationRequestService aggregationRequestService,
+        IAggregationService aggregationService,
+        IMapper mapper)
     {
         _exerciseRepository = exerciseRepository;
         _userRepository = userRepository;
+        _aggregationRequestService = aggregationRequestService;
         _aggregationService = aggregationService;
         _mapper = mapper;
     }
@@ -48,7 +56,8 @@ internal class ExerciseService : IExerciseService
         if (TryRecalculatePlayDatesOnCreate(user!, result))
             await _userRepository.UpsertAsync(user, cancellationToken);
 
-        _aggregationService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
+        _aggregationRequestService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
+        await _aggregationService.UpsertDayTrendBarAsync(userId, result.PlayDate, cancellationToken);
 
         return result;
     }
@@ -80,7 +89,8 @@ internal class ExerciseService : IExerciseService
         if (TryRecalculatePlayDatesOnCreate(user!, exercise))
             await _userRepository.UpsertAsync(user, cancellationToken);
 
-        _aggregationService.SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
+        _aggregationRequestService.SendAggregationRequestOnUpdate(exercise.Records, oldRecords, userId, exercise.PlayDate);
+        await _aggregationService.UpsertDayTrendBarAsync(userId, result.PlayDate, cancellationToken);
 
         return result;
     }
@@ -97,7 +107,8 @@ internal class ExerciseService : IExerciseService
 
         await _exerciseRepository.DeleteExerciseAsync(exerciseId, userId, cancellationToken);
 
-        _aggregationService.SendAggregationRequestOnDelete(deletedRecords, userId, exercise.PlayDate);
+        _aggregationRequestService.SendAggregationRequestOnDelete(deletedRecords, userId, exercise.PlayDate);
+        await _aggregationService.UpsertDayTrendBarAsync(userId, exercise.PlayDate, cancellationToken);
 
         if (await TryRecalculatePlayDatesOnDeleteAsync(user, exercise.PlayDate, cancellationToken))
             await _userRepository.UpsertAsync(user, cancellationToken);
@@ -114,7 +125,8 @@ internal class ExerciseService : IExerciseService
         exercise.Records = exercise.Records.Where(x => !recordIds.Contains(x.RecordId)).ToArray();
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
-        _aggregationService.SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
+        _aggregationRequestService.SendAggregationRequestOnDelete(recordsToDelete, userId, exercise.PlayDate);
+        await _aggregationService.UpsertDayTrendBarAsync(userId, exercise.PlayDate, cancellationToken);
 
         return result;
     }

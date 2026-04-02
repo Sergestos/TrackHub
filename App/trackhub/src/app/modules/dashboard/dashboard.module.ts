@@ -7,6 +7,7 @@ import { SongChartComponent } from './components/charts/song-chart/song-chart.co
 import { MonthlyProgressChartComponent } from './components/charts/monthly-progress-chart/monthly-progress-chart.component';
 import { RangeProgressChartComponent } from './components/charts/range-progress-chart/range-progress-chart.component';
 import { ProgressCardsComponent } from './components/charts/progress-cards/progress-cards.component';
+import { DaysTrendChartComponent } from './components/charts/day-trends-chart/day-trends-chart.component';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -16,9 +17,10 @@ import { ProgressCardsComponent } from './components/charts/progress-cards/progr
     RangeProgressChartComponent,
     ProgressCardsComponent,
     SongChartComponent,
+    DaysTrendChartComponent,
     RouterModule.forChild([{ path: '', component: DashboardComponent }]),
   ],
   providers: [AggregationService],
   exports: [],
 })
-export class DashboardModule {}
+export class DashboardModule { }

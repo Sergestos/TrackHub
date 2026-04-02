@@ -7,10 +7,12 @@ namespace TrackHub.Service.Services.AggregationServices;
 internal class AggregationReadService : IAggregationReadService
 {
     private readonly IAggregationRepository _aggregationRepository;
+    private readonly IAggregationService _aggregationService;
     private readonly IUserRepository _userRepository;
-    public AggregationReadService(IAggregationRepository aggregationRepository, IUserRepository userRepository)
+    public AggregationReadService(IAggregationRepository aggregationRepository, IAggregationService aggregationService, IUserRepository userRepository)
     {
         _aggregationRepository = aggregationRepository;
+        _aggregationService = aggregationService;
         _userRepository = userRepository;
     }
 
@@ -32,6 +34,15 @@ internal class AggregationReadService : IAggregationReadService
             .ToArray();
 
         return await _aggregationRepository.GetExerciseAggregationListByIdsAsync(aggregationIds, userId, cancellationToken);
+    }
+
+    public async Task<DaysTrendAggregation> GetDaysTrendAggregationsAsync(string userId, CancellationToken cancellationToken)
+    {
+        var result = await _aggregationRepository.GetDaysTrendAggregation(userId, cancellationToken);
+        if (result == null || result.BuildDate.Date != DateTime.Now.Date)        
+            return await _aggregationService.BuildDaysTrendAsync(userId, cancellationToken);        
+
+        return result;
     }
 
     private static IReadOnlyList<DateTime> GetMonthYearRange(

@@ -1,0 +1,12 @@
+﻿using TrackHub.Domain.Entities;
+
+namespace TrackHub.Service.Aggregation.Services;
+
+public interface IAggregationRequestService
+{    
+    void SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId);
+
+    void SendAggregationRequestOnUpdate(Record[] newRecords, Record[] oldRecords, string userId, DateTime playDate);
+
+    void SendAggregationRequestOnDelete(Record[] oldRecords, string userId, DateTime playDate);
+}

@@ -16,9 +16,13 @@ public interface IAggregationRepository
 
     Task<IEnumerable<SongAggregation>> GetSongAggregationListByDateAsync(string userId, DateOnly date, CancellationToken cancellationToken);    
 
+    Task<DaysTrendAggregation> GetDaysTrendAggregation(string userId, CancellationToken cancellationToken);
+
     Task<ExerciseAggregation> UpsertExerciseAggregationAsync(string userId, ExerciseAggregation aggregation, CancellationToken cancellationToken);
 
     Task<SongAggregation> UpsertSongAggregationAsync(string userId, SongAggregation aggregation, CancellationToken cancellationToken);
 
     Task<IEnumerable<SongAggregation>> UpsertSongAggregationsAsync(string userId, SongAggregation[] aggregations, CancellationToken cancellationToken);
+
+    Task<DaysTrendAggregation> UpsertDaysTrendAggregation(string userId, DaysTrendAggregation aggregation, CancellationToken cancellationToken);
 }

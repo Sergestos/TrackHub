@@ -7,7 +7,7 @@ internal class PreviewTemplates
     internal static Regex RegularPattern = new Regex(
         @"^\s*
           (?<index>\d+)
-          \)
+          [\)\.]
           \s*
           (?<minutes>\d+)
           \s*min
@@ -28,7 +28,7 @@ internal class PreviewTemplates
     internal static Regex WarmupPattern = new Regex(
         @"^\s*
           (?<index>\d+)
-          \)
+          [\)\.]
           \s*
           (?<minutes>\d+)
           \s*min

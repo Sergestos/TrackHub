@@ -25,7 +25,7 @@ export class DetailsExerciseItemComponent {
   }
 
   public getRecordPlayTypeField(record: RecordDetailsItem): string {
-    return PlayTypes[record.playType!].toLowerCase();
+    return record.recordType != RecordTypes.Warmup ? PlayTypes[record.playType!].toLowerCase() : '';
   }
 
   public getNameField(record: RecordDetailsItem): string {

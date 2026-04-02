@@ -1,12 +1,10 @@
-﻿using TrackHub.Domain.Entities;
+﻿using TrackHub.Domain.Aggregations;
 
-namespace TrackHub.Service.Aggregation.Services;
+namespace TrackHub.Service.Services.AggregationServices;
 
 public interface IAggregationService
-{    
-    void SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId);
+{
+    public Task UpsertDayTrendBarAsync(string userId, DateTime dateTime, CancellationToken cancellationToken); 
 
-    void SendAggregationRequestOnUpdate(Record[] newRecords, Record[] oldRecords, string userId, DateTime playDate);
-
-    void SendAggregationRequestOnDelete(Record[] oldRecords, string userId, DateTime playDate);
+    public Task<DaysTrendAggregation> BuildDaysTrendAsync(string userId, CancellationToken cancellationToken);
 }

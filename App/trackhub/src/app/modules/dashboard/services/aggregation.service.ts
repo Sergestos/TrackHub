@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ExerciseAggregation } from '../models/exercise-aggregation.model';
 import { ApiService } from '../../../providers/services/api.service';
 import { SongAggregation } from '../models/song-aggregation.model';
+import { DaysTrendAggregation } from '../models/days-trend.model';
 
 @Injectable()
 export class AggregationService {
@@ -41,6 +42,12 @@ export class AggregationService {
     return this.apiService.get<SongAggregation[]>(
       `${this.exercisesUrl}/songs`,
       { page, pageSize },
+    );
+  }
+
+  public getDaysTrendAggregations(): Observable<DaysTrendAggregation> {
+    return this.apiService.get<DaysTrendAggregation>(
+      `${this.exercisesUrl}/days-trend`,
     );
   }
 }

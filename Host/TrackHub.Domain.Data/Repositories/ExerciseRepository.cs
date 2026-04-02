@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using System.Globalization;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
@@ -163,5 +162,39 @@ internal class ExerciseRepository : IExerciseRepository
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
         await _exerciseContainer.DeleteItemAsync<Exercise>(exerciseId, new PartitionKey(userId), new ItemRequestOptions(), cancellationToken);
+    }
+
+    public async Task<IEnumerable<Exercise>> GetExerciseListByLastDaysAsync(int lastDaysCount, string userId, CancellationToken cancellationToken)
+    {
+        var to = DateTime.UtcNow.Date.AddDays(1);
+        var from = to.AddDays(-lastDaysCount);
+
+        var query = new QueryDefinition(@"
+            SELECT *
+            FROM c
+            WHERE c.user_id = @userId
+              AND c.playDate >= @from
+              AND c.playDate < @to
+            ORDER BY c.playDate")
+                .WithParameter("@userId", userId)
+                .WithParameter("@from", from.ToString("yyyy-MM-ddTHH:mm:ss"))
+                .WithParameter("@to", to.ToString("yyyy-MM-ddTHH:mm:ss"));
+
+        var iterator = _exerciseContainer.GetItemQueryIterator<Exercise>(
+            query,
+            requestOptions: new QueryRequestOptions
+            {
+                PartitionKey = new PartitionKey(userId)
+            });
+
+        var result = new List<Exercise>();
+
+        while (iterator.HasMoreResults)
+        {
+            var response = await iterator.ReadNextAsync();
+            result.AddRange(response);
+        }
+
+        return result;
     }
 }

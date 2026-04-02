@@ -202,7 +202,7 @@ export class SongChartComponent implements OnInit {
         left: '1%',
         top: '90%',
       },
-      grid: { top: 40, bottom: 35, left: 60, right: 20, containLabel: true },
+      grid: { top: 40, bottom: 35, left: 20, right: 20, containLabel: true },
       xAxis: {
         type: 'value',
         boundaryGap: [0, 0.01],
