@@ -16,6 +16,9 @@ internal class PreviewService : IPreviewService
             .TrimStart()
             .Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
 
+        if (lines.Length > 0 && string.IsNullOrWhiteSpace(lines[^1]))
+            lines = lines[..^1];
+
         var dateIssue = TryParseMarkedDate(lines[0], out playDate);
         if (dateIssue != null)
             result.ValidationIssues.Add(dateIssue);

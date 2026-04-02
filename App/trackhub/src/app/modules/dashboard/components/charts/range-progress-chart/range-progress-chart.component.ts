@@ -68,7 +68,7 @@ export class RangeProgressChartComponent implements OnInit {
   constructor() {
     this.endDate = new Date();
     this.startDate = new Date();
-    this.startDate.setFullYear(this.startDate.getFullYear() - 1);
+    this.startDate.setFullYear(this.startDate.getFullYear() - 5);
   }
 
   public ngOnInit(): void {
