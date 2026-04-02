@@ -26,17 +26,17 @@ internal class PreviewTemplates
 
 
     internal static Regex WarmupPattern = new Regex(
-        @"^\s*
+           @"^\s*
           (?<index>\d+)
           [\)\.]
           \s*
           (?<minutes>\d+)
           \s*min
           \s*:\s*
-          (?<keyword>warmup)
+          (?<keyword>warm\s*up)
           \s*-\s*
           (?<songs>.+?)
           \s*$
         ",
-        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+       RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 }
