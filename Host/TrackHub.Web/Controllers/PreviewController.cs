@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Service.Services.PreviewServices;
-using TrackHub.Service.Services.PreviewServices.Models;
+using TrackHub.Application.Preview;
+using TrackHub.Application.Preview.Models;
 using TrackHub.Web.Models;
 
 namespace TrackHub.Web.Controllers;
@@ -9,11 +9,11 @@ namespace TrackHub.Web.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/preview")]
-public class PreviewExerciseController : TrackHubController
+public class PreviewController : TrackHubController
 {
     private readonly IPreviewService _previewService;
 
-    public PreviewExerciseController(IPreviewService previewService)
+    public PreviewController(IPreviewService previewService)
     {
         _previewService = previewService;
     }

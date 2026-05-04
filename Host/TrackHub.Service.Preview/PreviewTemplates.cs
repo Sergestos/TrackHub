@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TrackHub.Service.Services.PreviewServices;
+namespace TrackHub.Application.Preview;
 
 internal class PreviewTemplates
 {
@@ -26,17 +26,17 @@ internal class PreviewTemplates
 
 
     internal static Regex WarmupPattern = new Regex(
-           @"^\s*
+            @"^\s*
           (?<index>\d+)
           [\)\.]
           \s*
           (?<minutes>\d+)
           \s*min
           \s*:\s*
-          (?<keyword>warm\s*up)
+          (?<keyword>warm\s*up|warmp\s*up)
           \s*-\s*
           (?<songs>.+?)
           \s*$
         ",
-       RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+        RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 }

@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.AiCrawler\TrackHub.AiCrawler.csproj" />
-    <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.csproj" />
+    <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.Entities.csproj" />
   </ItemGroup>
 
 </Project>

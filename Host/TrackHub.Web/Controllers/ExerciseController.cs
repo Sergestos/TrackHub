@@ -63,7 +63,8 @@ public class ExerciseController : TrackHubController
                 return Ok(Enumerable.Empty<Exercise>());
             else 
                 return Ok(new List<Exercise>() {result});
-        } else 
+        } 
+        else 
         {
             var result = await _exerciseRepository.GetExerciseListByDateAsync(from.Year, from.Month, CurrentUserId, cancellationToken);
 

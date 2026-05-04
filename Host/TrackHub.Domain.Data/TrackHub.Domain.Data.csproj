@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
-    <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.csproj" />
+    <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.Entities.csproj" />
   </ItemGroup>
 
 </Project>

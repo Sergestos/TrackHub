@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using TrackHub.Domain.Enums;
-using TrackHub.Service.Services.PreviewServices.Dto;
-using TrackHub.Service.Services.PreviewServices.Models;
+using TrackHub.Application.Preview.Models;
+using TrackHub.Application.Preview.Dto;
 
-namespace TrackHub.Service.Services.PreviewServices;
+namespace TrackHub.Application.Preview;
 
 internal class PreviewService : IPreviewService
 {
@@ -46,7 +46,7 @@ internal class PreviewService : IPreviewService
         return result;
     }
 
-    public IList<ValidationIssue>? TryParseExerciseLine(string input, int lineNumber, out PreviewRecordModel? record)
+    private IList<ValidationIssue>? TryParseExerciseLine(string input, int lineNumber, out PreviewRecordModel? record)
     {
         record = default;
 
@@ -92,7 +92,7 @@ internal class PreviewService : IPreviewService
         return null;
     }
 
-    public ValidationIssue? TryParseMarkedDate(string input, out DateOnly? dt)
+    private ValidationIssue? TryParseMarkedDate(string input, out DateOnly? dt)
     {
         dt = default;
 

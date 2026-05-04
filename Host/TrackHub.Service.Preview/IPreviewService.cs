@@ -1,7 +1,7 @@
 
-using TrackHub.Service.Services.PreviewServices.Models;
+using TrackHub.Application.Preview.Models;
 
-namespace TrackHub.Service.Services.PreviewServices;
+namespace TrackHub.Application.Preview;
 
 public interface IPreviewService
 {

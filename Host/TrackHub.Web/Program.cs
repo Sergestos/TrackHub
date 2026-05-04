@@ -7,16 +7,17 @@ using TrackHub.Web.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(AppMapper));
+builder.Services.AddAutoMapper(cgf => { }, typeof(AppMapper));
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScraperServices();
+builder.Services.AddPreviewServices();
 builder.Services.AddAiCrawlerServices();
 builder.Services.AddCommonServices(builder.Configuration);
 builder.Services.AddCorsPolicy();
-builder.Services.AddRateLimiter();
+builder.Services.AddRateLimitConfiguration();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddControllers();
