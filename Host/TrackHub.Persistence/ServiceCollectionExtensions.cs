@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TrackHub.CosmosDb;
-using TrackHub.Domain.Data.Repositories;
 using TrackHub.Domain.Repositories;
+using TrackHub.Persistence.Repositories;
 
-namespace TrackHub.Domain.Data;
+namespace TrackHub.Persistence;
 
 public static class ServiceCollectionExtensions
 {

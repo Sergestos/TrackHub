@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
-    <ProjectReference Include="..\TrackHub.Domain.Data\TrackHub.Domain.Data.csproj" />
+    <ProjectReference Include="..\TrackHub.Persistence\TrackHub.Persistence.csproj" />
     <ProjectReference Include="..\TrackHub.Messaging\TrackHub.Messaging.csproj" />
   </ItemGroup>
 

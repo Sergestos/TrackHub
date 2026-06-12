@@ -1,8 +1,9 @@
-﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Repositories;
+using DomainUser = TrackHub.Domain.Entities.User;
 
-namespace TrackHub.Domain.Data.Repositories;
+namespace TrackHub.Persistence.Repositories;
 
 internal class UserRepository : IUserRepository
 {
@@ -15,33 +16,33 @@ internal class UserRepository : IUserRepository
         _container = context.GetContainer(UserContainerType);
     }
 
-    public Entities.User? GetUserById(string userId)
+    public DomainUser? GetUserById(string userId)
     {
-        var result = _container.GetItemLinqQueryable<Entities.User>()
+        var result = _container.GetItemLinqQueryable<DomainUser>()
             .Where(x => x.UserId == userId)
             .FirstOrDefault();
 
         return result;
     }
 
-    public Entities.User? GetUserByEmail(string userEmail)
+    public DomainUser? GetUserByEmail(string userEmail)
     {
-        var result = _container.GetItemLinqQueryable<Entities.User>()
+        var result = _container.GetItemLinqQueryable<DomainUser>()
             .Where(x => x.Email == userEmail)
             .FirstOrDefault();
 
         return result;
     }
 
-    public async Task<Entities.User?> UpsertAsync(Entities.User user, CancellationToken cancellationToken)
+    public async Task<DomainUser?> UpsertAsync(DomainUser user, CancellationToken cancellationToken)
     {
-        ItemResponse<Entities.User>? response = null;
+        ItemResponse<DomainUser>? response = null;
 
         try
         {
             response = await _container.UpsertItemAsync(user, new PartitionKey(user.Email), null, cancellationToken);
         }
-        catch (CosmosException ex) when(ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }        
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }
 
         return response?.Resource;
     }

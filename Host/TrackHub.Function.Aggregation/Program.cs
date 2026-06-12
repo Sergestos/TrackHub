@@ -2,8 +2,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrackHub.Domain.Data;
 using TrackHub.Function.Aggregation.Aggregators;
+using TrackHub.Persistence;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 

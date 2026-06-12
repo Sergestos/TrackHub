@@ -2,7 +2,7 @@
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Domain.Data.Repositories;
+namespace TrackHub.Persistence.Repositories;
 
 internal class RecordRepository : CosmosContainerIterator<string>, IRecordRepository
 {

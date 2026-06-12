@@ -1,5 +1,5 @@
 using TrackHub.AiCrawler;
-using TrackHub.Domain.Data;
+using TrackHub.Persistence;
 using TrackHub.Service;
 using TrackHub.Application.Service.Preview;
 using TrackHub.Application.Service.User;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 
-namespace TrackHub.Domain.Data.Repositories;
+namespace TrackHub.Persistence.Repositories;
 
 internal abstract class CosmosContainerIterator<T>
 {

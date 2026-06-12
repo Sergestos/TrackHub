@@ -6,7 +6,7 @@ using TrackHub.Domain.Aggregations;
 using TrackHub.Domain.Consistency;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Domain.Data.Repositories;
+namespace TrackHub.Persistence.Repositories;
 
 internal class AggregationRepository : IAggregationRepository
 {
