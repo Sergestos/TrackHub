@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Application.Preview;
-using TrackHub.Application.Preview.Models;
+using TrackHub.Application.Service.Preview;
+using TrackHub.Application.Service.Preview.Models;
 using TrackHub.Web.Models;
 
 namespace TrackHub.Web.Controllers;

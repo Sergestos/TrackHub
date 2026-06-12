@@ -25,13 +25,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Scraper", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackHub.Application", "TrackHub.Application", "{23CEB55C-819E-4F91-9737-BADBCD66A47F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Preview", "TrackHub.Service.Preview\TrackHub.Preview.csproj", "{C83027ED-6606-A098-8B14-DE8E45C6A993}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Preview", "TrackHub.Service.Preview\TrackHub.Service.Preview.csproj", "{C83027ED-6606-A098-8B14-DE8E45C6A993}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackHub.Domain", "TrackHub.Domain", "{A8DF17A6-9AA5-4DA3-A074-4B26A098E922}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackHub.Serverless", "TrackHub.Serverless", "{746BAD47-26FD-4512-B33D-B4433BFC334D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackHub.Persistance", "TrackHub.Persistance", "{8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.User", "TrackHub.Service.User\TrackHub.Service.User.csproj", "{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{C83027ED-6606-A098-8B14-DE8E45C6A993}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83027ED-6606-A098-8B14-DE8E45C6A993}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83027ED-6606-A098-8B14-DE8E45C6A993}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{DC264D8D-EB31-8C53-70DD-E85834BAFC5B} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{16DFE254-8803-1B1F-1EF2-8CC1B9CC3D98} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{C83027ED-6606-A098-8B14-DE8E45C6A993} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
+		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A3B4967-E6A5-43F8-A75A-B10E841EE80D}

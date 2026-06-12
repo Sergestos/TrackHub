@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TrackHub.Application.Preview;
+namespace TrackHub.Application.Service.Preview;
 
 internal class PreviewTemplates
 {

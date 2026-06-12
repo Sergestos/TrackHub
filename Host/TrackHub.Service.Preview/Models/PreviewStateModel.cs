@@ -1,4 +1,4 @@
-namespace TrackHub.Application.Preview.Models;
+namespace TrackHub.Application.Service.Preview.Models;
 
 public record PreviewStateModel
 {

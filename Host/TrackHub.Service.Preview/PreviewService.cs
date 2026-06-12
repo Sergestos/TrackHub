@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using TrackHub.Domain.Enums;
-using TrackHub.Application.Preview.Models;
-using TrackHub.Application.Preview.Dto;
+using TrackHub.Application.Service.Preview.Models;
+using TrackHub.Application.Service.Preview.Dto;
 
-namespace TrackHub.Application.Preview;
+namespace TrackHub.Application.Service.Preview;
 
 internal class PreviewService : IPreviewService
 {

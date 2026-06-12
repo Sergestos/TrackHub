@@ -1,6 +1,6 @@
 ﻿using TrackHub.Domain.Enums;
 
-namespace TrackHub.Application.Preview.Models;
+namespace TrackHub.Application.Service.Preview.Models;
 
 public class PreviewRecordModel
 {

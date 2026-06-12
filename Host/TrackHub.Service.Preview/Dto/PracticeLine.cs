@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Application.Preview.Dto;
+﻿namespace TrackHub.Application.Service.Preview.Dto;
 
 internal class PracticeLine
 {

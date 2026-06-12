@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Application.Preview;
+
+namespace TrackHub.Application.Service.Preview;
 
 public static class ServiceCollectionExtensions
 {
