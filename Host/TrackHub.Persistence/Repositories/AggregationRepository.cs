@@ -6,7 +6,7 @@ using TrackHub.Domain.Aggregations;
 using TrackHub.Domain.Consistency;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Persistence.Repositories;
+namespace TrackHub.Persistence.CosmosDb.Repositories;
 
 internal class AggregationRepository : IAggregationRepository
 {

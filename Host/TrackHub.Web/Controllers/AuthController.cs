@@ -162,6 +162,7 @@ public class AuthController : Controller
 
         user.LoginSession = new LoginSession()
         {
+            UserId = user.UserId,
             SessionId = sessionId,
             CreatedAt = DateTime.UtcNow,
             ExpiresAt = expiresAt,

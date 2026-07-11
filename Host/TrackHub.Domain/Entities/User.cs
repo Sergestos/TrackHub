@@ -32,14 +32,17 @@ public class User
     public DateTimeOffset? LastPlayDate { get; set; }
 
     [JsonProperty("first_play_date")]
-    public DateTimeOffset? FirstPlayDate { get; set; }
+    public DateTimeOffset? FirstPlayDate { get; set; }    
 
     [JsonProperty("ordered_by_duration_played_songs")]
-    public string[]? OrderedByDurationPlayedSongs { get; set; }
+    public List<UserSongItem>? UserSongItem { get; set; }
 }
 
 public class LoginSession
 {
+    [JsonProperty("user_id")]
+    public required string UserId { get; set; }
+
     [JsonProperty("session_id")]
     public required string SessionId { get; set; }
 
@@ -48,4 +51,13 @@ public class LoginSession
 
     [JsonProperty("expires_at")]
     public required DateTimeOffset ExpiresAt { get; set; }
+}
+
+public class UserSongItem
+{
+    public required string UserId { get; set; }
+
+    public required string SongName { get; set; }
+
+    public required int DurationPosition { get; set; }
 }

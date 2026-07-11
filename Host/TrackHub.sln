@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service", "TrackHu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Web", "TrackHub.Web\TrackHub.Web.csproj", "{40E04F02-9C27-4674-AAC3-E049C4A3AA8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Persistence", "TrackHub.Persistence\TrackHub.Persistence.csproj", "{984D58BF-912F-46E2-B891-5F7369FE430E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Persistence.CosmosDb", "TrackHub.Persistence\TrackHub.Persistence.CosmosDb.csproj", "{984D58BF-912F-46E2-B891-5F7369FE430E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackHub.CosmosDb\TrackHub.CosmosDb.csproj", "{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TrackHub.Persistence", "TrackHub.Persistence", "{8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.User", "TrackHub.Service.User\TrackHub.Service.User.csproj", "{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Persistence.Sql", "TrackHub.Persistence.Sql\TrackHub.Persistence.Sql.csproj", "{0865DEED-96BB-48DD-ADE2-1262426A8CD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,10 @@ Global
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +111,7 @@ Global
 		{16DFE254-8803-1B1F-1EF2-8CC1B9CC3D98} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{C83027ED-6606-A098-8B14-DE8E45C6A993} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
+		{0865DEED-96BB-48DD-ADE2-1262426A8CD8} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A3B4967-E6A5-43F8-A75A-B10E841EE80D}

@@ -6,12 +6,14 @@ using TrackHub.Application.Service.User;
 using TrackHub.Service.Scraper;
 using TrackHub.Web.Configurations;
 using TrackHub.Web.Mappers;
+using TrackHub.Persistence.CosmosDb;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(cgf => { }, typeof(AppMapper));
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
+builder.Services.AddSqlDataServices(builder.Configuration.GetSection("sqlConnectionString").Value!);
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScraperServices();

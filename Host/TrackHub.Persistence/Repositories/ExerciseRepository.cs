@@ -4,7 +4,7 @@ using TrackHub.CosmosDb;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Persistence.Repositories;
+namespace TrackHub.Persistence.CosmosDb.Repositories;
 
 internal class ExerciseRepository : IExerciseRepository
 {

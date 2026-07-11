@@ -183,7 +183,7 @@ internal class SongAggregator : ISongAggregator
             orderedSongs.Add(UserSongIds.Transform(item.Author!, item.Name));
 
         User user = _userRepository.GetUserById(userId)!;
-        user.OrderedByDurationPlayedSongs = orderedSongs.ToArray();
+       // user.OrderedByDurationPlayedSongs = orderedSongs.ToArray();
         await _userRepository.UpsertAsync(user, cancellationToken);
     }
 }

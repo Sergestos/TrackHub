@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Repositories;
+using TrackHub.Persistence.CosmosDb.Repositories;
 
 namespace TrackHub.Persistence.Repositories;
 

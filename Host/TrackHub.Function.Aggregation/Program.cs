@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrackHub.Function.Aggregation.Aggregators;
 using TrackHub.Persistence;
+using TrackHub.Persistence.CosmosDb;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
