@@ -14,25 +14,23 @@ internal sealed class UserRepository : IUserRepository
         _context = context;
     }
 
-    public DomainUser? GetUserById(string userId)
+    public async Task<DomainUser?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return _context.Users
+        return await _context.Users
             .Include(x => x.LoginSession)
-            .Include(x => x.UserSongItem)
-            .FirstOrDefault(x => x.UserId == userId);
+            .Include(x => x.UserSongItems)
+            .FirstOrDefaultAsync(x => x.UserId == userId, cancellationToken);
     }
 
-    public DomainUser? GetUserByEmail(string userEmail)
+    public async Task<DomainUser?> GetUserByEmailAsync(string userEmail, CancellationToken cancellationToken)
     {
-        return _context.Users
+        return await _context.Users
             .Include(x => x.LoginSession)
-            .Include(x => x.UserSongItem)
-            .FirstOrDefault(x => x.Email == userEmail);
+            .Include(x => x.UserSongItems)
+            .FirstOrDefaultAsync(x => x.Email == userEmail, cancellationToken);
     }
 
-    public async Task<DomainUser?> UpsertAsync(
-        DomainUser user,
-        CancellationToken cancellationToken)
+    public async Task<DomainUser?> UpsertAsync(DomainUser user, CancellationToken cancellationToken)
     {
         var existingUser = await _context.Users
             .FirstOrDefaultAsync(

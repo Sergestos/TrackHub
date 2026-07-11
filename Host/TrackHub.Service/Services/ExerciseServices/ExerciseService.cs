@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
-using TrackHub.Messaging.Aggregations;
 using TrackHub.Service.Aggregation.Services;
 using TrackHub.Service.Services.AggregationServices;
 using TrackHub.Service.Services.ExerciseServices.Models;
@@ -52,9 +51,9 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(newExercise, cancellationToken);
 
-        User user = _userRepository.GetUserById(userId)!;
+        User user = (await _userRepository.GetUserByIdAsync(userId, cancellationToken))!;
         if (TryRecalculatePlayDatesOnCreate(user!, result))
-            await _userRepository.UpsertAsync(user, cancellationToken);
+            await _userRepository.UpsertAsync(user!, cancellationToken);
 
         _aggregationRequestService.SendAggregationRequestOnCreate(newExercise.Records, newExercise.PlayDate, userId);
         await _aggregationService.UpsertDayTrendBarAsync(userId, result.PlayDate, cancellationToken);
@@ -85,7 +84,7 @@ internal class ExerciseService : IExerciseService
 
         var result = await _exerciseRepository.UpsertExerciseAsync(exercise, cancellationToken);
 
-        User user = _userRepository.GetUserById(userId)!;
+        User user = (await _userRepository.GetUserByIdAsync(userId, cancellationToken))!;
         if (TryRecalculatePlayDatesOnCreate(user!, exercise))
             await _userRepository.UpsertAsync(user, cancellationToken);
 
@@ -97,7 +96,7 @@ internal class ExerciseService : IExerciseService
 
     public async Task DeleteExerciseAsync(string exerciseId, string userId, CancellationToken cancellationToken)
     {
-        User user = _userRepository.GetUserById(userId)!;
+        User user = (await _userRepository.GetUserByIdAsync(userId, cancellationToken))!;
 
         var exercise = await _exerciseRepository.GetExerciseByIdAsync(exerciseId, userId, cancellationToken);
         if (exercise == null)

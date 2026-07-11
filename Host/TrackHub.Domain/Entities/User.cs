@@ -35,7 +35,7 @@ public class User
     public DateTimeOffset? FirstPlayDate { get; set; }    
 
     [JsonProperty("ordered_by_duration_played_songs")]
-    public List<UserSongItem>? UserSongItem { get; set; }
+    public List<UserSongItem>? UserSongItems { get; set; }
 }
 
 public class LoginSession

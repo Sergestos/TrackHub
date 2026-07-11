@@ -4,9 +4,9 @@ namespace TrackHub.Domain.Repositories;
 
 public interface IUserRepository
 {
-    User? GetUserById(string userId);
+    Task<User?> GetUserByIdAsync(string userId, CancellationToken cancellationToken);
 
-    User? GetUserByEmail(string userEmail);
+    Task<User?> GetUserByEmailAsync(string userEmail, CancellationToken cancellationToken);
 
     Task<User?> UpsertAsync(User user, CancellationToken cancellationToken);
 }

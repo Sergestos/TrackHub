@@ -15,7 +15,7 @@ internal class UserService : IUserService
 
     public async Task<User> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken)
     {
-        User? user = _userRepository.GetUserByEmail(userModel.Email);
+        User? user = await _userRepository.GetUserByEmailAsync(userModel.Email, cancellationToken);
         if (user == null)
         {
             var newUser = new User()
@@ -39,9 +39,9 @@ internal class UserService : IUserService
         return user!;
     }
 
-    public User? GetUserById(string userId)
+    public async Task<User?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return _userRepository.GetUserById(userId);
+        return await _userRepository.GetUserByIdAsync(userId, cancellationToken);
     }
 
     public async Task<User> UpdateUserAsync(User user, CancellationToken cancellationToken)

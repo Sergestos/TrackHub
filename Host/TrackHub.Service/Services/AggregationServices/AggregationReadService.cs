@@ -81,11 +81,11 @@ internal class AggregationReadService : IAggregationReadService
 
     private async Task<IEnumerable<SongAggregation>> GetSongAggregationByTopOrderAsync(string userId, int page, int pageSize, CancellationToken cancellationToken)
     {
-        var user = _userRepository.GetUserById(userId);
-        if (user!.UserSongItem is null)
+        var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user!.UserSongItems is null)
             return Enumerable.Empty<SongAggregation>();
 
-        string[] songIds = user!.UserSongItem
+        string[] songIds = user!.UserSongItems
             .OrderBy(x => x.DurationPosition)
             .Select(x => x.SongName)
             .Skip((page - 1) * pageSize)

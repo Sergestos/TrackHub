@@ -9,5 +9,5 @@ public interface IUserService
 
     Task<User> GetInsertedUserAsync(SocialUser userModel, CancellationToken cancellationToken);
 
-    User? GetUserById(string userId);
+    Task<User?> GetUserByIdAsync(string userId, CancellationToken cancellationToken);
 }

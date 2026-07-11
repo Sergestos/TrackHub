@@ -77,7 +77,7 @@ public class AuthController : Controller
     [Route("test-login")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [ProducesResponseType(typeof(string), 200)]
-    public ActionResult TestSignIn([FromBody] AuthUserModel model)
+    public async Task<ActionResult> TestSignIn([FromBody] AuthUserModel model, CancellationToken cancellationToken)
     {
         var ip = HttpContext.Connection.RemoteIpAddress;
         if (!(ip is not null && IPAddress.IsLoopback(ip)) && !_env.IsDevelopment()) 
@@ -85,7 +85,7 @@ public class AuthController : Controller
 
         try
         {
-            var user = _userService.GetUserById(model.UserId);
+            var user = await _userService.GetUserByIdAsync(model.UserId, cancellationToken);
             if (user is null)
                 throw new Exception("User is not found");
 
@@ -108,7 +108,7 @@ public class AuthController : Controller
             return Unauthorized();
 
         var (userId, sessionId, secret) = RefreshTokenHelper.UnpackRefreshToken(token)!.Value;
-        var user = _userService.GetUserById(userId);
+        var user = await _userService.GetUserByIdAsync(userId, cancellationToken);
 
         if (user!.LoginSession == null || user.LoginSession.SessionId != sessionId)
             return Unauthorized();
@@ -142,8 +142,8 @@ public class AuthController : Controller
 
         var (userId, sessionId, secret) = parsed.Value;
 
-        var user = _userService.GetUserById(userId)!;
-        user.LoginSession = null;
+        var user = await _userService.GetUserByIdAsync(userId, cancellationToken);
+        user!.LoginSession = null;
         await _userService.UpdateUserAsync(user, cancellationToken);
 
         ClearRefreshCookie(Response);

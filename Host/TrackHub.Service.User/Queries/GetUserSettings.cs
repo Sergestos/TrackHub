@@ -16,18 +16,16 @@ public class GetUserSettingsHandler: IRequestHandler<GetUserSettingsQuery, UserS
         _userRepository = userRepository;
     }
 
-    public Task<UserSettings> Handle(GetUserSettingsQuery request, CancellationToken cancellationToken)
+    public async Task<UserSettings> Handle(GetUserSettingsQuery request, CancellationToken cancellationToken)
     {
         DateTimeOffset offset = default;
 
-        var user = _userRepository.GetUserById(request.userId)!;
-        if (user.FirstPlayDate.HasValue)
+        var user = await _userRepository.GetUserByIdAsync(request.userId, cancellationToken);
+        if (user!.FirstPlayDate.HasValue)
             offset = user.FirstPlayDate!.Value;
         else
             offset = DateTimeOffset.UtcNow;
 
-        var result = new UserSettings(offset);
-
-        return Task.FromResult(result);        
+        return new UserSettings(offset);
     }
 }
