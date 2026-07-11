@@ -4,7 +4,6 @@ using TrackHub.Service.Aggregation.Services;
 using TrackHub.Service.Infrastructure;
 using TrackHub.Service.Services.AggregationServices;
 using TrackHub.Service.Services.ExerciseServices;
-using TrackHub.Service.Services.UserServices;
 
 namespace TrackHub.Service;
 
@@ -14,7 +13,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddAutoMapper(cgf => { }, typeof(ServiceMapper));
 
-        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IExerciseService, ExerciseService>();
         services.AddScoped<IExerciseSearchService, ExerciseSearchService>();
         services.AddScoped<IAggregationReadService, AggregationReadService>();

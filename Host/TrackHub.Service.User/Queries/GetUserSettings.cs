@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using TrackHub.Domain.Repositories;
+using TrackHub.Service.User.Models;
 
 namespace TrackHub.Application.Service.User.Queries;
 
-public record UserSettings(DateTimeOffset FirstPlayDate);
+public record GetUserSettingsQuery(string userId) : IRequest<UserSettingsModel>;
 
-public record GetUserSettingsQuery(string userId) : IRequest<UserSettings>;
-
-public class GetUserSettingsHandler: IRequestHandler<GetUserSettingsQuery, UserSettings>
+internal class GetUserSettingsHandler: IRequestHandler<GetUserSettingsQuery, UserSettingsModel>
 {
     private readonly IUserRepository _userRepository;
 
@@ -16,7 +15,7 @@ public class GetUserSettingsHandler: IRequestHandler<GetUserSettingsQuery, UserS
         _userRepository = userRepository;
     }
 
-    public async Task<UserSettings> Handle(GetUserSettingsQuery request, CancellationToken cancellationToken)
+    public async Task<UserSettingsModel> Handle(GetUserSettingsQuery request, CancellationToken cancellationToken)
     {
         DateTimeOffset offset = default;
 
@@ -26,6 +25,6 @@ public class GetUserSettingsHandler: IRequestHandler<GetUserSettingsQuery, UserS
         else
             offset = DateTimeOffset.UtcNow;
 
-        return new UserSettings(offset);
+        return new UserSettingsModel(offset);
     }
 }

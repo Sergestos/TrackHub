@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Google.Apis.Auth;
 using TrackHub.Domain.Entities;
-using TrackHub.Service.Services.UserServices.Models;
+using TrackHub.Service.UserServices.Models;
 using TrackHub.Web.Models;
 
 namespace TrackHub.Web.Mappers;
@@ -10,7 +10,7 @@ public class AppMapper : Profile
 {
     public AppMapper()
     {
-        CreateMap<GoogleJsonWebSignature.Payload, SocialUser>()
+        CreateMap<GoogleJsonWebSignature.Payload, SocialUserModel>()
             .ForMember(x => x.FullName, opt => opt.MapFrom(src => $"{src.GivenName} {src.FamilyName}"))
             .ForMember(x => x.PhotoUrl, opt => opt.MapFrom(src => src.Picture));        
 

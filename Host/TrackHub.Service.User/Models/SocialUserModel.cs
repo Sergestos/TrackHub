@@ -1,6 +1,6 @@
-﻿namespace TrackHub.Service.Services.UserServices.Models;
+﻿namespace TrackHub.Service.UserServices.Models;
 
-public class SocialUser
+public class SocialUserModel
 {
     public required string UserId { get; set; }
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Application.Service.User.Queries;
+using TrackHub.Service.User.Models;
 
 namespace TrackHub.Web.Controllers;
 
@@ -19,7 +20,7 @@ public class UserController : TrackHubController
 
     [HttpGet]
     [Route("current/settings")]
-    [ProducesResponseType(typeof(UserSettings), 200)]
+    [ProducesResponseType(typeof(UserSettingsModel), 200)]
     public async Task<IActionResult> GetSettings()
     {
         var result = await _sender.Send(new GetUserSettingsQuery(CurrentUserId));
