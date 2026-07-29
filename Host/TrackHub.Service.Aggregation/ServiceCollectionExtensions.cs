@@ -7,10 +7,8 @@ namespace TrackHub.Service.Aggregation;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCommonServices(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddAggregationServices(this IServiceCollection services, ConfigurationManager configuration)
     {
-     //   services.AddAutoMapper(cgf => { }, typeof(ServiceMapper));
-
         services.AddScoped<IAggregationReadService, AggregationReadService>();
         services.AddScoped<IAggregationService, AggregationService>();
         services.AddHttpClient<IAggregationRequestService, AggregationFunctionClient>(client =>

@@ -1,6 +1,7 @@
 using TrackHub.AiCrawler;
 using TrackHub.Persistence;
 using TrackHub.Service.Exercises;
+using TrackHub.Service.Aggregation;
 using TrackHub.Application.Service.Preview;
 using TrackHub.Application.Service.User;
 using TrackHub.Service.Scraper;
@@ -16,6 +17,7 @@ builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection
 builder.Services.AddSqlDataServices(builder.Configuration.GetSection("sqlConnectionString").Value!);
 builder.Services.AddDataServices();
 builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddAggregationServices(builder.Configuration);
 builder.Services.AddScraperServices();
 builder.Services.AddPreviewServices();
 builder.Services.AddUserServices();
