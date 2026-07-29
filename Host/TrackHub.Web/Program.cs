@@ -20,7 +20,7 @@ builder.Services.AddScraperServices();
 builder.Services.AddPreviewServices();
 builder.Services.AddUserServices();
 builder.Services.AddAiCrawlerServices();
-builder.Services.AddCommonServices(builder.Configuration);
+builder.Services.AddCommonServices();
 builder.Services.AddCorsPolicy();
 builder.Services.AddRateLimitConfiguration();
 builder.Services.AddProblemDetails();

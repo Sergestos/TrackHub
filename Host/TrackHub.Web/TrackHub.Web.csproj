@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -17,14 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Auth" Version="1.74.0" />
-    <PackageReference Include="MediatR" Version="14.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.7" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.75.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.10" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +33,6 @@
     <ProjectReference Include="..\TrackHub.Service.Preview\TrackHub.Service.Preview.csproj" />
     <ProjectReference Include="..\TrackHub.Service.Scraper\TrackHub.Service.Scraper.csproj" />
     <ProjectReference Include="..\TrackHub.Service.User\TrackHub.Service.User.csproj" />
-    <ProjectReference Include="..\TrackHub.Service\TrackHub.Service.csproj" />
     <ProjectReference Include="..\TrackHub.Service\TrackHub.Service.Exercises.csproj" />
   </ItemGroup>
 
