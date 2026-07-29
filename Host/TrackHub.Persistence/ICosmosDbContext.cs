@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 
-namespace TrackHub.CosmosDb;
+namespace TrackHub.Persistence.CosmosDb;
 
 public interface ICosmosDbContext
 {    

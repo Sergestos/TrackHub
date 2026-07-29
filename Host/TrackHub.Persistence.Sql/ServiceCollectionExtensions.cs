@@ -3,7 +3,7 @@ using TrackHub.Domain.Repositories;
 using TrackHub.Infrastructure.Sql.Context;
 using TrackHub.Persistence.Sql.Repositories;
 
-namespace TrackHub.Persistence.CosmosDb;
+namespace TrackHub.Persistence.Sql;
 
 public static class ServiceCollectionExtensions
 {
@@ -11,6 +11,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddSqlServer<TrackHubDbContext>(connectionString);
 
-        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddScoped<ITrackHubDbContext>(provider =>
+            provider.GetRequiredService<TrackHubDbContext>());
+
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

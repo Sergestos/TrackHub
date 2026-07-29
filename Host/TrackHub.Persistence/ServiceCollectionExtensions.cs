@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.CosmosDb;
+using TrackHub.Persistence.CosmosDb;
 using TrackHub.Domain.Repositories;
 using TrackHub.Persistence.CosmosDb.Repositories;
 using TrackHub.Persistence.Repositories;

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
-using TrackHub.CosmosDb;
 
-namespace TrackHub.Persistence;
+namespace TrackHub.Persistence.CosmosDb;
 
 public class CosmosDbClient : ICosmosDbContext
 {

@@ -1,5 +1,5 @@
 using TrackHub.AiCrawler;
-using TrackHub.Persistence;
+using TrackHub.Persistence.Sql;
 using TrackHub.Service.Exercises;
 using TrackHub.Service.Aggregation;
 using TrackHub.Application.Service.Preview;
@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(cgf => { }, typeof(AppMapper));
 
 builder.Services.Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"));
-builder.Services.AddSqlDataServices(builder.Configuration.GetSection("sqlConnectionString").Value!);
+builder.Services.AddSqlDataServices(builder.Configuration.GetConnectionString("TrackHubDb")!);
 builder.Services.AddDataServices();
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddAggregationServices(builder.Configuration);

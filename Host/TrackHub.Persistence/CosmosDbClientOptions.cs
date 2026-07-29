@@ -1,4 +1,4 @@
-namespace TrackHub.Persistence;
+namespace TrackHub.Persistence.CosmosDb;
 
 public record CosmosClientOptions
 {

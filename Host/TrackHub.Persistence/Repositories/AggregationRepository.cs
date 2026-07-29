@@ -1,7 +1,7 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 using System.Net;
-using TrackHub.CosmosDb;
+using TrackHub.Persistence.CosmosDb;
 using TrackHub.Domain.Aggregations;
 using TrackHub.Domain.Consistency;
 using TrackHub.Domain.Repositories;
