@@ -84,7 +84,7 @@ internal class AggregationRepository : IAggregationRepository
         }
         catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
-            return null;
+            return null!;
         }
     }
 

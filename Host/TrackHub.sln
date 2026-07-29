@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Persistence.Sql", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Aggregation", "TrackHub.Service.Aggregation\TrackHub.Service.Aggregation.csproj", "{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Persistence.Sql.Migrations", "TrackHub.Persistence.Sql.Migrations\TrackHub.Persistence.Sql.Migrations.csproj", "{8FEF9BE3-34A0-46F5-88F0-77DD165D5923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEF9BE3-34A0-46F5-88F0-77DD165D5923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEF9BE3-34A0-46F5-88F0-77DD165D5923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEF9BE3-34A0-46F5-88F0-77DD165D5923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEF9BE3-34A0-46F5-88F0-77DD165D5923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{0865DEED-96BB-48DD-ADE2-1262426A8CD8} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
 		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
+		{8FEF9BE3-34A0-46F5-88F0-77DD165D5923} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A3B4967-E6A5-43F8-A75A-B10E841EE80D}

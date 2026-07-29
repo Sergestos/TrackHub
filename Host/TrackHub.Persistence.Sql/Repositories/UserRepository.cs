@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrackHub.Domain.Repositories;
-using TrackHub.Infrastructure.Sql.Context;
+using TrackHub.Persistence.Sql.Context;
 using DomainUser = TrackHub.Domain.Entities.User;
 
 namespace TrackHub.Persistence.Sql.Repositories;

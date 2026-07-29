@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrackHub.Domain.Entities;
 
-namespace TrackHub.Infrastructure.Sql.Context;
+namespace TrackHub.Persistence.Sql.Context;
 
 public sealed class TrackHubDbContext: DbContext, ITrackHubDbContext
 {

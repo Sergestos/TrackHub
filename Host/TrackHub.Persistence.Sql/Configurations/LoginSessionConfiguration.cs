@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrackHub.Domain.Entities;
 
-namespace TrackHub.Infrastructure.Sql.Configurations;
+namespace TrackHub.Persistence.Sql.Configurations;
 
 public sealed class LoginSessionConfiguration : IEntityTypeConfiguration<LoginSession>
 {
