@@ -16,6 +16,6 @@ builder.Services
     .Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"))
     .AddScoped<IExerciseAggregator, ExerciseAggregator>()
     .AddScoped<ISongAggregator, SongAggregator>()
-    .AddDataServices(builder.Configuration);
+    .AddDataServices();
 
 builder.Build().Run();

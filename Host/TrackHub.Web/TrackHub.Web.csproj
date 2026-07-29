@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.74.0" />
     <PackageReference Include="MediatR" Version="14.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.7" />
@@ -31,11 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\TrackHub.Persistence.Sql\TrackHub.Persistence.Sql.csproj" />
     <ProjectReference Include="..\TrackHub.Persistence\TrackHub.Persistence.CosmosDb.csproj" />
-    <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
+    <ProjectReference Include="..\TrackHub.Service.Aggregation\TrackHub.Service.Aggregation.csproj" />
     <ProjectReference Include="..\TrackHub.Service.Preview\TrackHub.Service.Preview.csproj" />
     <ProjectReference Include="..\TrackHub.Service.Scraper\TrackHub.Service.Scraper.csproj" />
     <ProjectReference Include="..\TrackHub.Service.User\TrackHub.Service.User.csproj" />
     <ProjectReference Include="..\TrackHub.Service\TrackHub.Service.csproj" />
+    <ProjectReference Include="..\TrackHub.Service\TrackHub.Service.Exercises.csproj" />
   </ItemGroup>
 
 </Project>

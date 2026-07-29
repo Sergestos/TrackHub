@@ -1,6 +1,6 @@
 ﻿using TrackHub.Domain.Entities;
 
-namespace TrackHub.Service.Aggregation.Services;
+namespace TrackHub.Service.Aggregation.Transport;
 
 public interface IAggregationRequestService
 {    

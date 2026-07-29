@@ -1,6 +1,6 @@
 ﻿using TrackHub.Domain.Aggregations;
 
-namespace TrackHub.Service.Services.AggregationServices;
+namespace TrackHub.Service.Aggregation.Services;
 
 public interface IAggregationReadService
 {

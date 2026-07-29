@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TrackHub.CosmosDb\TrackHub.CosmosDb.csproj" />
     <ProjectReference Include="..\TrackHub.Persistence\TrackHub.Persistence.CosmosDb.csproj" />
     <ProjectReference Include="..\TrackHub.Messaging\TrackHub.Messaging.csproj" />
   </ItemGroup>

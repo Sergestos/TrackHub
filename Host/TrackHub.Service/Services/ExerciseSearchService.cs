@@ -2,9 +2,9 @@
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
 using TrackHub.Domain.Repositories;
-using TrackHub.Service.Services.ExerciseServices.Models;
+using TrackHub.Service.Exercises.Models;
 
-namespace TrackHub.Service.Services.ExerciseServices;
+namespace TrackHub.Service.Exercises;
 
 internal class ExerciseSearchService : IExerciseSearchService
 {

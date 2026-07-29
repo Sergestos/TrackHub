@@ -1,19 +1,16 @@
-﻿using AutoMapper;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using TrackHub.Domain.Entities;
 using TrackHub.Messaging.Aggregations;
 
-namespace TrackHub.Service.Aggregation.Services;
+namespace TrackHub.Service.Aggregation.Transport;
 
 public sealed class AggregationFunctionClient : IAggregationRequestService
 {
     private readonly HttpClient _httpClient;
-    private readonly IMapper _mapper;
 
-    public AggregationFunctionClient(HttpClient httpClient, IMapper mapper)
+    public AggregationFunctionClient(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _mapper = mapper;
     }    
 
     public void SendAggregationRequestOnCreate(Record[] records, DateTime playDate, string userId)
@@ -23,7 +20,7 @@ public sealed class AggregationFunctionClient : IAggregationRequestService
             EventDate = DateTime.UtcNow,
             PlayDate = playDate,
             UserId = userId,
-            NewRecords = _mapper.Map<AggregationRecord[]>(records),
+            NewRecords = ToAggregation(records),
             OldRecords = null,
         };
 
@@ -38,8 +35,8 @@ public sealed class AggregationFunctionClient : IAggregationRequestService
             EventDate = DateTime.UtcNow,
             PlayDate = playDate,
             UserId = userId,
-            NewRecords = _mapper.Map<AggregationRecord[]>(newRecords),
-            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
+            NewRecords = ToAggregation(newRecords),
+            OldRecords = ToAggregation(oldRecords)
         };
 
         SendAggregation(aggregationMessage);
@@ -53,7 +50,7 @@ public sealed class AggregationFunctionClient : IAggregationRequestService
             PlayDate = playDate,
             UserId = userId,
             NewRecords = null,
-            OldRecords = _mapper.Map<AggregationRecord[]>(oldRecords)
+            OldRecords = ToAggregation(oldRecords)
         };
 
         SendAggregation(aggregationMessage);
@@ -66,4 +63,16 @@ public sealed class AggregationFunctionClient : IAggregationRequestService
             payload,
             CancellationToken.None);
     }
+
+   private AggregationRecord ToAggregation(Record record) => new()
+    {
+        PlayDuration = record.PlayDuration,
+        Author = record.Author,
+        Name = record.Name,
+        RecordType = record.RecordType,
+        PlayType = record.PlayType,
+    };
+
+    private AggregationRecord[] ToAggregation(Record[] records) =>
+        Array.ConvertAll(records, ToAggregation);
 }

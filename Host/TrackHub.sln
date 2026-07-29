@@ -5,13 +5,11 @@ VisualStudioVersion = 18.3.11222.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Domain.Entities", "TrackHub.Domain\TrackHub.Domain.Entities.csproj", "{93441479-40AA-4B68-9063-177CB7443EF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service", "TrackHub.Service\TrackHub.Service.csproj", "{DD34D3A1-8930-448D-B391-650CD62B1CE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Service.Exercises", "TrackHub.Service\TrackHub.Service.Exercises.csproj", "{DD34D3A1-8930-448D-B391-650CD62B1CE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Web", "TrackHub.Web\TrackHub.Web.csproj", "{40E04F02-9C27-4674-AAC3-E049C4A3AA8D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.Persistence.CosmosDb", "TrackHub.Persistence\TrackHub.Persistence.CosmosDb.csproj", "{984D58BF-912F-46E2-B891-5F7369FE430E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackHub.CosmosDb", "TrackHub.CosmosDb\TrackHub.CosmosDb.csproj", "{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Function.Aggregation", "TrackHub.Function.Aggregation\TrackHub.Function.Aggregation.csproj", "{045E907A-2385-4CA0-96C0-774A520FBEF6}"
 EndProject
@@ -19,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Messaging", "Track
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Domain.Enums", "TrackHub.Domain.Enums\TrackHub.Domain.Enums.csproj", "{16E5904B-47DF-457E-B34A-08AE59064D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.AiCrawler", "TrackHub.AiCrawler\TrackHub.AiCrawler.csproj", "{DC264D8D-EB31-8C53-70DD-E85834BAFC5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.AiCrawler", "TrackHub.AiCrawler\TrackHub.Service.AiCrawler.csproj", "{DC264D8D-EB31-8C53-70DD-E85834BAFC5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Scraper", "TrackHub.Service.Scraper\TrackHub.Service.Scraper.csproj", "{16DFE254-8803-1B1F-1EF2-8CC1B9CC3D98}"
 EndProject
@@ -36,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.User", "TrackHub.Service.User\TrackHub.Service.User.csproj", "{4B48BE3C-126D-4D7C-BA38-4F57289E8C36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Persistence.Sql", "TrackHub.Persistence.Sql\TrackHub.Persistence.Sql.csproj", "{0865DEED-96BB-48DD-ADE2-1262426A8CD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackHub.Service.Aggregation", "TrackHub.Service.Aggregation\TrackHub.Service.Aggregation.csproj", "{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,6 @@ Global
 		{984D58BF-912F-46E2-B891-5F7369FE430E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{984D58BF-912F-46E2-B891-5F7369FE430E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{984D58BF-912F-46E2-B891-5F7369FE430E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{045E907A-2385-4CA0-96C0-774A520FBEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{045E907A-2385-4CA0-96C0-774A520FBEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{045E907A-2385-4CA0-96C0-774A520FBEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,6 +91,10 @@ Global
 		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0865DEED-96BB-48DD-ADE2-1262426A8CD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,7 +103,6 @@ Global
 		{93441479-40AA-4B68-9063-177CB7443EF3} = {A8DF17A6-9AA5-4DA3-A074-4B26A098E922}
 		{DD34D3A1-8930-448D-B391-650CD62B1CE9} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{984D58BF-912F-46E2-B891-5F7369FE430E} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
-		{DD5E41D4-76ED-4B95-BEEA-75A12569EC7E} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
 		{045E907A-2385-4CA0-96C0-774A520FBEF6} = {746BAD47-26FD-4512-B33D-B4433BFC334D}
 		{FB5A4BA2-646A-485B-92D2-6CBE4BF933C2} = {746BAD47-26FD-4512-B33D-B4433BFC334D}
 		{16E5904B-47DF-457E-B34A-08AE59064D37} = {A8DF17A6-9AA5-4DA3-A074-4B26A098E922}
@@ -112,6 +111,7 @@ Global
 		{C83027ED-6606-A098-8B14-DE8E45C6A993} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{4B48BE3C-126D-4D7C-BA38-4F57289E8C36} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 		{0865DEED-96BB-48DD-ADE2-1262426A8CD8} = {8868F6D3-0879-4CD0-B234-4ED0B4AD3D68}
+		{D0B4E5A6-428C-47A1-BC80-5DB8993AAD33} = {23CEB55C-819E-4F91-9737-BADBCD66A47F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A3B4967-E6A5-43F8-A75A-B10E841EE80D}

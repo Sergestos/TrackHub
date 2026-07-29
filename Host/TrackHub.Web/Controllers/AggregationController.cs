@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Domain.Aggregations;
-using TrackHub.Service.Services.AggregationServices;
+using TrackHub.Service.Aggregation.Services;
 
 namespace TrackHub.Web.Controllers;
 

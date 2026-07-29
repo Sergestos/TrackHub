@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
-using TrackHub.Service.Services.ExerciseServices;
-using TrackHub.Service.Services.ExerciseServices.Models;
+using TrackHub.Service.Exercises;
+using TrackHub.Service.Exercises.Models;
 using TrackHub.Web.Controllers;
 
 namespace TrackHub.API.Controllers;

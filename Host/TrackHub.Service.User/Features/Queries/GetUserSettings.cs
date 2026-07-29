@@ -2,7 +2,7 @@
 using TrackHub.Domain.Repositories;
 using TrackHub.Service.User.Models;
 
-namespace TrackHub.Application.Service.User.Queries;
+namespace TrackHub.Service.User.Features.Queries;
 
 public record GetUserSettingsQuery(string userId) : IRequest<UserSettingsModel>;
 

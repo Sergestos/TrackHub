@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TrackHub.Application.Service.User.Queries;
+using TrackHub.Service.User.Features.Queries;
 
 namespace TrackHub.Application.Service.User;
 

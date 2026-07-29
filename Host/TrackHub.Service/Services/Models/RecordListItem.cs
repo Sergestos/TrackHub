@@ -1,6 +1,6 @@
 ﻿using TrackHub.Domain.Enums;
 
-namespace TrackHub.Service.Services.ExerciseServices.Models;
+namespace TrackHub.Service.Exercises.Models;
 
 public class RecordListItem
 {

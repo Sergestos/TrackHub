@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Cryptography;
-using TrackHub.Application.Service.User.Queries;
 using TrackHub.Domain.Entities;
+using TrackHub.Service.User.Features.Queries;
 using TrackHub.Service.UserServices.Models;
 using TrackHub.Web.Utilities;
 

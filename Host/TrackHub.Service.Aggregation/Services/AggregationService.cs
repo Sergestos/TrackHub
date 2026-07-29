@@ -4,7 +4,7 @@ using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
 using TrackHub.Domain.Repositories;
 
-namespace TrackHub.Service.Services.AggregationServices;
+namespace TrackHub.Service.Aggregation.Services;
 
 internal class AggregationService : IAggregationService
 {

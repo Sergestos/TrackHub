@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Application.Service.User.Queries;
+using TrackHub.Service.User.Features.Queries;
 using TrackHub.Service.User.Models;
 
 namespace TrackHub.Web.Controllers;

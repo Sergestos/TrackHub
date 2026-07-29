@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TrackHub.CosmosDb;
 using TrackHub.Domain.Repositories;
 using TrackHub.Persistence.CosmosDb.Repositories;
@@ -9,7 +8,7 @@ namespace TrackHub.Persistence.CosmosDb;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddDataServices(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddDataServices(this IServiceCollection services)
     {
         services.AddSingleton<ICosmosDbContext, CosmosDbClient>();
 

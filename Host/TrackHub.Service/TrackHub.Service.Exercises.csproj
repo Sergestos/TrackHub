@@ -7,14 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="15.1.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="AutoMapper" Version="16.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrackHub.Domain.Enums\TrackHub.Domain.Enums.csproj" />
     <ProjectReference Include="..\TrackHub.Domain\TrackHub.Domain.Entities.csproj" />
     <ProjectReference Include="..\TrackHub.Messaging\TrackHub.Messaging.csproj" />
+    <ProjectReference Include="..\TrackHub.Service.Aggregation\TrackHub.Service.Aggregation.csproj" />
   </ItemGroup>
 
 </Project>
