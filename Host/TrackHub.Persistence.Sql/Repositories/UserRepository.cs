@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TrackHub.Domain.Entities;
 using TrackHub.Domain.Repositories;
 using TrackHub.Persistence.Sql.Context;
 using DomainUser = TrackHub.Domain.Entities.User;
@@ -50,11 +51,28 @@ internal sealed class UserRepository : IUserRepository
             existingUser.LastEntranceDate = user.LastEntranceDate;
             existingUser.LastPlayDate = user.LastPlayDate;
             existingUser.FirstPlayDate = user.FirstPlayDate;
-            existingUser.LoginSession = user.LoginSession;
+            existingUser.LoginSession = GetLoginSession(existingUser.LoginSession, user.LoginSession);
         }
 
         await _context.SaveChangesAsync(cancellationToken);
 
         return user;
+    }
+
+    private LoginSession? GetLoginSession(LoginSession? existing, LoginSession? loginSession)
+    {
+        if (existing == null && loginSession == null)
+            return null;
+
+        if (existing != null && loginSession == null)
+            return existing; 
+
+        if (existing == null && loginSession != null) 
+            return loginSession;
+
+        existing!.CreatedAt = loginSession!.CreatedAt;
+        existing.ExpiresAt = loginSession.ExpiresAt;
+
+        return existing;
     }
 }
