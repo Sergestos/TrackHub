@@ -1,4 +1,4 @@
-﻿namespace TrackHub.Domain.Data;
+namespace TrackHub.Persistence;
 
 public record CosmosClientOptions
 {
@@ -10,3 +10,4 @@ public record CosmosClientOptions
 
     public required int AutoscaleMaxThroughput { get; set; }
 }
+

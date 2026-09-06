@@ -1,0 +1,14 @@
+﻿using TrackHub.Domain.Aggregations;
+
+namespace TrackHub.Service.Aggregation.Services;
+
+public interface IAggregationReadService
+{
+    Task<ExerciseAggregation?> GetExerciseAggregationByDateAsync(string userId, DateTime date, CancellationToken cancellation);
+
+    Task<IEnumerable<ExerciseAggregation>?> GetExerciseAggregationsByDateRangeAsync(string userId, DateTime startDate, DateTime endDate, CancellationToken cancellation);
+
+    Task<IEnumerable<SongAggregation>> GetSongAggregationsAsync(string userId, int page, int pageSize, DateOnly? date, CancellationToken cancellation);
+
+    Task<DaysTrendAggregation> GetDaysTrendAggregationsAsync(string userId, CancellationToken cancellationToken);
+}

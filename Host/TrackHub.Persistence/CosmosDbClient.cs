@@ -1,0 +1,25 @@
+﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.Extensions.Options;
+
+namespace TrackHub.Persistence.CosmosDb;
+
+public class CosmosDbClient : ICosmosDbContext
+{
+    private CosmosClientOptions _options;
+
+    private CosmosClient? _client;
+
+    private CosmosClient Client => _client ??= new CosmosClientBuilder(_options.AccountEndpoint).Build();
+
+    public CosmosDbClient(IOptionsMonitor<CosmosClientOptions> options)
+    {
+        _options = options.CurrentValue;
+    }    
+
+    public Container GetContainer(string containerName)
+    {
+        var dateBase = Client.GetDatabase(_options.DateBaseName);
+        return dateBase.GetContainer(containerName);
+    }
+}

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using TrackHub.Domain.Entities;
 using TrackHub.Domain.Enums;
-using TrackHub.Messaging.Aggregations;
-using TrackHub.Service.Services.ExerciseServices.Models;
+using TrackHub.Service.Exercises.Models;
 
-namespace TrackHub.Service.Infrastructure;
+namespace TrackHub.Service.Exercises.Infrastructure;
 
 internal class ServiceMapper : Profile
 {
@@ -28,7 +27,5 @@ internal class ServiceMapper : Profile
             .ForMember(x => x.RecordType, opt => opt.MapFrom(src => (RecordType)src.RecordType))
             .ForMember(x => x.PlayType, opt => opt.MapFrom(src => (PlayType)src.PlayType))
             .ForMember(x => x.WarmupSongs, opt => opt.MapFrom(src => src.WarmupSongs));
-
-        CreateMap<Record, AggregationRecord>();
     }
 }

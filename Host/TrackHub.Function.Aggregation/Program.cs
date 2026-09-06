@@ -2,8 +2,9 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrackHub.Domain.Data;
 using TrackHub.Function.Aggregation.Aggregators;
+using TrackHub.Persistence;
+using TrackHub.Persistence.CosmosDb;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -15,6 +16,6 @@ builder.Services
     .Configure<CosmosClientOptions>(builder.Configuration.GetSection("CosmosDb"))
     .AddScoped<IExerciseAggregator, ExerciseAggregator>()
     .AddScoped<ISongAggregator, SongAggregator>()
-    .AddDataServices(builder.Configuration);
+    .AddDataServices();
 
 builder.Build().Run();

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Google.Apis.Auth;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Cryptography;
 using TrackHub.Domain.Entities;
-using TrackHub.Service.Services.UserServices;
-using TrackHub.Service.Services.UserServices.Models;
+using TrackHub.Service.User.Features.Queries;
+using TrackHub.Service.UserServices.Models;
 using TrackHub.Web.Utilities;
 
 namespace TrackHub.Web.Controllers;
@@ -16,20 +17,21 @@ public class AuthController : Controller
 {
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
-    private readonly IUserService _userService;
-    private readonly JwtTokenGenerator _jwtTokenGenerator;
     private readonly IWebHostEnvironment _env;
+    private readonly ISender _sender;
+
+    private readonly JwtTokenGenerator _jwtTokenGenerator;
 
     public AuthController(
         IConfiguration configuration, 
         IWebHostEnvironment env,
-        IUserService userService, 
+        ISender sender,
         IMapper mapper)
     {
         _mapper = mapper;
         _configuration = configuration;
         _env = env;
-        _userService = userService;
+        _sender = sender;
         _jwtTokenGenerator = new JwtTokenGenerator(_configuration["Authentication:Jwt:PrivateKey"]!);
     }
 
@@ -54,7 +56,8 @@ public class AuthController : Controller
             var googlePayload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken, settings);
             if (googlePayload != null)
             {
-                var user = await _userService.GetInsertedUserAsync(_mapper.Map<SocialUser>(googlePayload), cancellationToken);
+                var command = new GetOrUpsertUserCommand(_mapper.Map<SocialUserModel>(googlePayload));
+                var user = await _sender.Send(command, cancellationToken);
                 var jwt = _jwtTokenGenerator.CreateUserAuthToken(user);
 
                 await IssueRefreshToken(user, cancellationToken);
@@ -77,7 +80,7 @@ public class AuthController : Controller
     [Route("test-login")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [ProducesResponseType(typeof(string), 200)]
-    public ActionResult TestSignIn([FromBody] AuthUserModel model)
+    public async Task<ActionResult> TestSignIn([FromBody] AuthUserModel model, CancellationToken cancellationToken)
     {
         var ip = HttpContext.Connection.RemoteIpAddress;
         if (!(ip is not null && IPAddress.IsLoopback(ip)) && !_env.IsDevelopment()) 
@@ -85,7 +88,7 @@ public class AuthController : Controller
 
         try
         {
-            var user = _userService.GetUserById(model.UserId);
+            var user = await _sender.Send(new GetUserByIdQuery(model.UserId), cancellationToken);
             if (user is null)
                 throw new Exception("User is not found");
 
@@ -108,7 +111,7 @@ public class AuthController : Controller
             return Unauthorized();
 
         var (userId, sessionId, secret) = RefreshTokenHelper.UnpackRefreshToken(token)!.Value;
-        var user = _userService.GetUserById(userId);
+        var user = await _sender.Send(new GetUserByIdQuery(userId), cancellationToken);
 
         if (user!.LoginSession == null || user.LoginSession.SessionId != sessionId)
             return Unauthorized();
@@ -142,9 +145,9 @@ public class AuthController : Controller
 
         var (userId, sessionId, secret) = parsed.Value;
 
-        var user = _userService.GetUserById(userId)!;
-        user.LoginSession = null;
-        await _userService.UpdateUserAsync(user, cancellationToken);
+        var user = await _sender.Send(new GetUserByIdQuery(userId), cancellationToken);
+        user!.LoginSession = null;
+        await _sender.Send(new UpdateUserCommand(user), cancellationToken);
 
         ClearRefreshCookie(Response);
 
@@ -160,14 +163,23 @@ public class AuthController : Controller
         var sessionId = Guid.NewGuid().ToString();
         var refreshToken = RefreshTokenHelper.PackRefreshToken(user.UserId, sessionId, secret);
 
-        user.LoginSession = new LoginSession()
+        if (user.LoginSession is null)
         {
-            SessionId = sessionId,
-            CreatedAt = DateTime.UtcNow,
-            ExpiresAt = expiresAt,
-        };
+            user.LoginSession = new LoginSession()
+            {
+                UserId = user.UserId,
+                SessionId = sessionId,
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = expiresAt,
+            };
+        }     
+        else
+        {
+            user.LoginSession.CreatedAt = DateTime.UtcNow;
+            user.LoginSession.ExpiresAt = expiresAt;
+        }
 
-        await _userService.UpdateUserAsync(user, cancellationToken);
+        await _sender.Send(new UpdateUserCommand(user), cancellationToken);
 
         HttpContext.Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
         {

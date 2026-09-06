@@ -4,7 +4,7 @@ namespace TrackHub.Web.Configurations;
 
 public static class RateLimitConfiguration
 {
-    public static void AddRateLimiter(this IServiceCollection service)
+    public static void AddRateLimitConfiguration(this IServiceCollection service)
     {
         service.AddRateLimiter(options =>
         {

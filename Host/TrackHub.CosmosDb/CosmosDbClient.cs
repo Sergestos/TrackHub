@@ -3,7 +3,7 @@ using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Options;
 using TrackHub.CosmosDb;
 
-namespace TrackHub.Domain.Data;
+namespace TrackHub.Persistence;
 
 public class CosmosDbClient : ICosmosDbContext
 {

@@ -176,14 +176,27 @@ internal class SongAggregator : ISongAggregator
     {
         var storedAggregations = (await _aggregationRepository
             .GetSongAggregationsByUserIdAsync(userId, cancellationToken))
-            .OrderByDescending(x => x.TotalPlayed);
+            .OrderByDescending(x => x.TotalPlayed)
+            .ToList();
 
-        var orderedSongs = new List<string>();
-        foreach (var item in storedAggregations)        
-            orderedSongs.Add(UserSongIds.Transform(item.Author!, item.Name));
+        var songItems = storedAggregations
+            .Select((aggregation, index) => new UserSongItem
+            {
+                UserId = userId,
+                SongName = UserSongIds.Transform(
+                    aggregation.Author!,
+                    aggregation.Name),
+                DurationPosition = index
+            })
+            .ToList();
 
-        User user = _userRepository.GetUserById(userId)!;
-        user.OrderedByDurationPlayedSongs = orderedSongs.ToArray();
+        var user = await _userRepository.GetUserByIdAsync(userId, cancellationToken);
+
+        if (user is null)
+            throw new InvalidOperationException($"User '{userId}' was not found.");
+
+        user.UserSongItems = songItems;
+
         await _userRepository.UpsertAsync(user, cancellationToken);
     }
 }

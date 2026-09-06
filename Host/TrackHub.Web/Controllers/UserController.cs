@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrackHub.Service.Services.UserServices;
-using TrackHub.Service.Services.UserServices.Models;
+using TrackHub.Service.User.Features.Queries;
+using TrackHub.Service.User.Models;
 
 namespace TrackHub.Web.Controllers;
 
@@ -10,19 +11,19 @@ namespace TrackHub.Web.Controllers;
 [Route("api/users")]
 public class UserController : TrackHubController
 {
-    private readonly IUserService _userService;
+    private readonly ISender _sender;
 
-    public UserController(IUserService userService)
+    public UserController(ISender sender)
     {
-        _userService = userService;
+        _sender = sender;
     }
 
     [HttpGet]
     [Route("current/settings")]
-    [ProducesResponseType(typeof(UserSettings), 200)]
-    public IActionResult GetSettings()
+    [ProducesResponseType(typeof(UserSettingsModel), 200)]
+    public async Task<IActionResult> GetSettings()
     {
-        var result = _userService.GetUserSettings(CurrentUserId);
+        var result = await _sender.Send(new GetUserSettingsQuery(CurrentUserId));
 
         return Ok(result);
     }
