@@ -31,9 +31,12 @@ internal sealed class UserRepository : IUserRepository
             .FirstOrDefaultAsync(x => x.Email == userEmail, cancellationToken);
     }
 
-    public async Task<DomainUser?> UpsertAsync(DomainUser user, CancellationToken cancellationToken)
+    public async Task<DomainUser?> UpsertAsync(
+        DomainUser user,
+        CancellationToken cancellationToken)
     {
         var existingUser = await _context.Users
+            .Include(x => x.LoginSession)
             .FirstOrDefaultAsync(
                 x => x.UserId == user.UserId,
                 cancellationToken);
@@ -51,28 +54,24 @@ internal sealed class UserRepository : IUserRepository
             existingUser.LastEntranceDate = user.LastEntranceDate;
             existingUser.LastPlayDate = user.LastPlayDate;
             existingUser.FirstPlayDate = user.FirstPlayDate;
-            existingUser.LoginSession = GetLoginSession(existingUser.LoginSession, user.LoginSession);
+
+            if (user.LoginSession is not null)
+            {
+                if (existingUser.LoginSession is null)
+                {
+                    existingUser.LoginSession = user.LoginSession;
+                }
+                else
+                {                
+                    existingUser.LoginSession.SessionId = user.LoginSession.SessionId;
+                    existingUser.LoginSession.CreatedAt = user.LoginSession.CreatedAt;
+                    existingUser.LoginSession.ExpiresAt = user.LoginSession.ExpiresAt;
+                }
+            }
         }
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return user;
-    }
-
-    private LoginSession? GetLoginSession(LoginSession? existing, LoginSession? loginSession)
-    {
-        if (existing == null && loginSession == null)
-            return null;
-
-        if (existing != null && loginSession == null)
-            return existing; 
-
-        if (existing == null && loginSession != null) 
-            return loginSession;
-
-        existing!.CreatedAt = loginSession!.CreatedAt;
-        existing.ExpiresAt = loginSession.ExpiresAt;
-
-        return existing;
+        return existingUser ?? user;
     }
 }

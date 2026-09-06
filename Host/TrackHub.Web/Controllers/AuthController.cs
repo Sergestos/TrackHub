@@ -163,13 +163,21 @@ public class AuthController : Controller
         var sessionId = Guid.NewGuid().ToString();
         var refreshToken = RefreshTokenHelper.PackRefreshToken(user.UserId, sessionId, secret);
 
-        user.LoginSession = new LoginSession()
+        if (user.LoginSession is null)
         {
-            UserId = user.UserId,
-            SessionId = sessionId,
-            CreatedAt = DateTime.UtcNow,
-            ExpiresAt = expiresAt,
-        };
+            user.LoginSession = new LoginSession()
+            {
+                UserId = user.UserId,
+                SessionId = sessionId,
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = expiresAt,
+            };
+        }     
+        else
+        {
+            user.LoginSession.CreatedAt = DateTime.UtcNow;
+            user.LoginSession.ExpiresAt = expiresAt;
+        }
 
         await _sender.Send(new UpdateUserCommand(user), cancellationToken);
 
